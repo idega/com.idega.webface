@@ -1,5 +1,5 @@
 /*
- * $Id: WFLinkMenu.java,v 1.3 2005/02/28 17:26:03 gummi Exp $
+ * $Id: WFLinkMenu.java,v 1.4 2005/03/06 17:44:04 tryggvil Exp $
  * Created on 2.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -17,15 +17,16 @@ import java.util.Set;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import com.idega.util.FacesUtil;
 
 
 /**
  * A menu whose menu items are plain html links.
  * 
- *  Last modified: $Date: 2005/02/28 17:26:03 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/03/06 17:44:04 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFLinkMenu extends WFMenu {
 
@@ -49,19 +50,33 @@ public class WFLinkMenu extends WFMenu {
 	
 	
 	public HtmlOutputLink addLink(String text,String url){
-
+		//boolean isSelected = isUrlSelected(url);
+		boolean isSelected = false;
+		return addLink(text,url,isSelected);
+	}
+	
+	public HtmlOutputLink addLink(String text,String url,boolean selected){
 		String menuItemId = getNextMenuItemId();
-		return addLink(text,url,menuItemId);
+		return addLink(text,url,menuItemId,selected);
 	}
 	
 	public HtmlOutputLink addLink(String text,String url,String menuItemId){
+		//boolean isSelected = isUrlSelected(url);
+		boolean isSelected = false;
+		return addLink(text,url,menuItemId,false);
+	}
+	
+	
+	public HtmlOutputLink addLink(String text,String url,String menuItemId,boolean selected){
 		HtmlOutputLink link = new HtmlOutputLink();
 		link.setValue(url);
 		link.setId(menuItemId);
 		link.getChildren().add(WFUtil.getText(text));
 		addToLinkMap(menuItemId,url);
 		this.setMenuItem(menuItemId,link);
-		
+		if(selected){
+			setSelectedMenuItemId(menuItemId);
+		}
 		return link;
 	}
 	
@@ -102,26 +117,28 @@ public class WFLinkMenu extends WFMenu {
 	}
 	
 	public void encodeBegin(FacesContext context) throws IOException{
-		detectSelectedTab(context);
+		detectSelectedMenuItem(context);
 		super.encodeBegin(context);
 	}
 	
-	protected void detectSelectedTab(FacesContext context){
-		//String requestUrl = context.getExternalContext().getRequestServletPath();
-		//String requestInfo = context.getExternalContext().getRequestPathInfo();
-		HttpServletRequest req = (HttpServletRequest)context.getExternalContext().getRequest();
-		String requestUrl = req.getRequestURI();
+	protected void detectSelectedMenuItem(FacesContext context){
+		String requestUrl = FacesUtil.getRequestUri(context,true);
 		
+		//String requestServletPath = context.getExternalContext().getRequestServletPath();
+		//String requestInfo = context.getExternalContext().getRequestPathInfo();
+		//HttpServletRequest req = (HttpServletRequest)context.getExternalContext().getRequest();
+		//String requestUrl = req.getRequestURI();
 		for (Iterator iter = getMenuItemIds().iterator(); iter.hasNext();) {
 			String id = (String) iter.next();
 			String url = (String)getLinks().get(id);
 			if(url!=null){
-				if(url.equals(requestUrl)){
+				if(requestUrl.startsWith(url)){
+				//if(url.equals(requestUrl)){
 					this.setSelectedMenuItemId(id);
 				}
 			}
 		}
-		
 	}
+	
 	
 }
