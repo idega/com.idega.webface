@@ -13,6 +13,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import com.idega.presentation.text.Text;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFPage;
 import com.idega.webface.WFPanelUtil;
@@ -21,12 +22,8 @@ import com.idega.webface.WFTabBar;
 import com.idega.webface.WFUtil;
 import com.idega.webface.event.WFTabEvent;
 import com.idega.webface.event.WFTabListener;
-import com.idega.webface.test.ContentPerspective;
-import com.idega.webface.test.bean.ArticleListBean;
 import com.idega.webface.test.bean.ContentItemCase;
 import com.idega.webface.test.bean.ManagedContentBeans;
-import com.idega.webface.test.component.ArticleBlock;
-import com.idega.webface.test.component.ArticleVersionBlock;
 
 
 /**
@@ -123,7 +120,7 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 	 * Returns the content admin perspective.
 	 */
 	protected UIComponent getContentPerspective() {
-		UIComponent perspective = new ContentPerspective();
+		UIComponent perspective = new Text("Content");
 		return perspective;
 	}
 
@@ -131,7 +128,7 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 	 * Returns the content admin perspective.
 	 */
 	protected UIComponent getWebViewPerspective() {
-		UIComponent perspective = new ContentPerspective();
+		UIComponent perspective = new Text("Webview");
 		return perspective;
 	}
 
@@ -139,27 +136,10 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 	 * Returns the content admin perspective.
 	 */
 	protected UIComponent getBuilderPerspective() {
-		UIComponent perspective = new ContentPerspective();
+		UIComponent perspective = new Text("Builder");
 		return perspective;
 	}	
 	
-	/**
-	 * Returns the content edit perspective.
-	 */
-	protected UIComponent getEditPerspective() {
-		String bref = WFPage.CONTENT_BUNDLE + ".";
-		HtmlPanelGrid ap = WFPanelUtil.getApplicationPanel();
-		/*ap.getChildren().add(getFunctionBlock());
-		WFContainer c = new WFContainer();
-		ArticleBlock ab = new ArticleBlock(bref + "edit_article", this);
-		c.add(ab);
-		ArticleVersionBlock av = new ArticleVersionBlock(bref + "previous_article_versions");
-		av.getTitlebar().setValueRefTitle(true);
-		av.setRendered(false);
-		c.add(av);
-		ap.getChildren().add(c);*/
-		return ap;
-	}
 	
 	/**
 	 * Called when the edit mode in the article block changes.
@@ -167,12 +147,12 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 	 */
 	public void tabPressed(WFTabEvent e) {
 		WFTabBar t = e.getTaskbar();
-		UIComponent articleVersionBlock = t.findComponent(ArticleVersionBlock.ARTICLE_VERSION_BLOCK_ID);
+		/*UIComponent articleVersionBlock = t.findComponent(ArticleVersionBlock.ARTICLE_VERSION_BLOCK_ID);
 		if (t.getSelectedButtonId().equals(ArticleBlock.TASK_ID_PREVIEW)) {
 			articleVersionBlock.setRendered(true);
 		} else {
 			articleVersionBlock.setRendered(false);			
-		}
+		}*/
 	}
 
 	
@@ -182,7 +162,7 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 	public void processAction(ActionEvent event) {
 		UIComponent link = event.getComponent();
 		String id = WFUtil.getParameter(link, "id");
-		WFTabBar tb = (WFTabBar) link.getParent().getParent().getParent().findComponent(MAIN_TASKBAR_ID);
+		/*WFTabBar tb = (WFTabBar) link.getParent().getParent().getParent().findComponent(MAIN_TASKBAR_ID);
 		tb.setSelectedButtonId(TASK_ID_EDIT);
 		ArticleBlock ab = (ArticleBlock) tb.findComponent(ArticleBlock.ARTICLE_BLOCK_ID);
 		ab.setEditMode();
@@ -202,7 +182,7 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 		}
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
 
-		ab.updateEditButtons();
+		ab.updateEditButtons();*/
 	}
 		
 
