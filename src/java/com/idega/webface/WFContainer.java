@@ -144,7 +144,7 @@ public class WFContainer extends IWBaseComponent
 	 */
 	public void encodeBegin(FacesContext ctx) throws IOException {
 		ResponseWriter out = ctx.getResponseWriter();
-		out.write("<link type=\"text/css\" href=\"style/webfacestyle.css\" rel=\"stylesheet\">");
+//		out.write("<link type=\"text/css\" href=\"style/webfacestyle.css\" rel=\"stylesheet\">");
 		//RenderUtils.ensureAllTagsFinished();
 		out.startElement(getMarkupElementType(),this);
 		if(this.getStyleClass()!=null){
@@ -175,9 +175,10 @@ public class WFContainer extends IWBaseComponent
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[2];
+		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
 		values[1] = getStyleAttribute();
+		values[2] = getStyleClass();
 		return values;
 	}
 	
@@ -188,6 +189,7 @@ public class WFContainer extends IWBaseComponent
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
 		setStyleAttribute((String) values[1]);
+		setStyleClass((String) values[2]);
 	}
 	
 	/**

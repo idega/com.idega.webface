@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbar.java,v 1.1 2004/05/13 13:57:01 anders Exp $
+ * $Id: WFTaskbar.java,v 1.2 2004/05/27 12:41:15 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -22,12 +22,14 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
 /**
- * ...  
+ * Manages task bar buttons and corresponding perspectives. 
+ * A perspective can be any component that is rendered when
+ * its task bar button is pressed.   
  * <p>
- * Last modified: $Date: 2004/05/13 13:57:01 $ by $Author: anders $
+ * Last modified: $Date: 2004/05/27 12:41:15 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFTaskbar extends WFContainer implements ActionListener {
 	
@@ -111,6 +113,7 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		button.setId(buttonId);
 		button.setValue(buttonLabel);
 		button.addActionListener(this);
+		button.setImmediate(true);
 		_buttonIds.add(buttonId);
 		if (_selectedButtonId == null) {
 			_selectedButtonId = buttonId;
@@ -136,7 +139,7 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		while (iter.hasNext()) {
 			String buttonId = (String) iter.next();
 			String buttonStyleClass = getButtonDeselectedStyleClass();
-			WFTaskbarButton button = (WFTaskbarButton) getFacets().get("button_" + buttonId);
+			WFTaskbarButton button = (WFTaskbarButton) getFacet("button_" + buttonId);
 			if (buttonId.equals(_selectedButtonId)) {
 				button.setSelected(true);
 				buttonStyleClass = getButtonSelectedStyleClass();
