@@ -43,10 +43,20 @@ public class WFBlock extends WFContainer {
 	private void setDefaultToolbar() {
 		WFToolbar toolbar = new WFToolbar();
 		this.setToolbar(toolbar);
-		toolbar.addButton(new WFBackButton());
-		toolbar.addButton(new WFForwardButton());
-		toolbar.addButton(new WFHelpButton());
-		toolbar.addButton(new WFCloseButton());
+		
+		WFBackButton back = new WFBackButton();
+		back.setId(this.getId()+"_back");
+		WFForwardButton forward = new WFForwardButton();
+		forward.setId(this.getId()+"_forward");
+		WFHelpButton help = new WFHelpButton();
+		help.setId(this.getId()+"_help");
+		WFCloseButton close = new WFCloseButton();
+		close.setId(this.getId()+"_close");
+
+		toolbar.addButton(back);
+		toolbar.addButton(forward);
+		toolbar.addButton(help);
+		toolbar.addButton(close);
 	}
 
 	protected void initializeDefault() {
