@@ -52,6 +52,11 @@ public class WFContainer extends IWBaseComponent
 		return WFConstants.FAMILY_WEBFACE;
 	}
 	
+	public boolean getRendersChildren() {
+		return true;
+		//return super.getRendersChildren();
+	}
+	
 	public void setLightShadowColor(String color)
 	{
 		_lightColor = color;
