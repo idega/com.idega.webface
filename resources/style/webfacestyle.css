@@ -1,6 +1,4 @@
 
-/*** General HTML definitions ***/
-
 /*** idegaWeb WebFace CSS classes ***/
 
 .wf_smalltext {
@@ -49,6 +47,8 @@
 	/***border-style: double;***/
 	/***width:100%;***/
 	margin: 6px;
+	padding:0px;
+	width:auto;
 }
 
 .wf_blockmainarea {
@@ -241,6 +241,11 @@
 	margin: 1px 1px 1px 1px;
 }
 
+.wf_blockmainarea .wf_viewmenu {
+	margin: 0px;
+	padding:0px;
+}
+
 .wf_viewmenu .wf_viewmenubuttonselected,.wf_viewmenu .wf_viewmenubuttondeselected {
 	padding: 4px 4px 4px 15px;
 	vertical-align: middle;
@@ -248,7 +253,7 @@
 	/***list-style: none;***/
 	list-style-image: url(images/viewmenu_mainbullet2.png);
 	list-style-position: inside;
-	font-weight: bold;
+	/***font-weight: bold;***/
 }
 
 wf_viewmenubuttondeselected .wf_viewmenu {
@@ -257,10 +262,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 }
 
 .wf_viewmenubuttonselected {
-	border-top: 1px solid #848284;
-	border-left: 1px solid #848284;
-	border-bottom: 1px solid #FFFFFF;
-	border-right: 1px solid #FFFFFF;
 	background-color: none;
 	font-color: #FFFFFF;
 	background-image: url(images/blueover_tile2.gif);
@@ -271,14 +272,12 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	color: black;
 }
 
-.wf_viewmenubuttondeselected:hover {
-	color: #white;
+.wf_viewmenubuttondeselected:hover,.wf_viewmenubuttondeselected a:hover {
+	color: white;
+}
+.wf_viewmenubuttondeselected:hover{
 	background-image: url(images/blueover_tile2.gif);
 	background-repeat: repeat;
-	border-bottom: 1px solid #FFFFFF;
-	border-right: 1px solid #FFFFFF;
-	border-top: 1px solid #848284;
-	border-left: 1px solid #848284;
 }
 
 
@@ -300,16 +299,19 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	display:none;
 }
 
-
 .wf_viewmenubuttondeselected a:hover {
 	color: #white;
 }
 
-.wf_viewmenubuttondeselected, .wf_menuheader{
-	border-top: 1px hidden ;
-	border-left: 1px hidden ;
-	border-bottom: 1px hidden;
-	border-right: 1px hidden;
+.wf_viewmenubuttondeselected, wf_viewmenubuttondeselected:hover, wf_viewmenubuttonselected{
+	border-top: 1px solid #D3D3D3;
+	border-left: 1px solid #D3D3D3;
+	border-bottom: 1px solid #D3D3D3;
+	border-right: 1px solid #D3D3D3;
+}
+
+.wf_menuheader{
+	display:inline;
 }
 
 /***WFMenu***/
@@ -344,7 +346,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	list-style: none;
 }
 
-
 .wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a {
 	width: 7em;
 	display: block;
@@ -363,7 +364,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	font-color: #4D4D4D;
 	background-image: url(images/greybar_tile.gif);
 	background-repeat: repeat-x;
- 
 }
 
 .wf_tabbarbuttondeselected a:hover {
@@ -423,7 +423,7 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 }
 
 .wf_errormessages {
-	padding: 6px;
+	padding: 10px
 }
 
 .wf_errortext {

@@ -1,5 +1,5 @@
 /*
- * $Id: WFFrame.java,v 1.6 2005/01/13 17:15:58 eiki Exp $
+ * $Id: WFFrame.java,v 1.7 2005/02/04 11:13:55 tryggvil Exp $
  * Created on 20.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,10 +15,10 @@ import com.idega.presentation.ui.IFrame;
 
 /**
  * 
- *  Last modified: $Date: 2005/01/13 17:15:58 $ by $Author: eiki $
+ *  Last modified: $Date: 2005/02/04 11:13:55 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WFFrame extends WFBlock {
 
@@ -31,6 +31,7 @@ public class WFFrame extends WFBlock {
 	public WFFrame() {
 		super();
 		setStyleClass(DEFAULT_STYLE_CLASS);
+		this.setNoMarginsOnMainArea();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -40,6 +41,7 @@ public class WFFrame extends WFBlock {
 	public WFFrame(String titleBarText) {
 		super(titleBarText);
 		setStyleClass(DEFAULT_STYLE_CLASS);
+		this.setNoMarginsOnMainArea();
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -317,4 +317,23 @@ public class WFBlock extends WFContainer {
         */
     }
 
+    
+    public void setNoMarginsOnMainArea(){
+    		setMainAreaStyleAttributes("margin:0px;padding:0px;");
+    }
+
+	/**
+	 * @param string
+	 */
+	public void setMainAreaStyleAttributes(String styleString) {
+		getAttributes().put("mainAreaStyle",styleString);
+	}
+    
+	/**
+	 * @param string
+	 */
+	public String getMainAreaStyleAttributes() {
+		return (String)getAttributes().get("mainAreaStyle");
+	}
+    
 }

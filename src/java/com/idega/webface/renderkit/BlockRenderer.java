@@ -1,5 +1,5 @@
 /*
- * $Id: BlockRenderer.java,v 1.2 2005/02/02 03:01:09 tryggvil Exp $
+ * $Id: BlockRenderer.java,v 1.3 2005/02/04 11:13:55 tryggvil Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -22,10 +22,10 @@ import com.idega.webface.WFBlock;
  * This is the default Renderer for the WFBlock component.
  * </p>
  * 
- *  Last modified: $Date: 2005/02/02 03:01:09 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/02/04 11:13:55 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class BlockRenderer extends ContainerRenderer{
 	
@@ -63,7 +63,10 @@ public class BlockRenderer extends ContainerRenderer{
 		}
 		ResponseWriter out = context.getResponseWriter();
 		renderContainerStart(out,mainAreaStyleClass);
-	
+		String mainAreaStyle = block.getMainAreaStyleAttributes();
+		if(mainAreaStyle!=null){
+			out.writeAttribute("style",mainAreaStyle, null);
+		}
 	}
 	
 	/* (non-Javadoc)
