@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.ListIterator;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlForm;
+import com.idega.faces.view.ViewManager;
+import com.idega.faces.view.ViewNode;
+import com.idega.faces.view.node.FramedApplicationViewNode;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
 import com.idega.presentation.app.IWControlCenter;
-import com.idega.webface.WFBezel;
+import com.idega.webface.WFFrame;
 
 
 public class WorkspacePage extends Page {
@@ -52,6 +55,15 @@ public class WorkspacePage extends Page {
 		
 		add(form);
 		
+		//String requestUri = iwc.getExternalContext().getRequestPathInfo();
+		ViewNode node = ViewManager.getInstance(iwc.getIWMainApplication()).getViewNodeForContext(iwc);
+		if(node instanceof FramedApplicationViewNode){
+			FramedApplicationViewNode frameNode = (FramedApplicationViewNode)node;
+			WFFrame frame = new WFFrame(node.getName(),frameNode.getFrameUrl());
+			add(frame);
+		}
+		
+		
 		//UISaveState savestate = new UISaveState();
 		//form.getChildren().add(savestate);
 		
@@ -71,9 +83,10 @@ public class WorkspacePage extends Page {
 		
 		
 		//Table mainTable = new Table(1, 4);
-		WFBezel mainTable = new WFBezel();
-		mainTable.setWidth("400px");
-		mainTable.setHeight("300px");
+
+		//		WFBezel mainTable = new WFBezel();
+		//mainTable.setWidth("400px");
+		//mainTable.setHeight("300px");
 //		add(mainTable);
 		
 		
@@ -113,7 +126,7 @@ public class WorkspacePage extends Page {
 			//mainTable.setAlignment(1, 3, "right");
 			//mainTable.setVerticalAlignment(1, 2, "middle");
 			//mainTable.setVerticalAlignment(1, 3, "middle");
-			mainTable.add(iwcc);
+			//mainTable.add(iwcc);
 			//headerImage = iwrb.getImage("login/header_app_suite.jpg", "", 323, 196);
 
 
@@ -162,10 +175,10 @@ public class WorkspacePage extends Page {
 	
 	/**
 	 * 
-	 *  Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+	 *  Last modified: $Date: 2004/10/25 14:45:46 $ by $Author: tryggvil $
 	 * 
 	 * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
-	 * @version $Revision: 1.1 $
+	 * @version $Revision: 1.2 $
 	 */
 	public class SpecialChildList implements List{
 		

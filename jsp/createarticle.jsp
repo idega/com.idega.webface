@@ -1,22 +1,12 @@
-<%@ page session="false" %>
-<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
-<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
-<%@ taglib uri="http://xmlns.idega.com/com.idega.webface" prefix="w" %>
+<?xml version="1.0"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:w="http://xmlns.idega.com/com.idega.webface" version="1.2">
 
-<html>
-<head>
-  <meta HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
-  <title>MyFaces - the free JSF Implementation</title>
-  <link rel="stylesheet" type="text/css" href="style/webfacestyle.css">
-</head>
-
-<body>
-
-<f:view>
-	<h:form id="testScreen" name="form1" enctype="multipart/form-data">
-	<w:create_article_page id="testpage" />
-	</h:form>
-</f:view>
-
-</body>
-</html>
+	<f:view>
+			<w:workspace_page id="testpage">
+				<w:create_article_page id="createarticle" />
+			</w:workspace_page>
+	</f:view>
+</jsp:root>

@@ -4,9 +4,11 @@
 package com.idega.webface;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import com.idega.util.RenderUtils;
 
 /**
  * Component with title bar and container area.
@@ -19,16 +21,19 @@ public class WFBlock extends WFContainer
 {
 	
 	public static String RENDERER_TYPE="wf_block";
+	private boolean isInitialized=false;
 	
 	private boolean toolbarEmbeddedInTitlebar=true;
-	private String mainAreaStyleClass = null;
+	private String mainAreaStyleClass = WFConstants.STYLE_CLASS_MAINAREA;
 	public WFBlock(){
-		setStyleClass(WFConstants.STYLE_CLASS_BOX);
-		setMainAreaStyleClass(WFConstants.STYLE_CLASS_MAINAREA);
+		this("untitled");
 	}
 	
 	public WFBlock(String titleBarText){
-		this();
+
+		setStyleClass(WFConstants.STYLE_CLASS_BOX);
+		setMainAreaStyleClass(WFConstants.STYLE_CLASS_MAINAREA);
+		
 		WFTitlebar titlebar = new WFTitlebar(titleBarText);
 		setTitlebar(titlebar);
 		setDefaultToolbar();
@@ -49,6 +54,15 @@ public class WFBlock extends WFContainer
 		toolbar.addButton(new WFCloseButton());
 	}
 
+	
+	/**
+	 * This method is intended to be implemented in subclasses to add components to mainArea
+	 */
+	protected void initializeContent(){
+		//does nothing by default
+	}
+	
+	
 	/**
 	 * @return
 	 */
@@ -123,6 +137,13 @@ public class WFBlock extends WFContainer
 		return RENDERER_TYPE;
 	}
 	
+	public void encodeBegin(FacesContext context) throws IOException {
+		if(!isInitialized){
+			this.initializeContent();
+			this.isInitialized=true;
+		}
+	}
+	
 	/*
 	public void encodeBegin(FacesContext context) throws IOException {
 		if (!isRendered()) {
@@ -147,6 +168,10 @@ public class WFBlock extends WFContainer
 			return;
 		}
 		super.encodeChildren(context);
+		//for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
+		//	UIComponent child = (UIComponent) iter.next();
+		//	RenderUtils.renderChild(context,child);
+		//}
 	}
 	
 	/**
@@ -181,10 +206,11 @@ public class WFBlock extends WFContainer
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[3];
+		Object values[] = new Object[4];
 		values[0] = super.saveState(ctx);
 		values[1] = new Boolean(toolbarEmbeddedInTitlebar);
 		values[2] = mainAreaStyleClass;
+		values[3] = new Boolean(isInitialized);
 		return values;
 	}
 	
@@ -196,5 +222,6 @@ public class WFBlock extends WFContainer
 		super.restoreState(ctx, values[0]);
 		toolbarEmbeddedInTitlebar = ((Boolean) values[1]).booleanValue();
 		mainAreaStyleClass = (String) values[2];
+		isInitialized = ((Boolean) values[3]).booleanValue();
 	}
 }
