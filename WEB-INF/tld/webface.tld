@@ -150,4 +150,20 @@
 	</tag>
 	
 
+	<tag>
+		<name>htmlarealinkcreator</name>
+		<tag-class>com.idega.webface.htmlarea.HTMLAreaLinkCreatorTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>externalTabClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+
 </taglib>
