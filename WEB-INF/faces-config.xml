@@ -7,90 +7,13 @@
 <faces-config>
 
 	<component>
-		<component-type>CMSPage</component-type>
-		<component-class>com.idega.webface.test.CMSPage</component-class>
-	</component>
-
-	<component>
 		<component-type>WorkspacePage</component-type>
 		<component-class>com.idega.webface.workspace.WorkspacePage</component-class>
 	</component>
 
-	<component>
-		<component-type>ArticleBlock</component-type>
-		<component-class>com.idega.webface.test.component.ArticleBlock</component-class>
-	</component>
-
-	<component>
-		<component-type>ListArticlesBlock</component-type>
-		<component-class>com.idega.webface.test.component.ListArticlesBlock</component-class>
-	</component>
-
-	<component>
-		<component-type>CreateArticlePage</component-type>
-		<component-class>com.idega.webface.test.CreateArticlePage</component-class>
-	</component>
-
-	<component>
-		<component-type>SearchArticlePage</component-type>
-		<component-class>com.idega.webface.test.SearchArticlePage</component-class>
-	</component>
-
-	<component>
-		<component-type>ListArticlesPage</component-type>
-		<component-class>com.idega.webface.test.ListArticlesPage</component-class>
-	</component>
-
-	<component>
-		<component-type>PreviewArticlePage</component-type>
-		<component-class>com.idega.webface.test.PreviewArticlePage</component-class>
-	</component>
-
-	<managed-bean>
-		<managed-bean-name>articleItemBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.ArticleItemBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-
-	<managed-bean>
-		<managed-bean-name>articleVersionItemBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.ArticleItemBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-
-	<managed-bean>
-		<managed-bean-name>previewArticleBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.ArticleItemBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-
-	<managed-bean>
-		<managed-bean-name>articleVersionListBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.ArticleVersionListBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	
-	<managed-bean>
-		<managed-bean-name>articleListBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.ArticleListBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	
 	<managed-bean>
 		<managed-bean-name>caseListBean</managed-bean-name>
 		<managed-bean-class>com.idega.webface.test.bean.CaseListBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	
-	<managed-bean>
-		<managed-bean-name>searchArticleBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.SearchArticleBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	
-	<managed-bean>
-		<managed-bean-name>listArticlesBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.ListArticlesBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
