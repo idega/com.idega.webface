@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleVersionListBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
+ * $Id: ArticleVersionListBean.java,v 1.2 2004/06/30 13:34:57 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -18,6 +18,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
+import com.idega.webface.WFPage;
 import com.idega.webface.WFUtil;
 import com.idega.webface.bean.WFListBean;
 import com.idega.webface.model.WFDataModel;
@@ -25,10 +26,10 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for article version list rows.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class ArticleVersionListBean implements WFListBean, Serializable {
@@ -45,7 +46,13 @@ public class ArticleVersionListBean implements WFListBean, Serializable {
 	private String _author = null;
 	private String _publishedBy = null;
 	
-	private String[] testColumnHeaders = { "Version", "Created", "Comment", "Author", "Published by" };				
+	private String[] testColumnHeaders = { 
+		WFPage.CONTENT_BUNDLE + ".version", 
+		WFPage.CONTENT_BUNDLE + ".created",
+		WFPage.CONTENT_BUNDLE + ".comment",
+		WFPage.CONTENT_BUNDLE + ".author",
+		WFPage.CONTENT_BUNDLE + ".published_by"
+	};				
 	
 	private String[] testRevisions = {
 		"1.4",
@@ -160,7 +167,7 @@ public class ArticleVersionListBean implements WFListBean, Serializable {
 
 		for (int i = 0; i < cols; i++) {
 			UIColumn c = new UIColumn();
-			c.setHeader(WFUtil.getText(testColumnHeaders[i]));
+			c.setHeader(WFUtil.getTextVB(testColumnHeaders[i]));
 			columns[i] = c;
 		}
 		

@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbarButton.java,v 1.2 2004/06/08 16:14:47 anders Exp $
+ * $Id: WFTaskbarButton.java,v 1.3 2004/06/30 13:35:21 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -18,10 +18,10 @@ import javax.faces.context.FacesContext;
 /**
  * ...  
  * <p>
- * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFTaskbarButton extends HtmlCommandLink {
 
@@ -37,9 +37,13 @@ public class WFTaskbarButton extends HtmlCommandLink {
 	/**
 	 * Constructs a taskbar button with the specified label text. 
 	 */
-	public WFTaskbarButton(String buttonLabel) {
+	public WFTaskbarButton(String buttonLabel, boolean isValueRef) {
 		this();
-		getChildren().add(WFUtil.getText(buttonLabel));
+		if (isValueRef) {
+			getChildren().add(WFUtil.getTextVB(buttonLabel));
+		} else {
+			getChildren().add(WFUtil.getText(buttonLabel));			
+		}
 	}
 	
 	/**

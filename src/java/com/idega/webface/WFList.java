@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.4 2004/06/18 14:11:02 anders Exp $
+ * $Id: WFList.java,v 1.5 2004/06/30 13:35:21 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,10 +29,10 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFList extends HtmlDataTable implements ActionListener {
 	
@@ -361,9 +361,10 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * Sets the list navigation links.
 	 */
 	private void setListNavigationLinks() {
+		String bref = WFPage.WF_BUNDLE + ".";
 		HtmlCommandLink previous = new HtmlCommandLink();
 		HtmlOutputText t = new HtmlOutputText();
-		t.setValue("<< previous");
+		t.setValueBinding("value", WFUtil.createValueBinding("#{" + bref + "navigation_previous}"));
 		previous.getChildren().add(t);
 		previous.setId(ACTION_PREVIOUS);
 		previous.addActionListener(this);
@@ -371,7 +372,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 
 		HtmlCommandLink next = new HtmlCommandLink();
 		t = new HtmlOutputText();
-		t.setValue("next >>");
+		t.setValueBinding("value", WFUtil.createValueBinding("#{" + bref + "navigation_next}"));
 		next.getChildren().add(t);
 		next.setId(ACTION_NEXT);
 		next.addActionListener(this);

@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleVersionBlock.java,v 1.1 2004/06/28 09:32:10 anders Exp $
+ * $Id: ArticleVersionBlock.java,v 1.2 2004/06/30 13:34:57 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -19,18 +19,20 @@ import javax.faces.event.ActionListener;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFList;
+import com.idega.webface.WFPage;
 import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFCommaSeparatedListConverter;
-import com.idega.webface.test.bean.*;
+import com.idega.webface.test.bean.ContentItemCaseBean;
+import com.idega.webface.test.bean.ManagedContentBeans;
 
 /**
  * Block for listing article versions.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:32:10 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ArticleVersionBlock extends WFBlock implements ManagedContentBeans, ActionListener, Serializable {
 
@@ -53,6 +55,7 @@ public class ArticleVersionBlock extends WFBlock implements ManagedContentBeans,
 	public ArticleVersionBlock(String titleKey) {
 		super(titleKey);
 		setId(ARTICLE_VERSION_BLOCK_ID);
+		getTitlebar().setValueRefTitle(true);
 		
 		WFUtil.invoke(ARTICLE_VERSION_LIST_BEAN_ID, "setArticleLinkListener", this, ActionListener.class);
 
@@ -80,6 +83,7 @@ public class ArticleVersionBlock extends WFBlock implements ManagedContentBeans,
 		c.setStyleAttribute("padding", "14px");
 
 		String ref = ARTICLE_VERSION_ITEM_BEAN_ID + ".";
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 
 		c.add(WFUtil.getHeaderTextVB(ref + "headline"));
 		c.add(WFUtil.getBreak(2));
@@ -90,27 +94,34 @@ public class ArticleVersionBlock extends WFBlock implements ManagedContentBeans,
 		c.add(bodyText);
 		c.add(WFUtil.getBreak(4));
 		
-		c.add(WFUtil.getHeaderText("Author: "));
+		c.add(WFUtil.getHeaderTextVB(bref + "author"));
+		c.add(WFUtil.getHeaderText(": "));
 		c.add(WFUtil.getTextVB(ref + "author"));
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getHeaderText("Created: "));
+		c.add(WFUtil.getHeaderTextVB(bref + "created"));
+		c.add(WFUtil.getHeaderText(": "));
 		c.add(WFUtil.getText("4/20/04 3:04 PM"));
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getHeaderText("Status: "));
+		c.add(WFUtil.getHeaderTextVB(bref + "status"));
+		c.add(WFUtil.getHeaderText(": "));
 		c.add(WFUtil.getTextVB(ref + "status"));
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getHeaderText("Categories: "));
+		c.add(WFUtil.getHeaderTextVB(bref + "categories"));
+		c.add(WFUtil.getHeaderText(": "));
 		HtmlOutputText t = WFUtil.getTextVB(ref + "categoryNames");
 		t.setConverter(new WFCommaSeparatedListConverter());		
 		c.add(t);
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getHeaderText("Current version: "));
+		c.add(WFUtil.getHeaderTextVB(bref + "current_version"));
+		c.add(WFUtil.getHeaderText(": "));
 		c.add(WFUtil.getText("1.5"));
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getHeaderText("Comment: "));
+		c.add(WFUtil.getHeaderTextVB(bref + "comment"));
+		c.add(WFUtil.getHeaderText(": "));
 		c.add(WFUtil.getTextVB(ref + "comment"));
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getHeaderText("Source: "));
+		c.add(WFUtil.getHeaderTextVB(bref + "source"));
+		c.add(WFUtil.getHeaderText(": "));
 		c.add(WFUtil.getTextVB(ref + "source"));
 		
 		c.add(WFUtil.getBreak());

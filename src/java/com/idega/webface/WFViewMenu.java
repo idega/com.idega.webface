@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewMenu.java,v 1.4 2004/06/18 14:11:02 anders Exp $
+ * $Id: WFViewMenu.java,v 1.5 2004/06/30 13:35:21 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,10 +23,10 @@ import javax.faces.event.ActionListener;
 /**
  * Menu with buttons for switching the view root. 
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFViewMenu extends WFContainer implements ActionListener {
 	
@@ -111,13 +111,12 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 	
 	/**
 	 * Adds a view menu button with its corresponding view id.
-	 * @param input the input component shown when the button is deselected 
 	 */
-	public WFViewMenuButton addButton(String buttonId, String buttonLabel, String viewId) {
+	public WFViewMenuButton addButton(String buttonId, String buttonLabel, String viewId, boolean isValueRef) {
 		if (getFacet("viewselector") == null) {
 			getFacets().put("viewselector", new WFViewSelector());
 		}
-		WFViewMenuButton button = new WFViewMenuButton(buttonLabel);
+		WFViewMenuButton button = new WFViewMenuButton(buttonLabel, isValueRef);
 		button.setId(buttonId);
 		button.addActionListener(this);
 		button.setImmediate(true);
@@ -128,6 +127,20 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 		getFacets().put("button_" + buttonId, button);
 		getAttributes().put("view_" + buttonId, viewId);
 		return button; 
+	}
+	
+	/**
+	 * Adds a view menu button with its corresponding view id.
+	 */
+	public WFViewMenuButton addButton(String buttonId, String buttonLabel, String viewId) {
+		return addButton(buttonId, buttonLabel, viewId, false);
+	}
+	
+	/**
+	 * Adds a view menu button with value binding label and its corresponding view id.
+	 */
+	public WFViewMenuButton addButtonVB(String buttonId, String buttonLabelRef, String viewId) {
+		return addButton(buttonId, buttonLabelRef, viewId, true);
 	}
 	
 	/**

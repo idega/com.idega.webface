@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.2 2004/06/07 07:52:20 anders Exp $
+ * $Id: WFPage.java,v 1.3 2004/06/30 13:35:21 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,14 +29,15 @@ import com.idega.faces.IWBaseComponent;
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/06/07 07:52:20 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFPage extends IWBaseComponent {
 
-	public final static String WF_BUNDLE = "wf_bundle";
+	public final static String WF_BUNDLE = "wf_bundle"; // test, TODO: use IWResourceBundle
+	public final static String CONTENT_BUNDLE = "content_bundle";
 	
 	/**
 	 * Default contructor. 
@@ -48,8 +49,18 @@ public class WFPage extends IWBaseComponent {
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
-		// from LoadBundleTag
-		
+		loadResourceBundles(context);
+		super.encodeBegin(context);
+	}
+
+	/*
+	 * Test load bundles. 
+	 */
+	private void loadResourceBundles(FacesContext context) {
+		if (context.getExternalContext().getSessionMap().get(CONTENT_BUNDLE) != null) {
+			return;
+		}
+
 		UIViewRoot viewRoot = context.getViewRoot();
 		if (viewRoot == null) {
 			throw new FacesException("No view root. A WFPage object must be a part of the component tree.");
@@ -61,19 +72,27 @@ public class WFPage extends IWBaseComponent {
 		}
 		
 		locale = new Locale("sv", "SE"); //test
-		final ResourceBundle bundle;
-		String bundleName = "com.idega.webface.test.TestBundle";
+		ResourceBundle bundle = null;
+//		String bundleName = "com.idega.webface.test.TestBundle";
+		String bundleName = "com.idega.webface.test.Content";
 		try {
 			bundle = ResourceBundle.getBundle(bundleName, locale);
 		} catch (MissingResourceException e) {
 			System.out.println("Resource bundle '" + bundleName + "' could not be found.");
 			return;
 		}
-
-		context.getExternalContext().getRequestMap().put(WF_BUNDLE, new BundleMap(bundle));
-		super.encodeBegin(context);
+		context.getExternalContext().getSessionMap().put(CONTENT_BUNDLE, new BundleMap(bundle));
+		
+		bundleName = "com.idega.webface.test.Webface";
+		try {
+			bundle = ResourceBundle.getBundle(bundleName, locale);
+		} catch (MissingResourceException e) {
+			System.out.println("Resource bundle '" + bundleName + "' could not be found.");
+			return;
+		}
+		context.getExternalContext().getSessionMap().put(WF_BUNDLE, new BundleMap(bundle));
 	}
-	
+
 	private static class BundleMap implements Map {
 
 		private ResourceBundle _bundle;

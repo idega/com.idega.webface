@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
+ * $Id: ContentItemBean.java,v 1.2 2004/06/30 13:34:57 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -20,14 +20,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.idega.webface.WFPage;
+import com.idega.webface.WFUtil;
+
 
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class ContentItemBean implements Serializable {
@@ -316,15 +319,16 @@ public class ContentItemBean implements Serializable {
 	 * Returns the categories associated with this content item.
 	 */
 	public Map getCategories() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		if (_categories == null) {
 			_categories = new HashMap();
 		}
 		Map categoriesByLocale = (Map) _categories.get(getLocaleId());
 		if (categoriesByLocale == null) {
 			categoriesByLocale = new LinkedHashMap();
-			categoriesByLocale.put("Public news",  new Integer(1));
-			categoriesByLocale.put("Business news",  new Integer(2));
-			categoriesByLocale.put("Company info", new Integer(3));
+			categoriesByLocale.put(WFUtil.getValue(bref + "category_public_news"),  new Integer(1));
+			categoriesByLocale.put(WFUtil.getValue(bref + "category_business_news"),  new Integer(2));
+			categoriesByLocale.put(WFUtil.getValue(bref + "category_company_info"), new Integer(3));
 			_categories.put(getLocaleId(), categoriesByLocale);
 		}
 		return categoriesByLocale;
@@ -341,16 +345,17 @@ public class ContentItemBean implements Serializable {
 	 * Returns all categories available for content items.
 	 */
 	public Map getAllCategories() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		if (_allCategories == null) {
 			_allCategories = new LinkedHashMap();
 
-			_allCategories.put("Public news", new Integer(1));
-			_allCategories.put("Business news", new Integer(2));
-			_allCategories.put("Company info", new Integer(3));
-			_allCategories.put("General info", new Integer(4));
-			_allCategories.put("IT stuff", new Integer(5));
-			_allCategories.put("Press releases", new Integer(6));
-			_allCategories.put("Internal info", new Integer(7));
+			_allCategories.put(WFUtil.getValue(bref + "category_public_news"), new Integer(1));
+			_allCategories.put(WFUtil.getValue(bref + "category_business_news"), new Integer(2));
+			_allCategories.put(WFUtil.getValue(bref + "category_company_info"), new Integer(3));
+			_allCategories.put(WFUtil.getValue(bref + "category_general_info"), new Integer(4));
+			_allCategories.put(WFUtil.getValue(bref + "category_it_stuff"), new Integer(5));
+			_allCategories.put(WFUtil.getValue(bref + "category_press_releases"), new Integer(6));
+			_allCategories.put(WFUtil.getValue(bref + "category_internal_info"), new Integer(7));
 		}
 		return _allCategories;
 	}
@@ -360,13 +365,14 @@ public class ContentItemBean implements Serializable {
 	 */
 	public Map getAllLocales() {
 		if (_allLocales == null) {
+			String bref = WFPage.CONTENT_BUNDLE + ".";
 			_allLocales = new LinkedHashMap();
 			Locale sv = new Locale("sv");
 			Locale en = new Locale("en");
 			Locale is = new Locale("is");
-			_allLocales.put(sv.getDisplayLanguage(), sv.getLanguage());
-			_allLocales.put(en.getDisplayLanguage(), en.getLanguage());
-			_allLocales.put(is.getDisplayLanguage(), is.getLanguage());
+			_allLocales.put(WFUtil.getValue(bref + sv.getDisplayLanguage()), sv.getLanguage());
+			_allLocales.put(WFUtil.getValue(bref + en.getDisplayLanguage()), en.getLanguage());
+			_allLocales.put(WFUtil.getValue(bref + is.getDisplayLanguage()), is.getLanguage());
 		}
 		return _allLocales;
 	}

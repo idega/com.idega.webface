@@ -1,5 +1,5 @@
 /*
- * $Id: ListArticlesBlock.java,v 1.1 2004/06/28 09:32:10 anders Exp $
+ * $Id: ListArticlesBlock.java,v 1.2 2004/06/30 13:34:57 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -16,6 +16,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.convert.IntegerConverter;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
@@ -24,19 +25,21 @@ import com.idega.webface.WFComponentSelector;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFErrorMessages;
 import com.idega.webface.WFList;
+import com.idega.webface.WFPage;
 import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFDateConverter;
-import com.idega.webface.test.bean.*;
+import com.idega.webface.test.bean.ContentItemCaseBean;
+import com.idega.webface.test.bean.ManagedContentBeans;
 
 /**
  * Block for listing articles.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:32:10 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, ActionListener, Serializable {
 
@@ -71,6 +74,7 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 	public ListArticlesBlock(String titleKey) {
 		super(titleKey);
 		setId(LIST_ARTICLES_BLOCK_ID);
+		getTitlebar().setValueRefTitle(true);
 		
 		WFUtil.invoke(LIST_ARTICLES_BEAN_ID, "setArticleLinkListener", this, ActionListener.class);
 
@@ -99,8 +103,8 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 	 * Creates a search form panel.
 	 */
 	private UIComponent getSearchPanel() {
-
 		String ref = LIST_ARTICLES_BEAN_ID + ".";
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 
 		WFContainer mainContainer = new WFContainer();
 		
@@ -111,9 +115,9 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 		mainContainer.add(em);
 		
 		HtmlPanelGrid p = WFPanelUtil.getFormPanel(3);		
-		p.getChildren().add(WFUtil.getText("Published from:"));		
-		p.getChildren().add(WFUtil.getText("Published to:"));		
-		p.getChildren().add(WFUtil.getText("Category:"));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "published_from"), WFUtil.getText(":")));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "published_to"), WFUtil.getText(":")));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "category"), WFUtil.getText(":")));		
 		HtmlInputText searchPublishedFromInput = WFUtil.getInputText(SEARCH_PUBLISHED_FROM_ID, ref + "searchPublishedFrom");		
 		searchPublishedFromInput.setSize(20);
 		searchPublishedFromInput.setConverter(new WFDateConverter());
@@ -123,13 +127,14 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 		searchPublishedToInput.setConverter(new WFDateConverter());
 		p.getChildren().add(searchPublishedToInput);		
 		HtmlSelectOneMenu searchCategoryMenu = WFUtil.getSelectOneMenu(SEARCH_CATEGORY_ID, ref + "categories", ref + "searchCategoryId");
+		searchCategoryMenu.setConverter(new IntegerConverter());
 		p.getChildren().add(searchCategoryMenu);
 		
 		mainContainer.add(p);
 		mainContainer.add(WFUtil.getText(" "));
 
 		p = WFPanelUtil.getPlainFormPanel(1);
-		p.getChildren().add(WFUtil.getButton(LIST_BUTTON_ID, "List", this));
+		p.getChildren().add(WFUtil.getButtonVB(LIST_BUTTON_ID, bref + "list", this));
 		
 		mainContainer.add(p);
 		
@@ -152,6 +157,7 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 	 */
 	private UIComponent getViewArticlePanel() {
 		String ref = ARTICLE_ITEM_BEAN_ID + ".";
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		WFContainer c = new WFContainer();
 		c.setStyleAttribute("padding", "10px");
 		c.setId(VIEW_ARTICLE_PANEL_ID);
@@ -167,7 +173,7 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 		WFUtil.setValueBinding(t, "value", ref + "body");
 		c.add(t);
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getButton(VIEW_ARTICLE_BACK_BUTTON_ID, "Back", this));
+		c.add(WFUtil.getButtonVB(VIEW_ARTICLE_BACK_BUTTON_ID, bref + "back", this));
 		return c;
 	}
 	

@@ -5,9 +5,6 @@ package com.idega.webface;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
@@ -81,15 +78,6 @@ public class WFUtil {
 	}
 	
 	/**
-	 * Returns an html text component with the specified id.
-	 */
-	public static HtmlOutputText getText(String id, String s) {
-		HtmlOutputText t = getText(s);
-		t.setId(id);
-		return t;
-	}
-	
-	/**
 	 * Returns an html header text component.
 	 */
 	public static HtmlOutputText getHeaderText(String s) {
@@ -115,15 +103,6 @@ public class WFUtil {
 	public static HtmlOutputText getHeaderText(String id, String s) {
 		HtmlOutputText t = getHeaderText(s);
 		t.setId(id);
-		return t;
-	}
-	
-	/**
-	 * Returns an html text component with value binding to the localized key.
-	 */
-	public static HtmlOutputText getLocalizedText(String key) {
-		HtmlOutputText t = new HtmlOutputText();
-		t.setValueBinding("value", createValueBinding("#{" + WFPage.WF_BUNDLE + "." + key + "}"));
 		return t;
 	}
 
@@ -280,10 +259,30 @@ public class WFUtil {
 	}
 	
 	/**
-	 * Returns an html command button.
+	 * Returns an html command button with the specified action listener added.
 	 */
 	public static HtmlCommandButton getButton(String id, String value, ActionListener actionListener) {
 		HtmlCommandButton b = getButton(id, value);
+		b.addActionListener(actionListener);
+		return b;
+	}
+	
+	/**
+	 * Returns an html command button with value binding text label.
+	 */
+	public static HtmlCommandButton getButtonVB(String id, String ref) {
+		HtmlCommandButton b = new HtmlCommandButton();
+		b.setId(id);
+		b.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		setInputStyle(b);
+		return b;
+	}
+	
+	/**
+	 * Returns an html command button with value binding text label and with the specified action listener added.
+	 */
+	public static HtmlCommandButton getButtonVB(String id, String key, ActionListener actionListener) {
+		HtmlCommandButton b = getButtonVB(id, key);
 		b.addActionListener(actionListener);
 		return b;
 	}
@@ -453,33 +452,11 @@ public class WFUtil {
 	}
 	
 	/**
-	 * Adds a localized message for the specified component. 
+	 * Adds a message with value binding for the specified component. 
 	 */
-	public static void addLocalizedMessage(UIComponent component, String localizationKey) {
-		addMessage(component, localize(localizationKey));
-	}
-	
-	/**
-	 * Returns the localized text for the specified key. 
-	 */
-	public static String localize(String localizationKey) {
-		String text = localizationKey;
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		Locale locale = ctx.getViewRoot().getLocale();
-		locale = new Locale("sv", "SE"); //test		
-		ResourceBundle bundle = null; // TODO: replace with IWResourceBundle
-		String bundleName = "com.idega.webface.test.TestBundle";
-		try {
-			bundle = ResourceBundle.getBundle(bundleName, locale);
-		} catch (MissingResourceException e) {
-			System.out.println("Resource bundle '" + bundleName + "' could not be found.");
-			return text;
-		}
-		try {
-			text = bundle.getString(localizationKey);
-		} catch (Exception e) {}
-		
-		return text;
+	public static void addMessageVB(UIComponent component, String ref) {
+		ValueBinding vb = WFUtil.createValueBinding("#{" + ref + "}");
+		addMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
 	}
 	
 	/**
@@ -494,11 +471,18 @@ public class WFUtil {
 	}
 	
 	/**
+	 * Returns the value from the specified value binding reference. 
+	 */
+	public static Object getValue(String ref) {
+		ValueBinding vb = WFUtil.createValueBinding("#{" + ref + "}");
+		return vb.getValue(FacesContext.getCurrentInstance());		
+	}
+	
+	/**
 	 * Returns a value by calling a method in a managed bean. 
 	 */
 	public static Object getValue(String beanId, String methodName) {
-		ValueBinding vb = WFUtil.createValueBinding("#{" + beanId + "." + methodName + "}");
-		return vb.getValue(FacesContext.getCurrentInstance());		
+		return getValue(beanId + "." + methodName);		
 	}
 	
 	/**

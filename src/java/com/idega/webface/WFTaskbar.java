@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbar.java,v 1.5 2004/06/23 13:23:43 anders Exp $
+ * $Id: WFTaskbar.java,v 1.6 2004/06/30 13:35:21 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,10 +29,10 @@ import com.idega.webface.event.WFTaskbarListener;
  * A perspective can be any component that is rendered when
  * its task bar button is pressed.   
  * <p>
- * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFTaskbar extends WFContainer implements ActionListener {
 	
@@ -127,8 +127,8 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	/**
 	 * Adds a tastbar button with its corresponding perspective component.
 	 */
-	public WFTaskbarButton addButton(String buttonId, String buttonLabel, UIComponent perspective) {
-		WFTaskbarButton button = new WFTaskbarButton(buttonLabel);
+	public WFTaskbarButton addButton(String buttonId, String buttonLabel, UIComponent perspective, boolean isValueRef) {
+		WFTaskbarButton button = new WFTaskbarButton(buttonLabel, isValueRef);
 		button.setId(buttonId);
 //		button.setValue(buttonLabel);
 		button.addActionListener(this);
@@ -143,6 +143,20 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		c.add(perspective);
 		getFacets().put("perspective_" + buttonId, c);
 		return button; 
+	}
+	
+	/**
+	 * Adds a tastbar button with its corresponding perspective component.
+	 */
+	public WFTaskbarButton addButton(String buttonId, String buttonLabel, UIComponent perspective) {
+		return addButton(buttonId, buttonLabel, perspective, false);
+	}
+	
+	/**
+	 * Adds a tastbar button with value bin ding label and its corresponding perspective component.
+	 */
+	public WFTaskbarButton addButtonVB(String buttonId, String buttonLabelRef, UIComponent perspective) {
+		return addButton(buttonId, buttonLabelRef, perspective, true);
 	}
 	
 	/**

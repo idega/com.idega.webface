@@ -1,5 +1,5 @@
 /*
- * $Id: WFDateInput.java,v 1.2 2004/06/28 08:42:00 anders Exp $
+ * $Id: WFDateInput.java,v 1.3 2004/06/30 13:35:21 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,10 +23,10 @@ import javax.faces.context.ResponseWriter;
 /**
  * Input component for date/time using dropdown menus for selection.
  * <p>
- * Last modified: $Date: 2004/06/28 08:42:00 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFDateInput extends UIInput {
 
@@ -146,8 +146,9 @@ public class WFDateInput extends UIInput {
 	 * Returns year item map.
 	 */
 	private Map getYears() {
+		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put("Year", "");
+		m.put(WFUtil.getValue(bref + "year"), "");
 		for (int i = _fromYear; i <= _toYear; i++) {
 			String year = String.valueOf(i);		
 			m.put(year, year);
@@ -159,20 +160,21 @@ public class WFDateInput extends UIInput {
 	 * Returns month item map.
 	 */
 	private Map getMonths() {
+		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put("Month", "");
-		m.put("January", "01"); // TODO: localize it
-		m.put("February", "02");
-		m.put("March", "03");
-		m.put("April", "04");
-		m.put("May", "05");
-		m.put("June", "06");
-		m.put("July", "07");
-		m.put("August", "08");
-		m.put("September", "09");
-		m.put("October", "10");
-		m.put("November", "11");
-		m.put("December", "12");
+		m.put(WFUtil.getValue(bref + "month"), "");
+		m.put(WFUtil.getValue(bref + "january"), "01");
+		m.put(WFUtil.getValue(bref + "february"), "02");
+		m.put(WFUtil.getValue(bref + "march"), "03");
+		m.put(WFUtil.getValue(bref + "april"), "04");
+		m.put(WFUtil.getValue(bref + "may"), "05");
+		m.put(WFUtil.getValue(bref + "june"), "06");
+		m.put(WFUtil.getValue(bref + "july"), "07");
+		m.put(WFUtil.getValue(bref + "august"), "08");
+		m.put(WFUtil.getValue(bref + "september"), "09");
+		m.put(WFUtil.getValue(bref + "october"), "10");
+		m.put(WFUtil.getValue(bref + "november"), "11");
+		m.put(WFUtil.getValue(bref + "december"), "12");
 		return m;
 	}
 	
@@ -180,8 +182,9 @@ public class WFDateInput extends UIInput {
 	 * Returns day item map.
 	 */
 	private Map getDays() {
+		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put("Day", "");
+		m.put(WFUtil.getValue(bref + "day"), "");
 		for (int i = 1; i <= 31; i++) {
 			m.put(String.valueOf(i), (i < 10 ? "0" : "") + i);
 		}
@@ -192,8 +195,9 @@ public class WFDateInput extends UIInput {
 	 * Returns hour item map.
 	 */
 	private Map getHours() {
+		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put("h", "");
+		m.put(WFUtil.getValue(bref + "hours_short"), "");
 		for (int i = 0; i <= 23; i++) {
 			String s = (i < 10 ? "0" : "") + i;
 			m.put(s, s);
@@ -205,8 +209,9 @@ public class WFDateInput extends UIInput {
 	 * Returns minute item map.
 	 */
 	private Map getMinutes() {
+		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put("m", "");
+		m.put(WFUtil.getValue(bref + "minutes_short"), "");
 		for (int i = 0; i <= 59; i++) {
 			String s = (i < 10 ? "0" : "") + i;
 			m.put(s, s);
@@ -266,6 +271,7 @@ public class WFDateInput extends UIInput {
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
+		String bref = WFPage.WF_BUNDLE + ".";
 		ResponseWriter out = context.getResponseWriter();
 		Date date = (Date) getValue();
 		String year = null;
@@ -311,7 +317,7 @@ public class WFDateInput extends UIInput {
 		}
 		
 		if (_showTime) {
-			out.write(" at "); // Localize this
+			out.write(" " + (String) WFUtil.getValue(bref + "at_time") + " ");
 			
 			String hour = null;
 			String minute = null;

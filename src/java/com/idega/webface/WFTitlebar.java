@@ -26,7 +26,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	private String titlebarColor;
 	private String titleTextColor;
 	private String iconImageURI;
-	private boolean localizedTitle = false;
+	private boolean valueRefTitle = false;
 	
 	public WFTitlebar(){
 		setStyleClass("wf_titlebar");
@@ -86,8 +86,8 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 */
 	public void setTitleText(String string) {
 		HtmlOutputText title = null;
-		if (localizedTitle) {
-			title = WFUtil.getLocalizedText(string);
+		if (valueRefTitle) {
+			title = WFUtil.getTextVB(string);
 		} else {
 			title = WFUtil.getText(string);
 		}
@@ -99,15 +99,15 @@ public class WFTitlebar extends WFContainer implements Serializable
 	/**
 	 * @return
 	 */
-	public boolean isLocalizedTitle() {
-		return localizedTitle;
+	public boolean isValueRefTitle() {
+		return valueRefTitle;
 	}
 
 	/**
 	 * 
 	 */
-	public void setLocalizedTitle(boolean b) {
-		localizedTitle = b;
+	public void setValueRefTitle(boolean b) {
+		valueRefTitle = b;
 		setTitleText(getTitleText());
 	}
 	
@@ -224,7 +224,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
 		values[1] = titleText;
-		values[2] = new Boolean(localizedTitle);
+		values[2] = new Boolean(valueRefTitle);
 		return values;
 	}
 	
@@ -235,7 +235,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
 		titleText = (String) values[1];
-		localizedTitle = ((Boolean) values[2]).booleanValue();
+		valueRefTitle = ((Boolean) values[2]).booleanValue();
 	}
 
 	protected String getMarkupElementType(){

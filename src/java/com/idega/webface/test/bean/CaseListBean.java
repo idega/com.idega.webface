@@ -1,5 +1,5 @@
 /*
- * $Id: CaseListBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
+ * $Id: CaseListBean.java,v 1.2 2004/06/30 13:34:57 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -18,6 +18,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
+import com.idega.webface.WFPage;
 import com.idega.webface.WFUtil;
 import com.idega.webface.bean.WFListBean;
 import com.idega.webface.model.WFDataModel;
@@ -25,10 +26,10 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for content item case list rows.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class CaseListBean implements WFListBean, Serializable {
@@ -45,7 +46,13 @@ public class CaseListBean implements WFListBean, Serializable {
 	private String _author = null;
 	private String _status = null;
 	
-	private String[] testColumnHeaders = { "Description", "Created", "Last modified", "Author", "Status" };				
+	private String[] testColumnHeaders = {
+		WFPage.CONTENT_BUNDLE + ".description", 
+		WFPage.CONTENT_BUNDLE + ".created", 
+		WFPage.CONTENT_BUNDLE + ".last_modified",
+		WFPage.CONTENT_BUNDLE + ".author",
+		WFPage.CONTENT_BUNDLE + ".status"
+	};				
 	
 	private String[] testDescriptions = {
 		"Idega represented in the Baltics",
@@ -175,7 +182,7 @@ public class CaseListBean implements WFListBean, Serializable {
 
 		for (int i = 0; i < cols; i++) {
 			UIColumn c = new UIColumn();
-			c.setHeader(WFUtil.getText(testColumnHeaders[i]));
+			c.setHeader(WFUtil.getTextVB(testColumnHeaders[i]));
 			columns[i] = c;
 		}
 		

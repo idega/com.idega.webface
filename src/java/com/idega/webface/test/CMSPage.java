@@ -1,5 +1,5 @@
 /*
- * $Id: CMSPage.java,v 1.6 2004/06/28 09:32:09 anders Exp $
+ * $Id: CMSPage.java,v 1.7 2004/06/30 13:34:56 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -34,10 +34,10 @@ import com.idega.webface.test.component.*;
 /**
  * Content management system test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/28 09:32:09 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:56 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarListener, ActionListener, Serializable {
 	
@@ -83,11 +83,12 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	 * Returns the main task bar selector. 
 	 */
 	protected UIComponent getMainTaskbar() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		WFTaskbar tb = new WFTaskbar();
 		tb.setMainAreaStyleClass(null);
 		tb.setId(MAIN_TASKBAR_ID);
-		tb.addButton(TASK_ID_CONTENT, "Content", getContentPerspective());
-		tb.addButton(TASK_ID_EDIT, "Edit", getEditPerspective());
+		tb.addButtonVB(TASK_ID_CONTENT, bref + "content", getContentPerspective());
+		tb.addButtonVB(TASK_ID_EDIT, bref + "edit", getEditPerspective());
 		return tb;
 	}
 	
@@ -108,12 +109,14 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	 * Returns the content edit perspective.
 	 */
 	protected UIComponent getEditPerspective() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		HtmlPanelGrid ap = WFPanelUtil.getApplicationPanel();
 		ap.getChildren().add(getFunctionBlock());
 		WFContainer c = new WFContainer();
-		ArticleBlock ab = new ArticleBlock("edit_article", this);
+		ArticleBlock ab = new ArticleBlock(bref + "edit_article", this);
 		c.add(ab);
-		ArticleVersionBlock av = new ArticleVersionBlock("Previous article versions");
+		ArticleVersionBlock av = new ArticleVersionBlock(bref + "previous_article_versions");
+		av.getTitlebar().setValueRefTitle(true);
 		av.setRendered(false);
 		c.add(av);
 		ap.getChildren().add(c);
@@ -124,16 +127,19 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	 * Returns the function block containing a view menu.
 	 */
 	protected UIComponent getFunctionBlock() {
-		WFBlock b = new WFBlock("Functions");
+		String bref = WFPage.CONTENT_BUNDLE + ".";
+		WFBlock b = new WFBlock(bref + "functions");
+		b.getTitlebar().setValueRefTitle(true);
+
 		WFViewMenu vm = new WFViewMenu();
 		b = WFUtil.setBlockStyle(b, vm);
-		vm.addButton("news_items", "Content Home", "/cmspage.jsf");
-		vm.addButton("create_article", "Create Article", "/createarticle.jsf");
-		vm.addButton("list_articles", "List Articles", "/listarticles.jsf");
-		vm.addButton("search_articles", "Search Articles", "/searcharticle.jsf");
-		vm.addButton("users_groups", "Users and Groups", "UserApplication.jsf");
-		vm.addButton("create_page", "Create Page", "CreatePage.jsf");
-		vm.addButton("configure", "Configure", "Configure.jsf");
+		vm.addButtonVB("content_home", bref + "content_home", "/cmspage.jsf");
+		vm.addButtonVB("create_article", bref + "create_article", "/createarticle.jsf");
+		vm.addButtonVB("list_articles", bref + "list_articles", "/listarticles.jsf");
+		vm.addButtonVB("search_articles", bref + "search_articles", "/searcharticle.jsf");
+		vm.addButtonVB("users_groups", bref + "users_and_groups", "UserApplication.jsf");
+		vm.addButtonVB("create_page", bref + "create_page", "CreatePage.jsf");
+		vm.addButtonVB("configure", bref + "configure", "Configure.jsf");
 		b.add(vm);
 		return b;
 	}
@@ -142,7 +148,9 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	 * Returns the article list.
 	 */
 	protected UIComponent getArticleList() {
-		WFBlock b = new WFBlock("Article list");
+		String bref = WFPage.CONTENT_BUNDLE + ".";
+		WFBlock b = new WFBlock(bref + "article_list");
+		b.getTitlebar().setValueRefTitle(true);
 		WFList l = new WFList(ARTICLE_LIST_BEAN_ID, 0, 3);
 		l.setId(ARTICLE_LIST_ID);
 		b.add(l);
@@ -153,7 +161,9 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	 * Returns the case list.
 	 */
 	protected UIComponent getCaseList() {
-		WFBlock b = new WFBlock("Case list");
+		String bref = WFPage.CONTENT_BUNDLE + ".";
+		WFBlock b = new WFBlock(bref + "case_list");
+		b.getTitlebar().setValueRefTitle(true);
 		WFList l = new WFList(CASE_LIST_BEAN_ID, 0, 3);
 		l.setId(CASE_LIST_ID);
 		b.add(l);

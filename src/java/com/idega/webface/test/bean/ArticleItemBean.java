@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleItemBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
+ * $Id: ArticleItemBean.java,v 1.2 2004/06/30 13:34:57 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -18,15 +18,15 @@ import java.util.List;
 /**
  * Bean for idegaWeb article content items.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class ArticleItemBean extends ContentItemBean implements Serializable {
 	
-	public final static String KP = "article_"; // Key prefix
+	public final static String KP = "error_"; // Key prefix
 	
 	public final static String KEY_ERROR_HEADLINE_EMPTY = KP + "headline_empty";
 	public final static String KEY_ERROR_BODY_EMPTY = KP + "body_empty";

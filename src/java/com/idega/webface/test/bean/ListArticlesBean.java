@@ -1,5 +1,5 @@
 /*
- * $Id: ListArticlesBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
+ * $Id: ListArticlesBean.java,v 1.2 2004/06/30 13:34:57 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -19,6 +19,7 @@ import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
+import com.idega.webface.WFPage;
 import com.idega.webface.WFUtil;
 import com.idega.webface.bean.WFListBean;
 import com.idega.webface.model.WFDataModel;
@@ -26,10 +27,10 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for listing articles.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class ListArticlesBean implements WFListBean, Serializable {
@@ -45,7 +46,7 @@ public class ListArticlesBean implements WFListBean, Serializable {
 	
 	private Date _searchPublishedFrom = null;
 	private Date _searchPublishedTo = null;
-	private String _searchCategoryId = null;
+	private int _searchCategoryId = 0;
 	
 	private Map _allCategories = null;
 	
@@ -99,7 +100,7 @@ public class ListArticlesBean implements WFListBean, Serializable {
 
 	public Date getSearchPublishedFrom() { return _searchPublishedFrom; }
 	public Date getSearchPublishedTo() { return _searchPublishedTo; }
-	public String getSearchCategoryId() { return _searchCategoryId; }
+	public int getSearchCategoryId() { return _searchCategoryId; }
 
 	public void setId(String s) { _id = s; }
 	public void setHeadline(String s) { _headline = s; }
@@ -107,7 +108,7 @@ public class ListArticlesBean implements WFListBean, Serializable {
 
 	public void setSearchPublishedFrom(Date d) { _searchPublishedFrom = d; }
 	public void setSearchPublishedTo(Date d) { _searchPublishedTo = d; }
-	public void setSearchCategoryId(String s) { _searchCategoryId = s; }
+	public void setSearchCategoryId(int id) { _searchCategoryId = id; }
 	
 	public ActionListener getArticleLinkListener() { return _articleLinkListener; }
 	public void setArticleLinkListener(ActionListener l) { _articleLinkListener = l; }
@@ -116,16 +117,17 @@ public class ListArticlesBean implements WFListBean, Serializable {
 	 * Returns all categories available for articles.
 	 */
 	public Map getCategories() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		if (_allCategories == null) {
 			_allCategories = new LinkedHashMap();
-			_allCategories.put("All categories", "" + new Integer(-1));
-			_allCategories.put("Public news", "" + new Integer(1));
-			_allCategories.put("Business news", "" + new Integer(2));
-			_allCategories.put("Company info", "" + new Integer(3));
-			_allCategories.put("General info", "" + new Integer(4));
-			_allCategories.put("IT stuff", "" + new Integer(5));
-			_allCategories.put("Press releases", "" + new Integer(6));
-			_allCategories.put("Internal info", "" + new Integer(7));
+			_allCategories.put(WFUtil.getValue(bref + "all_categories"),  new Integer(-1));
+			_allCategories.put(WFUtil.getValue(bref + "category_public_news"), new Integer(1));
+			_allCategories.put(WFUtil.getValue(bref + "category_business_news"), new Integer(2));
+			_allCategories.put(WFUtil.getValue(bref + "category_company_info"), new Integer(3));
+			_allCategories.put(WFUtil.getValue(bref + "category_general_info"), new Integer(4));
+			_allCategories.put(WFUtil.getValue(bref + "category_it_stuff"), new Integer(5));
+			_allCategories.put(WFUtil.getValue(bref + "category_press_releases"), new Integer(6));
+			_allCategories.put(WFUtil.getValue(bref + "category_internal_info"), new Integer(7));
 		}
 		return _allCategories;
 	}

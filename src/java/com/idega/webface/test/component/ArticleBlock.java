@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleBlock.java,v 1.1 2004/06/28 09:32:10 anders Exp $
+ * $Id: ArticleBlock.java,v 1.2 2004/06/30 13:34:57 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -37,21 +37,24 @@ import com.idega.webface.WFContainer;
 import com.idega.webface.WFDateInput;
 import com.idega.webface.WFErrorMessages;
 import com.idega.webface.WFList;
+import com.idega.webface.WFPage;
 import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFTaskbar;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFCommaSeparatedListConverter;
 import com.idega.webface.event.WFTaskbarListener;
-import com.idega.webface.test.bean.*;
+import com.idega.webface.test.bean.CaseListBean;
+import com.idega.webface.test.bean.ContentItemCaseBean;
+import com.idega.webface.test.bean.ManagedContentBeans;
 
 /**
  * Block for editing an article.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:32:10 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ArticleBlock extends WFBlock implements ActionListener, ManagedContentBeans {
 
@@ -94,6 +97,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	private final static String ADD_RELATED_CONTENT_ITEM_ID = P + "add_related_item";
 	private final static String REMOVE_RELATED_CONTENT_ITEM_ID = P + "remove_related_item";
 	private final static String RELATED_CONTENT_ITEMS_CANCEL_ID = P + "related_items_cancel";
+	private final static String EDIT_HTML_ID = P + "edit_html";
 	
 	private final static String TASKBAR_ID = P + "taskbar";
 
@@ -110,7 +114,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	private final static String ADD_CATEGORIES_ID = P + "add_categories";
 	private final static String SUB_CATEGORIES_ID = P + "sub_categories";
 	private final static String CATEGORY_BACK_ID = P + "category_back";
-
+	
 	/**
 	 * Default contructor.
 	 */
@@ -123,15 +127,17 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	public ArticleBlock(String titleKey, WFTaskbarListener taskbarListener) {
 		super(titleKey);
 		setId(ARTICLE_BLOCK_ID);
-		getTitlebar().setLocalizedTitle(true);
+		getTitlebar().setValueRefTitle(true);
 		setMainAreaStyleClass(null);
+		
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		
 		WFTaskbar tb = new WFTaskbar();
 		tb.setId(TASKBAR_ID);
 		add(tb);
-		tb.addButton(TASK_ID_EDIT, "Edit", getEditContainer());
-		tb.addButton(TASK_ID_PREVIEW, "Preview", getPreviewContainer());
-		tb.addButton(TASK_ID_MESSAGES, "Messages", getMessageContainer());
+		tb.addButtonVB(TASK_ID_EDIT, bref + "edit", getEditContainer());
+		tb.addButtonVB(TASK_ID_PREVIEW, bref + "preview", getPreviewContainer());
+		tb.addButtonVB(TASK_ID_MESSAGES, bref + "messages", getMessageContainer());
 		tb.setSelectedButtonId(TASK_ID_EDIT);
 		if (taskbarListener != null) {
 			tb.addTaskbarListener(taskbarListener);
@@ -151,6 +157,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	private UIComponent getEditContainer() {
 		
 		String ref = ARTICLE_ITEM_BEAN_ID + ".";
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 
 		WFContainer mainContainer = new WFContainer();
 		mainContainer.setId(ARTICLE_EDITOR_ID);
@@ -165,35 +172,35 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		mainContainer.add(em);
 
 		HtmlPanelGrid p = WFPanelUtil.getFormPanel(2);		
-		p.getChildren().add(WFUtil.getText("Headline:"));		
-		p.getChildren().add(WFUtil.getText("Language:"));
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "headline"), WFUtil.getText(":")));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "language"), WFUtil.getText(":")));		
 		HtmlInputText headlineInput = WFUtil.getInputText(HEADLINE_ID, ref + "headline");		
 		headlineInput.setSize(40);
 		p.getChildren().add(headlineInput);		
 		HtmlSelectOneMenu localeMenu = WFUtil.getSelectOneMenu(LOCALE_ID, ref + "allLocales", ref + "pendingLocaleId");
 		localeMenu.setOnchange("document.forms[0].submit();");
 		p.getChildren().add(localeMenu);		
-		p.getChildren().add(WFUtil.getText("Teaser:"));		
-		p.getChildren().add(WFUtil.getText("Author:"));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "teaser"), WFUtil.getText(":")));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "author"), WFUtil.getText(":")));		
 		HtmlInputTextarea teaserArea = WFUtil.getTextArea(TEASER_ID, ref + "teaser", "440px", "30px");
 		p.getChildren().add(teaserArea);		
 		HtmlInputText authorInput = WFUtil.getInputText(AUTHOR_ID, ref + "author");
 		authorInput.setSize(22);
 		p.getChildren().add(authorInput);		
-		p.getChildren().add(WFUtil.getText("Body:"));		
-		p.getChildren().add(WFUtil.getText("Images:"));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "body"), WFUtil.getText(":")));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "images"), WFUtil.getText(":")));		
 		HtmlInputTextarea bodyArea = WFUtil.getTextArea(BODY_ID, ref + "body", "460px", "400px");
-		HtmlCommandButton editButton = WFUtil.getButton("test", "Edit");
+		HtmlCommandButton editButton = WFUtil.getButtonVB(EDIT_HTML_ID, bref + "edit");
 		editButton.setOnclick("wurl='htmlarea/webface/htmledit.jsp?" + PREVIEW_ARTICLE_ITEM_ID + 
 					"='+this.tabindex;window.open(wurl,'Edit','height=450,width=600,resizable=yes,status=no,toolbar=no,menubar=no,location=no,scrollbars=no');return false;");
 		p.getChildren().add(WFUtil.group(WFUtil.group(bodyArea, WFUtil.getBreak()), editButton));
 		WFContainer imageContainer = new WFContainer();		
-		imageContainer.add(WFUtil.getButton(ADD_IMAGE_ID, "Add image", this));
+		imageContainer.add(WFUtil.getButtonVB(ADD_IMAGE_ID, bref + "add_image", this));
 		imageContainer.add(WFUtil.getBreak());
 		imageContainer.add(getImageList());
 		p.getChildren().add(imageContainer);
-		p.getChildren().add(WFUtil.getText("Source:"));		
-		p.getChildren().add(WFUtil.getText("Main category:"));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "source"), WFUtil.getText(":")));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "main_category"), WFUtil.getText(":")));		
 		HtmlInputTextarea sourceArea = WFUtil.getTextArea(SOURCE_ID, ref + "source", "440px", "30px");
 		p.getChildren().add(sourceArea);		
 		HtmlSelectOneMenu mainCategoryMenu = WFUtil.getSelectOneMenu(MAIN_CATEGORY_ID, ref + "categories", ref + "mainCategoryId");
@@ -203,22 +210,24 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		mainContainer.add(WFUtil.getBreak());
 		
 		p = WFPanelUtil.getPlainFormPanel(1);
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Created:"), WFUtil.getText(" 4/20/04 3:04 PM")));
+		p.getChildren().add(WFUtil.group(WFUtil.getHeaderTextVB(bref + "created"), WFUtil.getText(": 4/20/04 3:04 PM")));
 		p.getChildren().add(WFUtil.getText(" "));
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Status:"), WFUtil.getTextVB(ref + "status")));
+		UIComponent t = WFUtil.group(WFUtil.getHeaderTextVB(bref + "status"), WFUtil.getText(": "));
+		t.getChildren().add(WFUtil.getTextVB(ref + "status"));
+		p.getChildren().add(t);
 		p.getChildren().add(WFUtil.getText(" "));
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Current version:"), WFUtil.getText(" 1.5")));
+		p.getChildren().add(WFUtil.group(WFUtil.getHeaderTextVB(bref + "current_version"), WFUtil.getText(": 1.5")));
 		
 		mainContainer.add(p);
 		mainContainer.add(WFUtil.getBreak());
 		
 		p = WFPanelUtil.getFormPanel(2);		
-		p.getChildren().add(WFUtil.getText("Comment:"));		
-		p.getChildren().add(WFUtil.getText("Attachments:"));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "comment"), WFUtil.getText(":")));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "attachments"), WFUtil.getText(":")));		
 		HtmlInputTextarea commentArea = WFUtil.getTextArea(COMMENT_ID, ref + "comment", "400px", "60px");		
 		p.getChildren().add(commentArea);
 		WFContainer attachmentContainer = new WFContainer();		
-		attachmentContainer.add(WFUtil.getButton(ADD_ATTACHMENT_ID, "Add attachment", this));
+		attachmentContainer.add(WFUtil.getButtonVB(ADD_ATTACHMENT_ID, bref + "add_attachment", this));
 		attachmentContainer.add(WFUtil.getBreak());
 		attachmentContainer.add(getAttachmentList());
 		p.getChildren().add(attachmentContainer);
@@ -226,17 +235,17 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		mainContainer.add(p);
 		
 		p = WFPanelUtil.getFormPanel(1);
-		p.getChildren().add(WFUtil.getText("Related content items:"));
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "related_content_items"), WFUtil.getText(":")));		
 		WFContainer contentItemContainer = new WFContainer();		
-		contentItemContainer.add(WFUtil.getButton(ADD_RELATED_CONTENT_ITEM_ID, "Add content item", this));
+		contentItemContainer.add(WFUtil.getButtonVB(ADD_RELATED_CONTENT_ITEM_ID, bref + "add_content_item", this));
 		contentItemContainer.add(WFUtil.getBreak());
 		contentItemContainer.add(getRelatedContentItemsList());
 		p.getChildren().add(contentItemContainer);
-		p.getChildren().add(WFUtil.getText("Publishing date:"));
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "publishing_date"), WFUtil.getText(":")));		
 		WFDateInput publishedFromInput = WFUtil.getDateInput(PUBLISHED_FROM_DATE_ID, ref + "case.publishedFromDate");
 		publishedFromInput.setShowTime(true);
 		p.getChildren().add(publishedFromInput);
-		p.getChildren().add(WFUtil.getText("Expiration date:"));
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "expiration_date"), WFUtil.getText(":")));		
 		WFDateInput publishedToInput = WFUtil.getDateInput(PUBLISHED_TO_DATE_ID, ref + "case.publishedToDate");
 		publishedToInput.setShowTime(true);
 		p.getChildren().add(publishedToInput);
@@ -245,20 +254,20 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		mainContainer.add(WFUtil.getBreak());
 
 		p = WFPanelUtil.getPlainFormPanel(1);
-		HtmlCommandButton editCategoriesButton = WFUtil.getButton(EDIT_CATEGORIES_ID, "Edit categories", this);
+		HtmlCommandButton editCategoriesButton = WFUtil.getButtonVB(EDIT_CATEGORIES_ID, bref + "edit_categories", this);
 		p.getChildren().add(editCategoriesButton);
 		p.getChildren().add(WFUtil.getBreak());
 		WFComponentSelector cs = new WFComponentSelector();
 		cs.setId(BUTTON_SELECTOR_ID);
 		cs.setDividerText(" ");
-		HtmlCommandButton saveButton = WFUtil.getButton(SAVE_ID, "Save", this);
+		HtmlCommandButton saveButton = WFUtil.getButtonVB(SAVE_ID, bref + "save", this);
 		cs.add(saveButton);
-		cs.add(WFUtil.getButton(FOR_REVIEW_ID, "For review", this));
-		cs.add(WFUtil.getButton(PUBLISH_ID, "Publish", this));
-		cs.add(WFUtil.getButton(REWRITE_ID, "Rewrite", this));
-		cs.add(WFUtil.getButton(REJECT_ID, "Reject", this));
-		cs.add(WFUtil.getButton(DELETE_ID, "Delete", this));
-		cs.add(WFUtil.getButton(CANCEL_ID, "Cancel", this));
+		cs.add(WFUtil.getButtonVB(FOR_REVIEW_ID, bref + "for_review", this));
+		cs.add(WFUtil.getButtonVB(PUBLISH_ID, bref + "publish", this));
+		cs.add(WFUtil.getButtonVB(REWRITE_ID, bref + "rewrite", this));
+		cs.add(WFUtil.getButtonVB(REJECT_ID, bref + "reject", this));
+		cs.add(WFUtil.getButtonVB(DELETE_ID, bref + "delete", this));
+		cs.add(WFUtil.getButtonVB(CANCEL_ID, bref + "cancel", this));
 		cs.setSelectedId(CANCEL_ID, true);
 		p.getChildren().add(cs);
 		
@@ -282,6 +291,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Returns a list with images for the article.
 	 */
 	private UIComponent getImageList() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		String var = "article_images";
 		HtmlDataTable t = new HtmlDataTable();
 		t.setVar(var);
@@ -296,7 +306,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		t.getChildren().add(col);
 		
 		col = new UIColumn();
-		HtmlCommandButton removeButton = WFUtil.getButton(REMOVE_IMAGE_ID, "Remove", this);
+		HtmlCommandButton removeButton = WFUtil.getButtonVB(REMOVE_IMAGE_ID, bref + "remove", this);
 		removeButton.setOnclick("return confirm('Are you sure you want to remove the image?');return false;");
 		WFUtil.addParameterVB(removeButton, "image_no", var + ".orderNoString");
 		col.getChildren().add(removeButton);
@@ -309,6 +319,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Returns a list with attachment links for the article.
 	 */
 	private UIComponent getAttachmentList() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		String var = "article_attachment";
 		HtmlDataTable t = new HtmlDataTable();
 		t.setVar(var);
@@ -322,8 +333,8 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		t.getChildren().add(col);
 		
 		col = new UIColumn();
-		HtmlCommandButton removeButton = WFUtil.getButton(REMOVE_ATTACHMENT_ID, "Remove", this);
-		removeButton.setOnclick("return confirm('Are you sure you want to remove the attachment?');return false;");
+		HtmlCommandButton removeButton = WFUtil.getButtonVB(REMOVE_ATTACHMENT_ID, bref + "remove", this);
+		removeButton.setValueBinding("onclick", WFUtil.createValueBinding("#{" + bref + "onclick_remove_attachment}"));
 		WFUtil.addParameterVB(removeButton, "attachment_no", var + ".orderNoString");
 		col.getChildren().add(removeButton);
 		t.getChildren().add(col);
@@ -335,6 +346,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Returns a list with realted content item links for the article.
 	 */
 	private UIComponent getRelatedContentItemsList() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		String var = "article_related_items";
 		HtmlDataTable t = new HtmlDataTable();
 		t.setVar(var);
@@ -353,9 +365,9 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		t.getChildren().add(col);
 		
 		col = new UIColumn();
-		HtmlCommandButton removeButton = WFUtil.getButton(REMOVE_RELATED_CONTENT_ITEM_ID, "Remove", this);
+		HtmlCommandButton removeButton = WFUtil.getButtonVB(REMOVE_RELATED_CONTENT_ITEM_ID, bref + "remove", this);
 		WFUtil.addParameterVB(removeButton, "item_id", var + ".value");
-		removeButton.setOnclick("return confirm('Are you sure you want to remove the reference to the content item?');return false;");
+		removeButton.setValueBinding("onclick", WFUtil.createValueBinding("#{" + bref + "onclick_remove_related_content_item}"));
 		WFUtil.addParameterVB(removeButton, "related_item_no", var + ".orderNoString");
 		col.getChildren().add(removeButton);
 		t.getChildren().add(col);
@@ -368,12 +380,13 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 */
 	private UIComponent getCategoryEditContainer() {
 		String ref = ARTICLE_ITEM_BEAN_ID + ".";
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 
 		HtmlPanelGrid p = WFPanelUtil.getFormPanel(3);
 		p.setId(CATEGORY_EDITOR_ID);
-		p.getChildren().add(WFUtil.getText("Available categories:"));		
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "available_categories"), WFUtil.getText(":")));		
 		p.getChildren().add(WFUtil.getText(" "));		
-		p.getChildren().add(WFUtil.getText("Categories for this article:"));
+		p.getChildren().add(WFUtil.group(WFUtil.getTextVB(bref + "categories_for_this_article"), WFUtil.getText(":")));
 		WFContainer c = new WFContainer();
 		HtmlSelectManyListbox availableCategories = WFUtil.getSelectManyListbox(AVAILABLE_CATEGORIES_ID,
 				ref + "availableCategories", ref + "selectedAvailableCategories");
@@ -381,7 +394,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		availableCategories.setConverter(new IntegerConverter());
 		c.add(availableCategories);
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getButton(CATEGORY_BACK_ID, "Back", this));
+		c.add(WFUtil.getButtonVB(CATEGORY_BACK_ID, bref + "back", this));
 		p.getChildren().add(c);		
 		c = new WFContainer();
 		c.add(WFUtil.getBreak());
@@ -402,6 +415,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Returns container with form for selecting related content items.
 	 */
 	private UIComponent getRelatedContentItemsContainer() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		WFContainer c = new WFContainer();
 		c.setId(RELATED_CONTENT_ITEMS_EDITOR_ID);
 		WFUtil.invoke(RELATED_ITEMS_LIST_BEAN_ID, "setCaseLinkListener", this, ActionListener.class);
@@ -410,7 +424,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		c.add(l);
 		c.add(WFUtil.getBreak());
 		c.add(new WFPlainOutputText("&nbsp;&nbsp;&nbsp;"));
-		c.add(WFUtil.getButton(RELATED_CONTENT_ITEMS_CANCEL_ID, "Cancel", this));
+		c.add(WFUtil.getButtonVB(RELATED_CONTENT_ITEMS_CANCEL_ID, bref + "cancel", this));
 		return c;
 	}
 	
@@ -485,6 +499,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 */
 	private UIComponent getPreviewContainer() {
 		String ref = ARTICLE_ITEM_BEAN_ID + ".";
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 
 		HtmlPanelGrid p = WFPanelUtil.getPlainFormPanel(1);
 		p.getChildren().add(WFUtil.getHeaderTextVB(ref + "headline"));
@@ -495,22 +510,36 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		WFUtil.setValueBinding(bodyText, "value", ref + "body");
 		p.getChildren().add(bodyText);
 		p.getChildren().add(WFUtil.getBreak());		
-		p.getChildren().add(new WFPlainOutputText("<hr/>"));		
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Author: "), WFUtil.getTextVB(ref + "author")));
+		p.getChildren().add(new WFPlainOutputText("<hr/>"));
+		UIComponent g = WFUtil.group(WFUtil.getHeaderTextVB(bref + "author"), WFUtil.getHeaderText(": ")); 
+		g.getChildren().add(WFUtil.getTextVB(ref + "author"));
+		p.getChildren().add(g);
 		p.getChildren().add(WFUtil.getText(" "));
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Created: "), WFUtil.getText("4/20/04 3:04 PM")));
+		g = WFUtil.group(WFUtil.getHeaderTextVB(bref + "created"), WFUtil.getHeaderText(": "));
+		g.getChildren().add(WFUtil.getText("4/20/04 3:04 PM"));
+		p.getChildren().add(g);
 		p.getChildren().add(WFUtil.getText(" "));
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Status: "), WFUtil.getTextVB(ref + "status")));
+		g = WFUtil.group(WFUtil.getHeaderTextVB(bref + "status"), WFUtil.getHeaderText(": "));
+		g.getChildren().add(WFUtil.getTextVB(ref + "status"));
+		p.getChildren().add(g);
 		p.getChildren().add(WFUtil.getText(" "));
 		HtmlOutputText t = WFUtil.getTextVB(ref + "categoryNames");
-		t.setConverter(new WFCommaSeparatedListConverter());		
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Categories: "), t));
+		t.setConverter(new WFCommaSeparatedListConverter());
+		g = WFUtil.group(WFUtil.getHeaderTextVB(bref + "categories"), WFUtil.getHeaderText(": "));
+		g.getChildren().add(t);
+		p.getChildren().add(g);
 		p.getChildren().add(WFUtil.getText(" "));
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Current version: "), WFUtil.getText("1.5")));
+		g = WFUtil.group(WFUtil.getHeaderTextVB(bref + "current_version"), WFUtil.getHeaderText(": "));
+		g.getChildren().add(WFUtil.getText("1.5"));
+		p.getChildren().add(g);
 		p.getChildren().add(WFUtil.getText(" "));
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Comment: "), WFUtil.getTextVB(ref + "comment")));
+		g = WFUtil.group(WFUtil.getHeaderTextVB(bref + "comment"), WFUtil.getHeaderText(": "));
+		g.getChildren().add(WFUtil.getTextVB(ref + "comment"));
+		p.getChildren().add(g);
 		p.getChildren().add(WFUtil.getText(" "));
-		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Source: "), WFUtil.getTextVB(ref + "source")));
+		g = WFUtil.group(WFUtil.getHeaderText("source"), WFUtil.getHeaderText(": "));
+		g.getChildren().add(WFUtil.getTextVB(ref + "source"));
+		p.getChildren().add(g);
 		p.getChildren().add(WFUtil.getText(" "));
 				
 		return p;
@@ -520,8 +549,11 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Creates a message container for the article.
 	 */
 	private UIComponent getMessageContainer() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		WFContainer c = new WFContainer();
-		c.add(WFUtil.getText(USER_MESSAGE_ID, "No messages."));		
+		HtmlOutputText t = WFUtil.getTextVB(bref + "no_messages");
+		t.setId(USER_MESSAGE_ID);
+		c.add(t);		
 		return c;
 	}
 
@@ -619,26 +651,28 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Stores the current article. 
 	 */
 	public void storeArticle() {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		boolean storeOk = ((Boolean) WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "store")).booleanValue();
 		if (!storeOk) {
 			List errorKeys = (List) WFUtil.getValue(ARTICLE_ITEM_BEAN_ID, "errorKeys");
 			if (errorKeys != null) {
 				for (Iterator iter = errorKeys.iterator(); iter.hasNext();) {
 					String errorKey = (String) iter.next();
-					WFUtil.addLocalizedMessage(findComponent(SAVE_ID), errorKey);
+					WFUtil.addMessageVB(findComponent(SAVE_ID), bref + errorKey);
 				}
 			}
 			return;
 		}
-		setUserMessage("Article saved.");
+		setUserMessage("article_saved");
 	}
 	
 	/*
 	 * Sets the text in the message task container. 
 	 */
-	private void setUserMessage(String message) {
+	private void setUserMessage(String ref) {
+		String bref = WFPage.CONTENT_BUNDLE + ".";
 		HtmlOutputText t = (HtmlOutputText) findComponent(USER_MESSAGE_ID);
-		t.setValue(message);
+		t.setValueBinding("value", WFUtil.createValueBinding("#{" + bref + ref + "}"));
 		setMessageMode();
 	}
 	
