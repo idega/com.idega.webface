@@ -1,6 +1,7 @@
 package com.idega.webface;
 import java.io.IOException;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -143,6 +144,7 @@ public class WFContainer extends IWBaseComponent
 	 */
 	public void encodeBegin(FacesContext ctx) throws IOException {
 		ResponseWriter out = ctx.getResponseWriter();
+		out.write("<link type=\"text/css\" href=\"style/webfacestyle.css\" rel=\"stylesheet\">");
 		//RenderUtils.ensureAllTagsFinished();
 		out.startElement(getMarkupElementType(),this);
 		if(this.getStyleClass()!=null){
@@ -167,6 +169,37 @@ public class WFContainer extends IWBaseComponent
 		ResponseWriter out = ctx.getResponseWriter();
 		// TODO Auto-generated method stub
 		out.endElement(getMarkupElementType());
+	}
+	
+	/**
+	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
+	 */
+	public Object saveState(FacesContext ctx) {
+		Object values[] = new Object[2];
+		values[0] = super.saveState(ctx);
+		values[1] = getStyleAttribute();
+		return values;
+	}
+	
+	/**
+	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
+	 */
+	public void restoreState(FacesContext ctx, Object state) {
+		Object values[] = (Object[])state;
+		super.restoreState(ctx, values[0]);
+		setStyleAttribute((String) values[1]);
+	}
+	
+	/**
+	 * Render the specified facet.
+	 */
+	protected void renderFacet(FacesContext context, String facetName) throws IOException {
+		UIComponent facet = (UIComponent) (getFacets().get(facetName));
+		if (facet != null) {
+			facet.encodeBegin(context);
+			facet.encodeChildren(context);
+			facet.encodeEnd(context);
+		}
 	}
 	
 	protected String getMarkupElementType(){

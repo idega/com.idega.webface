@@ -192,7 +192,7 @@ public class WFToolbarButton extends UICommand {
 	public void decode(FacesContext context) {
 		String buttonId = getClientId(context);
 		String inputValue =	(String) context.getExternalContext().getRequestParameterMap().get(buttonId);
-		if (inputValue.equals("true")) {
+		if (inputValue != null && inputValue.equals("true")) {
 			ActionEvent event = new ActionEvent(this);
 			queueEvent(event);
 		}

@@ -5,13 +5,7 @@ package com.idega.webface;
 
 import java.io.IOException;
 
-import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 
 /**
  * WFBlock //TODO: tryggvil Describe class
@@ -19,12 +13,8 @@ import javax.faces.event.ActionListener;
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
  */
-public class WFBlock extends WFContainer implements ActionListener
+public class WFBlock extends WFContainer
 {
-	private final static String ACTION_BACK = "back"; // temp test
-	
-	private WFTitlebar titlebar;
-	private WFToolbar toolbar;
 	private WFContainer mainArea;
 	private boolean toolbarEmbeddedInTitlebar=true;
 	
@@ -48,26 +38,32 @@ public class WFBlock extends WFContainer implements ActionListener
 		WFToolbar toolbar = new WFToolbar();
 		this.setToolbar(toolbar);
 		
-		WFBackButton backButton = new WFBackButton();
-		backButton.setId(ACTION_BACK);
-		backButton.setValue("back button");
-		backButton.addActionListener(this);
-		toolbar.addButton(backButton);
+		toolbar.addButton(new WFBackButton());
 		toolbar.addButton(new WFForwardButton());
-		toolbar.addButton(new WFStopButton());
+//		toolbar.addButton(new WFStopButton());
+		toolbar.addButton(new WFHelpButton());
+		toolbar.addButton(new WFCloseButton());
 	}
 
 	/**
 	 * @return
 	 */
 	public WFTitlebar getTitlebar() {
-		return titlebar;
+		return (WFTitlebar) getFacets().get("titlebar");
 	}
 
 	/**
 	 * @return
 	 */
 	public WFToolbar getToolbar() {
+		WFToolbar toolbar = null;
+		if (isToolbarEmbeddedInTitlebar()) {
+			if (getTitlebar() != null) {
+				toolbar = getTitlebar().getEmbeddedToolbar();
+			}
+		} else {
+			toolbar = (WFToolbar) getFacets().get("toolbar");
+		}
 		return toolbar;
 	}
 
@@ -75,31 +71,41 @@ public class WFBlock extends WFContainer implements ActionListener
 	 * @param titlebar
 	 */
 	public void setTitlebar(WFTitlebar titlebar) {
-		this.titlebar = titlebar;
-		getChildren().add(titlebar);
+		getFacets().put("titlebar", titlebar);
 	}
 
 	/**
 	 * @param toolbar
 	 */
 	public void setToolbar(WFToolbar toolbar) {
-		this.toolbar = toolbar;
-		titlebar.setEmbeddedToolbar(toolbar);
+		if (isToolbarEmbeddedInTitlebar()) {
+			if (getTitlebar() != null) {
+				getFacets().remove("toolbar");
+				getTitlebar().setEmbeddedToolbar(toolbar);
+			}
+		} else {
+			if (getTitlebar() != null) {
+				getTitlebar().removeEmbeddedToolbar();
+			}			
+			getFacets().put("toolbar", toolbar);
+		}
 	}
 
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
-		ResponseWriter out = context.getResponseWriter();
-		out.write("<link type=\"text/css\" href=\"style/webfacestyle.css\" rel=\"stylesheet\">");
 		super.encodeBegin(context);
+		if (!isToolbarEmbeddedInTitlebar()) {
+			renderFacet(context, "toolbar");
+		}
+		renderFacet(context, "titlebar");
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
-	public void encodeChildren(FacesContext context) throws IOException {
+	public void encodeChildren(FacesContext context) throws IOException {		
 		super.encodeChildren(context);
 	}
 	
@@ -121,17 +127,20 @@ public class WFBlock extends WFContainer implements ActionListener
 	 * @param toolbarEmbeddedInTitlebar the toolbarEmbeddedInTitlebar to set
 	 */
 	public void setToolbarEmbeddedInTitlebar(boolean toolbarEmbeddedInTitlebar) {
+		WFToolbar toolbar = getToolbar();
 		this.toolbarEmbeddedInTitlebar = toolbarEmbeddedInTitlebar;
+		if (toolbar != null) {
+			setToolbar(toolbar);
+		}
 	}
 	
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[3];
+		Object values[] = new Object[2];
 		values[0] = super.saveState(ctx);
-		values[1] = titlebar;
-		values[2] = toolbar;
+		values[1] = new Boolean(toolbarEmbeddedInTitlebar);
 		return values;
 	}
 	
@@ -141,20 +150,6 @@ public class WFBlock extends WFContainer implements ActionListener
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		titlebar = (WFTitlebar) values[1];
-		toolbar = (WFToolbar) values[2];
-	}
-
-	/**
-	 * @see javax.faces.event.ActionListener#processAction(javax.faces.event.ActionEvent)
-	 */
-	public void processAction(ActionEvent event) throws AbortProcessingException {
-		UIComponent source = event.getComponent();
-		if (source.getId().equals(ACTION_BACK)) {
-			System.out.println("EVENT: back button clicked");
-			HtmlOutputText text = new HtmlOutputText();
-			text.setValue("back ");
-			source.getParent().getParent().getParent().getChildren().add(text);
-		}
+		toolbarEmbeddedInTitlebar = ((Boolean) values[1]).booleanValue();
 	}
 }

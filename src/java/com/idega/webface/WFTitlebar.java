@@ -20,7 +20,6 @@ public class WFTitlebar extends WFContainer implements Serializable
 	private boolean viewWithTitleBar=true;
 
 	private WFToolbar defaultToolbar;
-	private WFToolbar embeddedToolbar;
 
 	private String titleText="Untitled";
 	private String titlebarColor;
@@ -119,15 +118,21 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @return Returns the embeddedToolbar.
 	 */
 	public WFToolbar getEmbeddedToolbar() {
-		return embeddedToolbar;
+		return (WFToolbar) getFacets().get("toolbar");
 	}
 
 	/**
 	 * @param embeddedToolbar The embeddedToolbar to set.
 	 */
 	public void setEmbeddedToolbar(WFToolbar embeddedToolbar) {
-		this.embeddedToolbar = embeddedToolbar;
-		getChildren().add(embeddedToolbar);
+		getFacets().put("toolbar", embeddedToolbar);
+	}
+
+	/**
+	 * @param embeddedToolbar The embeddedToolbar to set.
+	 */
+	public void removeEmbeddedToolbar() {
+		getFacets().remove("toolbar");
 	}
 
 	/**
@@ -166,12 +171,13 @@ public class WFTitlebar extends WFContainer implements Serializable
 		out.startElement("td", null);
 		out.writeAttribute("nowrap", "true", null);
 		out.write("");
+		renderFacet(context, "toolbar");
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
-	public void encodeChildren(FacesContext context) throws IOException {
+	public void encodeChildren(FacesContext context) throws IOException {		
 		super.encodeChildren(context);
 	}
 	
@@ -189,10 +195,9 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[3];
+		Object values[] = new Object[2];
 		values[0] = super.saveState(ctx);
 		values[1] = titleText;
-		values[2] = embeddedToolbar;
 		return values;
 	}
 	
@@ -203,7 +208,6 @@ public class WFTitlebar extends WFContainer implements Serializable
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
 		titleText = (String) values[1];
-		embeddedToolbar = (WFToolbar) values[2];
 	}
 
 	protected String getMarkupElementType(){
