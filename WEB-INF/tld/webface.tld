@@ -29,6 +29,25 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
+	<tag>
+		<name>webview</name>
+		<tag-class>com.idega.webface.WFWebViewTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>simpledocumentsview</name>
+		<tag-class>com.idega.webface.WFSimpleDocumentsView</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
 
 	<tag>
 		<name>htmlarea</name>

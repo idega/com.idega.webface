@@ -15,6 +15,16 @@
 		<component-type>WFBlock</component-type>
 		<component-class>com.idega.webface.WFBlock</component-class>
 	</component>
+	
+	<component>
+		<component-type>WFSimpleDocumentsView</component-type>
+		<component-class>com.idega.webface.WFSimpleDocumentsView</component-class>
+	</component>
+	
+	<component>
+		<component-type>WFWebView</component-type>
+		<component-class>com.idega.webface.WFWebView</component-class>
+	</component>	
 
 	<component>
 		<component-type>HTMLArea</component-type>

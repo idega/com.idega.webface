@@ -92,7 +92,7 @@ public class WorkspaceBar extends WFContainer implements  Serializable{
 		div.setStyleClass("wf_appdecor");
 		add(div);
 		WFPlainOutputText text = new WFPlainOutputText();
-		text.setValue("idega<i>Web</i>");
+		text.setValue("<i>e</i>Platform");
 		div.add(text);
 	}
 
