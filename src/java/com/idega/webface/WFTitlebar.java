@@ -188,7 +188,6 @@ public class WFTitlebar extends WFContainer implements Serializable
 	}
 
 	public void setToolTip(String toolTip) {
-		System.out.println("ToolTip set to "+toolTip);
 		this.toolTip = toolTip;
 	}
 	
