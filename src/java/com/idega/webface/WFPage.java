@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.7 2004/10/21 11:33:02 joakim Exp $
+ * $Id: WFPage.java,v 1.8 2004/10/26 16:03:39 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -24,15 +24,15 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import com.idega.faces.IWBaseComponent;
+import com.idega.presentation.IWBaseComponent;
 
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/10/21 11:33:02 $ by $Author: joakim $
+ * Last modified: $Date: 2004/10/26 16:03:39 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class WFPage extends IWBaseComponent {
 

@@ -1,7 +1,7 @@
 package com.idega.webface;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
-import com.idega.faces.IWBaseComponent;
+import com.idega.presentation.IWBaseComponent;
 import com.idega.util.RenderUtils;
 /**
  * Title:        idegaclasses
