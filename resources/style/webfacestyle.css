@@ -23,7 +23,7 @@
 }
 
 .wf_smalltext {
-        font-family: Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
 }
 
@@ -91,7 +91,7 @@
 	border-right-style: solid;
 	border-bottom-style: solid;
 	border-left-style: solid;
-        border-color: #D3D3D3;
+	border-color: #D3D3D3;
 	height: 24px;
 	width: 100%;
 	margin:0px;
@@ -102,10 +102,10 @@
 }
 
 .wf_titlebartext {	
-        color: #000000;
+	color: #000000;
 	text-align: left;
-        font-weight: bold;
-        font-size: 11px;
+	font-weight: bold;
+	font-size: 11px;
 	vertical-align: middle;
 }
 
@@ -113,12 +113,12 @@
 	border-spacing: 0px;
 	padding: 0px;
 	float: right;
-        border-bottom: 1px;
-        border-color: #D3D3D3;
+	border-bottom: 1px;
+	border-color: #D3D3D3;
 }
 
 .wf_list {
-        background-color: #FFFFFF;
+	background-color: #FFFFFF;
 	padding: 0px;
 	width: 100%;
 }
@@ -140,43 +140,43 @@
 	background-color: #ffffff;
   	font-weight: bold;
 	font-size: 11px;
-        color:#4a4a4a;
-        padding-bottom:4px;
-        padding-top:4px;
-        text-align:left;
+	color:#4a4a4a;
+	padding-bottom:4px;
+	padding-top:4px;
+	text-align:left;
 }
 
 .wf_listheaderlink {
 	background-color: #ffffff;
   	font-weight: bold;
 	font-size: 11px;
-        color:#4a4a4a;
-        padding-bottom:4px;
-        padding-top:4px;
-        text-align:left;
-        text-decoration:underline;
+	color:#4a4a4a;
+	padding-bottom:4px;
+	padding-top:4px;
+	text-align:left;
+	text-decoration:underline;
 }
 
 .wf_listheaderlink_clicked {
 	background-color: #ffffff;
   	font-weight: bold;
 	font-size: 11px;
-        color: #7b4040;
-        padding-bottom:4px;
-        padding-top:4px;
-        text-align:left;
-        text-decoration:underline;
+	color: #7b4040;
+	padding-bottom:4px;
+	padding-top:4px;
+	text-align:left;
+	text-decoration:underline;
 }
 
 .wf_listheaderlink_clicked_descending {
 	background-color: #ffffff;
   	font-weight: bold;
 	font-size: 11px;
-        color: #3b6f44;
-        padding-bottom:4px;
-        padding-top:4px;
-        text-align:left;
-        text-decoration:underline;
+	color: #3b6f44;
+	padding-bottom:4px;
+	padding-top:4px;
+	text-align:left;
+	text-decoration:underline;
 }
 
 .wf_listevenrow {
@@ -207,14 +207,14 @@
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
   	font-weight: normal;
-        color:#414141;
+	color:#414141;
 }
 
 .wf_listlink:hover {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
   	font-weight: normal;
-        color:#414141;
+	color:#414141;
 }
 
 .wf_listtext {
@@ -233,16 +233,16 @@
 	margin: 1px 1px 1px 1px;
 }
 
-.wf_viewmenubuttonselected,.wf_viewmenubuttondeselected, .wf_menuheader{
+.wf_viewmenubuttonselected,.wf_viewmenubuttondeselected, .wf_menuheader {
 	padding: 4px 4px 4px 15px;
 	vertical-align: middle;
 	margin:0px;
 	list-style: none;
 }
 
-wf_viewmenubuttondeselected .wf_viewmenu{
+wf_viewmenubuttondeselected .wf_viewmenu {
 	padding: 0px 0px 0px 0px;
-        #background-image:none;
+	#background-image:none;
 }
 
 .wf_viewmenubuttonselected {
@@ -252,8 +252,8 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	border-right: 1px solid #FFFFFF;
 	background-color: none;
 	font-color: #FFFFFF;
-        background-image: url(images/blueover_tile.gif);
-        background-repeat: repeat-x;
+	background-image: url(images/blueover_tile.gif);
+	background-repeat: repeat-x;
 }
 
 .wf_viewmenubuttondeselected a {
@@ -263,9 +263,9 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 
 .wf_viewmenubuttondeselected:hover {
 	color: #white;
-        background-image: url(images/blueover_tile.gif);
-        background-repeat: repeat-x;
-        border-bottom: 1px solid #FFFFFF;
+	background-image: url(images/blueover_tile.gif);
+	background-repeat: repeat-x;
+	border-bottom: 1px solid #FFFFFF;
 	border-right: 1px solid #FFFFFF;
 	border-top: 1px solid #848284;
 	border-left: 1px solid #848284;
@@ -299,11 +299,11 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 .wf_tabbar {
 	margin: 0;
 	padding: 0;
-         #width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
-	 width: 100%;
-        height:24px;        
-        background-image: url(images/greybar_tile.gif);
-        background-repeat: repeat-x;
+	#width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
+	width: 100%;
+	height:24px;        
+	background-image: url(images/greybar_tile.gif);
+	background-repeat: repeat-x;
 }
 
 .wf_tabbarbuttonselected a {
@@ -313,15 +313,13 @@ wf_viewmenubuttondeselected .wf_viewmenu{
         font-color: #4D4D4D;
 }
 
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected
-{
+.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected {
 	display: inline;
 	list-style: none;
 }
 
 
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a
-{
+.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a {
 	width: 7em;
 	display: block;
 	float: right;
@@ -329,28 +327,26 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	margin: 0px;
 	text-align: center;
 	font-family: Arial, Helvetica, sans-serif;
-        font-size: 12px;
+	font-size: 12px;
 	text-decoration: none;
-        #font-weight:bold;
+	#font-weight:bold;
 	border-left: 1px solid #C4C4C4;
 }
 
-.wf_tabbarbuttondeselected a 
-{
+.wf_tabbarbuttondeselected a {
 	#border-bottom: none;
-        font-color: #4D4D4D;
-        background-image: url(images/greybar_tile.gif);
-        background-repeat: repeat-x;
+	font-color: #4D4D4D;
+	background-image: url(images/greybar_tile.gif);
+	background-repeat: repeat-x;
  
 }
 
-.wf_tabbarbuttondeselected a:hover
-{
+.wf_tabbarbuttondeselected a:hover {
 	margin-top: -2;
 	background-color: #F1F1F1;
 	padding-bottom: 5px;
-        font-color: #4D4D4D;
-        #background-image: none;
+	font-color: #4D4D4D;
+	#background-image: none;
 }
 
 /*End TabBar*/
@@ -446,8 +442,7 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 
 /*Bezel Begin*/
 
-.wf_bezel
-{
+.wf_bezel{
 	margin: 10px;
 	border: 1px solid #848284;
 	padding: 30px;
@@ -504,24 +499,31 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	margin: 4.5em 0em 0em 200px;
 }
 
+/** hacks to get full width effect BEGIN**/
 .ws_main .wf_frame {
-   margin: 0em 0em 0em -200px;
+	margin: 0em 0em 0em -200px;
 }
 
+.ws_main .wf_frame .wf_titlebar{
+	visibility: hidden;
+	margin-top:-20px;
+}
+/** hacks to get full width effect END**/
+
 .wf_workspacebar{
-        background-color:#38485C;
+	background-color:#38485C;
 	#color: white;
 	height: 32px;
-        border-bottom: 10px;
-        border-color: #42556D;
+	border-bottom: 10px;
+	border-color: #42556D;
 }
 
 .wf_appdecor{
 	display:block;
-        height: 32px;
-        width: 100px;
- background-image: url(images/eplatform.gif);
-        background-repeat: no-repeat;
+	height: 32px;
+	width: 100px;
+	background-image: url(images/eplatform.gif);
+	background-repeat: no-repeat;
 }
 
 .wf_appdecor i{
