@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.1 2004/05/13 13:56:10 anders Exp $
+ * $Id: WFList.java,v 1.2 2004/05/27 12:40:46 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -12,36 +12,35 @@ package com.idega.webface;
 import java.io.IOException;
 
 import javax.faces.component.NamingContainer;
+import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
+import javax.faces.component.html.HtmlDataTable;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
+import com.idega.webface.bean.WFListBean;
 import com.idega.webface.event.WFListNavigationEvent;
 import com.idega.webface.event.WFListNavigationListener;
 
 /**
- * ...  
+ * Renders child components in a list. Supports automatic list navigation and 
+ * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2004/05/13 13:56:10 $ by $Author: anders $
+ * Last modified: $Date: 2004/05/27 12:40:46 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class WFList extends WFContainer implements ActionListener, NamingContainer {
+public class WFList extends HtmlDataTable implements ActionListener, NamingContainer {
 	
-	private int _columns = 0;
-	private int _rows = 0;
-	private int _row = 0;
-	private int _maxDisplayRows = 0;
 	private boolean _showListNavigation = true;
 	private String _listStyleClass = null;
-	private String _columnHeadingStyleClass = null;
-	private String _evenRowStyleClass = null;
-	private String _oddRowStyleClass = null;
+	private WFListBean _listBean = null;
 
 	private final static String ACTION_PREVIOUS = "previous";
 	private final static String ACTION_NEXT = "next";
@@ -53,48 +52,34 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 	 * Default contructor.
 	 */
 	public WFList() {
+		super();
+		setVar("var");
 		setListStyleClass("wf_list");
-		setColumnHeadingStyleClass("wf_listheading");
-		setEvenRowStyleClass("wf_listevenrow");
-		setOddRowStyleClass("wf_listoddrow");
-		setRow(1);
+		this.setStyleClass("wf_listtable");
+		this.setHeaderClass("wf_listheading");
+		this.setRowClasses("wf_listoddrow,wf_listevenrow");
 	}
 	
 	/**
-	 * Constructs a WFList with the specified number of columns.
+	 * Constructs a new WFList component with the specified list bean as data source.
 	 */
-	public WFList(int columns) {
+	public WFList(WFListBean listBean, String var, int first, int rows) {
 		this();
-		setColumns(columns);
+		setVar(var);
+		setListBean(listBean);
+		UIColumn[] columns = listBean.createColumns(var);
+		for (int i = 0; i < columns.length; i++) {
+			addColumn(columns[i]);
+		}
+		setRows(rows);
+		setFirst(first);
 	}
 		
 	/**
-	 * Returns the number of columns for this list.
+	 * @see javax.faces.component.UIComponent#getRenderType()
 	 */
-	public int getColumns() {
-		return _columns;
-	}
-		
-	/**
-	 * Returns the number of rows for this list.
-	 */
-	public int getRows() {
-		return _rows;
-	}
-		
-	/**
-	 * Returns the current start display row for this list.
-	 */
-	public int getRow() {
-		return _row;
-	}
-		
-	/**
-	 * Returns the maximum number of rows to display for this list.
-	 * If this value is less than 1 then all rows in the list will be displayed.
-	 */
-	public int getMaxDisplayRows() {
-		return _maxDisplayRows;
+	public String getRenderType() {
+		return null;
 	}
 		
 	/**
@@ -102,6 +87,13 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 	 */
 	public boolean getShowListNavigation() {
 		return _showListNavigation;
+	}
+		
+	/**
+	 * Returns the list bean for this list.
+	 */
+	public WFListBean getListBean() {
+		return _listBean;
 	}
 
 	/**
@@ -112,56 +104,24 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 	}
 
 	/**
-	 * Returns the css class for column headings.
-	 */
-	public String getColumnHeadingStyleClass() {
-		return _columnHeadingStyleClass;
-	}
-
-	/**
-	 * Returns the css class for even rows.
-	 */
-	public String getEvenRowStyleClass() {
-		return _evenRowStyleClass;
-	}
-
-	/**
-	 * Returns the css class for odd rows.
-	 */
-	public String getOddRowStyleClass() {
-		return _oddRowStyleClass;
-	}
-
-	/**
-	 * Sets the number of columns for this list. 
-	 */
-	public void setColumns(int columns) {
-		_columns = columns;
-	}
-
-	/**
-	 * Sets the number of rows for this list. 
-	 */
-	public void setRows(int rows) {
-		_rows = rows;
-	}
-
-	/**
 	 * Sets the current start display row for this list.
 	 */
-	public void setRow(int row) {
-		_row = row;
-		if (_maxDisplayRows > 0) {
+	public void setFirst(int first) {
+		super.setFirst(first);
+		if (getRows() > 0) {
 			setListNavigationLinks();			
+		}
+		if (_listBean != null) {
+			this.setValue(_listBean.updateDataModel(getFirst(), getRows())); 
 		}
 	}
 
 	/**
 	 * Sets the maximum number of rows to display for this list.
-	 * If this value is set to less than 1 then all rows in the list will be displayed.
+	 * If this value is set to 0 then all rows from first row in the list will be displayed.
 	 */
-	public void setMaxDisplayRows(int maxDisplayRows) {
-		_maxDisplayRows = maxDisplayRows;
+	public void setRows(int rows) {
+		super.setRows(rows);
 		setListNavigationLinks();
 	}
 
@@ -173,6 +133,13 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 	}
 
 	/**
+	 * Sets the list bean for this list. 
+	 */
+	public void setListBean(WFListBean listBean) {
+		_listBean = listBean;
+	}
+
+	/**
 	 * Sets the css class for this list. 
 	 */
 	public void setListStyleClass(String listStyleClass) {
@@ -180,130 +147,64 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 	}
 
 	/**
-	 * Sets the css class for column headings. 
+	 * Adds a column to this list.
 	 */
-	public void setColumnHeadingStyleClass(String columnHeadingStyleClass) {
-		_columnHeadingStyleClass = columnHeadingStyleClass;
+	public void addColumn(UIColumn column) {
+		getChildren().add(column);
 	}
 
 	/**
-	 * Sets the css class for even rows. 
+	 * Adds a text column to this list with the specified parameters.
+	 * @param header the column header text
+	 * @param propertyName the name of the bean property for the row text 
 	 */
-	public void setEvenRowStyleClass(String evenRowStyleClass) {
-		_evenRowStyleClass = evenRowStyleClass;
+	public void addTextColumn(String header, String propertyName) {
+		UIColumn c = new UIColumn();
+		c.setHeader(WFUtil.getText(header));
+		HtmlOutputText t = new HtmlOutputText();
+		t.setValueBinding("value", WFUtil.createValueBinding("#{" + getVar() + "." + propertyName + "}"));
+		c.getChildren().add(t);
+		getChildren().add(c);
 	}
 
 	/**
-	 * Sets the css class for odd rows. 
+	 * Adds a link column to this list with the specified parameters.
+	 * @param header the column header text
+	 * @param propertyName the name of the bean property for the row link text 
 	 */
-	public void setOddRowStyleClass(String oddRowStyleClass) {
-		_oddRowStyleClass = oddRowStyleClass;
-	}
-
-	/**
-	 * Sets a column heading component.
-	 * @param column the index of the column
-	 * @param component the column heading component to set  
-	 */
-	public void setColumnHeading(int column, UIComponent component) {
-		getFacets().put("column_heading" + column, component);
-		if (column > _columns) {
-			_columns = column;
-		}
-	}
-	
-	/**
-	 * Returns the heading component at the specified column index.
-	 */
-	public UIComponent getColumnHeading(int column) {
-		return (UIComponent) getFacets().get("column_heading" + column); 
-	}
-	
-	// MyFaces throws an exception if this method is missing 
-	public UIComponent getColumnHeading() {
-		return null; 
-	}
-
-	/**
-	 * Sets a cell component in this list.
-	 * @param column the index of the column
-	 * @param row the index of the row
-	 * @param component the cell component to set  
-	 */
-	public void setCell(int column, int row, UIComponent component) {
-		getFacets().put("cell" + column + "_" + row, component);
-		if (column > _columns) {
-			_columns = column;
-		}
-		if (row > _rows) {
-			_rows = row;
-		}
-	}
-	
-	/**
-	 * Returns the cell component at the specified position.
-	 */
-	public UIComponent getCell(int column, int row) {
-		return (UIComponent) getFacets().get("cell" + column + "_" + row); 
+	public void addLinkColumn(String header, String propertyName) {
+		UIColumn c = new UIColumn();
+		c.setHeader(WFUtil.getText(header));
+		HtmlCommandLink l = new HtmlCommandLink();
+		l.setStyleClass("wf_listlink");
+		l.setValueBinding("value", WFUtil.createValueBinding("#{" + getVar() + "." + propertyName + "}"));
+		c.getChildren().add(l);
+		getChildren().add(c);
 	}
 
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
-		super.encodeBegin(context);
 		ResponseWriter out = context.getResponseWriter();
-		// Main table
-		out.startElement("table", null);
+		// Main container
+		out.startElement("div", null);
 		if (getListStyleClass() != null) {
 			out.writeAttribute("class", getListStyleClass(), null);
 		}
 		if (_showListNavigation) {
 			renderListNavigation(context);
 		}
-		// Column headings
-		out.startElement("tr", null);
-		for (int i = 1; i <= _columns; i++) {
-			out.startElement("th", null);
-			if (getColumnHeadingStyleClass() != null) {
-				out.writeAttribute("class", getColumnHeadingStyleClass(), null);
-			}
-			// Render column heading component
-			renderFacet(context, "column_heading" + i);
-			out.endElement("th");
-		}
-		out.endElement("tr");
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
 	public void encodeChildren(FacesContext context) throws IOException {
-		ResponseWriter out = context.getResponseWriter();
-		// Render list rows
-		int rowCount = 0;
-		for (int row = _row; row <= _rows; row++) {
-			if (_maxDisplayRows > 0 && ++rowCount > _maxDisplayRows) {
-				break;
-			}
-			out.startElement("tr", null);
-			if (row % 2 == 0) {
-				if (getEvenRowStyleClass() != null) {
-					out.writeAttribute("class", getEvenRowStyleClass(), null);
-				}
-			} else {
-				if (getOddRowStyleClass() != null) {
-					out.writeAttribute("class", getOddRowStyleClass(), null);
-				}				
-			}
-			for (int column = 1; column <= _columns; column++) {
-				out.startElement("td", null);
-				// Render cell component				
-				renderFacet(context, "cell" + column + "_" + row);
-				out.endElement("td");
-			}
-			out.endElement("tr");
-		}
+		// Render table
+		super.encodeBegin(context);
+		super.encodeChildren(context);
+		super.encodeEnd(context);
 	}
 	
 	/**
@@ -311,25 +212,18 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
 		ResponseWriter out = context.getResponseWriter();
-		out.endElement("table");
-		super.encodeEnd(context);
+		out.endElement("div");
 	}
 	
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[10];
+		Object values[] = new Object[4];
 		values[0] = super.saveState(ctx);
-		values[1] = new Integer(_columns);
-		values[2] = new Integer(_rows);
-		values[3] = new Integer(_row);
-		values[4] = new Integer(_maxDisplayRows);
-		values[5] = new Boolean(_showListNavigation);
-		values[6] = _listStyleClass;
-		values[7] = _columnHeadingStyleClass;
-		values[8] = _evenRowStyleClass;
-		values[9] = _oddRowStyleClass;
+		values[1] = new Boolean(_showListNavigation);
+		values[2] = _listStyleClass;
+		values[3] = _listBean;
 		return values;
 	}
 	
@@ -339,15 +233,9 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		_columns = ((Integer) values[1]).intValue();
-		_rows = ((Integer) values[2]).intValue();
-		_row = ((Integer) values[3]).intValue();
-		_maxDisplayRows = ((Integer) values[4]).intValue();
-		_showListNavigation = ((Boolean) values[5]).booleanValue();
-		_listStyleClass = (String) values[6];
-		_columnHeadingStyleClass = (String) values[7];
-		_evenRowStyleClass = (String) values[8];
-		_oddRowStyleClass = (String) values[9];
+		_showListNavigation = ((Boolean) values[1]).booleanValue();
+		_listStyleClass = (String) values[2];
+		_listBean = (WFListBean) values[3];
 	}
 
 	/**
@@ -361,21 +249,19 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 		WFList parent = (WFList) source.getParent();
 		String id = source.getId();
 		if (id.equals(ACTION_PREVIOUS)) {
-			if (parent.getMaxDisplayRows() > 0) {
-				parent.setRow(parent.getRow() - parent.getMaxDisplayRows());
+			if (parent.getRows() > 0) {
+				parent.setFirst(parent.getFirst() - parent.getRows());
 				sendNavigationEvent = true;
 			}
-		}
-		if (id.equals(ACTION_NEXT)) {
-			if (parent.getMaxDisplayRows() > 0) {
-				parent.setRow(parent.getRow() + parent.getMaxDisplayRows());
+		} else if (id.equals(ACTION_NEXT)) {
+			if (parent.getRows() > 0) {
+				parent.setFirst(parent.getFirst() + parent.getRows());
 				sendNavigationEvent = true;
 			}
-		}
-		if (id.length() > 4 && id.substring(0, 4).equals(ACTION_GOTO)) {
-			int pageNumber = Integer.parseInt((String) ((HtmlCommandLink) source).getValue());
-			if (parent.getMaxDisplayRows() > 0) {
-				parent.setRow((pageNumber - 1) * parent.getMaxDisplayRows() + 1);
+		} else {
+			int pageNumber = Integer.parseInt(WFUtil.getParameter(source, ACTION_GOTO));
+			if (parent.getRows() > 0) {
+				parent.setFirst((pageNumber - 1) * parent.getRows());
 				sendNavigationEvent = true;
 			}
 		}
@@ -383,7 +269,7 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 		if (sendNavigationEvent) {
 			WFListNavigationEvent e = new WFListNavigationEvent(parent);
 			parent.queueEvent(e);
-		}
+		}		
 	}
 	
 	/**
@@ -404,43 +290,42 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 	 * Renders the list navigation
 	 */
 	private void renderListNavigation(FacesContext context) throws IOException {
-		if (_maxDisplayRows <= 0 || _rows <= _maxDisplayRows) {
+		int maxDisplayRows = getRows();
+		int rows = getRowCount();
+		int row = getFirst();
+		if (maxDisplayRows <= 0 || rows <= maxDisplayRows) {
 			return;
 		}
 		
 		ResponseWriter out = context.getResponseWriter();
 
-		out.startElement("tr", null);
-		out.startElement("td", null);
-		out.writeAttribute("colspan", String.valueOf(_columns), null);
-		
 		out.startElement("table", null);
-		out.writeAttribute("style", "width:100%; border-spacing:0; padding:0;", null);
+		out.writeAttribute("class", "wf_listnavigation", null);
 		out.startElement("tr", null);
 		out.startElement("td", null);
 		out.writeAttribute("align", "left", null);
 		out.writeAttribute("valign", "middle", null);
 		out.writeAttribute("class", "wf_smalltext", null);
 		
-		int nrOfPages = nrOfPages = _rows / _maxDisplayRows;
-		if (_rows > nrOfPages * _maxDisplayRows) {
+		int nrOfPages = rows / maxDisplayRows;
+		if (rows > nrOfPages * maxDisplayRows) {
 			nrOfPages++;
 		}
-		int currentPage = _row / _maxDisplayRows + 1;
+		int currentPage = row / maxDisplayRows + 1;
 		int pageOffset = 0;
 		if (currentPage > MAX_NAVIGATION_LINKS) {
 			pageOffset = currentPage - MAX_NAVIGATION_LINKS;
 		}
 		
 		if (currentPage > 1) {
-			renderFacet(context, "navigationlink_previous");
+			WFUtil.renderFacet(context, this, "navigationlink_previous");
 			out.write(" ");
 		}
 		for (int i = 1; i <= nrOfPages && i <= MAX_NAVIGATION_LINKS; i++) {
 			if ((i + pageOffset) == currentPage) {
 				out.write(String.valueOf(i + pageOffset));
 			} else {
-				renderFacet(context, "navigationlink_goto" + i);
+				WFUtil.renderFacet(context, this, "navigationlink_goto" + i);
 			}
 			out.write("&nbsp;");
 		}
@@ -450,15 +335,11 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 		out.writeAttribute("valign", "middle", null);
 		out.writeAttribute("class", "wf_smalltext", null);
 		if (currentPage < nrOfPages) {
-			renderFacet(context, "navigationlink_next");
+			WFUtil.renderFacet(context, this, "navigationlink_next");
 		}
 		out.endElement("td");
 		out.endElement("tr");
 		out.endElement("table");
-		
-		out.endElement("td");
-		out.endElement("tr");
-		
 	}
 	
 	/*
@@ -478,7 +359,7 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 		getFacets().put("navigationlink_next", next);
 
 		int pageOffset = 0;
-		int currentPage = _row / _maxDisplayRows + 1;
+		int currentPage = getFirst() / getRows() + 1;
 		if (currentPage > MAX_NAVIGATION_LINKS) {
 			pageOffset = currentPage - MAX_NAVIGATION_LINKS;
 		}
@@ -486,6 +367,7 @@ public class WFList extends WFContainer implements ActionListener, NamingContain
 			HtmlCommandLink gotoLink = new HtmlCommandLink();
 			gotoLink.setValue(String.valueOf(i + pageOffset));
 			gotoLink.setId(ACTION_GOTO + i);
+			WFUtil.addParameter(gotoLink, ACTION_GOTO, String.valueOf(i));			
 			gotoLink.addActionListener(this);
 			getFacets().put("navigationlink_goto" + i, gotoLink);			
 		}
