@@ -3,19 +3,11 @@
 
 /*** idegaWeb WebFace CSS classes ***/
 
-.wf_frame {
-}
-
-.wf_titlebar_icon {
-}
-
 .wf_smalltext {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
 }
 
 .wf_headertext {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
 	font-weight: bold;
 }
@@ -52,15 +44,16 @@
 	margin: 0px;
 }
 
-.wf_block{
+.wf_block,.wf_frame{
 	border: 1px solid #D3D3D3;
 	/***border-style: double;***/
 	/***width:100%;***/
-	margin: 6px 0px 0px 4px;
+	margin: 6px;
 }
 
 .wf_blockmainarea {
 	padding: 8px;
+	background-color: #E8E8E8;
 }
 
 .wf_viewmenublockarea {
@@ -68,7 +61,7 @@
 	width: 100%;
 }
 
-.wf_titlebar {
+.wf_titlebar,.wf_toolbar{
 	background-color: #F5F5F5;
 	border-top-width: 0px;
 	border-right-width: 0px;
@@ -80,29 +73,60 @@
 	border-left-style: solid;
 	border-color: #D3D3D3;
 	height: 24px;
-	width: 100%;
 	margin:0px;
-}
-
-.wf_titlebar td {
 	vertical-align: middle;
+	padding-left:3px;
 }
 
-.wf_titlebartext {	
+
+
+.wf_titlebar * {
+	vertical-align: middle;
+	margin 2px;
+	display:inline;
+}
+
+.wf_titlebar_text,.wf_titlebar .wf_titlebar_text {
+	position:relative;
+	top: 4px;
 	color: #000000;
 	text-align: left;
 	font-weight: bold;
 	font-size: 11px;
-	vertical-align: middle;
+	margin: 3px;
+	padding: 4px;
+	white-space:nowrap;
 }
 
-.wf_toolbar {
-	border-spacing: 0px;
+.wf_titlebar_icon{
+	vertical-align: middle;
 	padding: 0px;
-	float: right;
-	border-bottom: 1px;
-	border-color: #D3D3D3;
+	margin-top: 2px;
+	margin-bottom: 2px;
 }
+
+.wf_titlebar .wf_titlebar_icon{
+	float:left;
+}
+
+.wf_titlebar .wf_toolbar{
+	float:right;
+	margin:2px;
+	padding:0px;
+	height: 18px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+}
+
+.wf_toolbar * {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 2px;
+	padding: 0px;
+}
+
 
 .wf_list {
 	background-color: #FFFFFF;
@@ -191,21 +215,18 @@
 }
 
 .wf_listlink {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
   	font-weight: normal;
 	color:#414141;
 }
 
 .wf_listlink:hover {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
   	font-weight: normal;
 	color:#414141;
 }
 
 .wf_listtext {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
   	font-weight: normal;
         color:#878787;
@@ -313,7 +334,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	padding: 5px 0px;
 	margin: 0px;
 	text-align: center;
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	text-decoration: none;
 	#font-weight:bold;
@@ -363,7 +383,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 }
 
 .wf_inputcomponent {
-	font-family: arial;
 	font-size: 8pt;
 	color: #000000;
 	text-align: justify;
@@ -371,7 +390,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 }
 
 .wf_selectonemenu {
-	font-family: arial;
 	font-size:8pt;
 	color:#000000;
 	text-align: justify; 
@@ -380,7 +398,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 .wf_button { 
 	color: #000000;
 	font-size: 10px;
-	font-family: Arial, Helvetica, sans-serif;
 	font-weight: normal;
 	border-width: 1px;
 	border-style: solid;
@@ -406,11 +423,10 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	/*src: url("http://idega.is/iw_cache/585_idega_logo.gif");*/
 	/*** float: right; ***/
 	position: absolute;
-	left:500; top:0;	
+	left:500; top:0;
 }
 
 .wf_bannertext {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	text-decoration: none;
 	color: #FFFFFF;
@@ -433,7 +449,7 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	margin: 10px;
 	border: 1px solid #848284;
 	padding: 30px;
-        background-color:#C8C7BA;
+    background-color:#C8C7BA;
 }
 
 /*Bezel End*/

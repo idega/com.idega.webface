@@ -17,12 +17,15 @@ import javax.faces.context.FacesContext;
  */
 public class WFBlock extends WFContainer {
 
+	//static constants
 	public static String RENDERER_TYPE = "wf_block";
-
-	private boolean toolbarEmbeddedInTitlebar = true;
-
+	public static final String FACET_TOOLBAR="wf_block_toolbar";
+	public static final String FACET_TITLEBAR="wf_block_titlebar";
+	
+	private boolean toolbarEmbeddedInTitlebar = false;
 	private String mainAreaStyleClass = WFConstants.STYLE_CLASS_MAINAREA;
 
+	
 	public WFBlock() {
 		this("untitled");
 	}
@@ -45,7 +48,7 @@ public class WFBlock extends WFContainer {
 	 *  
 	 */
 	private void setDefaultToolbar() {
-		if (getToolbar() == null) {
+		/*if (getToolbar() == null) {
 			WFToolbar toolbar = new WFToolbar();
 			this.setToolbar(toolbar);
 			
@@ -53,16 +56,16 @@ public class WFBlock extends WFContainer {
 			back.setId(this.getId()+"_back");
 			WFForwardButton forward = new WFForwardButton();
 			forward.setId(this.getId()+"_forward");
+			toolbar.addButton(back);
+			toolbar.addButton(forward);
 			WFHelpButton help = new WFHelpButton();
 			help.setId(this.getId()+"_help");
 			WFCloseButton close = new WFCloseButton();
 			close.setId(this.getId()+"_close");
 	
-			toolbar.addButton(back);
-			toolbar.addButton(forward);
 			toolbar.addButton(help);
 			toolbar.addButton(close);
-		}
+		}*/
 	}
 
 	protected void initializeDefault() {
@@ -77,7 +80,7 @@ public class WFBlock extends WFContainer {
 	 * @return
 	 */
 	public WFTitlebar getTitlebar() {
-		return (WFTitlebar) getFacets().get("titlebar");
+		return (WFTitlebar) getFacets().get(FACET_TITLEBAR);
 	}
 
 	/**
@@ -91,7 +94,7 @@ public class WFBlock extends WFContainer {
 			}
 		}
 		else {
-			toolbar = (WFToolbar) getFacets().get("toolbar");
+			toolbar = (WFToolbar) getFacets().get(FACET_TOOLBAR);
 		}
 		return toolbar;
 	}
@@ -100,7 +103,7 @@ public class WFBlock extends WFContainer {
 	 * @param titlebar
 	 */
 	public void setTitlebar(WFTitlebar titlebar) {
-		getFacets().put("titlebar", titlebar);
+		getFacets().put(FACET_TITLEBAR, titlebar);
 	}
 
 	/**
@@ -109,7 +112,7 @@ public class WFBlock extends WFContainer {
 	public void setToolbar(WFToolbar toolbar) {
 		if (isToolbarEmbeddedInTitlebar()) {
 			if (getTitlebar() != null) {
-				getFacets().remove("toolbar");
+				getFacets().remove(FACET_TOOLBAR);
 				getTitlebar().setEmbeddedToolbar(toolbar);
 			}
 		}
@@ -117,7 +120,7 @@ public class WFBlock extends WFContainer {
 			if (getTitlebar() != null) {
 				getTitlebar().removeEmbeddedToolbar();
 			}
-			getFacets().put("toolbar", toolbar);
+			getFacets().put(FACET_TOOLBAR, toolbar);
 		}
 	}
 
@@ -170,8 +173,8 @@ public class WFBlock extends WFContainer {
 	 * (!isRendered()) { return; } super.encodeBegin(context); if
 	 * (mainAreaStyleClass != null) { WFContainer mainArea = (WFContainer)
 	 * getChildren().get(0); mainArea.setStyleClass(mainAreaStyleClass); } if
-	 * (!isToolbarEmbeddedInTitlebar()) { renderFacet(context, "toolbar"); }
-	 * renderFacet(context, "titlebar"); }
+	 * (!isToolbarEmbeddedInTitlebar()) { renderFacet(context, FACET_TOOLBAR); }
+	 * renderFacet(context, FACET_TITLEBAR); }
 	 */
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)

@@ -3,6 +3,8 @@
  */
 package com.idega.webface;
 
+import javax.faces.component.UIComponent;
+
 
 /**
  * A menu component with toolbar buttons. 
@@ -22,6 +24,10 @@ public class WFToolbar extends WFContainer //implements Serializable
 
 	
 	public void addButton(WFToolbarButton button){
+		this.getChildren().add(button);
+	}
+	
+	public void addButton(UIComponent button){
 		this.getChildren().add(button);
 	}
 	

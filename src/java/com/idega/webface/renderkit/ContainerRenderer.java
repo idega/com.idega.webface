@@ -47,6 +47,13 @@ public class ContainerRenderer extends BaseRenderer {
 		if (getStyleAttributes(container) != null) {
 			out.writeAttribute("style", getStyleAttributes(container), null);
 		}
+		String title = container.getTitle();
+		if(title!=null){
+			out.writeAttribute("title", title, null);
+			//TODO: investigate if alt should be printed out in a valid HTML document
+			out.writeAttribute("alt", title, null);
+		}
+		
 		//out.endElement(getMarkupElementType());
 	}
 
@@ -97,6 +104,41 @@ public class ContainerRenderer extends BaseRenderer {
 		return HTML_DIV_TAG;
 	}
 	
+	/**
+	 * Renders out the start of a div element with a given styleClass
+	 */
+	protected void renderContainerStart(ResponseWriter out,String styleClass){
+		renderContainerStart(out,getMarkupElementType(),styleClass);
+	}
+	
+	/**
+	 * Renders out end start of a div element
+	 */
+	protected void renderContainerEnd(ResponseWriter out){
+		renderContainerEnd(out,getMarkupElementType());
+	}
+	
+	/**
+	 * Renders out the start of a div element with a given styleClass
+	 */
+	protected void renderContainerStart(ResponseWriter out,String containerType,String styleClass){
+		try {
+			out.startElement(containerType,null);
+			out.writeAttribute("class",styleClass,null);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	protected void renderContainerEnd(ResponseWriter out,String containerType){
+		try {
+			out.endElement(containerType);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Render the specified facet.

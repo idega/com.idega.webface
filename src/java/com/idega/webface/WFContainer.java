@@ -32,6 +32,7 @@ public class WFContainer extends IWBaseComponent
 	private String width;
 	private String height;
 	private String styleClass=RENDERER_TYPE;
+	private String title;
 
 	
 	public WFContainer()
@@ -159,10 +160,11 @@ public class WFContainer extends IWBaseComponent
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[3];
+		Object values[] = new Object[4];
 		values[0] = super.saveState(ctx);
 		values[1] = getStyleAttribute();
 		values[2] = getStyleClass();
+		values[3] = title;
 		return values;
 	}
 	
@@ -174,6 +176,7 @@ public class WFContainer extends IWBaseComponent
 		super.restoreState(ctx, values[0]);
 		setStyleAttribute((String) values[1]);
 		setStyleClass((String) values[2]);
+		title=(String)values[3];
 	}
 	
 	/**
@@ -189,5 +192,20 @@ public class WFContainer extends IWBaseComponent
 		RenderUtils.renderFacet(context,this,facetName);
 	}
 	
+	
+	/**
+	 * Sets a "title" on this container, this is usually rendered like a tooltip
+	 * @param title
+	 */
+	public void setTitle(String title){
+		this.title=title;
+	}
+	/**
+	 * Gets the set "title" if any is set for this container, this is usually rendered like a tooltip
+	 * @param title
+	 */
+	public String getTitle(){
+		return title;
+	}
 
 }

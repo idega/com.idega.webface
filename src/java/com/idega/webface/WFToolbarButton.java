@@ -178,7 +178,8 @@ public class WFToolbarButton extends UICommand {
 		out.writeAttribute("id", buttonId, null);
 		out.writeAttribute("type", "hidden", null);
 		out.writeAttribute("name", buttonId, null);
-		out.writeAttribute("value", "false", null);		
+		out.writeAttribute("value", "false", null);
+		out.writeAttribute("style", "display:none;", null);
 		out.endElement("input");
 
 		String formName = determineFormName(this);
@@ -205,7 +206,7 @@ public class WFToolbarButton extends UICommand {
 			out.writeAttribute("onmouseout", onmouseout, null);
 			out.endElement("img");
 		} else {
-			out.startElement("div", null);
+			out.startElement("span", null);
 			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
 			"'].value='true';document.forms['" + formName + "'].submit();";
 			out.writeAttribute("onmouseup", onmouseup, null);
@@ -216,7 +217,7 @@ public class WFToolbarButton extends UICommand {
 				out.writeAttribute("alt", toolTip, null);
 				out.writeAttribute("title", toolTip, null);
 			}
-			out.endElement("div");
+			out.endElement("span");
 		}
 	}
 		

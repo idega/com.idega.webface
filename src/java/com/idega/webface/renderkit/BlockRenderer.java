@@ -1,5 +1,5 @@
 /*
- * $Id: BlockRenderer.java,v 1.1 2004/12/28 13:55:13 eiki Exp $
+ * $Id: BlockRenderer.java,v 1.2 2005/02/02 03:01:09 tryggvil Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -13,16 +13,19 @@ import java.io.IOException;
 import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import com.idega.webface.WFBlock;
-import com.idega.webface.WFContainer;
 
 
 /**
+ * <p>
+ * This is the default Renderer for the WFBlock component.
+ * </p>
  * 
- *  Last modified: $Date: 2004/12/28 13:55:13 $ by $Author: eiki $
+ *  Last modified: $Date: 2005/02/02 03:01:09 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BlockRenderer extends ContainerRenderer{
 	
@@ -39,7 +42,7 @@ public class BlockRenderer extends ContainerRenderer{
 		
 		List children = component.getChildren();
 		String mainAreaStyleClass = block.getMainAreaStyleClass();
-		if (mainAreaStyleClass != null) {
+		/*if (mainAreaStyleClass != null) {
 			if(component.getChildren().size()>0){
 				try{
 					WFContainer mainArea = (WFContainer) children.get(0);
@@ -52,25 +55,31 @@ public class BlockRenderer extends ContainerRenderer{
 				}
 				
 			}
-		}
+		}*/
+
+		renderFacet(context, component,WFBlock.FACET_TITLEBAR);
 		if (!block.isToolbarEmbeddedInTitlebar()) {
-			renderFacet(context, component,"toolbar");
+			renderFacet(context, component,WFBlock.FACET_TOOLBAR);
 		}
-		renderFacet(context, component,"titlebar");
+		ResponseWriter out = context.getResponseWriter();
+		renderContainerStart(out,mainAreaStyleClass);
+	
 	}
 	
 	/* (non-Javadoc)
 	 * @see javax.faces.render.Renderer#encodeChildren(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
 	 */
-	public void encodeChildren(FacesContext ctx, UIComponent comp) throws IOException {
-		// TODO Auto-generated method stub
-		super.encodeChildren(ctx, comp);
+	public void encodeChildren(FacesContext context, UIComponent comp) throws IOException {
+		super.encodeChildren(context, comp);
 	}
 	/* (non-Javadoc)
 	 * @see javax.faces.render.Renderer#encodeEnd(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
 	 */
-	public void encodeEnd(FacesContext ctx, UIComponent comp) throws IOException {
-		// TODO Auto-generated method stub
-		super.encodeEnd(ctx, comp);
+	public void encodeEnd(FacesContext context, UIComponent comp) throws IOException {
+		ResponseWriter out = context.getResponseWriter();
+		renderContainerEnd(out);
+		
+		super.encodeEnd(context, comp);
+
 	}
 }

@@ -15,21 +15,30 @@ import javax.faces.context.FacesContext;
  */
 public class WFTitlebar extends WFContainer implements Serializable 
 {
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 3978146556140729395L;
 	public static String RENDERER_TYPE="wf_titlebar";
 	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
 	public static String DEFAULT_ICON_STYLE_CLASS="wf_titlebar_icon";
+	public static String DEFAULT_TEXT_STYLE_CLASS="wf_titlebar_text";
 	
 	private boolean viewWithTitleBar=true;
 
-	private WFToolbar defaultToolbar;
+	//private WFToolbar defaultToolbar;
 
 //	private String titleText="Untitled";
 	private String titlebarColor;
 	private String titleTextColor;
 	private String iconImageURI;
 //	private boolean valueRefTitle = false;
-	private String toolTip;
+//	private String toolTip;
 	private String iconStyleClass = DEFAULT_ICON_STYLE_CLASS;
+	
+	public final static String FACET_DEFAULTTOOLBAR="wf_defaulttoolbar";
+	public final static String FACET_EMBEDDEDTOOLBAR="wf_embeddedtoolbar";
+	public final static String FACET_TEXT="wf_titlebar_text";
 	
 	public WFTitlebar(){
 		setStyleClass(DEFAULT_STYLE_CLASS);
@@ -43,21 +52,27 @@ public class WFTitlebar extends WFContainer implements Serializable
 	public WFTitlebar(String text, boolean isVB){
 		this();
 		addTitleText(text, isVB);
-		getFacets().put("titlebar", this);
+		//getFacets().put("titlebar", this);
 	}
 	
-	protected void setDefaultToolbar(){
+	protected void initializeDefaultToolbar(){
 		WFToolbar toolbar = new WFToolbar();
 		toolbar.addButton(new WFHelpButton());
 		toolbar.addButton(new WFCloseButton());
 		setDefaultToolbar(toolbar);
 	}
 
+	
+	public void initializeContent(){
+		initializeDefaultToolbar();
+	}
+	
 	/**
 	 * @return
 	 */
 	public WFToolbar getDefaultToolbar() {
-		return defaultToolbar;
+		//return defaultToolbar;
+		return (WFToolbar)getFacets().get(FACET_DEFAULTTOOLBAR);
 	}
 	
 	/**
@@ -71,8 +86,9 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @param toolbar
 	 */
 	public void setDefaultToolbar(WFToolbar toolbar) {
-		this.defaultToolbar = toolbar;
-		getChildren().add(toolbar);
+		//this.defaultToolbar = toolbar;
+		//getChildren().add(toolbar);
+		getFacets().put(FACET_DEFAULTTOOLBAR,toolbar);
 	}
 
 	/**
@@ -107,17 +123,23 @@ public class WFTitlebar extends WFContainer implements Serializable
 	}
 	
 	public void addTitleText(HtmlOutputText text) {
-		if (text.getStyleClass() == null) {
-			text.setStyleClass("wf_titlebartext");
-		}
-		WFContainer list = (WFContainer) getFacets().get("title");
-		if (list == null) {
-			list = new WFContainer();
-			getFacets().put("title", list);
-		}
+		/*if (text.getStyleClass() == null) {
+			text.setStyleClass(DEFAULT_TEXT_STYLE_CLASS);
+		}*/
+		WFContainer list = getTitleTextContainer();
 		list.add(text);
 //		getChildren().add(text);
 //		getFacets().put("title", text);
+	}
+	
+	public WFContainer getTitleTextContainer(){
+		WFContainer list = (WFContainer) getFacets().get(FACET_TEXT);
+		if (list == null) {
+			list = new WFContainer();
+			list.setStyleClass(DEFAULT_TEXT_STYLE_CLASS);
+			getFacets().put(FACET_TEXT, list);
+		}
+		return list;
 	}
 	
 //	/**
@@ -165,21 +187,21 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @return Returns the embeddedToolbar.
 	 */
 	public WFToolbar getEmbeddedToolbar() {
-		return (WFToolbar) getFacets().get("toolbar");
+		return (WFToolbar) getFacets().get(FACET_EMBEDDEDTOOLBAR);
 	}
 
 	/**
 	 * @param embeddedToolbar The embeddedToolbar to set.
 	 */
 	public void setEmbeddedToolbar(WFToolbar embeddedToolbar) {
-		getFacets().put("toolbar", embeddedToolbar);
+		getFacets().put(FACET_EMBEDDEDTOOLBAR, embeddedToolbar);
 	}
 
 	/**
 	 * @param embeddedToolbar The embeddedToolbar to set.
 	 */
 	public void removeEmbeddedToolbar() {
-		getFacets().remove("toolbar");
+		getFacets().remove(FACET_EMBEDDEDTOOLBAR);
 	}
 
 	/**
@@ -190,11 +212,13 @@ public class WFTitlebar extends WFContainer implements Serializable
 	}
 
 	public void setToolTip(String toolTip) {
-		this.toolTip = toolTip;
+		//this.toolTip = toolTip;
+		getTitleTextContainer().setTitle(toolTip);
 	}
 	
 	public String getToolTip() {
-		return toolTip;
+		//return toolTip;
+		return getTitleTextContainer().getTitle();
 	}
 	
 	/**
@@ -257,10 +281,10 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[3];
+		Object values[] = new Object[2];
 		values[0] = super.saveState(ctx);
-		values[1] = toolTip;
-		values[2] = iconStyleClass;
+//		values[1] = toolTip;
+		values[1] = iconStyleClass;
 //		values[2] = new Boolean(valueRefTitle);
 		return values;
 	}
@@ -271,8 +295,8 @@ public class WFTitlebar extends WFContainer implements Serializable
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		toolTip = (String) values[1];
-		iconStyleClass = (String) values[2];
+//		toolTip = (String) values[1];
+		iconStyleClass = (String) values[1];
 //		valueRefTitle = ((Boolean) values[2]).booleanValue();
 	}
 
