@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
 
+import com.idega.webface.event.WFToolbarButtonPressedListener;
+
 /**
  * Button component used in WFToolbar. 
  * software 2003
@@ -25,12 +27,20 @@ public class WFToolbarButton extends UICommand {
 	private String hoverImageURI;
 	private String inactiveImageURI;
 	private String pressedImageURI;
+	
+	public WFToolbarButton() {
+		// Default contstructor, for JSF
+	}
 
 	public WFToolbarButton(String defaultImageURI) {
 		String uriWithBundle = WFUtil.getBundle().getResourcesVirtualPath()+"/"+defaultImageURI;
 		this.setDefaultImageURI(uriWithBundle);
 	}
-
+	
+	public void setListener(WFToolbarButtonPressedListener listener) {
+		this.addFacesListener(listener);
+	}
+	
 	/**
 	 * @return Returns the defaultImageURI.
 	 * 
@@ -238,7 +248,6 @@ public class WFToolbarButton extends UICommand {
 	
 	
 	public static UIForm findFormDown(UIComponent component){
-		Iterator iter = component.getFacetsAndChildren();
 		for (Iterator iterator = component.getFacetsAndChildren(); iterator.hasNext();) {
 			UIComponent child = (UIComponent) iterator.next();
 			if(child instanceof UIForm){
@@ -249,5 +258,34 @@ public class WFToolbarButton extends UICommand {
 			}
 		}
 		return null;
+	}
+	
+
+	/**
+	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
+	 */
+	public Object saveState(FacesContext ctx) {
+		Object values[] = new Object[6];
+		values[0] = super.saveState(ctx);
+		values[1] = defaultImageURI;
+		values[2] = hoverImageURI;
+		values[3] = inactiveImageURI;
+		values[4] = pressedImageURI;
+		values[5] = toolTip;
+		return values;
+	}
+
+	/**
+	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext,
+	 *      java.lang.Object)
+	 */
+	public void restoreState(FacesContext ctx, Object state) {
+		Object values[] = (Object[]) state;
+		super.restoreState(ctx, values[0]);
+		defaultImageURI = (String) values[1];
+		hoverImageURI = (String)  values[2];
+		inactiveImageURI = (String) values[3];
+		pressedImageURI = (String) values[4];
+		toolTip = (String) values[5];
 	}
 }
