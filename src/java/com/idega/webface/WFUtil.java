@@ -522,6 +522,13 @@ public class WFUtil {
 	}
 	
 	/**
+	 * Sets a value binding for the specified component.
+	 */
+	public static void setValueBindingToArray(UIComponent component, String attributeName, String attribute, int index) {
+		component.setValueBinding(attributeName, createValueBinding("#{"+attribute+"["+index+"]}"));
+	}
+	
+	/**
 	 * Adds a message for the specified component. 
 	 */
 	public static void addMessage(UIComponent component, String message) {
@@ -626,4 +633,13 @@ public class WFUtil {
 				new Class[] { value1.getClass(), value2.getClass() });
 		return mb.invoke(FacesContext.getCurrentInstance(), new Object[] { value1, value2 });
 	}
+	
+	/**
+	 * Invokes a method in a managed bean. 
+	 */
+	public static Object invoke(String beanId, String methodName, Object[] values, Class[] params) {
+		MethodBinding mb = WFUtil.createMethodBinding("#{" + beanId + "." + methodName + "}", params);
+		return mb.invoke(FacesContext.getCurrentInstance(), values);
+	}
+	
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractWFEditableListManagedBean.java,v 1.1 2005/01/07 19:45:30 gummi Exp $
+ * $Id: AbstractWFEditableListManagedBean.java,v 1.2 2005/01/10 13:52:19 gummi Exp $
  * Created on 29.12.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -20,10 +20,10 @@ import com.idega.webface.model.WFDataModel;
 
 /**
  * 
- *  Last modified: $Date: 2005/01/07 19:45:30 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/01/10 13:52:19 $ by $Author: gummi $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 
@@ -38,9 +38,20 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 	}
 	
 	public abstract Object[] getData();
-	public abstract String[] getBindingNames();
-	public abstract UIComponent getUIComponent(String var, String binding);
-	public abstract UIComponent getHeader(String binding);
+	public abstract int getNumberOfColumns();
+	public abstract UIComponent getUIComponent(String var, int columnIndex);
+	public abstract UIComponent getHeader(int columnIndex);
+	
+	/**
+	 * @param columnIndex
+	 * @return
+	 */
+	public UIComponent getFooter(int columnIndex) {
+		return null;
+	}
+
+
+	
 	
 	/**
 	 * Updates the datamodel, definded by WFList
@@ -77,21 +88,56 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 		
 		List l = new ArrayList();
 		
-		String[] binding = getBindingNames();
-		
-		for (int i = 0; i < binding.length; i++) {
+		for (int i = 0; i < getNumberOfColumns(); i++) {
 			UIColumn col2 = new UIColumn();
-			col2.setHeader(getHeader(binding[i]));		
-			UIComponent component = getUIComponent(var,binding[i]);
-			String ref = var + "." + binding[i];
-			component.setValueBinding("value", WFUtil.createValueBinding("#{" + ref + "}"));
+			
+			UIComponent header = getHeader(i);
+			if(header != null){
+				col2.setHeader(header);
+			}
+			
+			UIComponent footer = getFooter(i);
+			if(footer != null){
+				col2.setFooter(footer);
+			}
+			
+			UIComponent component = createCellWrapper(var,i);
 			col2.getChildren().add(component);
 			l.add(col2);
 		}
+		
+		
 
 		return (UIColumn[])l.toArray(new UIColumn[l.size()]);
 	}
+
+	/**
+	 * This method invokes #constructWFEditableListCellWrapper(...) to get the component and then adds value-binding
+	 * between WFEditableListCellWrapper#(value and selectItemList) and WFEditableListDataBean#(values and selectItemListArray)
+	 * 
+	 * @param parentBeanID
+	 * @param var
+	 * @param columnIndex from 0 to ...
+	 * @return
+	 */
+	public UIComponent createCellWrapper(String var, int columnIndex){
+		WFEditableListCellWrapper component = constructWFEditableListCellWrapper(var, columnIndex);
+		WFUtil.setValueBindingToArray(component,"value",var+".values",columnIndex);
+		WFUtil.setValueBindingToArray(component,"selectItemList",var+".selectItemListArray",columnIndex);
+		return component;
+	}
 	
+	
+	/**
+	 * 
+	 * @param uiComponentFactoryBeanID
+	 * @param var
+	 * @param columnID
+	 * @return
+	 */
+	public WFEditableListCellWrapper constructWFEditableListCellWrapper(String var, int columnIndex){
+		return new WFEditableListCellWrapper(getUIComponent(var,columnIndex));
+	}
 	
 	
 	
@@ -112,4 +158,5 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 	public void setDataModel(DataModel model) {
 		this.dataModel = (WFDataModel)model;
 	}
+
 }
