@@ -1,5 +1,5 @@
 /*
- * $Id: WFEditableListCellWrapper.java,v 1.1 2005/01/10 13:52:19 gummi Exp $
+ * $Id: WFEditableListCellWrapper.java,v 1.2 2005/01/10 16:56:24 gummi Exp $
  * Created on 8.1.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -15,10 +15,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
-import com.idega.webface.WFComponentWrapper;
+import com.idega.presentation.UIComponentWrapper;
 
 
-public class WFEditableListCellWrapper extends WFComponentWrapper {
+public class WFEditableListCellWrapper extends UIComponentWrapper {
 
 	
 	public WFEditableListCellWrapper(){
@@ -37,7 +37,7 @@ public class WFEditableListCellWrapper extends WFComponentWrapper {
 	 * @return Returns the selectItemList.
 	 */
 	public Object getSelectItemList() {
-		UIComponent component = getComponent();
+		UIComponent component = getUIComponent();
 		if(component != null){
 			UISelectItems items = null;
 			for (Iterator iter = component.getChildren().iterator(); iter.hasNext();) {
@@ -54,7 +54,7 @@ public class WFEditableListCellWrapper extends WFComponentWrapper {
 	 */
 	public void setSelectItemList(Object selectItemList) {
 		if(selectItemList!=null){
-			UIComponent component = getComponent();
+			UIComponent component = getUIComponent();
 			if(component != null){
 				UISelectItems items = null;
 				for (Iterator iter = component.getChildren().iterator(); iter.hasNext();) {
