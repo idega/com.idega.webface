@@ -24,7 +24,6 @@ public class WFToolbarButtonPressedEvent extends FacesEvent{
 		 */
 		private WFToolbarButton button = null;
 
-
 		public WFToolbarButtonPressedEvent(UIComponent toolbar) {
 			super(toolbar);
 		}
@@ -40,8 +39,8 @@ public class WFToolbarButtonPressedEvent extends FacesEvent{
 		 * @see javax.faces.event.FacesEvent#processListener(javax.faces.event.FacesListener)
 		 */
 		public void processListener(FacesListener listener) {
-			WFToolbarButtonPressedListener l = (WFToolbarButtonPressedListener) listener;
-			l.buttonPressed(this);
+//			WFToolbarButtonPressedListener l = (WFToolbarButtonPressedListener) listener;
+//			l.buttonPressed(this);
 		}
 
 		/**

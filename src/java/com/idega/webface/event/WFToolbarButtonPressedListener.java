@@ -3,7 +3,7 @@
  */
 package com.idega.webface.event;
 
-import javax.faces.event.FacesListener;
+import javax.faces.event.ActionListener;
 
 /**
  * WFToolbarButtonPressedListener //TODO: tryggvil Describe class
@@ -11,6 +11,6 @@ import javax.faces.event.FacesListener;
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
  */
-public interface WFToolbarButtonPressedListener extends FacesListener {
-		void buttonPressed(WFToolbarButtonPressedEvent e);
+public interface WFToolbarButtonPressedListener extends ActionListener {
+//		void buttonPressed(WFToolbarButtonPressedEvent e);
 }
