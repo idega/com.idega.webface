@@ -197,6 +197,9 @@ public class WFToolbarButton extends UICommand {
 				String onmousedown = "this.src='" + getPressedImageURI() +"'";
 				out.writeAttribute("onmousedown", onmousedown, null);
 			}
+			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
+			"'].value='true';document.forms['" + formName + "'].submit();";
+			out.writeAttribute("onmouseup", onmouseup, null);
 			String onmouseout = "document.forms['" + formName + "'].elements['" + buttonId + "'].value='';this.src='" + 
 					getDefaultImageURI() + "'";
 			out.writeAttribute("onmouseout", onmouseout, null);
@@ -207,7 +210,6 @@ public class WFToolbarButton extends UICommand {
 			"'].value='true';document.forms['" + formName + "'].submit();";
 			out.writeAttribute("onmouseup", onmouseup, null);
 			out.writeAttribute("class", styleClass, null);
-			System.out.println("Setting class = "+styleClass);
 			out.endElement("div");
 		}
 	}
