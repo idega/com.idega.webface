@@ -1,5 +1,5 @@
 /*
- * $Id: WFLinkMenu.java,v 1.4 2005/03/06 17:44:04 tryggvil Exp $
+ * $Id: WFLinkMenu.java,v 1.5 2005/03/07 01:30:11 tryggvil Exp $
  * Created on 2.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -14,19 +14,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import com.idega.util.FacesUtil;
 
 
 /**
  * A menu whose menu items are plain html links.
  * 
- *  Last modified: $Date: 2005/03/06 17:44:04 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/03/07 01:30:11 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFLinkMenu extends WFMenu {
 
@@ -129,8 +129,33 @@ public class WFLinkMenu extends WFMenu {
 		//HttpServletRequest req = (HttpServletRequest)context.getExternalContext().getRequest();
 		//String requestUrl = req.getRequestURI();
 		for (Iterator iter = getMenuItemIds().iterator(); iter.hasNext();) {
+
 			String id = (String) iter.next();
-			String url = (String)getLinks().get(id);
+			UIComponent menuItem = getMenuItem(id);
+			String url = null;
+			if(menuItem instanceof HtmlOutputLink){
+				HtmlOutputLink link = (HtmlOutputLink)menuItem;
+				url = (String)link.getValue();
+			}
+			else if(menuItem instanceof WFLinkMenu){
+				WFLinkMenu subMenu = (WFLinkMenu)menuItem;
+				UIComponent menuHeader = subMenu.getMenuHeader();
+				if(menuHeader instanceof HtmlOutputLink){
+					HtmlOutputLink link = (HtmlOutputLink)menuHeader;
+					url = (String)link.getValue();
+				}
+				else if(menuHeader instanceof WFContainer){
+					WFContainer container = (WFContainer)menuHeader;
+					for (Iterator iterator = container.getChildren().iterator(); iterator.hasNext();) {
+						UIComponent element = (UIComponent) iterator.next();
+						if(element instanceof HtmlOutputLink){
+							HtmlOutputLink link = (HtmlOutputLink)element;
+							url = (String)link.getValue();
+						}
+					}
+				}
+			}
+			//String url = (String)getLinks().get(id);
 			if(url!=null){
 				if(requestUrl.startsWith(url)){
 				//if(url.equals(requestUrl)){
