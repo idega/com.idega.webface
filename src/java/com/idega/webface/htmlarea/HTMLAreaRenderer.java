@@ -37,7 +37,7 @@ public class HTMLAreaRenderer extends Renderer {
 		}
 	}
 	
-	public Renderer getTextareaRenderer(FacesContext context) {
+	private Renderer getTextareaRenderer(FacesContext context) {
 		if (textareaRenderer == null) {
 			RenderKitFactory factory = (RenderKitFactory)FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
 			RenderKit kit = factory.getRenderKit(context, RenderKitFactory.HTML_BASIC_RENDER_KIT);
@@ -98,8 +98,6 @@ public class HTMLAreaRenderer extends Renderer {
 			}
 		}
 		*/
-		
-		
 		
 		StringBuffer variables = getVariablesScript(); // Initializing variables 
 		StringBuffer initEditorScript = getInitEditorScript(context, component); // Initializing editor starts
@@ -272,22 +270,32 @@ public class HTMLAreaRenderer extends Renderer {
 				int index = plugins.indexOf(",");
 				while (index >= 0) {
 					plugin = plugins.substring(0, index).trim();
-					System.out.println("Plugin = "+plugin);
 					int locationIndex = plugin.indexOf("(");
 					if (locationIndex >= 0) {
 						String location = plugin.substring(locationIndex+1, plugin.indexOf(")"));
 						location = Integer.toString(Integer.parseInt(location.trim())-1);
 						plugin = plugin.substring(0, locationIndex).trim();
 						this.pluginLocation.put(plugin, location);
-						System.out.println("  Location = "+location);
 					}
 					
 					list.add(plugin);
 					plugins = plugins.substring(index+1);
 					index = plugins.indexOf(",");
+					if (index > -1) {
+						System.out.print(", ");
+					}
 				}
 				
-				list.add(plugins.trim());
+				plugin = plugins.trim();
+				int locationIndex = plugin.indexOf("(");
+				if (locationIndex >= 0) {
+					String location = plugin.substring(locationIndex+1, plugin.indexOf(")"));
+					location = Integer.toString(Integer.parseInt(location.trim())-1);
+					plugin = plugin.substring(0, locationIndex).trim();
+					this.pluginLocation.put(plugin, location);
+				}
+				
+				list.add(plugin.trim());
 				return (String[]) list.toArray(new String[]{});
 			}
 		} catch (ClassCastException c) {
