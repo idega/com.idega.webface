@@ -79,9 +79,15 @@ public class HTMLAreaRenderer extends Renderer {
 		// Rendering useing default HtmlInputTextarea renderer
 		getTextareaRenderer(context).encodeEnd(context, component);
 				
+
+		
 		// Checking if component has a parent Page
 		boolean pageParent = false;
-		UIComponent parent = component.getParent();
+		UIComponent parent = null;
+		
+		//Disabled parentPage detection
+		/*
+		parent = component.getParent();
 		if (parent instanceof Page) {
 			pageParent = true;
 		}
@@ -91,6 +97,7 @@ public class HTMLAreaRenderer extends Renderer {
 				pageParent = true;
 			}
 		}
+		*/
 		
 		
 		
