@@ -9,7 +9,6 @@
 package com.idega.webface.theme;
 
 import java.util.logging.Logger;
-import com.idega.webface.redmond.RedmondTheme;
 
 
 /**
@@ -21,7 +20,7 @@ public class ThemeManager {
 	
 	Logger log = Logger.getLogger(ThemeManager.class.getName());
 	private static ThemeManager instance;
-	Class defaultThemeClass=RedmondTheme.class;
+	Class defaultThemeClass=WFDefaultTheme.class;
 	
 	private ThemeManager(){
 		initialize();
