@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleItemBean.java,v 1.5 2004/06/23 13:23:43 anders Exp $
+ * $Id: ArticleItemBean.java,v 1.6 2004/06/23 14:59:33 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -17,10 +17,10 @@ import java.util.List;
 /**
  * Bean for idegaWeb article content items.   
  * <p>
- * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 14:59:33 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 
 public class ArticleItemBean extends ContentItemBean implements Serializable {
@@ -182,7 +182,7 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 			addErrorKey(KEY_ERROR_BODY_EMPTY);
 			storeOk = false;
 		}
-		if (getRequestedStatus().equals(ContentItemCaseBean.STATUS_PUBLISHED)) {
+		if (getRequestedStatus() != null && getRequestedStatus().equals(ContentItemCaseBean.STATUS_PUBLISHED)) {
 			if (getCase().getPublishedFromDate() == null) {
 				addErrorKey(KEY_ERROR_PUBLISHED_FROM_DATE_EMPTY);
 				storeOk = false;
@@ -190,7 +190,10 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 		}
 		
 		if (storeOk) {
-			setStatus(getRequestedStatus());
+			if (getRequestedStatus() != null) {
+				setStatus(getRequestedStatus());
+				setRequestedStatus(null);
+			}
 		}
 		
 		return new Boolean(storeOk);
