@@ -57,8 +57,8 @@ public class WFTitlebar extends WFContainer implements Serializable
 	
 	protected void initializeDefaultToolbar(){
 		WFToolbar toolbar = new WFToolbar();
-		toolbar.addButton(new WFHelpButton());
-		toolbar.addButton(new WFCloseButton());
+//		toolbar.addButton(new WFHelpButton());
+//		toolbar.addButton(new WFCloseButton());
 		setDefaultToolbar(toolbar);
 	}
 
