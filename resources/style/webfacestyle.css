@@ -44,26 +44,22 @@
 
 .wf_block,.wf_frame{
 	border: 1px solid #D3D3D3;
-	/***border-style: double;***/
-	/***width:100%;***/
-	margin: 6px;
-	padding:0px;
-	width:auto;
+	margin: 6px 6px 6px 6px;
+	padding: 0px 0px 0px 0px;
 }
 
 .wf_blockmainarea {
-	padding: 8px;
+	padding: 8px 8px 8px 8px;
 	background-color: #E8E8E8;
-	margin 0px;
+	margin: 0px 0px 0px 0px;
 }
 
 .wf_blockmainarea iframe{
-	min-height: 600px;
 	border:0px;
-	margin:0px;
+	margin: 1px 1px 1px 1px;
 	padding:0px;
 	width:100%;
-	height:100px;
+	height:600px;
 }
 
 .wf_viewmenublockarea {
