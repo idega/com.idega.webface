@@ -1,5 +1,5 @@
 /*
- * $Id: CreateArticlePage.java,v 1.3 2004/06/23 13:23:43 anders Exp $
+ * $Id: CreateArticlePage.java,v 1.4 2004/06/28 09:32:09 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,14 +14,15 @@ import javax.faces.component.html.HtmlPanelGrid;
 
 import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFUtil;
+import com.idega.webface.test.component.*;
 
 /**
  * Created article test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:32:09 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class CreateArticlePage extends CMSPage {
 

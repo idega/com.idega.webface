@@ -1,5 +1,5 @@
 /*
- * $Id: CMSPage.java,v 1.5 2004/06/28 09:09:50 anders Exp $
+ * $Id: CMSPage.java,v 1.6 2004/06/28 09:32:09 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,14 +29,15 @@ import com.idega.webface.WFViewMenu;
 import com.idega.webface.event.WFTaskbarEvent;
 import com.idega.webface.event.WFTaskbarListener;
 import com.idega.webface.test.bean.*;
+import com.idega.webface.test.component.*;
 
 /**
  * Content management system test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:32:09 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarListener, ActionListener, Serializable {
 	

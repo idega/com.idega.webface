@@ -1,5 +1,5 @@
 /*
- * $Id: ListArticlesPage.java,v 1.1 2004/06/18 14:09:19 anders Exp $
+ * $Id: ListArticlesPage.java,v 1.2 2004/06/28 09:32:10 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,14 +14,15 @@ import javax.faces.component.html.HtmlPanelGrid;
 
 import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFUtil;
+import com.idega.webface.test.component.*;
 
 /**
  * Search article test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/18 14:09:19 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:32:10 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ListArticlesPage extends CMSPage {
 

@@ -1,5 +1,5 @@
 /*
- * $Id: SearchArticlePage.java,v 1.1 2004/06/11 13:46:13 anders Exp $
+ * $Id: SearchArticlePage.java,v 1.2 2004/06/28 09:32:09 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,14 +14,15 @@ import javax.faces.component.html.HtmlPanelGrid;
 
 import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFUtil;
+import com.idega.webface.test.component.*;
 
 /**
  * Search article test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/11 13:46:13 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:32:09 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SearchArticlePage extends CMSPage {
 
