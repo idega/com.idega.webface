@@ -69,23 +69,5 @@
 		<component-type>HTMLArea</component-type>
 		<component-class>com.idega.webface.htmlarea.HTMLArea</component-class>
 	</component>
-
-	<managed-bean>
-		<managed-bean-name>caseListBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.CaseListBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	
-	<managed-bean>
-		<managed-bean-name>fileUploadBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.FileUploadBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	
-	<managed-bean>
-		<managed-bean-name>relatedItemsListBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.bean.CaseListBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
 	
 </faces-config>

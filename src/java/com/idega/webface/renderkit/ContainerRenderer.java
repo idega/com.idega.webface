@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import com.idega.faces.renderkit.BaseRenderer;
 import com.idega.util.RenderUtils;
 import com.idega.webface.WFContainer;
 
