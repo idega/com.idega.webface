@@ -11,6 +11,11 @@
 		<component-class>com.idega.webface.workspace.WorkspacePage</component-class>
 	</component>
 
+	<component>
+		<component-type>HTMLArea</component-type>
+		<component-class>com.idega.webface.htmlarea.HTMLArea</component-class>
+	</component>
+
 	<managed-bean>
 		<managed-bean-name>caseListBean</managed-bean-name>
 		<managed-bean-class>com.idega.webface.test.bean.CaseListBean</managed-bean-class>
