@@ -529,6 +529,13 @@ public class WFUtil {
 	/**
 	 * Invokes a method in a managed bean. 
 	 */
+	public static Object invoke(String completeBinding) {
+		MethodBinding mb = WFUtil.createMethodBinding(completeBinding, null); 
+		return mb.invoke(FacesContext.getCurrentInstance(), null);
+	}
+	/**
+	 * Invokes a method in a managed bean. 
+	 */
 	public static Object invoke(String beanId, String methodName) {
 		MethodBinding mb = WFUtil.createMethodBinding("#{" + beanId + "." + methodName + "}", null); 
 		return mb.invoke(FacesContext.getCurrentInstance(), null);
