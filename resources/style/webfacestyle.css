@@ -1,5 +1,178 @@
-
 /*** idegaWeb WebFace CSS classes ***/
+
+.wf_block,.wf_frame{
+	border: 1px solid #D7D7D7;
+	margin: 0 4px 4px 0;
+	padding: 0;
+	background: #fff;
+	position: relative;
+}
+div.wf_tabbarmainarea{
+	padding: 30px 0 0;
+	position: relative;
+}
+div.ws_main div.wf_block div.wf_tabbarcontainer{
+	position: absolute;
+	top: 23px;
+	left: 0;
+	width: 100%;
+	height: 22px;
+	background: #FAFAFA url(images/tabbar/bg_item.gif) repeat-x;
+	border-bottom: 1px solid #D7D7D7;
+}
+div.ws_main div.wf_block ul.wf_tabbar, 
+div.ws_main div.wf_block ul.wf_tabbar li{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+div.ws_main div.wf_block ul.wf_tabbar li{
+	float: left;
+	height: 22px;
+	border: 1px solid #D7D7D7;
+	border-width: 0 1px 0 0;
+}
+div.ws_main div.wf_block ul.wf_tabbar li a,
+div.ws_main div.wf_block ul.wf_tabbar li.wf_tabbarbuttonselected
+{
+	float: left;
+	padding: 3px 10px 0;
+	height: 19px;
+}
+div.ws_main div.wf_block ul.wf_tabbar li.wf_tabbarbuttonselected,
+div.ws_main div.wf_block ul.wf_tabbar li a:hover
+{
+	background: #E7E7E7 url(images/tabbar/bg_item_selected.gif) repeat-x;
+	font-weight: normal;
+}
+
+
+div.wf_titlebar{
+	background: #FAFAFA;
+	border: 1px solid #D7D7D7;
+	border-width: 0 0 1px;
+}
+div.wf_titlebar img{
+	float: right;
+}
+div.wf_titlebar div.wf_titlebar_icon img{
+	float: left;
+}
+div.ws_main div.wf_titlebar div.wf_titlebar_text{
+	color: #404040;
+	font-weight: bold;
+	padding: 1px 20px 0;
+	margin: 0 0 0 5px;
+}
+div.ws_main div.wf_titlebar div.wf_titlebar_icon{
+	padding: 4px 5px 0;
+	margin: 0;
+}
+
+/* Main */
+div.ws_main div.wf_titlebar{
+	height: 22px;
+	background: url(images/bg_titlebar.gif) repeat-x;
+	width: 100%;
+}
+
+/* Left */
+div.ws_functionmenu .wf_block{
+	margin-left: 4px;
+	margin-bottom: 0;
+}
+div.ws_functionmenu div.wf_titlebar{
+	height: 34px;
+	background: url(images/bg_titlebar_big.gif) repeat-x;
+	padding: 8px 0 0 12px;
+	color: #515151;
+	font-weight: bold;
+	font-size: 1.2em;
+	font-variant: small-caps;
+}
+div.ws_functionmenu div.wf_titlebar a{
+	text-decoration: none;
+	color: #00AEFF;
+	font-size: 0.7em;
+	font-weight: bold;
+	font-variant: normal;
+}
+div.ws_functionmenu div.wf_titlebar a:hover{
+	text-decoration: underline;
+}
+
+
+/* Left Menu */
+div.ws_functionmenu ul.wf_viewmenu, 
+div.ws_functionmenu ul.wf_viewmenu li
+{
+	margin: 0;
+	padding: 0;
+}
+div.ws_functionmenu ul.wf_viewmenu{
+	list-style: none;
+	border: none;
+	background: #fff;
+}
+div.ws_functionmenu ul.wf_viewmenu li{
+	border: none;
+	border-top: 1px solid #F4F4F4;
+	clear: both;
+	display: block;
+	height: 34px;
+}
+div.ws_functionmenu ul.wf_viewmenu li a{
+	color: #303030;
+	font-weight: bold;
+	padding: 5px 0 0 24px;
+	display: block;
+	background: url(images/viewmenu_mainbullet2.png) 11px 7px no-repeat;
+
+	/***IE TRANSPARENCY HACKS***/
+  /* Mozilla ignores crazy MS image filters, so it will skip the following */
+/*
+    _background-image:none;
+	 _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=crop, src='/ePlatform/content/idegaweb/bundles/com.idega.webface.bundle/resources/style/images/viewmenu_mainbullet2.png');
+*/
+}
+div.ws_functionmenu ul.wf_viewmenu li a:hover{
+	text-decoration: underline;
+}
+div.ws_functionmenu ul.wf_viewmenu li:hover{
+	background: #FAFAFA;
+}
+
+div.ws_functionmenu ul.wf_viewmenu li.wf_viewmenubuttonselected{
+	background: #025FD0 url(images/functionmenu/bg_item_selected.gif) repeat-x;
+}
+div.ws_functionmenu ul.wf_viewmenu li.wf_viewmenubuttonselected a{
+	color: #fff;
+}
+div.ws_functionmenu ul.wf_viewmenu li ul{
+	clear: both;
+	margin-left: 19px;
+}
+div.ws_functionmenu ul.wf_viewmenu li ul li{
+	border: none;
+	float: left;
+	clear: none;
+	height: auto;
+	font-size: 0.9em;
+}
+div.ws_functionmenu ul.wf_viewmenu li ul li a{
+	display: inline;
+	font-weight: normal;
+	padding: 0 0 0 5px;
+	background: none;
+/* 	_filter: none;*/
+}
+div.ws_functionmenu ul.wf_viewmenu li ul li:hover{
+	background: none;
+}
+
+
+
+
 
 .wf_smalltext {
 	font-size: 10px;
@@ -33,20 +206,16 @@
 	margin: 0px;
 	border: 1px solid #848284;
 	padding: 0px;
-	/***border-style: double;***/
 	width:100%;
 }
 
+/*
 .wf_simplebox .wf_titlebar {
 	border-right-width: 0px;
 	margin: 0px;
 }
+*/
 
-.wf_block,.wf_frame{
-	border: 1px solid #D3D3D3;
-	margin: 6px 6px 6px 6px;
-	padding: 0px 0px 0px 0px;
-}
 
 .wf_blockmainarea {
 	padding: 8px 8px 8px 8px;
@@ -67,26 +236,13 @@
 	width: 100%;
 }
 
-.wf_titlebar,.wf_toolbar{
-	background-color: #F5F5F5;
-	border-top-width: 0px;
-	border-right-width: 0px;
-	border-bottom-width: 1px;
-	border-left-width: 0px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: solid;
-	border-left-style: solid;
-	border-color: #D3D3D3;
-	height: 24px;
-	margin:0px;
-	vertical-align: middle;
-	padding-left:3px;
+div.wf_titlebar, div.wf_toolbar{
+
 }
 
+/*
 .wf_titlebar * {
 	vertical-align: middle;
-	margin 2px;
 	display:inline;
 }
 
@@ -123,20 +279,14 @@
 	border-bottom-width: 0px;
 	border-left-width: 0px;
 }
-
-.wf_toolbar_button{
+*/
+.wf_toolbar * {
+	display: inline-block;
 	vertical-align: middle;
-	display: inline;
-	list-style: none;
-	margin: 0px 1px 0px 1px;
+	margin: 2px;
 	padding: 0px;
-	width: 16px;
-	height: 16px;
 }
 
-.wf_toolbar_button span{
-	float: left;
-}
 
 .wf_list {
 	background-color: #FFFFFF;
@@ -244,10 +394,10 @@
 
 /***WFMenu***/
 
+/*
 .wf_viewmenu {
 	border-spacing: 1px;
 	padding: 3px;
-	/***width: 100%;***/
 	margin: 1px 1px 1px 1px;
 }
 
@@ -260,13 +410,11 @@
 	padding: 4px 4px 4px 15px;
 	vertical-align: middle;
 	margin:0px;
-	/***list-style: none;***/
 	list-style-image: url(images/viewmenu_mainbullet2.png);
 	list-style-position: inside;
-	/***font-weight: bold;***/
 }
 
-.wf_viewmenubuttondeselected .wf_viewmenu {
+wf_viewmenubuttondeselected .wf_viewmenu {
 	padding: 0px 0px 0px 0px;
 	#background-image:none;
 }
@@ -278,23 +426,16 @@
 	background-repeat: repeat;
 }
 
-.wf_viewmenubuttonselected a{
-	color: #FFFFFF;
-}
-
 .wf_viewmenubuttondeselected a {
 	color: black;
 }
 
-
-.wf_viewmenu *:hover{
-	background-color: #C1C1C1;
-	font-style:normal;
+.wf_viewmenubuttondeselected:hover,.wf_viewmenubuttondeselected a:hover {
+	color: white;
 }
-
-.wf_viewmenubuttondeselected a:hover {
-	text-decoration:underline;
-	font-style:normal;
+.wf_viewmenubuttondeselected:hover{
+	background-image: url(images/blueover_tile2.gif);
+	background-repeat: repeat;
 }
 
 
@@ -316,32 +457,34 @@
 	display:none;
 }
 
+.wf_viewmenubuttondeselected a:hover {
+	color: #white;
+}
 
 .wf_viewmenubuttondeselected, wf_viewmenubuttondeselected:hover, wf_viewmenubuttonselected{
-	border-top: 1px solid #D3D3D3;
-	border-left: 1px solid #D3D3D3;
-	border-bottom: 1px solid #D3D3D3;
-	border-right: 1px solid #D3D3D3;
+	border: 1px solid #D7D7D7;
 }
 
 .wf_menuheader{
 	display:inline;
 }
-
+*/
 /***WFMenu***/
+
 /*TabBar*/
 
 .wf_tabbarmainarea {
 	padding: 1.5em;
-	background: #F1F1F1;
+	background: #fff;
 	min-height: 300px;
 	border-top: 2em solid #FFF3B3;
 }
 
+/*
 .wf_tabbar {
 	margin: 0;
 	padding: 0;
-	#width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
+	#width: 45em; 
 	width: 100%;
 	height:24px;        
 	background-image: url(images/greybar_tile.gif);
@@ -350,9 +493,9 @@
 
 .wf_tabbarbuttonselected a {
 	margin-top: -2;
-	background: #F1F1F1;
+	background: #F2F2F2;
 	padding-bottom: 5px;
-    font-color: #4D4D4D;
+        font-color: #4D4D4D;
 }
 
 .wf_tabbarbuttonselected, .wf_tabbarbuttondeselected {
@@ -360,7 +503,7 @@
 	list-style: none;
 }
 
-.wf_tabbarbuttonselected a, .wf_tabbarbuttondeselected a {
+.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a {
 	width: 7em;
 	display: block;
 	float: right;
@@ -373,12 +516,8 @@
 	border-left: 1px solid #C4C4C4;
 }
 
-.wf_tabbarbuttonselected a {
-	font-color: #4D4D4D;
-	background-color: #C4C4C4;
-}
-
 .wf_tabbarbuttondeselected a {
+	#border-bottom: none;
 	font-color: #4D4D4D;
 	background-image: url(images/greybar_tile.gif);
 	background-repeat: repeat-x;
@@ -386,7 +525,7 @@
 
 .wf_tabbarbuttondeselected a:hover {
 	margin-top: -2;
-	background-color: #F1F1F1;
+	background-color: #F2F2F2;
 	padding-bottom: 5px;
 	font-color: #4D4D4D;
 	#background-image: none;
@@ -405,7 +544,6 @@
 	padding: 0px;
 	width: 100%;
 }
-
 .wf_inputcomponentrow td {
 	background-color: #CCCCCC;
 	padding: 5px;
@@ -422,7 +560,7 @@
 	font-size: 8pt;
 	color: #000000;
 	text-align: justify;
-	border: 1 solid #000000;
+	border: 1px solid #ABABAB;
 }
 
 .wf_selectonemenu {
