@@ -7,6 +7,7 @@
 package com.idega.webface.redmond;
 
 import javax.faces.render.RenderKit;
+
 import com.idega.faces.renderkit.BaseRenderKit;
 import com.idega.webface.WFBezel;
 import com.idega.webface.WFBlock;
@@ -15,6 +16,8 @@ import com.idega.webface.WFContainer;
 import com.idega.webface.WFTabBar;
 import com.idega.webface.WFTitlebar;
 import com.idega.webface.WFToolbar;
+import com.idega.webface.htmlarea.HTMLArea;
+import com.idega.webface.htmlarea.HTMLAreaRenderer;
 
 /**
  * @author tryggvil
@@ -35,6 +38,7 @@ public class RedmondRenderKit extends BaseRenderKit {
 		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFBlock.RENDERER_TYPE,new BlockRenderer());
 		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFTitlebar.RENDERER_TYPE,new TitlebarRenderer());
 		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFToolbar.RENDERER_TYPE,new ToolbarRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,HTMLArea.RENDERER_TYPE, new HTMLAreaRenderer());
 	}
 
 }
