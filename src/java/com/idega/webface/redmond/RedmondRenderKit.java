@@ -13,7 +13,7 @@ import com.idega.webface.WFBezel;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFConstants;
 import com.idega.webface.WFContainer;
-import com.idega.webface.WFTabBar;
+import com.idega.webface.WFTabbedPane;
 import com.idega.webface.WFTitlebar;
 import com.idega.webface.WFToolbar;
 import com.idega.webface.htmlarea.HTMLArea;
@@ -34,7 +34,7 @@ public class RedmondRenderKit extends BaseRenderKit {
 		super(oldRenderKit);
 		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFContainer.RENDERER_TYPE,new ContainerRenderer());
 		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFBezel.RENDERER_TYPE,new BezelRenderer());
-		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFTabBar.RENDERER_TYPE,new TabBarRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFTabbedPane.RENDERER_TYPE,new MenuRenderer());
 		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFBlock.RENDERER_TYPE,new BlockRenderer());
 		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFTitlebar.RENDERER_TYPE,new TitlebarRenderer());
 		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFToolbar.RENDERER_TYPE,new ToolbarRenderer());

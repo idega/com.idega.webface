@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewMenu.java,v 1.6 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: WFViewMenu.java,v 1.7 2004/11/01 15:00:47 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -10,12 +10,8 @@
 package com.idega.webface;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
@@ -23,83 +19,32 @@ import javax.faces.event.ActionListener;
 /**
  * Menu with buttons for switching the view root. 
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/11/01 15:00:47 $ by $Author: tryggvil $
  *
- * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @author Anders Lindman,Tryggvi Larusson
+ * @version $Revision: 1.7 $
  */
-public class WFViewMenu extends WFContainer implements ActionListener {
+public class WFViewMenu extends WFMenu implements ActionListener {
 	
-	private String _selectedButtonId = null;
-	private List _buttonIds = null;
-	private String _viewMenuStyleClass = null;
-	private String _buttonSelectedStyleClass = null;
-	private String _buttonDeselectedStyleClass = null;
+	//private String _selectedButtonId = null;
+	//private List _buttonIds = null;
+	//private String _viewMenuStyleClass = null;
+	//private String _buttonSelectedStyleClass = null;
+	//private String _buttonDeselectedStyleClass = null;
 	
 	/**
 	 * Default contructor.
 	 */
 	public WFViewMenu() {
-		_buttonIds = new ArrayList();
-		setViewMenuStyleClass("wf_viewmenu");
-		setButtonSelectedStyleClass("wf_viewmenubuttonselected");
-		setButtonDeselectedStyleClass("wf_viewmenubuttondeselected");
-	}
-
-	/**
-	 * Returns the css class for this view menu.
-	 */
-	public String getViewMenuStyleClass() {
-		return _viewMenuStyleClass;
-	}
-
-	/**
-	 * Returns the css class for selected view menu buttons.
-	 */
-	public String getButtonSelectedStyleClass() {
-		return _buttonSelectedStyleClass;
-	}
-
-	/**
-	 * Returns the css class for deselected view menu buttons.
-	 */
-	public String getButtonDeselectedStyleClass() {
-		return _buttonDeselectedStyleClass;
-	}
-
-	/**
-	 * Returns the id for the selected button.
-	 */
-	public String getSelectedButtonId() {
-		return _selectedButtonId;
-	}
-
-	/**
-	 * Sets the css class for this view menu. 
-	 */
-	public void setViewMenuStyleClass(String taskMenuStyleClass) {
-		_viewMenuStyleClass = taskMenuStyleClass;
-	}
-
-	/**
-	 * Sets the css class for selected view menu button. 
-	 */
-	public void setButtonSelectedStyleClass(String buttonSelectedStyleClass) {
-		_buttonSelectedStyleClass = buttonSelectedStyleClass;
-	}
-
-	/**
-	 * Sets the css class for deselected view menu button. 
-	 */
-	public void setButtonDeselectedStyleClass(String buttonDeselectedStyleClass) {
-		_buttonDeselectedStyleClass = buttonDeselectedStyleClass;
+		setVerticalStyle();
 	}
 
 	/**
 	 * Sets the id for the selected button.
 	 */
-	public void setSelectedButtonId(String selectedButtonId) {
-		_selectedButtonId = selectedButtonId;
+	public void setSelectedMenuItemId(String selectedButtonId) {
+		//_selectedButtonId = selectedButtonId;
+		super.setSelectedMenuItemId(selectedButtonId);
 		WFViewSelector vs = (WFViewSelector) getFacet("viewselector");
 		if (vs != null) {
 			String viewId = (String) getAttributes().get("view_" + selectedButtonId);
@@ -120,9 +65,9 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 		button.setId(buttonId);
 		button.addActionListener(this);
 		button.setImmediate(true);
-		_buttonIds.add(buttonId);
-		if (_selectedButtonId == null) {
-			_selectedButtonId = buttonId;
+		getMenuItemIds().add(buttonId);
+		if (getSelectedMenuItemId() == null) {
+			setSelectedMenuItemId(buttonId);
 		}
 		getFacets().put("button_" + buttonId, button);
 		getAttributes().put("view_" + buttonId, viewId);
@@ -153,16 +98,18 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 		int indexOfDot = viewId.indexOf('.');
 		if(indexOfDot!=-1){
 			viewId = viewId.substring(0, indexOfDot) + ".jsf";
-			for (Iterator iter = _buttonIds.iterator(); iter.hasNext();) {
+			for (Iterator iter = getMenuItemIds().iterator(); iter.hasNext();) {
 				String buttonId = (String) iter.next();
 				String buttonViewId = (String) getAttributes().get("view_" + buttonId);
 				if (buttonViewId.equals(viewId)) {
-					_selectedButtonId = buttonId;
+					setSelectedMenuItemId(buttonId);
 					break;
 				}
 			}
 		}
+		super.encodeBegin(context);
 		
+		/*
 		ResponseWriter out = context.getResponseWriter();
 		// Task menu buttons
 		out.startElement("table", null);
@@ -190,6 +137,7 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 			out.endElement("tr");
 		}
 		out.endElement("table");
+		*/
 	}
 	
 	/**
@@ -209,27 +157,14 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[6];
-		values[0] = super.saveState(ctx);
-		values[1] = _selectedButtonId;
-		values[2] = _buttonIds;
-		values[3] = _viewMenuStyleClass;
-		values[4] = _buttonSelectedStyleClass;
-		values[5] = _buttonDeselectedStyleClass;
-		return values;
+		return super.saveState(ctx);
 	}
 	
 	/**
 	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
 	 */
 	public void restoreState(FacesContext ctx, Object state) {
-		Object values[] = (Object[])state;
-		super.restoreState(ctx, values[0]);
-		_selectedButtonId = (String) values[1];
-		_buttonIds = (List) values[2];
-		_viewMenuStyleClass = (String) values[3];
-		_buttonSelectedStyleClass = (String) values[4];
-		_buttonDeselectedStyleClass = (String) values[5];
+		super.restoreState(ctx,state);
 	}
 
 	/**
@@ -238,6 +173,6 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 	public void processAction(ActionEvent event) throws AbortProcessingException {
 		WFViewMenuButton button = (WFViewMenuButton) event.getComponent();
 		WFViewMenu taskmenu = (WFViewMenu) button.getParent();
-		taskmenu.setSelectedButtonId(button.getId());
+		taskmenu.setSelectedMenuItemId(button.getId());
 	}
 }

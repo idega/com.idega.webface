@@ -10,7 +10,6 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import com.idega.webface.WFBezel;
-import com.idega.webface.WFConstants;
 import com.idega.webface.WFContainer;
 
 /**

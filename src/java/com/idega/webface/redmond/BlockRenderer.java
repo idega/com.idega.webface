@@ -1,5 +1,5 @@
 /*
- * $Id: BlockRenderer.java,v 1.1 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: BlockRenderer.java,v 1.2 2004/11/01 15:00:48 tryggvil Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -18,10 +18,10 @@ import com.idega.webface.WFContainer;
 
 /**
  * 
- *  Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2004/11/01 15:00:48 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BlockRenderer extends ContainerRenderer{
 	
@@ -48,4 +48,18 @@ public class BlockRenderer extends ContainerRenderer{
 		renderFacet(context, component,"titlebar");
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.faces.render.Renderer#encodeChildren(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
+	 */
+	public void encodeChildren(FacesContext ctx, UIComponent comp) throws IOException {
+		// TODO Auto-generated method stub
+		super.encodeChildren(ctx, comp);
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.render.Renderer#encodeEnd(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
+	 */
+	public void encodeEnd(FacesContext ctx, UIComponent comp) throws IOException {
+		// TODO Auto-generated method stub
+		super.encodeEnd(ctx, comp);
+	}
 }

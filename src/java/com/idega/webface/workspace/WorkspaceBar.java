@@ -9,21 +9,21 @@
 package com.idega.webface.workspace;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
+import com.idega.faces.view.ViewManager;
+import com.idega.faces.view.ViewNode;
+import com.idega.idegaweb.IWMainApplication;
 import com.idega.presentation.text.Text;
 import com.idega.webface.WFContainer;
-import com.idega.webface.WFPage;
-import com.idega.webface.WFPanelUtil;
+import com.idega.webface.WFMenu;
 import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFTabBar;
+import com.idega.webface.WFTabbedPane;
 import com.idega.webface.WFUtil;
 import com.idega.webface.event.WFTabEvent;
-import com.idega.webface.event.WFTabListener;
-import com.idega.webface.test.bean.ContentItemCase;
-import com.idega.webface.test.bean.ManagedContentBeans;
 
 
 /**
@@ -31,7 +31,7 @@ import com.idega.webface.test.bean.ManagedContentBeans;
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
  * @version 1.0
  */
-public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, WFTabListener, ActionListener, Serializable{
+public class WorkspaceBar extends WFContainer implements  Serializable{
 
 	private final static String P = "cms_page_"; // Parameter prefix
 	
@@ -80,7 +80,7 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 	 * 
 	 */
 	private void addTabbar() {
-		WFTabBar bar = getMainTaskbar();
+		WFMenu bar = getMainTaskbar();
 		add(bar);
 	}
 
@@ -102,17 +102,24 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 	/**
 	 * Returns the main task bar selector. 
 	 */
-	protected WFTabBar getMainTaskbar() {
-		String bref = WFPage.CONTENT_BUNDLE + ".";
+	protected WFMenu getMainTaskbar() {
+
 		WFTabBar tb = new WFTabBar();
-		
-		//tb.setMainAreaStyleClass(null);
-		
 		tb.setId(MAIN_TASKBAR_ID);
-		tb.addButton(TASK_ID_WEBVIEW,  "WebView", getWebViewPerspective());
-		tb.addButton(TASK_ID_CONTENT, "Content", getContentPerspective());
-		//tb.addButtonVB(TASK_ID_EDIT, bref + "edit", getEditPerspective());
-		tb.addButton(TASK_ID_BUILDER, "Builder", getBuilderPerspective());
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		ViewManager viewManager = ViewManager.getInstance(context);
+		
+		ViewNode workspaceNode = viewManager.getWorkspaceRoot();
+		IWMainApplication iwma = IWMainApplication.getIWMainApplication(context);
+		
+		for (Iterator iter = workspaceNode.getChildren().iterator(); iter.hasNext();) {
+			ViewNode subNode = (ViewNode) iter.next();
+			String url = subNode.getURI();
+			tb.addTab(subNode.getName(),url);
+		}
+		
 		return tb;
 	}
 	
@@ -146,7 +153,7 @@ public class WorkspaceBar extends WFContainer implements  ManagedContentBeans, W
 	 * @see com.idega.webface.event.WFTabListener#taskbarButtonPressed() 
 	 */
 	public void tabPressed(WFTabEvent e) {
-		WFTabBar t = e.getTaskbar();
+		WFTabbedPane t = e.getTaskbar();
 		/*UIComponent articleVersionBlock = t.findComponent(ArticleVersionBlock.ARTICLE_VERSION_BLOCK_ID);
 		if (t.getSelectedButtonId().equals(ArticleBlock.TASK_ID_PREVIEW)) {
 			articleVersionBlock.setRendered(true);

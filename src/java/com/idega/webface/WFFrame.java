@@ -1,5 +1,5 @@
 /*
- * $Id: WFFrame.java,v 1.2 2004/10/25 15:51:58 tryggvil Exp $
+ * $Id: WFFrame.java,v 1.3 2004/11/01 15:00:47 tryggvil Exp $
  * Created on 20.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -10,16 +10,15 @@
 package com.idega.webface;
 
 import javax.faces.context.FacesContext;
-import com.idega.idegaweb.IWMainApplication;
 import com.idega.presentation.ui.IFrame;
 
 
 /**
  * 
- *  Last modified: $Date: 2004/10/25 15:51:58 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2004/11/01 15:00:47 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFFrame extends WFBlock {
 

@@ -11,13 +11,10 @@ import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
-import com.idega.presentation.PresentationObject;
 import com.idega.presentation.Table;
 import com.idega.presentation.app.IWControlCenter;
 import com.idega.presentation.ui.DropdownMenu;
 import com.idega.presentation.ui.Form;
-import com.idega.util.reflect.FieldAccessor;
-import com.idega.util.reflect.MethodInvoker;
 import com.idega.webface.WFBezel;
 
 

@@ -3,6 +3,7 @@
  */
 package com.idega.webface;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
@@ -223,11 +224,30 @@ public class WFToolbarButton extends UICommand {
 			}
 			current = current.getParent();
 		}
+		if(form==null){
+			UIComponent root = ctx.getViewRoot();
+			form = findFormDown(root);
+		}
 		
 		if(form != null) {
 			ret = form.getClientId(ctx);
 		}
 		
 		return ret;
+	}
+	
+	
+	public static UIForm findFormDown(UIComponent component){
+		Iterator iter = component.getFacetsAndChildren();
+		for (Iterator iterator = component.getFacetsAndChildren(); iterator.hasNext();) {
+			UIComponent child = (UIComponent) iterator.next();
+			if(child instanceof UIForm){
+				return (UIForm)child;
+			}
+			else{
+				return findFormDown(child);
+			}
+		}
+		return null;
 	}
 }

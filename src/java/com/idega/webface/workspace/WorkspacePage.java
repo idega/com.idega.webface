@@ -6,12 +6,15 @@
  */
 package com.idega.webface.workspace;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlForm;
+import javax.faces.context.FacesContext;
 import com.idega.faces.view.ViewManager;
 import com.idega.faces.view.ViewNode;
 import com.idega.faces.view.node.FramedApplicationViewNode;
@@ -30,16 +33,25 @@ public class WorkspacePage extends Page {
 	private IWBundle iwb;
 	private IWResourceBundle iwrb;
 	private List specialList;
+	private boolean embedForm=false;
+	private boolean isInitalized=false;
 	//String backgroundColor = "#B0B29D";
-
+	private UIForm form;
+	
 	public WorkspacePage() {
-		IWContext iwc = IWContext.getInstance();
-		init(iwc);
+		//IWContext iwc = IWContext.getInstance();
+		//init(iwc);
+		//initalizeEmbeddedForm();
+		if(embedForm){
+			initalizeEmbeddedForm();
+		}
 	}
 	public String getBundleIdentifier() {
 		return IW_BUNDLE_IDENTIFIER;
 	}
-	public void init(IWContext iwc) {
+	public void initializeContent(FacesContext context) {
+		IWContext iwc = IWContext.getIWContext(context);
+		
 		iwb = this.getBundle(iwc);
 		iwrb = this.getResourceBundle(iwc);
 
@@ -50,18 +62,31 @@ public class WorkspacePage extends Page {
 		thePage.setTitle("idegaWeb Applications");
 
 
-		HtmlForm form = new HtmlForm();
-		specialList = new SpecialChildList(this,form);
-		
-		add(form);
-		
+		//if(embedForm){
+		//	initalizeEmbeddedForm();
+		//}
+
 		//String requestUri = iwc.getExternalContext().getRequestPathInfo();
+		String requestUri = iwc.getRequestURI();
+		if(requestUri.endsWith("content")){
+			try{
+				Class clazz = Class.forName("com.idega.block.article.CMSPage");
+				UIComponent comp = (UIComponent) clazz.newInstance();
+				add(comp);
+			}
+			catch(Throwable t){
+				t.printStackTrace();
+			}
+		}
 		ViewNode node = ViewManager.getInstance(iwc.getIWMainApplication()).getViewNodeForContext(iwc);
 		if(node instanceof FramedApplicationViewNode){
 			FramedApplicationViewNode frameNode = (FramedApplicationViewNode)node;
 			WFFrame frame = new WFFrame(node.getName(),frameNode.getFrameUrl());
+			//WFBlock frame = new WFBlock("test");
 			add(frame);
 		}
+		
+		
 		
 		
 		//UISaveState savestate = new UISaveState();
@@ -167,18 +192,136 @@ public class WorkspacePage extends Page {
 	}
 	
 	public List getChildren(){
-		if(specialList==null){
+		if(embedForm){
+			return getForm().getChildren();
+		}
+		else{
 			return super.getChildren();
 		}
-		return specialList;
+		
+	}
+	
+	
+	public void add(UIComponent comp){
+		this.getForm().getChildren().add(comp);
 	}
 	
 	/**
+	 * This sets the page to embed a UIForm. This does not currently handle restoring state.
+	 * @param doEmbed
+	 */
+	public void setToEmbedForm(boolean doEmbed){
+		//TODO: implement handling of this fully
+		this.embedForm=doEmbed;
+	}
+	
+	private void initalizeEmbeddedForm(){
+		HtmlForm form = new HtmlForm();
+		//form.setId(this.getId()+"-form");
+		form.setParent(this);
+		//specialList = new SpecialChildList(this,form);
+		
+		//add(form);
+		setForm(form);
+	}
+	
+	private void setForm(UIForm form){
+		//String formId = this.getId()+"-form";
+		//getFacets().put(formId,form); 
+		this.form=form;
+	}
+	
+	private UIForm getForm(){
+		//String formId = this.getId()+"-form";
+		//return (UIForm)getFacets().get(formId);
+		if(form==null){
+			form = findSubForm();
+			if(form==null){
+				throw new RuntimeException("WorkspacePage: No form found in page, it must be explicitly added inside page");
+			}
+		}
+		return this.form;
+	}
+	
+	private UIForm findSubForm(){
+		Collection children = getChildren();
+		for (Iterator iter = children.iterator(); iter.hasNext();) {
+			UIComponent child = (UIComponent) iter.next();
+			if(child instanceof UIForm){
+				return (UIForm)child;
+			}
+		}
+		return null;
+	}
+	
+	public void encodeBegin(FacesContext context) throws IOException{
+		if(!isInitalized){
+			this.initializeContent(context);
+			isInitalized=true;
+		}
+		super.encodeBegin(context);
+	}
+	
+	public void encodeChildren(FacesContext context) throws IOException{
+		
+		UIForm form = getForm();
+		if(this.embedForm){
+			form.encodeBegin(context);
+		}
+		super.encodeChildren(context);
+		
+		if(this.embedForm){
+			form.encodeChildren(context);
+			form.encodeEnd(context);
+		}
+	}
+	
+	public void encodeEnd(FacesContext context) throws IOException{
+		super.encodeEnd(context);
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see javax.faces.component.StateHolder#restoreState(javax.faces.context.FacesContext, java.lang.Object)
+	 */
+	public void restoreState(FacesContext ctx, Object state) {
+		Object values[] = (Object[])state;
+		super.restoreState(ctx, values[0]);
+		Boolean bIsInitalized = (Boolean) values[1];
+		this.isInitalized=bIsInitalized.booleanValue();
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.StateHolder#saveState(javax.faces.context.FacesContext)
+	 */
+	public Object saveState(FacesContext ctx) {
+		Object values[] = new Object[2];
+		values[0] = super.saveState(ctx);
+		values[1] = Boolean.valueOf(this.isInitalized);
+		return values;
+	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#processRestoreState(javax.faces.context.FacesContext, java.lang.Object)
+	 */
+	public void processRestoreState(FacesContext fc, Object arg1) {
+		// TODO Auto-generated method stub
+		super.processRestoreState(fc, arg1);
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#processSaveState(javax.faces.context.FacesContext)
+	 */
+	public Object processSaveState(FacesContext arg0) {
+		// TODO Auto-generated method stub
+		return super.processSaveState(arg0);
+	}
+	/**
 	 * 
-	 *  Last modified: $Date: 2004/10/25 14:45:46 $ by $Author: tryggvil $
+	 *  Last modified: $Date: 2004/11/01 15:00:48 $ by $Author: tryggvil $
 	 * 
 	 * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
-	 * @version $Revision: 1.2 $
+	 * @version $Revision: 1.3 $
 	 */
 	public class SpecialChildList implements List{
 		
