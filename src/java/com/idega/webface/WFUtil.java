@@ -15,7 +15,6 @@ import javax.faces.component.UISelectItems;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
-import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
@@ -158,7 +157,9 @@ public class WFUtil {
 	 */
 	public static HtmlCommandLink getLinkVB(String id, String ref, ActionListener actionListener) {
 		HtmlCommandLink l = new HtmlCommandLink();
-		l.setId(id);
+		if(id!=null){
+			l.setId(id);
+		}
 		l.getChildren().add(getTextVB(ref));
 		if (actionListener != null) {
 			l.addActionListener(actionListener);
