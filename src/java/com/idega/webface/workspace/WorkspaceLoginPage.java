@@ -27,6 +27,7 @@ public class WorkspaceLoginPage extends Page {
 	String backgroundColor = "#B0B29D";
 
 	public WorkspaceLoginPage() {
+		setTransient(false);
 	}
 	public String getBundleIdentifier() {
 		return IW_BUNDLE_IDENTIFIER;
