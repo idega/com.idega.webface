@@ -77,6 +77,17 @@ public class WFUtil {
 		return t;
 	}
 	
+	
+	/**
+	 * Returns an html text component with a style class
+	 */
+	public static HtmlOutputText getText(String s, String styleClass) {
+		HtmlOutputText t = new HtmlOutputText();
+		t.setValue(s);
+		t.setStyleClass(styleClass);
+		return t;
+	}
+	
 	/**
 	 * Returns an html text component with value binding.
 	 */
