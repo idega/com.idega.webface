@@ -10,32 +10,32 @@
 	     <renderer>
 	          <component-family>webface</component-family>
 	          <renderer-type>wf_container</renderer-type>
-	          <renderer-class>com.idega.webface.redmond.ContainerRenderer</renderer-class>
+	          <renderer-class>com.idega.webface.renderkit.ContainerRenderer</renderer-class>
 	     </renderer>
 	     <renderer>
 	          <component-family>webface</component-family>
 	          <renderer-type>wf_bezel</renderer-type>
-	          <renderer-class>com.idega.webface.redmond.BezelRenderer</renderer-class>
+	          <renderer-class>com.idega.webface.renderkit.BezelRenderer</renderer-class>
 	     </renderer>
 	     <renderer>
 	          <component-family>webface</component-family>
 	          <renderer-type>wf_menu</renderer-type>
-	          <renderer-class>com.idega.webface.redmond.MenuRenderer</renderer-class>
+	          <renderer-class>com.idega.webface.renderkit.MenuRenderer</renderer-class>
 	     </renderer>
 	     <renderer>
 	          <component-family>webface</component-family>
 	          <renderer-type>wf_block</renderer-type>
-	          <renderer-class>com.idega.webface.redmond.BlockRenderer</renderer-class>
+	          <renderer-class>com.idega.webface.renderkit.BlockRenderer</renderer-class>
 	     </renderer>
 	     <renderer>
 	          <component-family>webface</component-family>
 	          <renderer-type>wf_titlebar</renderer-type>
-	          <renderer-class>com.idega.webface.redmond.TitlebarRenderer</renderer-class>
+	          <renderer-class>com.idega.webface.renderkit.TitlebarRenderer</renderer-class>
 	     </renderer>
 	     <renderer>
 	          <component-family>webface</component-family>
 	          <renderer-type>wf_toolbar</renderer-type>
-	          <renderer-class>com.idega.webface.redmond.ToolbarRenderer</renderer-class>
+	          <renderer-class>com.idega.webface.renderkit.ToolbarRenderer</renderer-class>
 	     </renderer>
 	     <renderer>
 	          <component-family>webface</component-family>
