@@ -124,7 +124,9 @@ public class ContainerRenderer extends BaseRenderer {
 	protected void renderContainerStart(ResponseWriter out,String containerType,String styleClass){
 		try {
 			out.startElement(containerType,null);
-			out.writeAttribute("class",styleClass,null);
+			if(styleClass!=null){
+				out.writeAttribute("class",styleClass,null);
+			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
