@@ -250,9 +250,9 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	margin: 0;
 	padding: 0;
 	position: absolute;
-	bottom: -1px;
-	left: 20px;
-	width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
+	top: 33px;
+	left: 7px;
+	#width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
 }
 
 .wf_tabbarbuttonselected a {
