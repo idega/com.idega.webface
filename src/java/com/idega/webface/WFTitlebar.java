@@ -22,11 +22,11 @@ public class WFTitlebar extends WFContainer implements Serializable
 
 	private WFToolbar defaultToolbar;
 
-	private String titleText="Untitled";
+//	private String titleText="Untitled";
 	private String titlebarColor;
 	private String titleTextColor;
 	private String iconImageURI;
-	private boolean valueRefTitle = false;
+//	private boolean valueRefTitle = false;
 	
 	public WFTitlebar(){
 		setStyleClass(DEFAULT_STYLE_CLASS);
@@ -34,8 +34,13 @@ public class WFTitlebar extends WFContainer implements Serializable
 	}
 	
 	public WFTitlebar(String text){
+		this(text, false);
+	}
+
+	public WFTitlebar(String text, boolean isVB){
 		this();
-		setTitleText(text);
+		addTitleText(text, isVB);
+		getFacets().put("titlebar", this);
 	}
 	
 	protected void setDefaultToolbar(){
@@ -74,46 +79,56 @@ public class WFTitlebar extends WFContainer implements Serializable
 		viewWithTitleBar = b;
 	}
 
-	/**
-	 * @return
-	 */
-	public String getTitleText() {
-		return titleText;
-	}
+//	/**
+//	 * @return
+//	 */
+//	public String getTitleText() {
+//		return titleText;
+//	}
 
+	public void addTitleText(String string) {
+		addTitleText(string, false);
+	}
 	/**
 	 * @param string
 	 */
-	public void setTitleText(String string) {
+	public void addTitleText(String string, boolean valueRefTitle) {
 		HtmlOutputText title = null;
 		if (valueRefTitle) {
 			title = WFUtil.getTextVB(string);
 		} else {
 			title = WFUtil.getText(string);
 		}
-		setTitleText(title);
-		titleText = string;
+		addTitleText(title);
+//		titleText = string;
 	}
 	
-	public void setTitleText(HtmlOutputText text) {
-		text.setStyleClass("wf_titlebartext");
-		getFacets().put("title", text);
+	public void addTitleText(HtmlOutputText text) {
+		if (text.getStyleClass() == null) {
+			text.setStyleClass("wf_titlebartext");
+		}
+		WFContainer list = (WFContainer) getFacets().get("title");
+		if (list == null) {
+			list = new WFContainer();
+			getFacets().put("title", list);
+		}
+		list.add(text);
+//		getChildren().add(text);
+//		getFacets().put("title", text);
 	}
 	
-	/**
-	 * @return
-	 */
-	public boolean isValueRefTitle() {
-		return valueRefTitle;
-	}
+//	/**
+//	 * @return
+//	 */
+//	public boolean isValueRefTitle() {
+//		return valueRefTitle;
+//	}
 
-	/**
-	 * 
-	 */
-	public void setValueRefTitle(boolean b) {
-		valueRefTitle = b;
-		setTitleText(getTitleText());
-	}
+
+//	public void setValueRefTitle(boolean b) {
+//		valueRefTitle = b;
+//		setTitleText(getTitleText());
+//	}
 	
 	/**
 	 * @return
@@ -225,8 +240,8 @@ public class WFTitlebar extends WFContainer implements Serializable
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
-		values[1] = titleText;
-		values[2] = new Boolean(valueRefTitle);
+//		values[1] = titleText;
+//		values[2] = new Boolean(valueRefTitle);
 		return values;
 	}
 	
@@ -236,8 +251,8 @@ public class WFTitlebar extends WFContainer implements Serializable
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		titleText = (String) values[1];
-		valueRefTitle = ((Boolean) values[2]).booleanValue();
+//		titleText = (String) values[1];
+//		valueRefTitle = ((Boolean) values[2]).booleanValue();
 	}
 
 	//protected String getMarkupElementType(){
