@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.1 2004/05/27 12:37:55 anders Exp $
+ * $Id: WFPage.java,v 1.2 2004/06/07 07:52:20 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,13 +29,15 @@ import com.idega.faces.IWBaseComponent;
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/05/27 12:37:55 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/07 07:52:20 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFPage extends IWBaseComponent {
 
+	public final static String WF_BUNDLE = "wf_bundle";
+	
 	/**
 	 * Default contructor. 
 	 */
@@ -64,13 +66,11 @@ public class WFPage extends IWBaseComponent {
 		try {
 			bundle = ResourceBundle.getBundle(bundleName, locale);
 		} catch (MissingResourceException e) {
-			System.out.println("************************\n\n\n\n" + locale);
 			System.out.println("Resource bundle '" + bundleName + "' could not be found.");
 			return;
 		}
-		System.out.println("WFPAGE ************************\n\n\n\n" + locale);
 
-		context.getExternalContext().getRequestMap().put("wf_bundle", new BundleMap(bundle));
+		context.getExternalContext().getRequestMap().put(WF_BUNDLE, new BundleMap(bundle));
 		super.encodeBegin(context);
 	}
 	

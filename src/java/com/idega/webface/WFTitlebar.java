@@ -6,6 +6,7 @@ package com.idega.webface;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -25,6 +26,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	private String titlebarColor;
 	private String titleTextColor;
 	private String iconImageURI;
+	private boolean localizedTitle = false;
 	
 	public WFTitlebar(){
 		setStyleClass("wf_titlebar");
@@ -56,7 +58,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	public boolean isViewWithTitleBar() {
 		return viewWithTitleBar;
 	}
-
+	
 	/**
 	 * @param toolbar
 	 */
@@ -83,9 +85,32 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @param string
 	 */
 	public void setTitleText(String string) {
+		HtmlOutputText title = null;
+		if (localizedTitle) {
+			title = WFUtil.getLocalizedText(string);
+		} else {
+			title = WFUtil.getText(string);
+		}
+		title.setStyleClass("wf_titlebartext");
+		getFacets().put("title", title);
 		titleText = string;
 	}
+	
+	/**
+	 * @return
+	 */
+	public boolean isLocalizedTitle() {
+		return localizedTitle;
+	}
 
+	/**
+	 * 
+	 */
+	public void setLocalizedTitle(boolean b) {
+		localizedTitle = b;
+		setTitleText(getTitleText());
+	}
+	
 	/**
 	 * @return
 	 */
@@ -163,10 +188,11 @@ public class WFTitlebar extends WFContainer implements Serializable
 		out.endElement("td");
 		out.startElement("td", null);
 		out.writeAttribute("width", "100%", null);
-		out.startElement("font", null);
-		out.writeAttribute("class", "wf_titlebartext", null);
-		out.write(getTitleText());
-		out.endElement("font");
+		WFUtil.renderFacet(context, this, "title");
+//		out.startElement("font", null);
+//		out.writeAttribute("class", "wf_titlebartext", null);
+//		out.write(getTitleText());
+//		out.endElement("font");
 		out.endElement("td");
 		out.startElement("td", null);
 		out.writeAttribute("nowrap", "true", null);
@@ -195,9 +221,10 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[2];
+		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
 		values[1] = titleText;
+		values[2] = new Boolean(localizedTitle);
 		return values;
 	}
 	
@@ -208,6 +235,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
 		titleText = (String) values[1];
+		localizedTitle = ((Boolean) values[2]).booleanValue();
 	}
 
 	protected String getMarkupElementType(){

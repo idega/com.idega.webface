@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbar.java,v 1.2 2004/05/27 12:41:15 anders Exp $
+ * $Id: WFTaskbar.java,v 1.3 2004/06/07 07:52:20 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -21,15 +21,18 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
+import com.idega.webface.event.WFTaskbarEvent;
+import com.idega.webface.event.WFTaskbarListener;
+
 /**
  * Manages task bar buttons and corresponding perspectives. 
  * A perspective can be any component that is rendered when
  * its task bar button is pressed.   
  * <p>
- * Last modified: $Date: 2004/05/27 12:41:15 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/07 07:52:20 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFTaskbar extends WFContainer implements ActionListener {
 	
@@ -134,6 +137,7 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		if (getTaskbarStyleClass() != null) {
 			out.writeAttribute("class", getTaskbarStyleClass(), null);
 		}
+		out.writeAttribute("id", "" + getId(), null);
 		out.startElement("tr", null);
 		Iterator iter = _buttonIds.iterator();
 		while (iter.hasNext()) {
@@ -197,6 +201,20 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		_buttonSelectedStyleClass = (String) values[4];
 		_buttonDeselectedStyleClass = (String) values[5];
 	}
+	
+	/**
+	 * Register the specified listener for taskbar events.
+	 */
+	public void addTaskbarListener(WFTaskbarListener listener) {
+		addFacesListener(listener);
+	}
+
+	/**
+	 * Remove the specified listener for taskbar events.
+	 */
+	public void removeTaskbarListener(WFTaskbarListener listener) {
+		removeFacesListener(listener);
+	}
 
 	/**
 	 * @see javax.faces.event.ActionListener#processAction(javax.faces.event.ActionEvent)
@@ -205,5 +223,7 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		WFTaskbarButton button = (WFTaskbarButton) event.getComponent();
 		WFTaskbar taskbar = (WFTaskbar) button.getParent();
 		taskbar.setSelectedButtonId(button.getId());
+		WFTaskbarEvent e = new WFTaskbarEvent(taskbar);
+		taskbar.queueEvent(e);
 	}
 }

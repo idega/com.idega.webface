@@ -10,7 +10,8 @@ public class TestBundle extends ListResourceBundle {
 	static final Object[][] contents = {
 		{"name", "Name"},
 		{"author", "Phone"},
-		{"company", "Company"}
+		{"company", "Company"},
+		{"edit_article", "Edit Article"}
 	};
 
 	public Object[][] getContents() {
