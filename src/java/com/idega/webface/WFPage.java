@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.6 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: WFPage.java,v 1.7 2004/10/21 11:33:02 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,10 +29,10 @@ import com.idega.faces.IWBaseComponent;
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/10/21 11:33:02 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WFPage extends IWBaseComponent {
 
@@ -222,5 +222,13 @@ public class WFPage extends IWBaseComponent {
 		public void clear() {
 			throw new UnsupportedOperationException(this.getClass().getName() + " UnsupportedOperationException");
 		}
+	}
+	
+	/**
+	 * @see javax.faces.component.UIComponent#getFamily()
+	 */
+	public String getFamily() {
+		// TODO Auto-generated method stub
+		return "idegaweb";
 	}
 }
