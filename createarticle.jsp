@@ -1,7 +1,7 @@
 <%@ page session="false" %>
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
-<%@ taglib uri="/WEB-INF/webface.tld" prefix="w" %>
+<%@ taglib uri="/WEB-INF/tld/webface.tld" prefix="w" %>
 
 <html>
 <head>
