@@ -315,13 +315,13 @@ public class WFUtil {
 		
 		HtmlGraphicImage logo = new HtmlGraphicImage();
 		logo.setStyleClass("wf_bannerimg");
-		logo.setUrl("icons/idegalogo_20px.gif  ");
+		logo.setUrl("icons/idegalogo_20px.gif");
 		box.add(logo);
 		
 		WFContainer c = new WFContainer();
 		c.setStyleClass("wf_bannertext");
 		WFPlainOutputText t = new WFPlainOutputText();
-		t.setValue(" idega<i>Web</i> Content   ");
+		t.setValue("idega<i>Web</i> Content");
 		c.add(t);
 		box.add(c);
 		t = new WFPlainOutputText();

@@ -125,7 +125,7 @@ public class WFBlock extends WFContainer {
 	 * Adds a child component to this block.
 	 */
 	public void add(UIComponent child) {
-		WFContainer mainArea = null;
+		/*WFContainer mainArea = null;
 		if(getChildren().size()==0) {
 			mainArea = new WFContainer();
 			getChildren().add(mainArea);
@@ -134,6 +134,8 @@ public class WFBlock extends WFContainer {
 			mainArea = (WFContainer) getChildren().get(0);
 		}
 		mainArea.add(child);
+		*/
+		super.add(child);
 	}
 
 	public String getRendererType() {

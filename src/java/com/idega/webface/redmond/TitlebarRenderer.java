@@ -1,5 +1,5 @@
 /*
- * $Id: TitlebarRenderer.java,v 1.1 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: TitlebarRenderer.java,v 1.2 2004/11/03 18:44:14 joakim Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -19,10 +19,10 @@ import com.idega.webface.WFTitlebar;
 
 /**
  * 
- *  Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2004/11/03 18:44:14 $ by $Author: joakim $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TitlebarRenderer extends ContainerRenderer {
 	
@@ -34,11 +34,12 @@ public class TitlebarRenderer extends ContainerRenderer {
 		ResponseWriter out = context.getResponseWriter();
 		super.encodeBegin(context,component);
 		out.startElement("tr", null);
-		out.startElement("tr", null);
+		
 		out.startElement("td", null);
 		out.writeAttribute("width", "20", null); // TODO: fix css style
 		out.startElement("img", null);
 		out.writeAttribute("src", titlebar.getIconImageURI(), null);
+		out.endElement("img");
 		out.endElement("td");
 		out.startElement("td", null);
 		out.writeAttribute("width", "100%", null);

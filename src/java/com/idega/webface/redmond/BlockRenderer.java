@@ -1,5 +1,5 @@
 /*
- * $Id: BlockRenderer.java,v 1.2 2004/11/01 15:00:48 tryggvil Exp $
+ * $Id: BlockRenderer.java,v 1.3 2004/11/03 18:44:14 joakim Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -10,6 +10,7 @@
 package com.idega.webface.redmond;
 
 import java.io.IOException;
+import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import com.idega.webface.WFBlock;
@@ -18,10 +19,10 @@ import com.idega.webface.WFContainer;
 
 /**
  * 
- *  Last modified: $Date: 2004/11/01 15:00:48 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2004/11/03 18:44:14 $ by $Author: joakim $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class BlockRenderer extends ContainerRenderer{
 	
@@ -30,16 +31,26 @@ public class BlockRenderer extends ContainerRenderer{
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context,UIComponent component) throws IOException {
+		//super.encodeBegin(context,component);
 		WFBlock block = (WFBlock)component;
 		if (!component.isRendered()) {
 			return;
 		}
-		super.encodeBegin(context,component);
+		
+		List children = component.getChildren();
 		String mainAreaStyleClass = block.getMainAreaStyleClass();
 		if (mainAreaStyleClass != null) {
 			if(component.getChildren().size()>0){
-				WFContainer mainArea = (WFContainer) component.getChildren().get(0);
-				mainArea.setStyleClass(mainAreaStyleClass);
+				try{
+					WFContainer mainArea = (WFContainer) children.get(0);
+					if(mainArea!=null){
+						mainArea.setStyleClass(mainAreaStyleClass);
+					}
+				}
+				catch(ClassCastException cce){
+					
+				}
+				
 			}
 		}
 		if (!block.isToolbarEmbeddedInTitlebar()) {
@@ -60,6 +71,6 @@ public class BlockRenderer extends ContainerRenderer{
 	 */
 	public void encodeEnd(FacesContext ctx, UIComponent comp) throws IOException {
 		// TODO Auto-generated method stub
-		super.encodeEnd(ctx, comp);
+		//super.encodeEnd(ctx, comp);
 	}
 }
