@@ -1,5 +1,5 @@
 /*
- * $Id: ListArticlesBlock.java,v 1.2 2004/06/23 13:23:43 anders Exp $
+ * $Id: ListArticlesBlock.java,v 1.3 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -28,14 +28,15 @@ import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFDateConverter;
+import com.idega.webface.test.bean.*;
 
 /**
  * Block for listing articles.   
  * <p>
- * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, ActionListener, Serializable {
 

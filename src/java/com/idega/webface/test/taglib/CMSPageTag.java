@@ -1,5 +1,5 @@
 /*
- * $Id: CreateArticlePageTag.java,v 1.1 2004/06/11 13:45:16 anders Exp $
+ * $Id: CMSPageTag.java,v 1.1 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -7,19 +7,19 @@
  * Use is subject to license terms.
  *
  */
-package com.idega.webface.test;
+package com.idega.webface.test.taglib;
 
 import javax.faces.webapp.UIComponentTag;
 
 /**
- * JSP tag for create article test/demo page. 
+ * JSP tag for content system test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/11 13:45:16 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
  * @version $Revision: 1.1 $
  */
-public class CreateArticlePageTag extends UIComponentTag {
+public class CMSPageTag extends UIComponentTag {
 	
 	/**
 	 * @see javax.faces.webapp.UIComponentTag#getRendererType()
@@ -32,6 +32,6 @@ public class CreateArticlePageTag extends UIComponentTag {
 	 * @see javax.faces.webapp.UIComponentTag#getComponentType()
 	 */
 	public String getComponentType() {
-		return "CreateArticlePage";
+		return "CMSPage";
 	}
 }

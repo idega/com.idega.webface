@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleItemBean.java,v 1.6 2004/06/23 14:59:33 anders Exp $
+ * $Id: ArticleItemBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -7,20 +7,21 @@
  * Use is subject to license terms.
  *
  */
-package com.idega.webface.test;
+package com.idega.webface.test.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
 /**
  * Bean for idegaWeb article content items.   
  * <p>
- * Last modified: $Date: 2004/06/23 14:59:33 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.1 $
  */
 
 public class ArticleItemBean extends ContentItemBean implements Serializable {

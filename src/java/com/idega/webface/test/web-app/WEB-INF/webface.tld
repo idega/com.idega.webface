@@ -12,7 +12,7 @@
 
 	<tag>
 		<name>cms_page</name>
-		<tag-class>com.idega.webface.test.CMSPageTag</tag-class>
+		<tag-class>com.idega.webface.test.taglib.CMSPageTag</tag-class>
 		<attribute>
 			<name>id</name>
 			<required>false</required>
@@ -22,7 +22,7 @@
 	
 	<tag>
 		<name>create_article_page</name>
-		<tag-class>com.idega.webface.test.CreateArticlePageTag</tag-class>
+		<tag-class>com.idega.webface.test.taglib.CreateArticlePageTag</tag-class>
 		<attribute>
 			<name>id</name>
 			<required>false</required>
@@ -32,7 +32,7 @@
 	
 	<tag>
 		<name>search_article_page</name>
-		<tag-class>com.idega.webface.test.SearchArticlePageTag</tag-class>
+		<tag-class>com.idega.webface.test.taglib.SearchArticlePageTag</tag-class>
 		<attribute>
 			<name>id</name>
 			<required>false</required>
@@ -42,7 +42,7 @@
 	
 	<tag>
 		<name>list_articles_page</name>
-		<tag-class>com.idega.webface.test.ListArticlesPageTag</tag-class>
+		<tag-class>com.idega.webface.test.taglib.ListArticlesPageTag</tag-class>
 		<attribute>
 			<name>id</name>
 			<required>false</required>
@@ -52,7 +52,7 @@
 	
 	<tag>
 		<name>preview_article_page</name>
-		<tag-class>com.idega.webface.test.PreviewArticlePageTag</tag-class>
+		<tag-class>com.idega.webface.test.taglib.PreviewArticlePageTag</tag-class>
 		<attribute>
 			<name>id</name>
 			<required>false</required>

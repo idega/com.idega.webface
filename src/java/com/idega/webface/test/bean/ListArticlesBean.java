@@ -1,5 +1,5 @@
 /*
- * $Id: SearchArticleBean.java,v 1.2 2004/06/18 14:11:02 anders Exp $
+ * $Id: ListArticlesBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -7,7 +7,7 @@
  * Use is subject to license terms.
  *
  */
-package com.idega.webface.test;
+package com.idega.webface.test.bean;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,7 +16,6 @@ import java.util.Map;
 
 import javax.faces.component.UIColumn;
 import javax.faces.component.html.HtmlCommandLink;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
@@ -25,15 +24,15 @@ import com.idega.webface.bean.WFListBean;
 import com.idega.webface.model.WFDataModel;
 
 /**
- * Bean for searching articles.   
+ * Bean for listing articles.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  */
 
-public class SearchArticleBean implements WFListBean, Serializable {
+public class ListArticlesBean implements WFListBean, Serializable {
 	
 	public final static String ARTICLE_ID = "article_id";
 	
@@ -43,19 +42,12 @@ public class SearchArticleBean implements WFListBean, Serializable {
 	private String _id = null;
 	private String _headline = null;
 	private String _published = null;
-	private String _author = null;
-	private String _status = null;
-	private String _testStyle = null;
 	
-	private String _searchText = null;
-	private String _searchAuthor = null;
-	private String _searchCategoryId = null;
 	private Date _searchPublishedFrom = null;
 	private Date _searchPublishedTo = null;
+	private String _searchCategoryId = null;
 	
 	private Map _allCategories = null;
-	
-	private String[] testColumnHeaders = { "Headline", "Published", "Author", "Status" };				
 	
 	private String[] testHeadlines = {
 		"Electronic Reykjavik built with IdegaWeb eGov",
@@ -78,79 +70,44 @@ public class SearchArticleBean implements WFListBean, Serializable {
 		"10/30/03 3:10 PM",
 		"10/27/03"				
 	};
-	
-	private String[] testAuthors = {
-		"Anderson",
-		"Isildur",
-		"Rappson",
-		"Trappson",
-		"Snap",
-		"Rappson",
-		"Anderson",
-		"Trapp"
-	};
-	
-	private String[] testStatus = {
-		"Published",
-		"Published",
-		"Published",
-		"Published",
-		"Published",
-		"Expired", // red text
-		"Published",
-		"Published"
-	};
 
 	/**
 	 * Default constructor.
 	 */
-	public SearchArticleBean() { _searchPublishedFrom = new Date(); _searchText = "searchtext"; }
+	public ListArticlesBean() {}
 
 	/**
-	 * Constructs a new search article bean with the specified article link listener.
+	 * Constructs a new list articles bean with the specified article link listener.
 	 */
-	public SearchArticleBean(ActionListener l) {
+	public ListArticlesBean(ActionListener l) {
 		this();
 		setArticleLinkListener(l);
 	}
 	
 	/**
-	 * Constructs a new search article bean with the specified parameters. 
+	 * Constructs a new list articles bean with the specified parameters. 
 	 */
-	public SearchArticleBean(String id, String headline, String published, String author, String status) {
+	public ListArticlesBean(String id, String headline, String published) {
 		_id = id;
 		_headline = headline;
 		_published = published;
-		_author = author;
-		_status = status;
-		_testStyle = "";
 	}
 		
 	public String getId() { return _id; }
 	public String getHeadline() { return _headline; }
 	public String getPublished() { return _published; }
-	public String getAuthor() { return _author; }
-	public String getStatus() { return _status; }
-	public String getTestStyle() { return _testStyle; }
 
-	public String getSearchText() { return _searchText; }
-	public String getSearchAuthor() { return _searchAuthor; }
-	public String getSearchCategoryId() { return _searchCategoryId; }
 	public Date getSearchPublishedFrom() { return _searchPublishedFrom; }
 	public Date getSearchPublishedTo() { return _searchPublishedTo; }
+	public String getSearchCategoryId() { return _searchCategoryId; }
 
 	public void setId(String s) { _id = s; }
 	public void setHeadline(String s) { _headline = s; }
 	public void setPublished(String s) { _published = s; }
-	public void setAuthor(String s) { _author = s; }
-	public void setStatus(String s) { _status = s; }
-	public void setTestStyle(String s) { _testStyle = s; }
 
-	public void setSearchText(String s) { _searchText = s; }
-	public void setSearchAuthor(String s) { _searchAuthor = s; }
-	public void setSearchCategoryId(String s) { _searchCategoryId = s; }
 	public void setSearchPublishedFrom(Date d) { _searchPublishedFrom = d; }
 	public void setSearchPublishedTo(Date d) { _searchPublishedTo = d; }
+	public void setSearchCategoryId(String s) { _searchCategoryId = s; }
 	
 	public ActionListener getArticleLinkListener() { return _articleLinkListener; }
 	public void setArticleLinkListener(ActionListener l) { _articleLinkListener = l; }
@@ -204,12 +161,8 @@ public class SearchArticleBean implements WFListBean, Serializable {
 			maxRow = availableRows;
 		}
 		for (int i = start.intValue(); i < maxRow; i++) {
-			ArticleListBean a = new ArticleListBean(String.valueOf(i), testHeadlines[i], testPublished[i], testAuthors[i], testStatus[i]);
-			if (i == 5) {
-				// set test style red
-				a.setTestStyle("color:red");
-			}
-			_dataModel.set(a, i);
+			ListArticlesBean bean = new ListArticlesBean(String.valueOf(i), testHeadlines[i], testPublished[i]);
+			_dataModel.set(bean, i);
 		}
 		_dataModel.setRowCount(availableRows);
 	}
@@ -218,41 +171,22 @@ public class SearchArticleBean implements WFListBean, Serializable {
 	 * @see com.idega.webface.bean.WFListBean#createColumns() 
 	 */
 	public UIColumn[] createColumns(String var) {
-		int cols = testColumnHeaders.length;
-		UIColumn[] columns = new UIColumn[cols];
-
-		for (int i = 0; i < cols; i++) {
-			UIColumn c = new UIColumn();
-			c.setHeader(WFUtil.getText(testColumnHeaders[i]));
-			columns[i] = c;
-		}
-		
-		String styleAttr =  var + ".testStyle";
-		HtmlCommandLink l = WFUtil.getListLinkVB(var + ".headline");
-		l.setId(ARTICLE_ID);
-		WFUtil.setValueBinding(l, "style", styleAttr);
-		l.addActionListener(_articleLinkListener);
+		UIColumn col = new UIColumn();
+		col.getChildren().add(WFUtil.getTextVB(var + ".published"));
+		col.getChildren().add(WFUtil.getBreak());
+		HtmlCommandLink l = WFUtil.getLinkVB(ARTICLE_ID, var + ".headline", _articleLinkListener);
 		WFUtil.addParameterVB(l, "id", var + ".id");
-		columns[0].getChildren().add(l);
-		HtmlOutputText t = WFUtil.getListTextVB(var + ".published");
-		WFUtil.setValueBinding(t, "style", styleAttr);
-		columns[1].getChildren().add(t);
-		t = WFUtil.getListTextVB(var + ".author");
-		WFUtil.setValueBinding(t, "style", styleAttr);
-		columns[2].getChildren().add(t);
-		t = WFUtil.getListTextVB(var + ".status");
-		WFUtil.setValueBinding(t, "style", styleAttr);
-		columns[3].getChildren().add(t);		
+		col.getChildren().add(l);
+		col.getChildren().add(WFUtil.getBreak(2));
 		
-		return columns;
+		return new UIColumn[] { col };
 	}
 	
 	/**
-	 * Generates a search result from the current bean search values. 
+	 * Generates a list result from the current bean search values. 
 	 */
-	public void search() {
-		ArticleListBean a = new ArticleListBean("100", "Search result", "...", "...", "...");
-		_dataModel.set(a, _dataModel.getRowCount());
-		_dataModel.setRowCount(_dataModel.getRowCount() + 1);		
+	public void list() {
+		ListArticlesBean bean = new ListArticlesBean("100", "Headline", "--");
+		_dataModel.set(bean, _dataModel.getRowCount());
 	}
 }

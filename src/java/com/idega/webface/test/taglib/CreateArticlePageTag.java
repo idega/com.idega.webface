@@ -1,5 +1,5 @@
 /*
- * $Id: PreviewArticlePageTag.java,v 1.1 2004/06/23 13:22:58 anders Exp $
+ * $Id: CreateArticlePageTag.java,v 1.1 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -7,19 +7,19 @@
  * Use is subject to license terms.
  *
  */
-package com.idega.webface.test;
+package com.idega.webface.test.taglib;
 
 import javax.faces.webapp.UIComponentTag;
 
 /**
- * JSP tag for preview article test/demo page. 
+ * JSP tag for create article test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/23 13:22:58 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
  * @version $Revision: 1.1 $
  */
-public class PreviewArticlePageTag extends UIComponentTag {
+public class CreateArticlePageTag extends UIComponentTag {
 	
 	/**
 	 * @see javax.faces.webapp.UIComponentTag#getRendererType()
@@ -32,6 +32,6 @@ public class PreviewArticlePageTag extends UIComponentTag {
 	 * @see javax.faces.webapp.UIComponentTag#getComponentType()
 	 */
 	public String getComponentType() {
-		return "PreviewArticlePage";
+		return "CreateArticlePage";
 	}
 }

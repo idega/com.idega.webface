@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.5 2004/06/23 13:23:43 anders Exp $
+ * $Id: ContentItemBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -7,7 +7,7 @@
  * Use is subject to license terms.
  *
  */
-package com.idega.webface.test;
+package com.idega.webface.test.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -20,13 +20,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  */
 
 public class ContentItemBean implements Serializable {

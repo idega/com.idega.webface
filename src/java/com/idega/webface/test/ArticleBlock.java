@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleBlock.java,v 1.7 2004/06/24 13:21:36 anders Exp $
+ * $Id: ArticleBlock.java,v 1.8 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -43,14 +43,15 @@ import com.idega.webface.WFTaskbar;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFCommaSeparatedListConverter;
 import com.idega.webface.event.WFTaskbarListener;
+import com.idega.webface.test.bean.*;
 
 /**
  * Block for editing an article.   
  * <p>
- * Last modified: $Date: 2004/06/24 13:21:36 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ArticleBlock extends WFBlock implements ActionListener, ManagedContentBeans {
 

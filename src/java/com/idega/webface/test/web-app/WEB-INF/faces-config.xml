@@ -33,61 +33,61 @@
 
 	<managed-bean>
 		<managed-bean-name>articleItemBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.ArticleItemBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.ArticleItemBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>articleVersionItemBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.ArticleItemBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.ArticleItemBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>previewArticleBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.ArticleItemBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.ArticleItemBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>articleVersionListBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.ArticleVersionListBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.ArticleVersionListBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
 	<managed-bean>
 		<managed-bean-name>articleListBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.ArticleListBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.ArticleListBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
 	<managed-bean>
 		<managed-bean-name>caseListBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.CaseListBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.CaseListBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
 	<managed-bean>
 		<managed-bean-name>searchArticleBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.SearchArticleBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.SearchArticleBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
 	<managed-bean>
 		<managed-bean-name>listArticlesBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.ListArticlesBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.ListArticlesBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
 	<managed-bean>
 		<managed-bean-name>fileUploadBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.FileUploadBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.FileUploadBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
 	<managed-bean>
 		<managed-bean-name>relatedItemsListBean</managed-bean-name>
-		<managed-bean-class>com.idega.webface.test.CaseListBean</managed-bean-class>
+		<managed-bean-class>com.idega.webface.test.bean.CaseListBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	

@@ -1,5 +1,5 @@
 /*
- * $Id: ManagedContentBeans.java,v 1.1 2004/06/23 13:22:25 anders Exp $
+ * $Id: ManagedContentBeans.java,v 1.1 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -7,12 +7,12 @@
  * Use is subject to license terms.
  *
  */
-package com.idega.webface.test;
+package com.idega.webface.test.bean;
 
 /**
  * Constants for JSF managed content beans. 
  * <p>
- * Last modified: $Date: 2004/06/23 13:22:25 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
  * @version $Revision: 1.1 $

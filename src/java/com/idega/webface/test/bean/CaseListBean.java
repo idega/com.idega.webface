@@ -1,5 +1,5 @@
 /*
- * $Id: CaseListBean.java,v 1.3 2004/06/18 14:11:02 anders Exp $
+ * $Id: CaseListBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -7,7 +7,7 @@
  * Use is subject to license terms.
  *
  */
-package com.idega.webface.test;
+package com.idega.webface.test.bean;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,10 +25,10 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for content item case list rows.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  */
 
 public class CaseListBean implements WFListBean, Serializable {

@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleVersionListBean.java,v 1.1 2004/06/18 14:07:41 anders Exp $
+ * $Id: ArticleVersionListBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -7,7 +7,7 @@
  * Use is subject to license terms.
  *
  */
-package com.idega.webface.test;
+package com.idega.webface.test.bean;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +25,7 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for article version list rows.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:07:41 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
  *
  * @author Anders Lindman
  * @version $Revision: 1.1 $
