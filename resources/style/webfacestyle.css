@@ -70,7 +70,6 @@ div.ws_main div.wf_titlebar div.wf_titlebar_icon{
 }
 
 /* Main */
-
 div.ws_main div.wf_titlebar{
 	height: 22px;
 	background: url(images/bg_titlebar.gif) repeat-x;
@@ -272,16 +271,13 @@ div.wf_titlebar, div.wf_toolbar{
 */
 .wf_titlebar .wf_toolbar{
 	float:right;
+	margin:2px;
+	padding:0px;
+	height: 18px;
 	border-top-width: 0px;
 	border-right-width: 0px;
 	border-bottom-width: 0px;
 	border-left-width: 0px;
-}
-
-.wf_toolbar{
-	margin:2px;
-	padding:0px;
-	height: 18px;
 }
 
 .wf_toolbar * {
