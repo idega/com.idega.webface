@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewSelector.java,v 1.3 2004/06/18 14:11:02 anders Exp $
+ * $Id: WFViewSelector.java,v 1.4 2004/10/21 11:45:23 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -9,6 +9,7 @@
  */
 package com.idega.webface;
 
+import java.io.IOException;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -17,10 +18,10 @@ import javax.faces.event.ActionListener;
 /**
  * Component for selecting the view root. 
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/21 11:45:23 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFViewSelector extends UICommand implements ActionListener {
 	
@@ -51,8 +52,20 @@ public class WFViewSelector extends UICommand implements ActionListener {
 			_actionListenerAdded = true;			
 		}
 		_selectedViewId = selectedViewId;
-		ActionEvent event = new ActionEvent(this);
-		queueEvent(event);
+		//ActionEvent event = new ActionEvent(this);
+		//queueEvent(event);
+		
+		//String viewId = this.getViewId();
+		//WFUtil.setViewRoot(selectedViewId);
+		
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().dispatch(selectedViewId);
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}	
 	
 	/**
