@@ -128,5 +128,26 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
+	
+	<tag>
+		<name>container</name>
+		<tag-class>com.idega.webface.WFContainerTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	
 
 </taglib>
