@@ -4,7 +4,7 @@
 package com.idega.webface;
 
 /**
- * WFStopButton //TODO: tryggvil Describe class
+ * Button to use to display a help icon.
  * Copyright (C) idega software 2004
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
