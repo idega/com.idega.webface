@@ -40,14 +40,15 @@ public class WFContainer extends IWBaseComponent
 		//setBackgroundColor(IWConstants.DEFAULT_LIGHT_INTERFACE_COLOR);
 
 		//setAllMargins(0);
+		setRendererType(RENDERER_TYPE);
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.faces.component.UIComponent#getRendererType()
-	 */
-	public String getRendererType() {
-		return RENDERER_TYPE;
-	}
+//	/* (non-Javadoc)
+//	 * @see javax.faces.component.UIComponent#getRendererType()
+//	 */
+//	public String getRendererType() {
+//		return RENDERER_TYPE;
+//	}
 
 	public String getFamily() {
 		return WFConstants.FAMILY_WEBFACE;
