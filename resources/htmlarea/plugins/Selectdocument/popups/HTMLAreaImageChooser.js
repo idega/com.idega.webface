@@ -51,7 +51,7 @@ function onCancel() {
 };
 
 function onPreview() {
-  var f_url = document.getElementById("f_url");
+  var f_url = document.getElementById("uploadForm:f_url");
   var url = f_url.value;
   if (!url) {
     alert("You have to enter an URL first");
