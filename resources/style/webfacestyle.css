@@ -263,7 +263,7 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	border-right: 1px solid #FFFFFF;
 	background-color: none;
 	font-color: #FFFFFF;
-	background-image: url(images/blueover_tile.gif);
+	background-image: url(images/blueover_tile2.gif);
 	background-repeat: repeat;
 }
 
@@ -273,8 +273,8 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 
 .wf_viewmenubuttondeselected:hover {
 	color: #white;
-	background-image: url(images/blueover_tile.gif);
-	background-repeat: repeat-x;
+	background-image: url(images/blueover_tile2.gif);
+	background-repeat: repeat;
 	border-bottom: 1px solid #FFFFFF;
 	border-right: 1px solid #FFFFFF;
 	border-top: 1px solid #848284;
