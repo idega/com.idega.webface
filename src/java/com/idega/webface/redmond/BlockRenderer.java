@@ -1,5 +1,5 @@
 /*
- * $Id: BlockRenderer.java,v 1.3 2004/11/03 18:44:14 joakim Exp $
+ * $Id: BlockRenderer.java,v 1.4 2004/11/14 23:38:39 tryggvil Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -19,10 +19,10 @@ import com.idega.webface.WFContainer;
 
 /**
  * 
- *  Last modified: $Date: 2004/11/03 18:44:14 $ by $Author: joakim $
+ *  Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class BlockRenderer extends ContainerRenderer{
 	
@@ -31,7 +31,7 @@ public class BlockRenderer extends ContainerRenderer{
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context,UIComponent component) throws IOException {
-		//super.encodeBegin(context,component);
+		super.encodeBegin(context,component);
 		WFBlock block = (WFBlock)component;
 		if (!component.isRendered()) {
 			return;
@@ -71,6 +71,6 @@ public class BlockRenderer extends ContainerRenderer{
 	 */
 	public void encodeEnd(FacesContext ctx, UIComponent comp) throws IOException {
 		// TODO Auto-generated method stub
-		//super.encodeEnd(ctx, comp);
+		super.encodeEnd(ctx, comp);
 	}
 }

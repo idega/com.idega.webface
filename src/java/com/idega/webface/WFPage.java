@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.9 2004/11/01 18:59:03 gimmi Exp $
+ * $Id: WFPage.java,v 1.10 2004/11/14 23:38:39 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -25,14 +25,15 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import com.idega.presentation.IWBaseComponent;
+import com.idega.presentation.IWContext;
 
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/11/01 18:59:03 $ by $Author: gimmi $
+ * Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class WFPage extends IWBaseComponent {
 
@@ -71,7 +72,8 @@ public class WFPage extends IWBaseComponent {
 			locale = context.getApplication().getDefaultLocale();
 		}
 		
-		locale = new Locale("sv", "SE"); //test
+//		locale = new Locale("sv", "SE"); //test
+		locale = IWContext.getIWContext(context).getCurrentLocale();
 //		TODO: Move this to com.idega.content
 		ResourceBundle bundle = null;
 //		String bundleName = "com.idega.webface.test.TestBundle";

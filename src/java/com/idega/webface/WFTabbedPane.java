@@ -1,5 +1,5 @@
 /*
- * $Id: WFTabbedPane.java,v 1.1 2004/11/01 15:00:48 tryggvil Exp $
+ * $Id: WFTabbedPane.java,v 1.2 2004/11/14 23:38:39 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -26,10 +26,10 @@ import com.idega.webface.event.WFTabListener;
  * A perspective can be any component that is rendered when
  * its tab bar button is pressed.   
  * <p>
- * Last modified: $Date: 2004/11/01 15:00:48 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
  *
  * @author Anders Lindman,Tryggvi Larusson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFTabbedPane extends WFMenu implements ActionListener {
 	
@@ -70,39 +70,53 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	/**
 	 * Adds a tab button with its corresponding perspective component.
 	 */
-	public WFTab addButton(String buttonId, String buttonLabel, UIComponent perspective, boolean isValueRef) {
-		WFTab button = new WFTab(buttonLabel, isValueRef);
-		button.setId(buttonId);
-//		button.setValue(buttonLabel);
-		button.addActionListener(this);
-		button.setImmediate(true);
-		getMenuItemIds().add(buttonId);
-		if (getSelectedMenuItemId() == null) {
-			setSelectedMenuItemId(buttonId);
-		}
-		getFacets().put("button_" + buttonId, button);
-		WFContainer c = new WFContainer();
-		c.setStyleClass(getMainAreaStyleClass());
-		c.add(perspective);
-		getFacets().put("perspective_" + buttonId, c);
-		return button;
+	public WFTab addTab(String menuItemId, String buttonLabel, UIComponent perspective, boolean isValueRef) {
+		WFTab tab = new WFTab(buttonLabel, isValueRef);
+		tab.setId(menuItemId);
+//		tab.setValue(buttonLabel);
+		tab.addActionListener(this);
+		tab.setImmediate(true);
+
+		//getFacets().put("button_" + menuItemId, button);
+		setMenuItem(menuItemId,tab);
+		//getFacets().put("perspective_" + menuItemId, c);
+		setPerspective(menuItemId,perspective);
+		return tab;
 	}
 	
 	/**
 	 * Adds a tastbar button with its corresponding perspective component.
 	 */
-	public WFTab addButton(String buttonId, String buttonLabel, UIComponent perspective) {
-		return addButton(buttonId, buttonLabel, perspective, false);
+	public WFTab addTab(String menuItemId, String buttonLabel, UIComponent perspective) {
+		return addTab(menuItemId, menuItemId, perspective, false);
 	}
 	
 	/**
 	 * Adds a tastbar button with value bin ding label and its corresponding perspective component.
 	 */
-	public WFTab addButtonVB(String buttonId, String buttonLabelRef, UIComponent perspective) {
-		return addButton(buttonId, buttonLabelRef, perspective, true);
+	public WFTab addTabVB(String menuItemId, String buttonLabelRef, UIComponent perspective) {
+		return addTab(menuItemId, buttonLabelRef, perspective, true);
 	}
 	
 	
+	/**
+	 * Sets the perspective component for the given menuItemId.<br>
+	 * This perpective component is rendered when the button with id menuItemId is pressed.
+	 * @param menuItemId
+	 * @param perspective
+	 */
+	public void setPerspective(String menuItemId,UIComponent perspective){
+		WFContainer container = new WFContainer();
+		container.setStyleClass(getMainAreaStyleClass());
+		container.add(perspective);
+		
+		getFacets().put("perspective_" + menuItemId, container);
+	}
+	
+	
+	public UIComponent getPerspective(String menuItemId){
+		return (UIComponent) getFacets().get("perspective_" + menuItemId);
+	}
 	
 	/*
 	 *
@@ -143,7 +157,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
 	public void encodeChildren(FacesContext context) throws IOException {
-		renderFacet(context, "perspective_" + getSelectedMenuItemId());
+		renderChild(context, getPerspective(getSelectedMenuItemId()));
 	}
 	
 	/**
@@ -184,7 +198,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	}
 
 	/**
-	 * Remove the specified listener for taskbar events.
+	 * Remove the specified j‡listener for taskbar events.
 	 */
 	public void removeTabListener(WFTabListener listener) {
 		removeFacesListener(listener);

@@ -1,8 +1,13 @@
 /*
- * Created on 13.7.2004
+ *  $Id: WorkspacePage.java,v 1.4 2004/11/14 23:38:39 tryggvil Exp $
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ *  Created on 13.7.2004 by Tryggvi Larusson
+ *
+ *  Copyright (C) 2004 Idega Software hf. All Rights Reserved.
+ *
+ *  This software is the proprietary information of Idega hf.
+ *  Use is subject to license terms.
+ *
  */
 package com.idega.webface.workspace;
 
@@ -15,45 +20,65 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlForm;
 import javax.faces.context.FacesContext;
-import com.idega.faces.view.ViewManager;
-import com.idega.faces.view.ViewNode;
-import com.idega.faces.view.node.FramedApplicationViewNode;
+import com.idega.core.view.FramedApplicationViewNode;
+import com.idega.core.view.ViewManager;
+import com.idega.core.view.ViewNode;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
-import com.idega.presentation.app.IWControlCenter;
+import com.idega.webface.WFContainer;
 import com.idega.webface.WFFrame;
 
-
+/**
+ * A base page for using in the Workspace environment.<br>
+ * This page should be around all UI components in the environment.<br>
+ * 
+ * <br>
+ * Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
+ * 
+ * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
+ * @version $Revision: 1.4 $
+ */
 public class WorkspacePage extends Page {
 
 
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.webface";
-	private IWBundle iwb;
-	private IWResourceBundle iwrb;
-	private List specialList;
+
+	//private List specialList;
 	private boolean embedForm=false;
 	private boolean isInitalized=false;
-	//String backgroundColor = "#B0B29D";
-	private UIForm form;
+	private transient UIForm form;
+	private String WF_PAGE_CLASS="wf_body";
+	
+	private static String FACET_HEAD="ws_head";
+	private static String FACET_FUNCTIONMENU="ws_functionmenu";
+	private static String FACET_MAIN="ws_main";
 	
 	public WorkspacePage() {
 		//IWContext iwc = IWContext.getInstance();
 		//init(iwc);
 		//initalizeEmbeddedForm();
-		if(embedForm){
-			initalizeEmbeddedForm();
-		}
+		//if(embedForm){
+		//	initalizeEmbeddedForm();
+		//}
+		this.setStyleClass(WF_PAGE_CLASS);
 	}
 	public String getBundleIdentifier() {
 		return IW_BUNDLE_IDENTIFIER;
 	}
 	public void initializeContent(FacesContext context) {
 		IWContext iwc = IWContext.getIWContext(context);
+		IWBundle iwb;
+		IWResourceBundle iwrb;
 		
 		iwb = this.getBundle(iwc);
 		iwrb = this.getResourceBundle(iwc);
+		
+		//Initialize the areas:
+		this.getMainArea();
+		this.getHead();
+		this.getFunctionMenu();
 
 		Page thePage = this;
 		//thePage.setBackgroundColor(backgroundColor);
@@ -61,81 +86,37 @@ public class WorkspacePage extends Page {
 
 		thePage.setTitle("idegaWeb Applications");
 
-
-		//if(embedForm){
-		//	initalizeEmbeddedForm();
-		//}
-
-		//String requestUri = iwc.getExternalContext().getRequestPathInfo();
 		String requestUri = iwc.getRequestURI();
-		if(requestUri.endsWith("content")){
+		//TODO: Change this, this is a hack for the function menu:
+		ViewNode node = ViewManager.getInstance(iwc.getIWMainApplication()).getViewNodeForContext(iwc);
+		if(requestUri.indexOf("content")!=-1){
+		//if(node.getChildren().size()>0){
 			try{
-				Class clazz = Class.forName("com.idega.block.article.CMSPage");
-				UIComponent comp = (UIComponent) clazz.newInstance();
-				add(comp);
+
+				WorkspaceFunctionMenu menu = new WorkspaceFunctionMenu();
+				menu.setApplication("content");
+				
+				add(FACET_FUNCTIONMENU,menu);		
+				
 			}
 			catch(Throwable t){
 				t.printStackTrace();
 			}
 		}
-		ViewNode node = ViewManager.getInstance(iwc.getIWMainApplication()).getViewNodeForContext(iwc);
 		if(node instanceof FramedApplicationViewNode){
 			FramedApplicationViewNode frameNode = (FramedApplicationViewNode)node;
 			WFFrame frame = new WFFrame(node.getName(),frameNode.getFrameUrl());
 			//WFBlock frame = new WFBlock("test");
-			add(frame);
+			add(FACET_MAIN,frame);
 		}
-		
-		
-		
 		
 		//UISaveState savestate = new UISaveState();
 		//form.getChildren().add(savestate);
 		
 		WorkspaceBar bar = new WorkspaceBar();
 		//form.getChildren().add(bar);
-		add(bar);
+		add(FACET_HEAD,bar);
 		
-		/*Table frameTable = new Table(1, 1);
-		frameTable.setWidth("100%");
-		frameTable.setHeight("100%");
-		frameTable.setCellpadding(0);
-		frameTable.setCellspacing(0);
-		frameTable.setAlignment(1, 1, "center");
-		frameTable.setVerticalAlignment(1, 1, "middle");*/
-
-		
-		
-		
-		//Table mainTable = new Table(1, 4);
-
-		//		WFBezel mainTable = new WFBezel();
-		//mainTable.setWidth("400px");
-		//mainTable.setHeight("300px");
-//		add(mainTable);
-		
-		
-		//mainTable.setCellspacing(0);
-		//mainTable.setCellpadding(0);
-		//mainTable.setBackgroundImage(1,1,iwb.getImage("logintiler.gif"));
-		//mainTable.setAlignment(1, 2, "right");
-		//mainTable.setAlignment(1, 3, "right");
-		//mainTable.setAlignment(1, 4, "center");
-		//mainTable.setVerticalAlignment(1, 1, "top");
-		//mainTable.setVerticalAlignment(1, 2, "top");
-		//mainTable.setVerticalAlignment(1, 3, "top");
-		//mainTable.setVerticalAlignment(1, 4, "bottom");
-		//mainTable.setHeight(4, "12");
-		//mainTable.setColor("#FFFFFF");
-		
-		
-		//frameTable.add(mainTable, 1, 1);
-		//form.getChildren().add(mainTable);
-		
-		
-		//mainTable.setStyleAttribute("border", "1px solid #000000");
-
-
 		boolean isLoggedOn = false;
 		try {
 			isLoggedOn = iwc.isLoggedOn();
@@ -145,50 +126,10 @@ public class WorkspacePage extends Page {
 		}
 
 		if (isLoggedOn) {
-			IWControlCenter iwcc = new IWControlCenter();
-			//mainTable.setHeight(2, "165");
-			//mainTable.setAlignment(1, 2, "center");
-			//mainTable.setAlignment(1, 3, "right");
-			//mainTable.setVerticalAlignment(1, 2, "middle");
-			//mainTable.setVerticalAlignment(1, 3, "middle");
-			//mainTable.add(iwcc);
-			//headerImage = iwrb.getImage("login/header_app_suite.jpg", "", 323, 196);
-
-
 		}
-
 		else {
-			//mainTable.setHeight(2, "175");
-			//mainTable.setHeight(3, "50");
-			//mainTable.setAlignment(1, 2, Table.HORIZONTAL_ALIGN_RIGHT);
 
-
-			/*Table dropdownTable = new Table(1, 1);
-			dropdownTable.setWidth(148);
-			dropdownTable.setCellpadding(0);
-			dropdownTable.setCellspacing(0);
-			dropdownTable.setAlignment(1, 1, "center");*/
-			//mainTable.setAlignment(1, 3, Table.HORIZONTAL_ALIGN_RIGHT);
-			//mainTable.add(dropdownTable);
-
-			//Form myForm = new Form();
-			//myForm.setEventListener(com.idega.core.localisation.business.LocaleSwitcher.class.getName());
-			
-			/*
-			DropdownMenu dropdown = LocalePresentationUtil.getAvailableLocalesDropdown(iwc);
-			dropdown.setStyleAttribute("font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; border-style:solid; border-width:1; border-color: #000000");
-			//myForm.add(dropdown);
-			mainTable.add(dropdown);
-			*/
-			
-			//dropdownTable.add(myForm);
-			//mainTable.add(myForm);
-			//headerImage = iwrb.getImage("/login/header.jpg", "", 323, 196);
 		}
-		//Link lheaderLink = new Link(headerImage, iwc.getIWMainApplication().getApplicationContextURI());
-		//mainTable.add(lheaderLink, 1, 1);
-		
-		//form.getChildren().add(frameTable);
 	}
 	
 	public List getChildren(){
@@ -204,6 +145,53 @@ public class WorkspacePage extends Page {
 	
 	public void add(UIComponent comp){
 		this.getForm().getChildren().add(comp);
+	}
+	
+	public void add(String key,UIComponent comp){
+		UIComponent setComp = getForm().getFacet(key);
+		if(setComp==null){
+			WFContainer container = new WFContainer();
+			container.setStyleClass(key);
+			container.add(comp);
+			this.getForm().getFacets().put(key,container);
+		}
+		else{
+			setComp.getChildren().add(comp);
+		}
+	}
+	
+	
+	public UIComponent getMainArea(){
+		UIComponent area = getForm().getFacet(FACET_MAIN);
+		if(area==null){
+			WFContainer container = new WFContainer();
+			container.setStyleClass(FACET_MAIN);
+			getForm().getFacets().put(FACET_MAIN,container);
+			area=container;
+		}
+		return area;
+	}
+	
+	public UIComponent getHead(){
+		UIComponent head = getForm().getFacet(FACET_HEAD);
+		if(head==null){
+			WFContainer container = new WFContainer();
+			container.setStyleClass(FACET_HEAD);
+			getForm().getFacets().put(FACET_HEAD,container);
+			head=container;
+		}
+		return head;
+	}
+	
+	public UIComponent getFunctionMenu(){
+		UIComponent menu = getForm().getFacet(FACET_FUNCTIONMENU);
+		if(FACET_HEAD==null){
+			WFContainer container = new WFContainer();
+			container.setStyleClass(FACET_FUNCTIONMENU);
+			getForm().getFacets().put(FACET_FUNCTIONMENU,container);
+			menu=container;
+		}
+		return menu;
 	}
 	
 	/**
@@ -265,15 +253,40 @@ public class WorkspacePage extends Page {
 	public void encodeChildren(FacesContext context) throws IOException{
 		
 		UIForm form = getForm();
-		if(this.embedForm){
+		//if(this.embedForm){
 			form.encodeBegin(context);
+		//}
+		//super.encodeChildren(context);
+		UIComponent bar = getHead();
+		this.renderChild(context,bar);
+		UIComponent fMenu = getFunctionMenu();
+		this.renderChild(context,fMenu);
+		UIComponent mainArea = getMainArea();
+		if(mainArea==null){
+			mainArea = new WFContainer();
+			((WFContainer)mainArea).setStyleClass(FACET_MAIN);
 		}
-		super.encodeChildren(context);
 		
-		if(this.embedForm){
-			form.encodeChildren(context);
-			form.encodeEnd(context);
+		mainArea.encodeBegin(context);
+		
+		if(mainArea.getRendersChildren()){
+			mainArea.encodeChildren(context);
 		}
+		//super.encodeChildren(context);
+		
+		//form.encodeChildren(context);
+		for (Iterator iter = form.getChildren().iterator(); iter.hasNext();) {
+			UIComponent child = (UIComponent) iter.next();
+			renderChild(context,child);
+		}
+		
+		mainArea.encodeEnd(context);
+		
+		
+		//if(this.embedForm){
+			//form.encodeChildren(context);
+			form.encodeEnd(context);
+		//}
 	}
 	
 	public void encodeEnd(FacesContext context) throws IOException{
@@ -306,22 +319,20 @@ public class WorkspacePage extends Page {
 	 * @see javax.faces.component.UIComponent#processRestoreState(javax.faces.context.FacesContext, java.lang.Object)
 	 */
 	public void processRestoreState(FacesContext fc, Object arg1) {
-		// TODO Auto-generated method stub
 		super.processRestoreState(fc, arg1);
 	}
 	/* (non-Javadoc)
 	 * @see javax.faces.component.UIComponent#processSaveState(javax.faces.context.FacesContext)
 	 */
 	public Object processSaveState(FacesContext arg0) {
-		// TODO Auto-generated method stub
 		return super.processSaveState(arg0);
 	}
 	/**
 	 * 
-	 *  Last modified: $Date: 2004/11/01 15:00:48 $ by $Author: tryggvil $
+	 *  Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
 	 * 
 	 * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
-	 * @version $Revision: 1.3 $
+	 * @version $Revision: 1.4 $
 	 */
 	public class SpecialChildList implements List{
 		

@@ -19,8 +19,6 @@ public class WFBlock extends WFContainer {
 
 	public static String RENDERER_TYPE = "wf_block";
 
-	private boolean isInitialized = false;
-
 	private boolean toolbarEmbeddedInTitlebar = true;
 
 	private String mainAreaStyleClass = WFConstants.STYLE_CLASS_MAINAREA;
@@ -30,11 +28,11 @@ public class WFBlock extends WFContainer {
 	}
 
 	public WFBlock(String titleBarText) {
-		setStyleClass(WFConstants.STYLE_CLASS_BOX);
+		setStyleClass(RENDERER_TYPE);
 		setMainAreaStyleClass(WFConstants.STYLE_CLASS_MAINAREA);
 		WFTitlebar titlebar = new WFTitlebar(titleBarText);
 		setTitlebar(titlebar);
-		setDefaultToolbar();
+		//setDefaultToolbar();
 		//WFContainer mainArea = new WFContainer();
 		//super.add(mainArea);
 	}
@@ -51,14 +49,10 @@ public class WFBlock extends WFContainer {
 		toolbar.addButton(new WFCloseButton());
 	}
 
-	/**
-	 * This method is intended to be implemented in subclasses to add components
-	 * to mainArea
-	 */
-	protected void initializeContent() {
-		//does nothing by default
+	protected void initializeDefault() {
+		setDefaultToolbar();
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -143,9 +137,10 @@ public class WFBlock extends WFContainer {
 	}
 
 	public void encodeBegin(FacesContext context) throws IOException {
-		if (!isInitialized) {
+		if (!isInitialized()) {
+			initializeDefault();
 			this.initializeContent();
-			this.isInitialized = true;
+			this.setInitialized();
 		}
 		super.encodeBegin(context);
 	}
@@ -205,13 +200,11 @@ public class WFBlock extends WFContainer {
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[4];
+		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
 		values[1] = new Boolean(toolbarEmbeddedInTitlebar);
 		values[2] = mainAreaStyleClass;
-		values[3] = new Boolean(isInitialized);
 		return values;
-		//return super.saveState(ctx);
 	}
 
 	/**
@@ -223,7 +216,6 @@ public class WFBlock extends WFContainer {
 		super.restoreState(ctx, values[0]);
 		toolbarEmbeddedInTitlebar = ((Boolean) values[1]).booleanValue();
 		mainAreaStyleClass = (String) values[2];
-		isInitialized = ((Boolean) values[3]).booleanValue();
 		//super.restoreState(ctx,state);
 	}
 

@@ -171,7 +171,8 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @param iconImageURI The iconImageURI to set.
 	 */
 	public void setIconImageURI(String iconImageURI) {
-		this.iconImageURI = iconImageURI;
+		String uriWithBundle = WFUtil.getBundle().getResourcesVirtualPath()+"/"+iconImageURI;
+		this.iconImageURI = uriWithBundle;
 	}
 	
 	public String getRendererType(){

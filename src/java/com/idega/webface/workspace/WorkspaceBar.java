@@ -13,8 +13,8 @@ import java.util.Iterator;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import com.idega.faces.view.ViewManager;
-import com.idega.faces.view.ViewNode;
+import com.idega.core.view.ViewManager;
+import com.idega.core.view.ViewNode;
 import com.idega.idegaweb.IWMainApplication;
 import com.idega.presentation.text.Text;
 import com.idega.webface.WFContainer;
@@ -27,6 +27,8 @@ import com.idega.webface.event.WFTabEvent;
 
 
 /**
+ * This class holds a "tab" or "task" style bar in the Workspace environment for 
+ * all available applications/perspectives for a user.
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
  * @version 1.0
@@ -52,11 +54,9 @@ public class WorkspaceBar extends WFContainer implements  Serializable{
 	 */
 	public WorkspaceBar() {
 		super();
-		init();
 	}
 	
-	public void init(){
-		
+	public void initializeContent(){
 		setStyleClass(STYLE_CLASS);
 		addApplicationDecoration();
 		addTabbar();
@@ -117,7 +117,7 @@ public class WorkspaceBar extends WFContainer implements  Serializable{
 		for (Iterator iter = workspaceNode.getChildren().iterator(); iter.hasNext();) {
 			ViewNode subNode = (ViewNode) iter.next();
 			String url = subNode.getURI();
-			tb.addTab(subNode.getName(),url);
+			tb.addLink(subNode.getName(),url);
 		}
 		
 		return tb;

@@ -8,7 +8,9 @@
  */
 package com.idega.webface.workspace;
 
+import java.io.IOException;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import com.idega.presentation.PresentationObject;
 import com.idega.util.reflect.MethodInvoker;
 import com.idega.webface.WFContainer;
@@ -30,16 +32,6 @@ public class WFLogin extends WFContainer {
 	public WFLogin() {
 		super();
 		this.setStyleClass(STYLE_CLASS);
-		PresentationObject login=null;
-		try {
-			login = (PresentationObject) Class.forName("com.idega.block.login.presentation.Login").newInstance();
-			add(login);
-		}
-		catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		try {
 			//invoker.invokeMethodWithStringParameter(login, "setLogoutButtonImageURL", iwrb.getImageURI("login/logout.gif"));
 			//invoker.invokeMethodWithStringParameter(login, "setHeight", "60");
@@ -55,7 +47,23 @@ public class WFLogin extends WFContainer {
 	
 	
 	private UIComponent getEmbeddedLogin(){
-		return (UIComponent)this.getChildren().get(0);
+		UIComponent login =  null;
+		try{
+			login = (UIComponent)this.getChildren().get(0);
+		}
+		catch(IndexOutOfBoundsException aiob){
+		}
+		if(login==null){
+			try {
+				login = (UIComponent) Class.forName("com.idega.block.login.presentation.Login").newInstance();
+				getChildren().add(login);
+			}
+			catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return login;
 	}
 	
 	public void setHeight(String height){
@@ -144,6 +152,26 @@ public class WFLogin extends WFContainer {
 	
 	public void setLayoutForwardLink(){
 		setLayout(LAYOUT_FORWARD_LINK);
-	}	
+	}
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
+	 */
+	public void encodeBegin(FacesContext context) throws IOException {
+		super.encodeBegin(context);
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
+	 */
+	public void encodeChildren(FacesContext context) throws IOException {
+		super.encodeChildren(context);
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
+	 */
+	public void encodeEnd(FacesContext arg0) throws IOException {
+		super.encodeEnd(arg0);
+	}
 }

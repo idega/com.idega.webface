@@ -326,10 +326,10 @@ public class WFUtil {
 		WFContainer box = new WFContainer();
 		box.setStyleClass("wf_bannerbox");
 		
-		HtmlGraphicImage logo = new HtmlGraphicImage();
-		logo.setStyleClass("wf_bannerimg");
-		logo.setUrl("icons/idegalogo_20px.gif");
-		box.add(logo);
+		//HtmlGraphicImage logo = new HtmlGraphicImage();
+		//logo.setStyleClass("wf_bannerimg");
+		//logo.setUrl("icons/idegalogo_20px.gif");
+		//box.add(logo);
 		
 		WFContainer c = new WFContainer();
 		c.setStyleClass("wf_bannertext");

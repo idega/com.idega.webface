@@ -6,6 +6,8 @@
  */
 package com.idega.webface.workspace;
 
+import java.io.IOException;
+import javax.faces.context.FacesContext;
 import com.idega.core.localisation.presentation.LocalePresentationUtil;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWResourceBundle;
@@ -34,9 +36,6 @@ public class WorkspaceLoginPage extends Page {
 		iwrb = this.getResourceBundle(iwc);
 
 		Page thePage = this;
-		//thePage.setBackgroundColor(backgroundColor);
-		//thePage.setAllMargins(0);
-
 		thePage.setTitle("idegaWeb Applications");
 
 		Table frameTable = new Table(1, 1);
@@ -46,25 +45,12 @@ public class WorkspaceLoginPage extends Page {
 		frameTable.setCellspacing(0);
 		frameTable.setAlignment(1, 1, "center");
 		frameTable.setVerticalAlignment(1, 1, "middle");
-
-		//Table mainTable = new Table(1, 4);
+		
 		WFBezel mainTable = new WFBezel();
 		mainTable.setWidth("400px");
 		mainTable.setHeight("300px");
-		//mainTable.setCellspacing(0);
-		//mainTable.setCellpadding(0);
-		//mainTable.setBackgroundImage(1,1,iwb.getImage("logintiler.gif"));
-		//mainTable.setAlignment(1, 2, "right");
-		//mainTable.setAlignment(1, 3, "right");
-		//mainTable.setAlignment(1, 4, "center");
-		//mainTable.setVerticalAlignment(1, 1, "top");
-		//mainTable.setVerticalAlignment(1, 2, "top");
-		//mainTable.setVerticalAlignment(1, 3, "top");
-		//mainTable.setVerticalAlignment(1, 4, "bottom");
-		//mainTable.setHeight(4, "12");
-		//mainTable.setColor("#FFFFFF");
+
 		frameTable.add(mainTable, 1, 1);
-		//mainTable.setStyleAttribute("border", "1px solid #000000");
 
 		Table dropdownTable = new Table(1, 1);
 		dropdownTable.setWidth(148);
@@ -92,11 +78,6 @@ public class WorkspaceLoginPage extends Page {
 
 		if (isLoggedOn) {
 			IWControlCenter iwcc = new IWControlCenter();
-			//mainTable.setHeight(2, "165");
-			//mainTable.setAlignment(1, 2, "center");
-			//mainTable.setAlignment(1, 3, "right");
-			//mainTable.setVerticalAlignment(1, 2, "middle");
-			//mainTable.setVerticalAlignment(1, 3, "middle");
 			mainTable.add(iwcc);
 			//headerImage = iwrb.getImage("login/header_app_suite.jpg", "", 323, 196);
 
@@ -112,7 +93,6 @@ public class WorkspaceLoginPage extends Page {
 				//invoker.invokeMethodWithStringParameter(login, "setLoginAlignment", "center");
 				//invoker.invokeMethodWithBooleanParameter(login, "setViewOnlyLogoutButton", true);
 				//invoker.invokeMethodWithBooleanParameter(login, "setAllowCookieLogin", true);
-				
 				mainTable.add(login);
 			}
 			catch (Exception e) {
@@ -123,10 +103,6 @@ public class WorkspaceLoginPage extends Page {
 		}
 
 		else {
-			//mainTable.setHeight(2, "175");
-			//mainTable.setHeight(3, "50");
-			//mainTable.setAlignment(1, 2, Table.HORIZONTAL_ALIGN_RIGHT);
-
 			try {
 				WFLogin login = new WFLogin();
 				login.setHeight("60");
@@ -146,12 +122,29 @@ public class WorkspaceLoginPage extends Page {
 				add(iwrb.getLocalizedString("login.init.error", "There was an error initialising the login component, most likely it is missing"));
 				e.printStackTrace();
 			}
-
-			//headerImage = iwrb.getImage("/login/header.jpg", "", 323, 196);
 		}
-		//Link lheaderLink = new Link(headerImage, iwc.getIWMainApplication().getApplicationContextURI());
-		//mainTable.add(lheaderLink, 1, 1);
+
 		thePage.add(frameTable);
+		//thePage.add(mainTable);
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
+	 */
+	public void encodeBegin(FacesContext context) throws IOException {
+		super.encodeBegin(context);
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
+	 */
+	public void encodeChildren(FacesContext context) throws IOException{
+		super.encodeChildren(context);
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
+	 */
+	public void encodeEnd(FacesContext context) throws IOException {
+		super.encodeEnd(context);
+	}
 }
