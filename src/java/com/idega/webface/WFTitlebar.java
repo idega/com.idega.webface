@@ -17,6 +17,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 {
 	public static String RENDERER_TYPE="wf_titlebar";
 	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
+	public static String DEFAULT_ICON_STYLE_CLASS="wf_titlebar_icon";
 	
 	private boolean viewWithTitleBar=true;
 
@@ -28,6 +29,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	private String iconImageURI;
 //	private boolean valueRefTitle = false;
 	private String toolTip;
+	private String iconStyleClass = DEFAULT_ICON_STYLE_CLASS;
 	
 	public WFTitlebar(){
 		setStyleClass(DEFAULT_STYLE_CLASS);
@@ -207,6 +209,14 @@ public class WFTitlebar extends WFContainer implements Serializable
 		return RENDERER_TYPE;
 	}
 	
+	public void setIconStyleClass(String iconStyleClass) {
+		this.iconStyleClass = iconStyleClass;
+	}
+	
+	public String getIconStyleClass() {
+		return iconStyleClass;
+	}
+	
 	/*
 	public void encodeBegin(FacesContext context) throws IOException {
 		ResponseWriter out = context.getResponseWriter();
@@ -250,6 +260,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
 		values[1] = toolTip;
+		values[2] = iconStyleClass;
 //		values[2] = new Boolean(valueRefTitle);
 		return values;
 	}
@@ -261,6 +272,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
 		toolTip = (String) values[1];
+		iconStyleClass = (String) values[2];
 //		valueRefTitle = ((Boolean) values[2]).booleanValue();
 	}
 
