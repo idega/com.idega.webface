@@ -1,5 +1,5 @@
 /*
- * $Id: WFErrorMessages.java,v 1.4 2004/06/18 14:11:02 anders Exp $
+ * $Id: WFErrorMessages.java,v 1.5 2005/03/09 14:40:41 eiki Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -19,10 +19,10 @@ import javax.faces.context.FacesContext;
 /**
  * Container for error messages.
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2005/03/09 14:40:41 $ by $Author: eiki $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFErrorMessages extends WFContainer {
 	
@@ -71,10 +71,12 @@ public class WFErrorMessages extends WFContainer {
 			if (child instanceof HtmlMessage) {
 				HtmlMessage m = (HtmlMessage) child;
 				UIComponent forComponent = m.findComponent(m.getFor());
-				Iterator iter = context.getMessages(forComponent.getClientId(context));
-				if (iter.hasNext()) {
-					hasMessages = true;
-				}				
+				if(forComponent!=null){
+					Iterator iter = context.getMessages(forComponent.getClientId(context));
+					if (iter.hasNext()) {
+						hasMessages = true;
+					}				
+				}
 			}
 		}
 		
