@@ -1,5 +1,5 @@
 /*
- *  $Id: WorkspacePage.java,v 1.5 2004/11/15 22:24:41 tryggvil Exp $
+ *  $Id: WorkspacePage.java,v 1.6 2004/12/12 14:56:53 eiki Exp $
  *
  *  Created on 13.7.2004 by Tryggvi Larusson
  *
@@ -23,8 +23,6 @@ import javax.faces.context.FacesContext;
 import com.idega.core.view.FramedApplicationViewNode;
 import com.idega.core.view.ViewManager;
 import com.idega.core.view.ViewNode;
-import com.idega.idegaweb.IWBundle;
-import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
 import com.idega.webface.WFContainer;
@@ -35,10 +33,10 @@ import com.idega.webface.WFFrame;
  * This page should be around all UI components in the environment.<br>
  * 
  * <br>
- * Last modified: $Date: 2004/11/15 22:24:41 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/12/12 14:56:53 $ by $Author: eiki $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WorkspacePage extends Page {
 
@@ -69,12 +67,9 @@ public class WorkspacePage extends Page {
 		return IW_BUNDLE_IDENTIFIER;
 	}
 	public void initializeContent(FacesContext context) {
-		IWContext iwc = IWContext.getIWContext(context);
-		IWBundle iwb;
-		IWResourceBundle iwrb;
-		
-		iwb = this.getBundle(iwc);
-		iwrb = this.getResourceBundle(iwc);
+		IWContext iwc = IWContext.getIWContext(context);	
+//		IWBundle iwb = this.getBundle(iwc);
+//		IWResourceBundle iwrb = this.getResourceBundle(iwc);
 		
 		//Initialize the areas:
 		this.getMainArea();
@@ -330,10 +325,10 @@ public class WorkspacePage extends Page {
 	}
 	/**
 	 * 
-	 *  Last modified: $Date: 2004/11/15 22:24:41 $ by $Author: tryggvil $
+	 *  Last modified: $Date: 2004/12/12 14:56:53 $ by $Author: eiki $
 	 * 
 	 * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
-	 * @version $Revision: 1.5 $
+	 * @version $Revision: 1.6 $
 	 */
 	public class SpecialChildList implements List{
 		
