@@ -1,0 +1,19 @@
+package com.idega.webface.test;
+
+import java.util.ListResourceBundle;
+
+/**
+ * @author al
+ */
+public class TestBundle_sv_SE extends ListResourceBundle {
+
+	static final Object[][] contents = {
+		{"name", "Namn"},
+		{"author", "Författare"},
+		{"company", "Företag"}
+	};
+
+	public Object[][] getContents() {
+	  return contents;
+	}
+}
