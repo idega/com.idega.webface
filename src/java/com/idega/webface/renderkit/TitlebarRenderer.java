@@ -1,5 +1,5 @@
 /*
- * $Id: TitlebarRenderer.java,v 1.4 2005/02/02 03:01:09 tryggvil Exp $
+ * $Id: TitlebarRenderer.java,v 1.5 2005/03/10 22:24:06 tryggvil Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -19,10 +19,10 @@ import com.idega.webface.WFTitlebar;
 
 /**
  * 
- *  Last modified: $Date: 2005/02/02 03:01:09 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/03/10 22:24:06 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class TitlebarRenderer extends ContainerRenderer {
 	
@@ -52,22 +52,26 @@ public class TitlebarRenderer extends ContainerRenderer {
 			//renderContainerEnd(out);
 		}
 		
-		renderContainerStart(out,"wf_titlebar_icon");
+		//renderContainerStart(out,"wf_titlebar_icon");
 		
 		String iconStyle = titlebar.getIconStyleClass();
-		if (iconStyle != null) {
-			out.startElement("div", null);
-			out.writeAttribute("class", iconStyle, null);
+		if (iconStyle == null) {
+			iconStyle="wf_titlebar_icon";
 		}
+
+		out.startElement("div", null);
+		out.writeAttribute("class", iconStyle, null);
+		
 		out.startElement("img", null);
 		out.writeAttribute("src", titlebar.getIconImageURI(), null);
 		out.endElement("img");
-		if (iconStyle != null) {
-			out.endElement("div");
-		}		
+		//if (iconStyle != null) {
+		//	out.endElement("div");
+		//}		
 		
-
-		renderContainerEnd(out);
+		out.endElement("div");
+		
+		//renderContainerEnd(out);
 		
 		//out.endElement("td");
 		//out.startElement("td", null);
