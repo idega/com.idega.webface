@@ -87,11 +87,14 @@ public class WorkspaceLoginPage extends Page {
 			mainTable.add(iwcc);
 			//headerImage = iwrb.getImage("login/header_app_suite.jpg", "", 323, 196);
 
+		}	
 			try {
 				WFLogin login = new WFLogin();
 				login.setHeight("60");
 				login.setWidth("70");
 				login.setAllowCookieLogin(true);
+				String workspaceUrl = iwc.getIWMainApplication().getWorkspaceURI();
+				login.setUrlToForwardToOnLogin(workspaceUrl);
 				//MethodInvoker invoker = MethodInvoker.getInstance();
 				//invoker.invokeMethodWithStringParameter(login, "setLogoutButtonImageURL", iwrb.getImageURI("login/logout.gif"));
 				//invoker.invokeMethodWithStringParameter(login, "setHeight", "60");
@@ -105,7 +108,7 @@ public class WorkspaceLoginPage extends Page {
 				add(iwrb.getLocalizedString("login.init.error", "There was an error initialising the login component, most likely it is missing"));
 				e.printStackTrace();
 			}
-
+/*
 		}
 
 		else {
@@ -114,6 +117,8 @@ public class WorkspaceLoginPage extends Page {
 				login.setHeight("60");
 				login.setWidth("70");
 				login.setAllowCookieLogin(true);
+				String workspaceUrl = iwc.getIWMainApplication().getWorkspaceURI();
+				login.setUrlToForwardToOnLogin(workspaceUrl);
 				//MethodInvoker invoker = MethodInvoker.getInstance();
 				//invoker.invokeMethodWithStringParameter(login, "setLogoutButtonImageURL", iwrb.getImageURI("login/logout.gif"));
 				//invoker.invokeMethodWithStringParameter(login, "setHeight", "60");
@@ -129,7 +134,7 @@ public class WorkspaceLoginPage extends Page {
 				e.printStackTrace();
 			}
 		}
-
+*/
 
 		mainTable.add(getProductName());
 		mainTable.add(getVersionInfo());
