@@ -28,9 +28,13 @@ public class WFBlock extends WFContainer {
 	}
 
 	public WFBlock(String titleBarText) {
+		this(titleBarText, false);
+	}
+	
+	public WFBlock(String titleBarText, boolean titleIsVB) {
 		setStyleClass(RENDERER_TYPE);
 		setMainAreaStyleClass(WFConstants.STYLE_CLASS_MAINAREA);
-		WFTitlebar titlebar = new WFTitlebar(titleBarText);
+		WFTitlebar titlebar = new WFTitlebar(titleBarText, titleIsVB);
 		setTitlebar(titlebar);
 		//setDefaultToolbar();
 		//WFContainer mainArea = new WFContainer();
@@ -66,7 +70,6 @@ public class WFBlock extends WFContainer {
 		if (title != null) {
 			setTitlebar(new WFTitlebar(title));
 		}
-
 		setDefaultToolbar();
 	}
 	
@@ -177,6 +180,8 @@ public class WFBlock extends WFContainer {
 		if (!isRendered()) {
 			return;
 		}
+		
+		
 		super.encodeChildren(context);
 		//for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
 		//	UIComponent child = (UIComponent) iter.next();
