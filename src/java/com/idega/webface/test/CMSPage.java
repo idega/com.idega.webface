@@ -1,5 +1,5 @@
 /*
- * $Id: CMSPage.java,v 1.1 2004/06/08 16:14:05 anders Exp $
+ * $Id: CMSPage.java,v 1.2 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -31,18 +31,22 @@ import com.idega.webface.WFViewMenu;
 /**
  * Content management system test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/08 16:14:05 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class CMSPage extends WFPage implements ActionListener, Serializable {
 
+	public final static String ARTICLE_LIST_BEAN_ID = "article_list_bean";
+	public final static String CASE_LIST_BEAN_ID = "case_list_bean";
+	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
 		if (getChildren().size() == 0) {
+//			context.getViewRoot().setLocale(new Locale("sv", "SE"));
 			createContent();
 		}
 		super.encodeBegin(context);
@@ -51,9 +55,28 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	/**
 	 * Creates the page content. 
 	 */
-	private void createContent() {
+	protected void createContent() {		
+		boolean isArticleBeanUpdated = false;
+		ArticleItemBean bean = (ArticleItemBean) WFUtil.getSessionBean(ArticleBlock.ARTICLE_ITEM_BEAN_ID);
+		if (bean != null) {
+			isArticleBeanUpdated = bean.isUpdated();
+			bean.setUpdated(false);
+		}
+		
+		if (WFUtil.getSessionBean(ARTICLE_LIST_BEAN_ID) == null) {
+			WFUtil.setSessionBean(ARTICLE_LIST_BEAN_ID, new ArticleListBean(this));
+		}
+		
+		if (WFUtil.getSessionBean(CASE_LIST_BEAN_ID) == null) {
+			WFUtil.setSessionBean(CASE_LIST_BEAN_ID, new CaseListBean(this));
+		}
+		
 		add(WFUtil.getBannerBox());
-		add(getMainTaskbar());		
+		add(getMainTaskbar());
+		
+		if (isArticleBeanUpdated) {
+			setEditMode();
+		}
 	}
 	
 	/**
@@ -99,12 +122,12 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 		WFBlock b = new WFBlock("Functions");
 		WFViewMenu vm = new WFViewMenu();
 		b = WFUtil.setBlockStyle(b, vm);
-		vm.addButton("news_items", "News Items", "NewsItems.jsf");
-		vm.addButton("users_groups", "Users and Groups", "UserApplication.jsf");
-		vm.addButton("create_article", "Create Article", "CreateArticle.jsf");
-		vm.addButton("create_page", "Create Page", "CreatePage.jsf");
+		vm.addButton("news_items", "Content Home", "/cmspage.jsf");
+		vm.addButton("create_article", "Create Article", "/createarticle.jsf");
 		vm.addButton("list_articles", "List Articles", "ListArticles.jsf");
-		vm.addButton("search_articles", "Search Articles", "SearchArticles.jsf");
+		vm.addButton("search_articles", "Search Articles", "/searcharticle.jsf");
+		vm.addButton("users_groups", "Users and Groups", "UserApplication.jsf");
+		vm.addButton("create_page", "Create Page", "CreatePage.jsf");
 		vm.addButton("configure", "Configure", "Configure.jsf");
 		b.add(vm);
 		return b;
@@ -116,7 +139,7 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	protected UIComponent getArticleList() {
 		WFBlock b = new WFBlock("Article list");
 		b.setWidth("700px");
-		WFList l = new WFList(new ArticleListBean(this), "abc", 0, 3);
+		WFList l = new WFList(ARTICLE_LIST_BEAN_ID, 0, 3);
 		l.setId("articlelist");
 		b.add(l);
 		return b;
@@ -128,7 +151,7 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	protected UIComponent getCaseList() {
 		WFBlock b = new WFBlock("Case list");
 		b.setWidth("700px");
-		WFList l = new WFList(new CaseListBean(this), "case", 0, 3);
+		WFList l = new WFList(CASE_LIST_BEAN_ID, 0, 3);
 		l.setId("caselist");
 		b.add(l);
 		return b;
@@ -146,6 +169,7 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 		ArticleBlock ab = (ArticleBlock) tb.findComponent("article_block");
 		ab.setEditMode();
 		ArticleItemBean bean = new ArticleItemBean();
+		bean.setLocaleId("sv");
 		bean.setHeadline("headline");
 		bean.setTeaser("teaser");
 		bean.setBody(id);
@@ -159,6 +183,17 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 			bean.setStatus(ContentItemCaseBean.STATUS_UNDER_REVIEW);			
 		}
 		bean.setMainCategoryId(3);
-		ab.setArticleItem(bean);
+		ab.setArticleItemBean(bean);
+	}
+	
+	/**
+	 * Sets the page in edit mode.
+	 */
+	public void setEditMode() {
+		WFTaskbar tb = (WFTaskbar) findComponent(NamingContainer.SEPARATOR_CHAR + "testScreen" +
+				NamingContainer.SEPARATOR_CHAR + "main_taskbar");
+		tb.setSelectedButtonId("edit");
+		ArticleBlock ab = (ArticleBlock) tb.findComponent("article_block");
+		ab.setEditMode();		
 	}
 }

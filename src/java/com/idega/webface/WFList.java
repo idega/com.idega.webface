@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.2 2004/05/27 12:40:46 anders Exp $
+ * $Id: WFList.java,v 1.3 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -31,16 +31,16 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2004/05/27 12:40:46 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFList extends HtmlDataTable implements ActionListener, NamingContainer {
 	
 	private boolean _showListNavigation = true;
 	private String _listStyleClass = null;
-	private WFListBean _listBean = null;
+	private String _listBeanSessionId = null;
 
 	private final static String ACTION_PREVIOUS = "previous";
 	private final static String ACTION_NEXT = "next";
@@ -53,7 +53,6 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	 */
 	public WFList() {
 		super();
-		setVar("var");
 		setListStyleClass("wf_list");
 		this.setStyleClass("wf_listtable");
 		this.setHeaderClass("wf_listheading");
@@ -61,12 +60,15 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	}
 	
 	/**
-	 * Constructs a new WFList component with the specified list bean as data source.
+	 * Constructs a new WFList component with the specified list session bean as data source.
 	 */
-	public WFList(WFListBean listBean, String var, int first, int rows) {
+	public WFList(String listBeanSessionId, int first, int rows) {
 		this();
+		_listBeanSessionId = listBeanSessionId;
+		String var = listBeanSessionId + "_var";
 		setVar(var);
-		setListBean(listBean);
+		setValueBinding("value", WFUtil.createValueBinding("#{" + _listBeanSessionId + ".dataModel}"));
+		WFListBean listBean = (WFListBean) WFUtil.getSessionBean(_listBeanSessionId); 
 		UIColumn[] columns = listBean.createColumns(var);
 		for (int i = 0; i < columns.length; i++) {
 			addColumn(columns[i]);
@@ -88,13 +90,6 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	public boolean getShowListNavigation() {
 		return _showListNavigation;
 	}
-		
-	/**
-	 * Returns the list bean for this list.
-	 */
-	public WFListBean getListBean() {
-		return _listBean;
-	}
 
 	/**
 	 * Returns the css class for this list.
@@ -111,8 +106,9 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 		if (getRows() > 0) {
 			setListNavigationLinks();			
 		}
-		if (_listBean != null) {
-			this.setValue(_listBean.updateDataModel(getFirst(), getRows())); 
+		if (_listBeanSessionId != null) {
+			WFListBean listBean = (WFListBean) WFUtil.getSessionBean(_listBeanSessionId);
+			listBean.updateDataModel(getFirst(), getRows());
 		}
 	}
 
@@ -130,13 +126,6 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	 */
 	public void setShowListNavigation(boolean showListNavigation) {
 		_showListNavigation = showListNavigation;
-	}
-
-	/**
-	 * Sets the list bean for this list. 
-	 */
-	public void setListBean(WFListBean listBean) {
-		_listBean = listBean;
 	}
 
 	/**
@@ -177,7 +166,9 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 		c.setHeader(WFUtil.getText(header));
 		HtmlCommandLink l = new HtmlCommandLink();
 		l.setStyleClass("wf_listlink");
-		l.setValueBinding("value", WFUtil.createValueBinding("#{" + getVar() + "." + propertyName + "}"));
+		HtmlOutputText t = new HtmlOutputText();
+		t.setValueBinding("value", WFUtil.createValueBinding("#{" + getVar() + "." + propertyName + "}"));
+		l.getChildren().add(t);
 		c.getChildren().add(l);
 		getChildren().add(c);
 	}
@@ -223,7 +214,7 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 		values[0] = super.saveState(ctx);
 		values[1] = new Boolean(_showListNavigation);
 		values[2] = _listStyleClass;
-		values[3] = _listBean;
+		values[3] = _listBeanSessionId;
 		return values;
 	}
 	
@@ -235,7 +226,7 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 		super.restoreState(ctx, values[0]);
 		_showListNavigation = ((Boolean) values[1]).booleanValue();
 		_listStyleClass = (String) values[2];
-		_listBean = (WFListBean) values[3];
+		_listBeanSessionId = (String) values[3];
 	}
 
 	/**
@@ -347,25 +338,34 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	 */
 	private void setListNavigationLinks() {
 		HtmlCommandLink previous = new HtmlCommandLink();
-		previous.setValue("<< previous");
+		HtmlOutputText t = new HtmlOutputText();
+		t.setValue("<< previous");
+		previous.getChildren().add(t);
 		previous.setId(ACTION_PREVIOUS);
 		previous.addActionListener(this);
 		getFacets().put("navigationlink_previous", previous);
 
 		HtmlCommandLink next = new HtmlCommandLink();
-		next.setValue("next >>");
+		t = new HtmlOutputText();
+		t.setValue("next >>");
+		next.getChildren().add(t);
 		next.setId(ACTION_NEXT);
 		next.addActionListener(this);
 		getFacets().put("navigationlink_next", next);
 
 		int pageOffset = 0;
-		int currentPage = getFirst() / getRows() + 1;
+		int currentPage = 1;
+		if (getRows() > 0) {
+			currentPage = getFirst() / getRows() + 1;
+		}
 		if (currentPage > MAX_NAVIGATION_LINKS) {
 			pageOffset = currentPage - MAX_NAVIGATION_LINKS;
 		}
 		for (int i = 1; i <= MAX_NAVIGATION_LINKS; i++) {
 			HtmlCommandLink gotoLink = new HtmlCommandLink();
-			gotoLink.setValue(String.valueOf(i + pageOffset));
+			t = new HtmlOutputText();
+			t.setValue(String.valueOf(i + pageOffset));
+			gotoLink.getChildren().add(t);
 			gotoLink.setId(ACTION_GOTO + i);
 			WFUtil.addParameter(gotoLink, ACTION_GOTO, String.valueOf(i));			
 			gotoLink.addActionListener(this);

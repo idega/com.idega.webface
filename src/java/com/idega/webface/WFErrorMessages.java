@@ -1,5 +1,5 @@
 /*
- * $Id: WFErrorMessages.java,v 1.2 2004/05/28 08:03:14 laddi Exp $
+ * $Id: WFErrorMessages.java,v 1.3 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -19,10 +19,10 @@ import javax.faces.context.FacesContext;
 /**
  * Container for error messages.
  * <p>
- * Last modified: $Date: 2004/05/28 08:03:14 $ by $Author: laddi $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFErrorMessages extends WFContainer {
 	
@@ -40,6 +40,7 @@ public class WFErrorMessages extends WFContainer {
 	public void addErrorMessage(String forId) {
 		HtmlMessage message = new HtmlMessage();
 		message.setFor(forId);
+		message.setShowSummary(true);
 		message.setStyleClass("wf_errortext");
 		add(message);
 		add(WFUtil.getText(" "));

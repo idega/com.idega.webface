@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleListBean.java,v 1.3 2004/06/08 16:14:47 anders Exp $
+ * $Id: ArticleListBean.java,v 1.4 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -24,10 +24,10 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for article list rows.   
  * <p>
- * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 
 public class ArticleListBean extends WFListBean implements Serializable {
@@ -134,7 +134,7 @@ public class ArticleListBean extends WFListBean implements Serializable {
 	/**
 	 * @see com.idega.webface.bean.WFListBean#updateDataModel() 
 	 */
-	public DataModel updateDataModel(int start, int rows) {
+	public void updateDataModel(int start, int rows) {
 		if (_dataModel == null) {
 			_dataModel = new WFDataModel();
 		}
@@ -155,7 +155,6 @@ public class ArticleListBean extends WFListBean implements Serializable {
 			_dataModel.set(a, i);
 		}
 		_dataModel.setRowCount(availableRows);
-		return _dataModel;
 	}
 	
 	/**
@@ -189,5 +188,19 @@ public class ArticleListBean extends WFListBean implements Serializable {
 		columns[3].getChildren().add(t);		
 		
 		return columns;
+	}
+	
+	/**
+	 * @see com.idega.webface.bean.WFListBean#getDataModel() 
+	 */
+	public DataModel getDataModel() {
+		return _dataModel;
+	}
+	
+	/**
+	 * @see com.idega.webface.bean.WFListBean#setDataModel() 
+	 */
+	public void setDataModel(DataModel dataModel) {
+		_dataModel = (WFDataModel) dataModel;
 	}
 }

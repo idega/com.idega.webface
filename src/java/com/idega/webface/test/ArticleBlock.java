@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleBlock.java,v 1.2 2004/06/08 16:14:47 anders Exp $
+ * $Id: ArticleBlock.java,v 1.3 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -9,6 +9,8 @@
  */
 package com.idega.webface.test;
 
+import java.io.IOException;
+
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
@@ -17,6 +19,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectManyListbox;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.IntegerConverter;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
@@ -27,22 +30,22 @@ import com.idega.webface.WFErrorMessages;
 import com.idega.webface.WFPanel;
 import com.idega.webface.WFTaskbar;
 import com.idega.webface.WFUtil;
-import com.idega.webface.event.WFTaskbarEvent;
-import com.idega.webface.event.WFTaskbarListener;
+import com.idega.webface.convert.WFCommaSeparatedListConverter;
+import com.idega.webface.convert.WFDateConverter;
 
 /**
  * Block for editing an article.   
  * <p>
- * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarListener {
+public class ArticleBlock extends WFBlock implements ActionListener {
 
 	public final static String ARTICLE_BLOCK_ID = "article_block";
 
-	public final static String PARAMETER_ARTICLE_BEAN = "article_bean";
+	public final static String ARTICLE_ITEM_BEAN_ID = "article_item_bean";
 	
 	private final static String TASK_ID_EDIT = "t_edit";
 	private final static String TASK_ID_PREVIEW = "t_preview";
@@ -51,12 +54,15 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	private final static String P = "article_block_"; // Id prefix
 	
 	private final static String HEADLINE_ID = P + "headline";
+	private final static String LOCALE_ID = P + "locale";
 	private final static String TEASER_ID = P + "teaser";
 	private final static String BODY_ID = P + "body";
 	private final static String MAIN_CATEGORY_ID = P + "main_category";
 	private final static String AUTHOR_ID = P + "author";
 	private final static String SOURCE_ID = P + "source";
 	private final static String COMMENT_ID = P + "comment";
+	private final static String PUBLISHED_FROM_DATE_ID = P + "published_from_date";
+	private final static String PUBLISHED_TO_DATE_ID = P + "published_to_date";
 	
 	private final static String USER_MESSAGE_ID = P + "user_message";
 	
@@ -80,9 +86,8 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	private final static String ARTICLE_CATEGORIES_ID = P + "article_categories";
 	private final static String ADD_CATEGORIES_ID = P + "add_categories";
 	private final static String SUB_CATEGORIES_ID = P + "sub_categories";
+	private final static String CATEGORY_BACK_ID = P + "category_back";
 
-	private ArticleItemBean _articleItem = null;
-	
 	/**
 	 * Default contructor.
 	 */
@@ -95,14 +100,6 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	public ArticleBlock(String titleKey) {
 		super(titleKey);
 		setId(ARTICLE_BLOCK_ID);
-		ArticleItemBean bean = new ArticleItemBean();
-		bean.setHeadline("");
-		bean.setBody("");
-		bean.setTeaser("");
-		bean.setAuthor("");
-		bean.setComment("");
-		bean.setSource("");
-		bean.setStatus(ContentItemCaseBean.STATUS_NEW);
 		setWidth("700px");
 		getTitlebar().setLocalizedTitle(true);
 		setMainAreaStyleClass(null);
@@ -114,9 +111,22 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		tb.addButton(TASK_ID_PREVIEW, "Preview", getPreviewContainer());
 		tb.addButton(TASK_ID_MESSAGES, "Messages", getMessageContainer());
 		tb.setSelectedButtonId(TASK_ID_EDIT);
-		tb.addTaskbarListener(this);
 		
-		setArticleItem(bean);
+		if (getArticleItemBean() == null) {
+			ArticleItemBean bean = new ArticleItemBean();
+			bean.setLocaleId("sv");
+			bean.setHeadline("");
+			bean.setBody("");
+			bean.setTeaser("");
+			bean.setAuthor("");
+			bean.setComment("");
+			bean.setSource("");
+			bean.setStatus(ContentItemCaseBean.STATUS_NEW);
+			setArticleItemBean(bean);
+		} else {
+			setArticleItemBean(getArticleItemBean());
+		}
+		setEditMode();
 	}
 	
 	/*
@@ -127,17 +137,17 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		WFContainer c = new WFContainer();
 		c.setId(ARTICLE_EDITOR_ID);
 
-		String ref = PARAMETER_ARTICLE_BEAN + ".";
+		String ref = ARTICLE_ITEM_BEAN_ID + ".";
 		
 		WFPanel p = new WFPanel();		
 		p.setInputHeader("Headline:", 1, 1, "400px");		
-		p.setInputHeader("Main Category:", 2, 1);		
-		HtmlInputText headlineInput = WFUtil.getInputText(HEADLINE_ID, ref + "headline");
-		
+		p.setInputHeader("Language:", 2, 1);		
+		HtmlInputText headlineInput = WFUtil.getInputText(HEADLINE_ID, ref + "headline");		
 		headlineInput.setSize(40);
 		p.setInput(headlineInput, 1, 2);		
-		HtmlSelectOneMenu mainCategoryMenu = WFUtil.getSelectOneMenu(MAIN_CATEGORY_ID, ref + "categories", ref + "mainCategoryId");
-		p.setInput(mainCategoryMenu, 2, 2);		
+		HtmlSelectOneMenu localeMenu = WFUtil.getSelectOneMenu(LOCALE_ID, ref + "allLocales", ref + "pendingLocaleId");
+		localeMenu.setOnchange("document.forms['testScreen'].submit();");
+		p.setInput(localeMenu, 2, 2);		
 		p.setInputHeader("Teaser:", 1, 3);		
 		p.setInputHeader("Author:", 2, 3);		
 		HtmlInputTextarea teaserArea = WFUtil.getTextArea(TEASER_ID, ref + "teaser", "440px", "30px");
@@ -151,14 +161,17 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		p.setInput(bodyArea, 1, 6);		
 		p.setInput(WFUtil.getText(" "), 2, 6);
 		p.setInputHeader("Source:", 1, 7);		
-		p.setInputHeader("", 2, 7);		
+		p.setInputHeader("main category:", 2, 7);		
 		HtmlInputTextarea sourceArea = WFUtil.getTextArea(SOURCE_ID, ref + "source", "440px", "30px");
 		p.setInput(sourceArea, 1, 8);		
-		p.setInput(WFUtil.getText(" "), 2, 8);		
+		HtmlSelectOneMenu mainCategoryMenu = WFUtil.getSelectOneMenu(MAIN_CATEGORY_ID, ref + "categories", ref + "mainCategoryId");
+		p.setInput(mainCategoryMenu, 2, 8);		
 
 		WFErrorMessages em = new WFErrorMessages();
 		em.addErrorMessage(headlineInput.getId());
 		em.addErrorMessage(teaserArea.getId());
+		em.addErrorMessage(PUBLISHED_FROM_DATE_ID);
+		em.addErrorMessage(PUBLISHED_TO_DATE_ID);
 		
 		c.add(em);		
 		c.add(p);
@@ -183,9 +196,15 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		HtmlInputTextarea commentArea = WFUtil.getTextArea(COMMENT_ID, ref + "comment", "400px", "60px");
 		p.setInput(commentArea, 1, 2);
 		p.setInputHeader("Publishing date:", 1, 3);
-		p.setInput(WFUtil.getText(" "), 1, 4);
+		HtmlInputText publishedFromInput = WFUtil.getInputText(PUBLISHED_FROM_DATE_ID, ref + "case.publishedFromDate");		
+		publishedFromInput.setSize(20);
+		publishedFromInput.setConverter(new WFDateConverter());
+		p.setInput(publishedFromInput, 1, 4);		
 		p.setInputHeader("Expiration date:", 1, 5);
-		p.setInput(WFUtil.getText(" "), 1, 6);		
+		HtmlInputText publishedToInput = WFUtil.getInputText(PUBLISHED_TO_DATE_ID, ref + "case.publishedToDate");		
+		publishedToInput.setSize(20);
+		publishedToInput.setConverter(new WFDateConverter());
+		p.setInput(publishedToInput, 1, 6);		
 		c.add(p);
 
 		c.add(WFUtil.getBreak());
@@ -231,17 +250,24 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	private UIComponent getCategoryEditContainer() {
 		WFPanel p = new WFPanel();
 
-		String ref = PARAMETER_ARTICLE_BEAN + ".";
+		String ref = ARTICLE_ITEM_BEAN_ID + ".";
 
 		p.setId(CATEGORY_EDITOR_ID);
 		p.setInputHeader("Available categories:", 1, 1, "20%");		
 		p.setInputHeader(" ", 2, 1);		
 		p.setInputHeader("Categories for this article:", 3, 1, "75%");
+
+		WFContainer c = new WFContainer();
 		HtmlSelectManyListbox availableCategories = WFUtil.getSelectManyListbox(AVAILABLE_CATEGORIES_ID,
 				ref + "availableCategories", ref + "selectedAvailableCategories");
-		p.setInput(availableCategories, 1, 2);
+		availableCategories.setStyle("width:200px;height:160px;");
+		availableCategories.setConverter(new IntegerConverter());
+		c.add(availableCategories);
+		c.add(WFUtil.getBreak(2));
+		c.add(WFUtil.getButton(CATEGORY_BACK_ID, "Back", this));
+		p.setInput(c, 1, 2);
 		
-		WFContainer c = new WFContainer();
+		c = new WFContainer();
 		c.add(WFUtil.getBreak());
 		c.add(WFUtil.getButton(ADD_CATEGORIES_ID, ">", this));
 		c.add(WFUtil.getBreak(2));
@@ -249,9 +275,11 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		p.setInput(c, 2, 2);
 		
 		HtmlSelectManyListbox articleCategories = WFUtil.getSelectManyListbox(ARTICLE_CATEGORIES_ID, 
-				ref + "categories", ref + "selectedArticleCategories");
-		p.setInput(articleCategories, 3, 2);		
-		
+				ref + "categories", ref + "selectedCategories");
+		articleCategories.setStyle("width:200px;height:160px;");
+		articleCategories.setConverter(new IntegerConverter());
+		p.setInput(articleCategories, 3, 2);
+				
 		return p;
 	}
 	
@@ -260,7 +288,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	 */
 	private void updateEditButtons() {
 		WFComponentSelector cs = (WFComponentSelector) findComponent(BUTTON_SELECTOR_ID);
-		String s = _articleItem.getStatus();
+		String s = getArticleItemBean().getStatus();
 
 		if (s.equals(ContentItemCaseBean.STATUS_NEW)) {
 			cs.setSelectedId(SAVE_ID, false);
@@ -328,7 +356,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		WFContainer c = new WFContainer();
 		c.setStyleAttribute("padding", "14px");
 
-		String ref = PARAMETER_ARTICLE_BEAN + ".";
+		String ref = ARTICLE_ITEM_BEAN_ID + ".";
 
 		c.add(WFUtil.getHeaderTextVB(ref + "headline"));
 		c.add(WFUtil.getBreak(2));
@@ -347,7 +375,9 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		c.add(WFUtil.getTextVB(ref + "status"));
 		c.add(WFUtil.getBreak(2));
 		c.add(WFUtil.getHeaderText("Categories: "));
-		c.add(WFUtil.getText("Public news, Business info"));
+		HtmlOutputText t = WFUtil.getTextVB(ref + "categoryNames");
+		t.setConverter(new WFCommaSeparatedListConverter());		
+		c.add(t);
 		c.add(WFUtil.getBreak(2));
 		c.add(WFUtil.getHeaderText("Current version: "));
 		c.add(WFUtil.getText("1.5"));
@@ -377,24 +407,6 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	}
 
 	/**
-	 * Returns the article item bean for this block. 
-	 */
-	public ArticleItemBean getArticleItem() {
-		return _articleItem;
-	}
-
-	/**
-	 * Sets the article item bean for this block. 
-	 */
-	public void setArticleItem(ArticleItemBean articleItem) {
-		_articleItem = articleItem;
-		if (_articleItem != null) {
-			FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(PARAMETER_ARTICLE_BEAN, _articleItem);
-			updateEditButtons();
-		}
-	}
-
-	/**
 	 * Sets this block to edit mode. 
 	 */
 	public void setEditMode() {
@@ -419,30 +431,18 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	}
 
 	/**
-	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
+	 * Returns the article item session bean.
 	 */
-	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[2];
-		values[0] = super.saveState(ctx);
-		values[1] = _articleItem;
-		return values;
+	public ArticleItemBean getArticleItemBean() {
+		return (ArticleItemBean) WFUtil.getSessionBean(ARTICLE_ITEM_BEAN_ID);
 	}
-	
+
 	/**
-	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
+	 * Sets the article item session bean.
 	 */
-	public void restoreState(FacesContext ctx, Object state) {
-		Object values[] = (Object[])state;
-		super.restoreState(ctx, values[0]);
-		_articleItem = (ArticleItemBean) values[1];
-	}
-	
-	/**
-	 * @see javax.faces.component.UIComponent#decode(javax.faces.context.FacesContext)
-	 */
-	public void decode(FacesContext context) {
-		super.decode(context);
-		setArticleItem(getArticleItem()); // Updates request map
+	public void setArticleItemBean(ArticleItemBean bean) {
+		WFUtil.setSessionBean(ARTICLE_ITEM_BEAN_ID, bean);
+		updateEditButtons();
 	}
 	
 	/**
@@ -453,22 +453,33 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		ArticleBlock ab = (ArticleBlock) event.getComponent().findComponent(ARTICLE_BLOCK_ID);
 		if (id.equals(SAVE_ID)) {
 			ab.storeArticle();
+		} else if (id.equals(FOR_REVIEW_ID)) {
+			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_READY_FOR_REVIEW);
+			ab.storeArticle();
+		} else if (id.equals(PUBLISH_ID)) {
+			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_PUBLISHED);
+			ab.storeArticle();
+		} else if (id.equals(REWRITE_ID)) {
+			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_REWRITE);
+			ab.storeArticle();
+		} else if (id.equals(REJECT_ID)) {
+			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_DELETED);
+			ab.storeArticle();
+		} else if (id.equals(DELETE_ID)) {
+			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_DELETED);
+			ab.storeArticle();
 		} else if (id.equals(EDIT_CATEGORIES_ID)) {
 			WFComponentSelector cs = (WFComponentSelector) event.getComponent().findComponent(EDITOR_SELECTOR_ID);
 			cs.setSelectedId(ARTICLE_EDITOR_ID, false);
 			cs.setSelectedId(CATEGORY_EDITOR_ID, true);
 		} else if (id.equals(ADD_CATEGORIES_ID)) {
-			ab.getArticleItem().addSelectedCategories();
-		}
-	}
-
-	/**
-	 * Taskbar button pressed.  
-	 */
-	public void taskbarButtonPressed(WFTaskbarEvent e) {
-		WFTaskbar t = e.getTaskbar();
-		if (t.getSelectedButtonId().equals(TASK_ID_PREVIEW)) {
-			ArticleBlock ab = (ArticleBlock) t.getParent().getParent();
+			getArticleItemBean().addSelectedCategories();
+		} else if (id.equals(SUB_CATEGORIES_ID)) {
+			getArticleItemBean().removeSelectedCategories();
+		} else if (id.equals(CATEGORY_BACK_ID)) {
+			WFComponentSelector cs = (WFComponentSelector) event.getComponent().findComponent(EDITOR_SELECTOR_ID);
+			cs.setSelectedId(ARTICLE_EDITOR_ID, true);
+			cs.setSelectedId(CATEGORY_EDITOR_ID, false);
 		}
 	}
 	
@@ -477,7 +488,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	 */
 	public void storeArticle() {
 		try {
-			_articleItem.store();
+			getArticleItemBean().store();
 		} catch (ContentItemException e) {
 			WFUtil.addLocalizedMessage(findComponent(SAVE_ID), e.getLocalizationKey());
 			return;
@@ -492,5 +503,13 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		HtmlOutputText t = (HtmlOutputText) findComponent(USER_MESSAGE_ID);
 		t.setValue(message);
 		setMessageMode();
+	}
+	
+	/**
+	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
+	 */
+	public void encodeBegin(FacesContext context) throws IOException {
+		getArticleItemBean().updateLocale();
+		super.encodeBegin(context);
 	}
 }

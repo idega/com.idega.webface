@@ -11,4 +11,14 @@
 		<component-class>com.idega.webface.test.CMSPage</component-class>
 	</component>
 
+	<component>
+		<component-type>CreateArticlePage</component-type>
+		<component-class>com.idega.webface.test.CreateArticlePage</component-class>
+	</component>
+
+	<component>
+		<component-type>SearchArticlePage</component-type>
+		<component-class>com.idega.webface.test.SearchArticlePage</component-class>
+	</component>
+
 </faces-config>

@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleItemBean.java,v 1.2 2004/06/08 16:14:47 anders Exp $
+ * $Id: ArticleItemBean.java,v 1.3 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -17,10 +17,10 @@ import java.util.Locale;
 /**
  * Bean for idegaWeb article content items.   
  * <p>
- * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public class ArticleItemBean extends ContentItemBean implements Serializable {
@@ -29,6 +29,8 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 	
 	public final static String KEY_ERROR_HEADLINE_EMPTY = KP + "headline_empty";
 	public final static String KEY_ERROR_BODY_EMPTY = KP + "body_empty";
+	
+	private boolean _isUpdated = false;
 	
 	/**
 	 * Default constructor.
@@ -55,6 +57,7 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 			"ARTICLE_ITEM",
 			createdTimestamp,
 			createdByUserId);
+		setCase(new ContentItemCaseBean());
 	}
 		
 	public String getHeadline() { return getItemField("headline").getValue(); }
@@ -77,7 +80,10 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 	public void setImages(List l) { setItemFields("image", l); }
 	public void setAttachment(List l) { setItemFields("attachment", l); }
 	public void setRelatedContentItems(List l) { setItemFields("related_items", l); }
-	
+
+	public boolean isUpdated() { return _isUpdated; }
+	public void setUpdated(boolean b) { _isUpdated = b; }
+
 	/**
 	 * Stores this article item to the database. 
 	 */

@@ -1,5 +1,5 @@
 /*
- * $Id: CaseListBean.java,v 1.1 2004/06/08 16:13:46 anders Exp $
+ * $Id: CaseListBean.java,v 1.2 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -25,10 +25,10 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for content item case list rows.   
  * <p>
- * Last modified: $Date: 2004/06/08 16:13:46 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class CaseListBean extends WFListBean implements Serializable {
@@ -146,7 +146,7 @@ public class CaseListBean extends WFListBean implements Serializable {
 	/**
 	 * @see com.idega.webface.bean.WFListBean#updateDataModel() 
 	 */
-	public DataModel updateDataModel(int start, int rows) {
+	public void updateDataModel(int start, int rows) {
 		if (_dataModel == null) {
 			_dataModel = new WFDataModel();
 		}
@@ -163,7 +163,6 @@ public class CaseListBean extends WFListBean implements Serializable {
 			_dataModel.set(c, i);
 		}
 		_dataModel.setRowCount(availableRows);
-		return _dataModel;
 	}
 	
 	/**
@@ -194,5 +193,19 @@ public class CaseListBean extends WFListBean implements Serializable {
 		columns[4].getChildren().add(t);		
 		
 		return columns;
+	}
+	
+	/**
+	 * @see com.idega.webface.bean.WFListBean#getDataModel() 
+	 */
+	public DataModel getDataModel() {
+		return _dataModel;
+	}
+	
+	/**
+	 * @see com.idega.webface.bean.WFListBean#setDataModel() 
+	 */
+	public void setDataModel(DataModel dataModel) {
+		_dataModel = (WFDataModel) dataModel;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.2 2004/06/08 16:14:47 anders Exp $
+ * $Id: ContentItemBean.java,v 1.3 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,6 +11,8 @@ package com.idega.webface.test;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -21,33 +23,36 @@ import java.util.Map;
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public class ContentItemBean implements Serializable {
 	
 	private int _contentItemId = 0;
-	private int _versionId = 0;
 	private Locale _locale = null;
 	private String _name = null;
 	private String _description = null;
 	private String _itemType = null;
-	private Timestamp _createdTimestamp = null;
+	private Date _createdTimestamp = null;
 	private int _createdByUserId = 0;
-	private int _mainCategoryId = 0;
+
+	private String _pendingLocaleId = null;
 	
 	private ContentItemCaseBean _caseBean = null;
 	
 	private Map _itemFields = null;
 	private Map _categories = null;
+	private Map _mainCategoryIds = null;
+	private Map _versionIds = null;
 
 	private Map _allCategories = null;
+	private Map _allLocales = null;
 	
 	private Object[] _selectedAvailableCategories = null;
-	private Object[] _selectedArticleCategories = null;
+	private Object[] _selectedCategories = null;
 
 	/**
 	 * Default constructor.
@@ -67,35 +72,74 @@ public class ContentItemBean implements Serializable {
 			Timestamp createdTimestamp,
 			int createdByUserId) {
 		_contentItemId = contentItemId;
-		_versionId = versionId;
 		_locale = locale;
 		_name = name;
 		_description = description;
 		_itemType = itemType;
 		_createdTimestamp = createdTimestamp;
 		_createdByUserId = createdByUserId;
+		
+		if (_locale == null) {
+			_locale = new Locale("sv");
+		}
+		
+		setVersionId(versionId);
 	}
 		
 	public int getContentItemId() { return _contentItemId; }
-	public int getVersionId() { return _versionId; }
 	public Locale getLocale() { return _locale; }
+	public String getLocaleId() { return _locale.getLanguage(); }
 	public String getName() { return _name; }
 	public String getDescription() { return _description; }
 	public String getItemType() { return _itemType; }
-	public Timestamp getCreatedTimestamp() { return _createdTimestamp; }
+	public Date getCreatedTimestamp() { return _createdTimestamp; }
 	public int getCreatedByUserId() { return _createdByUserId; }
-	public int getMainCategoryId() { return _mainCategoryId; }
 
 	public void setContentItemId(int id) { _contentItemId = id; } 
-	public void setVersionId(int id) { _versionId = id; }
 	public void setLocale(Locale l) { _locale = l; }
+	public void setLocaleId(String localeId) { _locale = new Locale(localeId); }
 	public void setName(String s) { _name = s; }
 	public void setDescription(String s) { _description = s; }
 	public void setItemType(String s) { _itemType = s; }
-	public void setCreatedTimestamp(Timestamp t) { _createdTimestamp = t; }
+	public void setCreatedTimestamp(Date d) { _createdTimestamp = d; }
 	public void setCreatedByUserId(int id) { _createdByUserId = id; }
-	public void setMainCategoryId(int id) { _mainCategoryId = id; }
 	
+	public String getPendingLocaleId() { return _pendingLocaleId != null ? _pendingLocaleId : _locale.getLanguage(); }
+	public void setPendingLocaleId(String localeId) { _pendingLocaleId = localeId; }
+	
+
+	// Locale dependent attributes
+	
+	public int getVersionId() {
+		int versionId = -1;
+		try {
+			versionId = ((Integer) _versionIds.get(getLocaleId())).intValue();
+		} catch (Exception e) {}
+		return versionId; 
+	}
+	
+	public int getMainCategoryId() {
+		int mainCategoryId = -1;
+		try {
+			mainCategoryId = ((Integer) _mainCategoryIds.get(getLocaleId())).intValue();
+		} catch (Exception e) {}
+		return mainCategoryId; 
+	}
+
+	public void setVersionId(int id) {
+		if (_versionIds == null) {
+			_versionIds = new HashMap();
+		}
+		_versionIds.put(getLocaleId(), new Integer(id));
+	}
+	
+	public void setMainCategoryId(int id) {
+		if (_mainCategoryIds == null) {
+			_mainCategoryIds = new HashMap();
+		}
+		_mainCategoryIds.put(getLocaleId(), new Integer(id));
+	}
+
 	/**
 	 * Returns the item field with the specified key. 
 	 */
@@ -103,7 +147,12 @@ public class ContentItemBean implements Serializable {
 		if (_itemFields == null) {
 			return null;
 		}
-		return (ContentItemFieldBean) _itemFields.get(key);
+		ContentItemFieldBean field = (ContentItemFieldBean) _itemFields.get(key + getLocaleId());
+		if (field == null) {
+			field = new ContentItemFieldBean(-1, -1, key, "", 0, ContentItemFieldBean.FIELD_TYPE_STRING);
+			setItemField(key, field);
+		}
+		return field;
 	}
 	
 	/**
@@ -113,7 +162,7 @@ public class ContentItemBean implements Serializable {
 		if (_itemFields == null) {
 			_itemFields = new HashMap();
 		}
-		_itemFields.put(key, field);
+		_itemFields.put(key + getLocaleId(), field);
 	}
 	
 	/**
@@ -123,7 +172,7 @@ public class ContentItemBean implements Serializable {
 		if (_itemFields == null) {
 			return null;
 		}
-		return (List) _itemFields.get(key);
+		return (List) _itemFields.get(key + getLocaleId());
 	}
 	
 	/**
@@ -133,7 +182,7 @@ public class ContentItemBean implements Serializable {
 		if (_itemFields == null) {
 			_itemFields = new HashMap();
 		}
-		_itemFields.put(key, fields);
+		_itemFields.put(key + getLocaleId(), fields);
 	}
 	
 	/**
@@ -181,7 +230,7 @@ public class ContentItemBean implements Serializable {
 	 */
 	public void setStatus(String status) {
 		if (_caseBean == null) {
-			_caseBean = new ContentItemCaseBean(-1, status, null, null, null, _versionId);
+			_caseBean = new ContentItemCaseBean(-1, status, null, null, null, getVersionId());
 		} else {
 			_caseBean.setCaseStatus(status);
 		}
@@ -202,17 +251,17 @@ public class ContentItemBean implements Serializable {
 	}
 	
 	/**
-	 * Returns the current selected article categories. 
+	 * Returns the current selected categories. 
 	 */
-	public Object[] getSelectedArticleCategories() {
-		return _selectedArticleCategories;
+	public Object[] getSelectedCategories() {
+		return _selectedCategories;
 	}
 	
 	/**
-	 * Sets the current selected article categories. 
+	 * Sets the current selected categories. 
 	 */
-	public void setSelectedArticleCategories(Object[] selectedArticleCategories) {
-		_selectedArticleCategories = selectedArticleCategories;
+	public void setSelectedCategories(Object[] selectedCategories) {
+		_selectedCategories = selectedCategories;
 	}
 	
 	/**
@@ -220,12 +269,24 @@ public class ContentItemBean implements Serializable {
 	 */
 	public Map getCategories() {
 		if (_categories == null) {
-			_categories = new LinkedHashMap();
-			_categories.put("Public news", "" + new Integer(1));
-			_categories.put("Business news", "" + new Integer(2));
-			_categories.put("Company info", "" + new Integer(3));
+			_categories = new HashMap();
 		}
-		return _categories;
+		Map categoriesByLocale = (Map) _categories.get(getLocaleId());
+		if (categoriesByLocale == null) {
+			categoriesByLocale = new LinkedHashMap();
+			categoriesByLocale.put("Public news",  new Integer(1));
+			categoriesByLocale.put("Business news",  new Integer(2));
+			categoriesByLocale.put("Company info", new Integer(3));
+			_categories.put(getLocaleId(), categoriesByLocale);
+		}
+		return categoriesByLocale;
+	}
+	
+	/**
+	 * Returns the category names for this content item.
+	 */
+	public Collection getCategoryNames() {
+		return getCategories().keySet();
 	}
 	
 	/**
@@ -234,7 +295,7 @@ public class ContentItemBean implements Serializable {
 	public Map getAllCategories() {
 		if (_allCategories == null) {
 			_allCategories = new LinkedHashMap();
-			/*
+
 			_allCategories.put("Public news", new Integer(1));
 			_allCategories.put("Business news", new Integer(2));
 			_allCategories.put("Company info", new Integer(3));
@@ -242,7 +303,7 @@ public class ContentItemBean implements Serializable {
 			_allCategories.put("IT stuff", new Integer(5));
 			_allCategories.put("Press releases", new Integer(6));
 			_allCategories.put("Internal info", new Integer(7));
-			 */
+			/*
 			_allCategories.put("Public news", "" + new Integer(1));
 			_allCategories.put("Business news", "" + new Integer(2));
 			_allCategories.put("Company info", "" + new Integer(3));
@@ -250,8 +311,25 @@ public class ContentItemBean implements Serializable {
 			_allCategories.put("IT stuff", "" + new Integer(5));
 			_allCategories.put("Press releases", "" + new Integer(6));
 			_allCategories.put("Internal info", "" + new Integer(7));
+			*/
 		}
 		return _allCategories;
+	}
+	
+	/**
+	 * Returns all locales available for content items.
+	 */
+	public Map getAllLocales() {
+		if (_allLocales == null) {
+			_allLocales = new LinkedHashMap();
+			Locale sv = new Locale("sv");
+			Locale en = new Locale("en");
+			Locale is = new Locale("is");
+			_allLocales.put(sv.getDisplayLanguage(), sv.getLanguage());
+			_allLocales.put(en.getDisplayLanguage(), en.getLanguage());
+			_allLocales.put(is.getDisplayLanguage(), is.getLanguage());
+		}
+		return _allLocales;
 	}
 	
 	/**
@@ -274,7 +352,7 @@ public class ContentItemBean implements Serializable {
 	public void addSelectedCategories() {
 		Object[] categoryIds = getSelectedAvailableCategories();
 		for (int i = 0; i < categoryIds.length; i++) {
-			String id = categoryIds[i].toString();
+			Object id = categoryIds[i];
 			for (Iterator iter = getAllCategories().keySet().iterator(); iter.hasNext();) {
 				String key = (String) iter.next();
 				if (getAllCategories().get(key).equals(id)) {
@@ -282,6 +360,33 @@ public class ContentItemBean implements Serializable {
 					break;
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Removes the selected categories from this content item.
+	 */
+	public void removeSelectedCategories() {
+		Object[] categoryIds = getSelectedCategories();
+		for (int i = 0; i < categoryIds.length; i++) {
+			Object id = categoryIds[i];
+			for (Iterator iter = getAllCategories().keySet().iterator(); iter.hasNext();) {
+				String key = (String) iter.next();
+				if (getAllCategories().get(key).equals(id)) {
+					getCategories().remove(key);
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Update pending locale change.
+	 */
+	public void updateLocale() {
+		if (_pendingLocaleId != null) {
+			_locale = new Locale(_pendingLocaleId);
+			_pendingLocaleId = null;
 		}
 	}
 }

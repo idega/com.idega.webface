@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewSelector.java,v 1.1 2004/05/27 12:39:53 anders Exp $
+ * $Id: WFViewSelector.java,v 1.2 2004/06/11 13:56:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -12,7 +12,6 @@ package com.idega.webface;
 import java.io.IOException;
 
 import javax.faces.component.UICommand;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
@@ -20,10 +19,10 @@ import javax.faces.event.ActionListener;
 /**
  * Component for selecting the view root. 
  * <p>
- * Last modified: $Date: 2004/05/27 12:39:53 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFViewSelector extends UICommand implements ActionListener {
 	
@@ -35,6 +34,7 @@ public class WFViewSelector extends UICommand implements ActionListener {
 	 */
 	public WFViewSelector() {
 		super();
+		setImmediate(true);
 	}
 
 	/**
@@ -56,6 +56,7 @@ public class WFViewSelector extends UICommand implements ActionListener {
 		ActionEvent event = new ActionEvent(this);
 		queueEvent(event);
 	}	
+	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
@@ -101,10 +102,6 @@ public class WFViewSelector extends UICommand implements ActionListener {
 	public void processAction(ActionEvent event) {
 		WFViewSelector vs = (WFViewSelector) event.getComponent();
 		String viewId = vs.getViewId();
-		FacesContext context = FacesContext.getCurrentInstance();
-		UIViewRoot root = WFUtil.getApplication().getViewHandler().createView(context, viewId);
-		if (root != null) {
-			context.setViewRoot(root);	
-		}
+		WFUtil.setViewRoot(viewId);
 	}
 }
