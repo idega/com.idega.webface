@@ -38,7 +38,7 @@
     </developers>
     <dependencies>
         <dependency>
-            <groupId>com.idega.core</groupId>
+            <groupId>bundles</groupId>
             <artifactId>com.idega.core</artifactId>
             <version>2.0</version>
             <type>jar</type>
@@ -46,12 +46,12 @@
             <properties><eclipse.dependency>true</eclipse.dependency></properties>
         </dependency>
         <dependency>
-            <groupId>jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>b9-rc2</version>
+            <groupId>bundles</groupId>
+            <artifactId>com.idega.faces</artifactId>
+            <version>1.0</version>
             <type>jar</type>
-            <url>http://www.jdom.org/</url>
-            <properties/>
+            <url>http://www.idega.com/</url>
+            <properties><eclipse.dependency>true</eclipse.dependency></properties>
         </dependency>
         <dependency>
             <groupId>servletapi</groupId>
