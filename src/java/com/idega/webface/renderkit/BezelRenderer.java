@@ -56,6 +56,11 @@ public class BezelRenderer extends ContainerRenderer {
 		// TODO Auto-generated method stub
 		WFBezel bezel = (WFBezel)container;
 		String attr = super.getStyleAttributes(container);
-		return attr+this.getCssHelper().getBackgroundColorAttribute(bezel.getColor());
+		String setColor = bezel.getColor();
+		if(setColor!=null){
+			attr=attr+getCssHelper().getBackgroundColorAttribute(setColor);
+		}
+		return attr;
+		//return attr+this.getCssHelper().getBackgroundColorAttribute(bezel.getColor());
 	}
 }
