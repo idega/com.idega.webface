@@ -3,22 +3,6 @@
 
 /*** idegaWeb WebFace CSS classes ***/
 
-.wf_body {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	background-color: #F1F1F1;
-	margin: 0px;
-}
-
-.wf_body a {
-	text-decoration: none;
-  	font-weight: normal;
-}
-
-.wf_body a:hover {
-	text-decoration: underline;
-}
-
 .wf_frame {
 }
 
@@ -463,10 +447,10 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 }
 
 .wf_webdav_upload input{
-     border: 1px solid #bbbbbb; 
-     margin-top:0px; 
+     border: 1px solid #bbbbbb;
+     margin-top:0px;
      margin-bottom:0px;
-     margin-right:3px;  
+     margin-right:3px;
      margin-left:3px;
      display:inline;
 }
