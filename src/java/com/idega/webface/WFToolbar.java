@@ -3,11 +3,6 @@
  */
 package com.idega.webface;
 
-import java.io.IOException;
-import java.util.Iterator;
-
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 /**
  * IWApplicationToolbar //TODO: tryggvil Describe class
