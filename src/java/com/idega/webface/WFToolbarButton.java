@@ -209,7 +209,9 @@ public class WFToolbarButton extends UICommand {
 			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
 			"'].value='true';document.forms['" + formName + "'].submit();";
 			out.writeAttribute("onmouseup", onmouseup, null);
-			out.writeAttribute("class", styleClass, null);
+			if (styleClass != null) {
+				out.writeAttribute("class", styleClass, null);
+			}
 			if (toolTip != null) {
 				out.writeAttribute("alt", toolTip, null);
 				out.writeAttribute("title", toolTip, null);
