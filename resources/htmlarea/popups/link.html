@@ -14,6 +14,9 @@
 							else if (param["f_href"].indexOf("/content/files") > -1) {
 								window.location="../../../../../../workspace/linkchooser/edit?f_lt=document";
 							}
+							else if (param["f_href"].indexOf("/pages/") > -1) {
+								window.location="../../../../../../workspace/linkchooser/edit?f_lt=page";
+							}
 							else if (param["f_href"].indexOf("http://") == 0) {
 								 window.location="../../../../../../workspace/linkchooser/edit?f_lt=external";
 							}
