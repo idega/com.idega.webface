@@ -9,6 +9,9 @@
 package com.idega.webface.theme;
 
 import java.util.logging.Logger;
+import com.idega.repository.data.Instantiator;
+import com.idega.repository.data.Singleton;
+import com.idega.repository.data.SingletonRepository;
 
 
 /**
@@ -16,25 +19,21 @@ import java.util.logging.Logger;
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
  * @version 1.0
  */
-public class ThemeManager {
+public class ThemeManager implements Singleton {
 		
 	Logger log = Logger.getLogger(ThemeManager.class.getName());
-	private static ThemeManager instance;
+	
+	private static Instantiator instantiator = new Instantiator() { public Object getInstance() { return new ThemeManager();}};
+	
 	Class defaultThemeClass=WFDefaultTheme.class;
 	
-	public static void unload() {
-		instance = null;
-	}
 	
 	private ThemeManager(){
 		initialize();
 	}
 	
 	public static ThemeManager getInstance(){
-		if(instance==null){
-			instance = new ThemeManager();
-		}
-		return instance;
+		return (ThemeManager) SingletonRepository.getRepository().getInstance(ThemeManager.class, instantiator);
 	}
 
 	/**
