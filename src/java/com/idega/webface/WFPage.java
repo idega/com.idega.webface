@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.10 2004/11/14 23:38:39 tryggvil Exp $
+ * $Id: WFPage.java,v 1.11 2004/12/16 17:08:47 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -9,17 +9,10 @@
  */
 package com.idega.webface;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
@@ -30,10 +23,10 @@ import com.idega.presentation.IWContext;
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/12/16 17:08:47 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class WFPage extends IWBaseComponent {
 
@@ -126,106 +119,6 @@ public class WFPage extends IWBaseComponent {
 			//return super.getRendersChildren();
 		}	
 
-	private static class BundleMap implements Map {
-
-		private ResourceBundle _bundle;
-		private List _values;
-
-		public BundleMap(ResourceBundle bundle) {
-			_bundle = bundle;
-		}
-
-		//Optimized methods
-
-		public Object get(Object key) {
-			try{
-				return _bundle.getObject(key.toString());
-			}
-			catch(MissingResourceException msre){
-				msre.printStackTrace();
-				return "";
-			}
-		}
-
-		public boolean isEmpty() {
-			return !_bundle.getKeys().hasMoreElements();
-		}
-
-		public boolean containsKey(Object key) {
-			return _bundle.getObject(key.toString()) != null;
-		}
-
-
-		//Unoptimized methods
-
-		public Collection values() {
-			if (_values == null) {
-				_values = new ArrayList();
-				for (Enumeration enumer = _bundle.getKeys(); enumer.hasMoreElements();) {
-					String v = _bundle.getString((String)enumer.nextElement());
-					_values.add(v);
-				}
-			}
-			return _values;
-		}
-
-		public int size() {
-			return values().size();
-		}
-
-		public boolean containsValue(Object value) {
-			return values().contains(value);
-		}
-
-		public Set entrySet() {
-			Set set = new HashSet();
-			for (Enumeration enumer = _bundle.getKeys(); enumer.hasMoreElements();) {
-				final String k = (String) enumer.nextElement();
-				set.add(new Map.Entry() {
-					public Object getKey() {
-						return k;
-					}
-
-					public Object getValue() {
-						return _bundle.getObject(k);
-					}
-
-					public Object setValue(Object value) {
-						throw new UnsupportedOperationException(this.getClass().getName() + " UnsupportedOperationException");
-					}
-				});
-			}
-			return set;
-		}
-
-		public Set keySet() {
-			Set set = new HashSet();
-			for (Enumeration enumer = _bundle.getKeys(); enumer.hasMoreElements();) {
-				set.add(enumer.nextElement());
-			}
-			return set;
-		}
-
-
-		//Unsupported methods
-
-		public Object remove(Object key) {
-			throw new UnsupportedOperationException(this.getClass().getName() + " UnsupportedOperationException");
-		}
-
-		public void putAll(Map t) {
-			throw new UnsupportedOperationException(this.getClass().getName() + " UnsupportedOperationException");
-		}
-
-		public Object put(Object key, Object value) {
-			throw new UnsupportedOperationException(this.getClass().getName() + " UnsupportedOperationException");
-		}
-
-		public void clear() {
-			throw new UnsupportedOperationException(this.getClass().getName() + " UnsupportedOperationException");
-		}
-	}
-	
 	/**
 	 * @see javax.faces.component.UIComponent#getFamily()
 	 */
