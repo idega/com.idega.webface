@@ -1,5 +1,5 @@
 /*
- * $Id: WFSimpleDocumentsView.java,v 1.1 2004/11/15 21:38:09 tryggvil Exp $
+ * $Id: WFSimpleDocumentsView.java,v 1.2 2004/11/15 22:19:54 tryggvil Exp $
  * Created on 15.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,10 +15,10 @@ import com.idega.idegaweb.IWMainApplication;
 
 /**
  * 
- *  Last modified: $Date: 2004/11/15 21:38:09 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2004/11/15 22:19:54 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFSimpleDocumentsView extends WFFrame {
 
@@ -26,7 +26,7 @@ public class WFSimpleDocumentsView extends WFFrame {
 	 * 
 	 */
 	public WFSimpleDocumentsView() {
-		super();
+		this("Documents");
 		FacesContext context = FacesContext.getCurrentInstance();
 		IWMainApplication iwma = IWMainApplication.getIWMainApplication(context);
 		//TODO: Remove hardcoding:
