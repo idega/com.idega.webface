@@ -287,6 +287,10 @@ div.wf_titlebar, div.wf_toolbar{
 	padding: 0px;
 }
 
+.wf_toolbar_button span{
+	float: left;
+}
+
 
 .wf_list {
 	background-color: #FFFFFF;
