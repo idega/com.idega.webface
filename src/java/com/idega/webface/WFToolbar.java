@@ -3,7 +3,6 @@
  */
 package com.idega.webface;
 
-import java.io.Serializable;
 
 /**
  * A menu component with toolbar buttons. 
@@ -11,7 +10,7 @@ import java.io.Serializable;
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
  */
-public class WFToolbar extends WFContainer implements Serializable
+public class WFToolbar extends WFContainer //implements Serializable
 {
 	
 	public static String RENDERER_TYPE="wf_toolbar";
@@ -25,7 +24,7 @@ public class WFToolbar extends WFContainer implements Serializable
 	public void addButton(WFToolbarButton button){
 		this.getChildren().add(button);
 	}
-
+	
 	/*
 	public void encodeBegin(FacesContext context) throws IOException {
 		super.encodeBegin(context);
