@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.7 2004/11/02 17:46:12 joakim Exp $
+ * $Id: WFList.java,v 1.8 2004/11/10 17:28:07 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -30,10 +30,10 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2004/11/02 17:46:12 $ by $Author: joakim $
+ * Last modified: $Date: 2004/11/10 17:28:07 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class WFList extends HtmlDataTable implements ActionListener {
 	
@@ -292,7 +292,15 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		
 		if (sendNavigationEvent) {
 			WFListNavigationEvent e = new WFListNavigationEvent(parent);
-			parent.queueEvent(e);
+//			parent.queueEvent(e);
+//            UIComponent src = e.getComponent();
+            try
+            {
+                parent.broadcast(event);
+            }
+            catch (AbortProcessingException evt)
+            {
+            }
 		}		
 	}
 	
