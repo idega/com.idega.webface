@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.4 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: ContentItemBean.java,v 1.5 2004/12/09 13:59:22 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -9,7 +9,10 @@
  */
 package com.idega.webface.test.bean;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
@@ -19,7 +22,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import javax.ejb.EJBException;
+import javax.ejb.EJBLocalHome;
+import javax.ejb.EJBLocalObject;
+import javax.ejb.RemoveException;
+import com.idega.core.data.ICTreeNode;
+import com.idega.core.file.data.ICFile;
+import com.idega.core.localisation.data.ICLocale;
+import com.idega.data.IDOEntityDefinition;
+import com.idega.data.IDOStoreException;
+import com.idega.data.TreeableEntity;
+import com.idega.idegaweb.IWApplicationContext;
 import com.idega.webface.WFPage;
 import com.idega.webface.WFUtil;
 
@@ -27,13 +40,13 @@ import com.idega.webface.WFUtil;
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/12/09 13:59:22 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 
-public class ContentItemBean implements Serializable, ContentItem {
+public class ContentItemBean implements Serializable, ContentItem, ICFile {
 	
 	private int _contentItemId = 0;
 	private Locale _locale = null;
@@ -94,11 +107,11 @@ public class ContentItemBean implements Serializable, ContentItem {
 		
 	public int getContentItemId() { return _contentItemId; }
 	public Locale getLocale() { return _locale; }
-	public String getLocaleId() { return _locale == null ? "" : _locale.getLanguage(); }
+	public String getLocaleIdAsString() { return _locale == null ? "" : _locale.getLanguage(); }
 	public String getName() { return _name; }
 	public String getDescription() { return _description; }
 	public String getItemType() { return _itemType; }
-	public Date getCreatedTimestamp() { return _createdTimestamp; }
+//	public Date getCreatedTimestamp() { return _createdTimestamp; }
 	public int getCreatedByUserId() { return _createdByUserId; }
 
 	public void setContentItemId(int id) { _contentItemId = id; } 
@@ -106,7 +119,7 @@ public class ContentItemBean implements Serializable, ContentItem {
 	public void setName(String s) { _name = s; }
 	public void setDescription(String s) { _description = s; }
 	public void setItemType(String s) { _itemType = s; }
-	public void setCreatedTimestamp(Date d) { _createdTimestamp = d; }
+//	public void setCreatedTimestamp(Date d) { _createdTimestamp = d; }
 	public void setCreatedByUserId(int id) { _createdByUserId = id; }
 	
 	public void setLocale(Locale locale) {
@@ -160,7 +173,7 @@ public class ContentItemBean implements Serializable, ContentItem {
 	public int getVersionId() {
 		int versionId = -1;
 		try {
-			versionId = ((Integer) _versionIds.get(getLocaleId())).intValue();
+			versionId = ((Integer) _versionIds.get(getLocaleIdAsString())).intValue();
 		} catch (Exception e) {}
 		return versionId; 
 	}
@@ -168,7 +181,7 @@ public class ContentItemBean implements Serializable, ContentItem {
 	public int getMainCategoryId() {
 		int mainCategoryId = -1;
 		try {
-			mainCategoryId = ((Integer) _mainCategoryIds.get(getLocaleId())).intValue();
+			mainCategoryId = ((Integer) _mainCategoryIds.get(getLocaleIdAsString())).intValue();
 		} catch (Exception e) {}
 		return mainCategoryId; 
 	}
@@ -177,7 +190,7 @@ public class ContentItemBean implements Serializable, ContentItem {
 		if (_versionIds == null) {
 			_versionIds = new HashMap();
 		}
-		_versionIds.put(getLocaleId(), new Integer(id));
+		_versionIds.put(getLocaleIdAsString(), new Integer(id));
 	}
 	
 	public void setMainCategoryId(int id) {
@@ -188,7 +201,7 @@ public class ContentItemBean implements Serializable, ContentItem {
 		if (_mainCategoryIds == null) {
 			_mainCategoryIds = new HashMap();
 		}
-		_mainCategoryIds.put(getLocaleId(), id);
+		_mainCategoryIds.put(getLocaleIdAsString(), id);
 	}
 
 	/**
@@ -198,10 +211,10 @@ public class ContentItemBean implements Serializable, ContentItem {
 		if (_itemFields == null) {
 			_itemFields = new HashMap();
 		}
-		ContentItemField field = (ContentItemField) _itemFields.get(key + getLocaleId());
+		ContentItemField field = (ContentItemField) _itemFields.get(key + getLocaleIdAsString());
 		if (field == null) {
 			field = new ContentItemFieldBean(-1, -1, key, "", 0, ContentItemField.FIELD_TYPE_STRING);
-			setItemField(key + getLocaleId(), field);
+			setItemField(key + getLocaleIdAsString(), field);
 		}
 		return field;
 	}
@@ -213,7 +226,7 @@ public class ContentItemBean implements Serializable, ContentItem {
 		if (_itemFields == null) {
 			_itemFields = new HashMap();
 		}
-		_itemFields.put(key + getLocaleId(), field);
+		_itemFields.put(key + getLocaleIdAsString(), field);
 	}
 	
 	/**
@@ -223,7 +236,7 @@ public class ContentItemBean implements Serializable, ContentItem {
 		if (_itemFields == null) {
 			return null;
 		}
-		return (List) _itemFields.get(key + getLocaleId());
+		return (List) _itemFields.get(key + getLocaleIdAsString());
 	}
 	
 	/**
@@ -233,7 +246,7 @@ public class ContentItemBean implements Serializable, ContentItem {
 		if (_itemFields == null) {
 			_itemFields = new HashMap();
 		}
-		_itemFields.put(key + getLocaleId(), fields);
+		_itemFields.put(key + getLocaleIdAsString(), fields);
 	}
 	
 	/**
@@ -323,13 +336,13 @@ public class ContentItemBean implements Serializable, ContentItem {
 		if (_categories == null) {
 			_categories = new HashMap();
 		}
-		Map categoriesByLocale = (Map) _categories.get(getLocaleId());
+		Map categoriesByLocale = (Map) _categories.get(getLocaleIdAsString());
 		if (categoriesByLocale == null) {
 			categoriesByLocale = new LinkedHashMap();
 			categoriesByLocale.put(WFUtil.getValue(bref + "category_public_news"),  new Integer(1));
 			categoriesByLocale.put(WFUtil.getValue(bref + "category_business_news"),  new Integer(2));
 			categoriesByLocale.put(WFUtil.getValue(bref + "category_company_info"), new Integer(3));
-			_categories.put(getLocaleId(), categoriesByLocale);
+			_categories.put(getLocaleIdAsString(), categoriesByLocale);
 		}
 		return categoriesByLocale;
 	}
@@ -435,5 +448,581 @@ public class ContentItemBean implements Serializable, ContentItem {
 			setLocale(new Locale(_pendingLocaleId));
 			_pendingLocaleId = null;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getCreationDate()
+	 */
+	public Timestamp getCreationDate() {
+		// TODO Auto-generated method stub
+		return new Timestamp(System.currentTimeMillis());
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getDeleted()
+	 */
+	public boolean getDeleted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getDeletedByUserId()
+	 */
+	public int getDeletedByUserId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getDeletedWhen()
+	 */
+	public Timestamp getDeletedWhen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getFileSize()
+	 */
+	public Integer getFileSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getFileValue()
+	 */
+	public InputStream getFileValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getFileValueForWrite()
+	 */
+	public OutputStream getFileValueForWrite() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getICLocale()
+	 */
+	public ICLocale getICLocale() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getLanguage()
+	 */
+	public int getLanguage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getMimeType()
+	 */
+	public String getMimeType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getModificationDate()
+	 */
+	public Timestamp getModificationDate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#initializeAttributes()
+	 */
+	public void initializeAttributes() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#isLeaf()
+	 */
+	public boolean isLeaf() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setCreationDate(java.sql.Timestamp)
+	 */
+	public void setCreationDate(Timestamp p0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setDeleted(boolean)
+	 */
+	public void setDeleted(boolean p0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setFileSize(java.lang.Integer)
+	 */
+	public void setFileSize(Integer p0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setFileSize(int)
+	 */
+	public void setFileSize(int p0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setFileValue(java.io.InputStream)
+	 */
+	public void setFileValue(InputStream p0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setLanguage(int)
+	 */
+	public void setLanguage(int p0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setLocale()
+	 */
+	public void setLocale() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setMimeType(java.lang.String)
+	 */
+	public void setMimeType(String p0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setModificationDate(java.sql.Timestamp)
+	 */
+	public void setModificationDate(Timestamp p0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#superDelete()
+	 */
+	public void superDelete() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#unDelete(boolean)
+	 */
+	public void unDelete(boolean p0) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#delete()
+	 */
+	public void delete() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#isFolder()
+	 */
+	public boolean isFolder() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#isEmpty()
+	 */
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getLocalizationKey()
+	 */
+	public String getLocalizationKey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#setLocalizationKey(java.lang.String)
+	 */
+	public void setLocalizationKey(String key) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.IDOEntity#store()
+	 */
+	public void store() throws IDOStoreException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.IDOEntity#getEntityDefinition()
+	 */
+	public IDOEntityDefinition getEntityDefinition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.IDOEntity#decode(java.lang.String)
+	 */
+	public Object decode(String pkString) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.IDOEntity#decode(java.lang.String[])
+	 */
+	public Collection decode(String[] pkString) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.ejb.EJBLocalObject#getEJBLocalHome()
+	 */
+	public EJBLocalHome getEJBLocalHome() throws EJBException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.ejb.EJBLocalObject#getPrimaryKey()
+	 */
+	public Object getPrimaryKey() throws EJBException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.ejb.EJBLocalObject#remove()
+	 */
+	public void remove() throws RemoveException, EJBException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.ejb.EJBLocalObject#isIdentical(javax.ejb.EJBLocalObject)
+	 */
+	public boolean isIdentical(EJBLocalObject arg0) throws EJBException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#addChild(com.idega.data.TreeableEntity)
+	 */
+	public void addChild(TreeableEntity p0) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#getChildrenIterator(java.lang.String)
+	 */
+	public Iterator getChildrenIterator(String p0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#getIndex(com.idega.core.data.ICTreeNode)
+	 */
+	public int getIndex(ICTreeNode p0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#getParentEntity()
+	 */
+	public TreeableEntity getParentEntity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#getTreeRelationshipChildColumnName(com.idega.data.TreeableEntity)
+	 */
+	public String getTreeRelationshipChildColumnName(TreeableEntity p0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#getTreeRelationshipTableName(com.idega.data.TreeableEntity)
+	 */
+	public String getTreeRelationshipTableName(TreeableEntity p0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#moveChildrenFrom(com.idega.data.TreeableEntity)
+	 */
+	public void moveChildrenFrom(TreeableEntity p0) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#removeChild(com.idega.data.TreeableEntity)
+	 */
+	public void removeChild(TreeableEntity p0) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#leafsFirst()
+	 */
+	public boolean leafsFirst() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#sortLeafs()
+	 */
+	public boolean sortLeafs() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#setLeafsFirst(boolean)
+	 */
+	public void setLeafsFirst(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.TreeableEntity#setToSortLeafs(boolean)
+	 */
+	public void setToSortLeafs(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getChildren()
+	 */
+	public Collection getChildren() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getChildrenIterator()
+	 */
+	public Iterator getChildrenIterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getChildAtIndex(int)
+	 */
+	public ICTreeNode getChildAtIndex(int childIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getChildCount()
+	 */
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getParentNode()
+	 */
+	public ICTreeNode getParentNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getNodeName()
+	 */
+	public String getNodeName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getNodeName(java.util.Locale)
+	 */
+	public String getNodeName(Locale locale) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getNodeName(java.util.Locale, com.idega.idegaweb.IWApplicationContext)
+	 */
+	public String getNodeName(Locale locale, IWApplicationContext iwac) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getNodeID()
+	 */
+	public int getNodeID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.data.ICTreeNode#getSiblingCount()
+	 */
+	public int getSiblingCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#setMetaDataAttributes(java.util.Map)
+	 */
+	public void setMetaDataAttributes(Map map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#getMetaDataAttributes()
+	 */
+	public Map getMetaDataAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#getMetaDataTypes()
+	 */
+	public Map getMetaDataTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#setMetaData(java.lang.String, java.lang.String)
+	 */
+	public void setMetaData(String metaDataKey, String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#setMetaData(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public void setMetaData(String metaDataKey, String value, String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#getMetaData(java.lang.String)
+	 */
+	public String getMetaData(String metaDataKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#renameMetaData(java.lang.String, java.lang.String)
+	 */
+	public void renameMetaData(String oldKeyName, String newKeyName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#renameMetaData(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public void renameMetaData(String oldKeyName, String newKeyName, String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#removeMetaData(java.lang.String)
+	 */
+	public boolean removeMetaData(String metaDataKey) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.data.MetaDataCapable#updateMetaData()
+	 */
+	public void updateMetaData() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.idega.core.file.data.ICFile#getLocaleId()
+	 */
+	public int getLocaleId() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

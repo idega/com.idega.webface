@@ -9,7 +9,6 @@
 package com.idega.webface.test.bean;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,15 +24,13 @@ public interface ContentItem {
 
 	public abstract Locale getLocale();
 
-	public abstract String getLocaleId();
+	public abstract String getLocaleIdAsString();
 
 	public abstract String getName();
 
 	public abstract String getDescription();
 
 	public abstract String getItemType();
-
-	public abstract Date getCreatedTimestamp();
 
 	public abstract int getCreatedByUserId();
 
@@ -46,8 +43,6 @@ public interface ContentItem {
 	public abstract void setDescription(String s);
 
 	public abstract void setItemType(String s);
-
-	public abstract void setCreatedTimestamp(Date d);
 
 	public abstract void setCreatedByUserId(int id);
 
