@@ -15,11 +15,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import com.idega.core.view.ViewManager;
 import com.idega.core.view.ViewNode;
-import com.idega.idegaweb.IWMainApplication;
 import com.idega.presentation.text.Text;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFMenu;
-import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFTabBar;
 import com.idega.webface.WFTabbedPane;
 import com.idega.webface.WFUtil;
@@ -91,9 +89,9 @@ public class WorkspaceBar extends WFContainer implements  Serializable{
 		WFContainer div = new WFContainer();
 		div.setStyleClass("wf_appdecor");
 		add(div);
-		WFPlainOutputText text = new WFPlainOutputText();
-		text.setValue("<i>e</i>Platform");
-		div.add(text);
+//		WFPlainOutputText text = new WFPlainOutputText();
+//		text.setValue("<i>e</i>Platform");
+//		div.add(text);
 	}
 
 
@@ -112,7 +110,7 @@ public class WorkspaceBar extends WFContainer implements  Serializable{
 		ViewManager viewManager = ViewManager.getInstance(context);
 		
 		ViewNode workspaceNode = viewManager.getWorkspaceRoot();
-		IWMainApplication iwma = IWMainApplication.getIWMainApplication(context);
+//		IWMainApplication iwma = IWMainApplication.getIWMainApplication(context);
 		
 		for (Iterator iter = workspaceNode.getChildren().iterator(); iter.hasNext();) {
 			ViewNode subNode = (ViewNode) iter.next();
