@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.8 2004/10/26 16:03:39 joakim Exp $
+ * $Id: WFPage.java,v 1.9 2004/11/01 18:59:03 gimmi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,10 +29,10 @@ import com.idega.presentation.IWBaseComponent;
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/10/26 16:03:39 $ by $Author: joakim $
+ * Last modified: $Date: 2004/11/01 18:59:03 $ by $Author: gimmi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class WFPage extends IWBaseComponent {
 
@@ -159,8 +159,8 @@ public class WFPage extends IWBaseComponent {
 		public Collection values() {
 			if (_values == null) {
 				_values = new ArrayList();
-				for (Enumeration enum = _bundle.getKeys(); enum.hasMoreElements();) {
-					String v = _bundle.getString((String)enum.nextElement());
+				for (Enumeration enumer = _bundle.getKeys(); enumer.hasMoreElements();) {
+					String v = _bundle.getString((String)enumer.nextElement());
 					_values.add(v);
 				}
 			}
@@ -177,8 +177,8 @@ public class WFPage extends IWBaseComponent {
 
 		public Set entrySet() {
 			Set set = new HashSet();
-			for (Enumeration enum = _bundle.getKeys(); enum.hasMoreElements();) {
-				final String k = (String) enum.nextElement();
+			for (Enumeration enumer = _bundle.getKeys(); enumer.hasMoreElements();) {
+				final String k = (String) enumer.nextElement();
 				set.add(new Map.Entry() {
 					public Object getKey() {
 						return k;
@@ -198,8 +198,8 @@ public class WFPage extends IWBaseComponent {
 
 		public Set keySet() {
 			Set set = new HashSet();
-			for (Enumeration enum = _bundle.getKeys(); enum.hasMoreElements();) {
-				set.add(enum.nextElement());
+			for (Enumeration enumer = _bundle.getKeys(); enumer.hasMoreElements();) {
+				set.add(enumer.nextElement());
 			}
 			return set;
 		}
