@@ -134,6 +134,9 @@
 	height: 16px;
 }
 
+.wf_toolbar_button span{
+	float: left;
+}
 
 .wf_list {
 	background-color: #FFFFFF;
