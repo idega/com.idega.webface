@@ -142,6 +142,7 @@ public class WFBlock extends WFContainer
 			this.initializeContent();
 			this.isInitialized=true;
 		}
+		super.encodeBegin(context);
 	}
 	
 	/*
