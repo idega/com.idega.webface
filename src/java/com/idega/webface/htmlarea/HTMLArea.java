@@ -15,7 +15,7 @@ import com.idega.webface.htmlarea.HTMLAreaRenderer;
  * @author gimmi
  */
 public class HTMLArea extends HtmlInputTextarea {
-
+	
 	public static String RENDERER_TYPE="wf_htmlarea";
 	
 	public static String PLUGIN_TABLE_OPERATIONS = "TableOperations";
@@ -24,7 +24,7 @@ public class HTMLArea extends HtmlInputTextarea {
 	public static String PLUGIN_CHARACTER_MAP = "CharacterMap";
 	public static String PLUGIN_DYNAMIC_CSS = "DynamicCSS";
 	public static String PLUGIN_CSS = "CSS";
-
+	
 	private static final boolean DEFAULT_ALLOW_FONT_SELECTION = true;
 	
 	private String plugins;
@@ -60,39 +60,39 @@ public class HTMLArea extends HtmlInputTextarea {
 	}
 	
 	public String getPlugins() {
-    if (plugins != null) return plugins;
-    ValueBinding vb = getValueBinding("plugins");
-    String v = vb != null ? (String)vb.getValue(getFacesContext()) : null;
-    return v != null ? v : null;
+		if (plugins != null) return plugins;
+		ValueBinding vb = getValueBinding("plugins");
+		String v = vb != null ? (String)vb.getValue(getFacesContext()) : null;
+		return v != null ? v : null;
 	}
 	
-  public void setAllowFontSelection(boolean allowFontSelection) {
-  	this.allowFontSelection = new Boolean(allowFontSelection);
-  }
-
-  public boolean getAllowFontSelection() {
+	public void setAllowFontSelection(boolean allowFontSelection) {
+		this.allowFontSelection = new Boolean(allowFontSelection);
+	}
+	
+	public boolean getAllowFontSelection() {
 		if (allowFontSelection != null) return allowFontSelection.booleanValue();
 		ValueBinding vb = getValueBinding("allowFontSelection");
 		Boolean v = vb != null ? (Boolean) vb.getValue(getFacesContext()) : null;
 		return v != null ? v.booleanValue() : DEFAULT_ALLOW_FONT_SELECTION;
 	}
-
+	
 	public void restoreState(FacesContext context, Object state) {
-    Object values[] = (Object[])state;
-    super.restoreState(context, values[0]);
-    plugins = (String)values[1];
-    allowFontSelection = (Boolean) values[2];
+		Object values[] = (Object[])state;
+		super.restoreState(context, values[0]);
+		plugins = (String)values[1];
+		allowFontSelection = (Boolean) values[2];
 	}
-
-  public Object saveState(FacesContext context)  {
-	  Object values[] = new Object[3];
-	  values[0] = super.saveState(context);
-	  values[1] = plugins;
-	  values[2] = allowFontSelection;
-	  
-	  return (Object) values;
+	
+	public Object saveState(FacesContext context)  {
+		Object values[] = new Object[3];
+		values[0] = super.saveState(context);
+		values[1] = plugins;
+		values[2] = allowFontSelection;
+		
+		return (Object) values;
 	}
-  	
+	
 	protected Renderer getRenderer(FacesContext context) {
 		return new HTMLAreaRenderer();
 	}
