@@ -219,7 +219,7 @@ public class HTMLAreaRenderer extends Renderer {
 					separator+",\"popupeditor\"," +
 					separator+", \"showhelp\", \"about\"" +
 				"]" +
-			"];");
+			"];\n");
 		return initEditorScript;
 	}
 
