@@ -7,9 +7,12 @@
 package com.idega.webface.workspace;
 
 import java.io.IOException;
+import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import com.idega.core.localisation.presentation.LocalePresentationUtil;
 import com.idega.idegaweb.IWBundle;
+import com.idega.idegaweb.IWMainApplication;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
@@ -18,6 +21,8 @@ import com.idega.presentation.app.IWControlCenter;
 import com.idega.presentation.ui.DropdownMenu;
 import com.idega.presentation.ui.Form;
 import com.idega.webface.WFBezel;
+import com.idega.webface.WFContainer;
+import com.idega.webface.WFUtil;
 
 
 public class WorkspaceLoginPage extends Page {
@@ -125,10 +130,57 @@ public class WorkspaceLoginPage extends Page {
 			}
 		}
 
+
+		mainTable.add(getProductName());
+		mainTable.add(getVersionInfo());
+		
+		mainTable.add(getBuildId());
+		mainTable.add(getCopyrightText());
+		
 		thePage.add(frameTable);
 		//thePage.add(mainTable);
 	}
 
+	
+	protected UIComponent getVersionInfo(){
+		WFContainer cText = new WFContainer();
+		cText.setStyleClass("versioninfo");
+		//HtmlOutputText tText = new HtmlOutputText();
+		HtmlOutputText tText = WFUtil.getTextVB(IWMainApplication.APPLICATION_BEAN_ID+".productInfo.version");
+		//tText.setValue("#{idegaweb_application.productInfo.version}");
+		cText.add(tText);
+		return cText;
+	}
+	
+	protected UIComponent getProductName(){
+		WFContainer cText = new WFContainer();
+		cText.setStyleClass("productinfo");
+		HtmlOutputText tText = WFUtil.getTextVB(IWMainApplication.APPLICATION_BEAN_ID+".productInfo.fullProductName");
+		//HtmlOutputText tText = new HtmlOutputText();
+		//tText.setValue("#{idegaweb_application.productInfo.name}");
+		cText.add(tText);
+		return cText;
+	}
+	
+	protected UIComponent getBuildId(){
+		WFContainer cText = new WFContainer();
+		cText.setStyleClass("buildid");
+		HtmlOutputText tText = WFUtil.getTextVB(IWMainApplication.APPLICATION_BEAN_ID+".productInfo.buildId");
+		//HtmlOutputText tText = new HtmlOutputText();
+		//tText.setValue("#{idegaweb_application.productInfo.buildId}");
+		cText.add(tText);
+		return cText;
+	}
+
+	protected UIComponent getCopyrightText(){
+		WFContainer cText = new WFContainer();
+		cText.setStyleClass("copyrighttext");
+		HtmlOutputText tText = WFUtil.getTextVB(IWMainApplication.APPLICATION_BEAN_ID+".productInfo.copyrightText");
+		//HtmlOutputText tText = new HtmlOutputText();
+		//tText.setValue("#{idegaweb_application.productInfo.buildId}");
+		cText.add(tText);
+		return cText;
+	}		
 	
 	/* (non-Javadoc)
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
