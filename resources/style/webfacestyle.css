@@ -263,28 +263,35 @@
 	/***font-weight: bold;***/
 }
 
-wf_viewmenubuttondeselected .wf_viewmenu {
+.wf_viewmenubuttondeselected .wf_viewmenu {
 	padding: 0px 0px 0px 0px;
 	#background-image:none;
 }
 
 .wf_viewmenubuttonselected {
 	background-color: none;
-	font-color: #FFFFFF;
+	color: #FFFFFF;
 	background-image: url(images/blueover_tile2.gif);
 	background-repeat: repeat;
+}
+
+.wf_viewmenubuttonselected a{
+	color: #FFFFFF;
 }
 
 .wf_viewmenubuttondeselected a {
 	color: black;
 }
 
-.wf_viewmenubuttondeselected:hover,.wf_viewmenubuttondeselected a:hover {
-	color: white;
+
+.wf_viewmenu *:hover{
+	background-color: #C1C1C1;
+	font-style:normal;
 }
-.wf_viewmenubuttondeselected:hover{
-	background-image: url(images/blueover_tile2.gif);
-	background-repeat: repeat;
+
+.wf_viewmenubuttondeselected a:hover {
+	text-decoration:underline;
+	font-style:normal;
 }
 
 
@@ -306,9 +313,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	display:none;
 }
 
-.wf_viewmenubuttondeselected a:hover {
-	color: #white;
-}
 
 .wf_viewmenubuttondeselected, wf_viewmenubuttondeselected:hover, wf_viewmenubuttonselected{
 	border-top: 1px solid #D3D3D3;
@@ -345,7 +349,7 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	margin-top: -2;
 	background: #F1F1F1;
 	padding-bottom: 5px;
-        font-color: #4D4D4D;
+    font-color: #4D4D4D;
 }
 
 .wf_tabbarbuttonselected, .wf_tabbarbuttondeselected {
@@ -353,7 +357,7 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	list-style: none;
 }
 
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a {
+.wf_tabbarbuttonselected a, .wf_tabbarbuttondeselected a {
 	width: 7em;
 	display: block;
 	float: right;
@@ -366,8 +370,12 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	border-left: 1px solid #C4C4C4;
 }
 
+.wf_tabbarbuttonselected a {
+	font-color: #4D4D4D;
+	background-color: #C4C4C4;
+}
+
 .wf_tabbarbuttondeselected a {
-	#border-bottom: none;
 	font-color: #4D4D4D;
 	background-image: url(images/greybar_tile.gif);
 	background-repeat: repeat-x;
