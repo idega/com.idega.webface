@@ -12,53 +12,38 @@ import javax.faces.component.UIComponent;
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
  */
-public class WFToolbar extends WFContainer //implements Serializable
-{
+public class WFToolbar extends WFMenu {
 	
 	public static String RENDERER_TYPE="wf_toolbar";
 	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
+	public static String DEFAULT_BUTTON_STYLE_CLASS=DEFAULT_STYLE_CLASS+"_button";
+	public static String DEFAULT_HEADER_STYLE_CLASS=DEFAULT_STYLE_CLASS+"_header";
 	
 	public WFToolbar(){
-		setStyleClass(DEFAULT_STYLE_CLASS);
+		setRendererType(RENDERER_TYPE);
+		setToolbarStyle();
+	}
+	
+	/**
+	 * Sets the menu to be "toolbar" style
+	 */
+	protected void setToolbarStyle(){
+		setMenuStyleClass(DEFAULT_STYLE_CLASS);
+		setSelectedMenuItemStyleClass(DEFAULT_BUTTON_STYLE_CLASS);
+		setDeselectedMenuItemStyleClass(DEFAULT_BUTTON_STYLE_CLASS);
+		setMenuHeaderStyleClass(DEFAULT_HEADER_STYLE_CLASS);
+		setRendererType(RENDERER_TYPE);
 	}
 
 	
 	public void addButton(WFToolbarButton button){
-		this.getChildren().add(button);
+		String menuItemId = getNextMenuItemId();
+		setMenuItem(menuItemId,button);
 	}
 	
 	public void addButton(UIComponent button){
-		this.getChildren().add(button);
-	}
-	
-	/*
-	public void encodeBegin(FacesContext context) throws IOException {
-		super.encodeBegin(context);
-	}
-	
-	/**
-	public void encodeChildren(FacesContext context) throws IOException {
-		Iterator children = this.getChildren().iterator();
-		ResponseWriter out = context.getResponseWriter();
-		out.startElement("tr",this);
-		while (children.hasNext()) {
-			WFToolbarButton element = (WFToolbarButton) children.next();
-			out.startElement("td", null);
-			renderChild(context, element);
-			out.endElement("td");
-		}
-		out.endElement("tr");
-	}
-	
-	public void encodeEnd(FacesContext context) throws IOException {
-		super.encodeEnd(context);
+		String menuItemId = getNextMenuItemId();
+		setMenuItem(menuItemId,button);
 	}
 
-	protected String getMarkupElementType(){
-		return "table";
-	}*/
-	
-	public String getRendererType(){
-		return RENDERER_TYPE;
-	}
 }

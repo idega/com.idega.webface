@@ -124,11 +124,14 @@
 	border-left-width: 0px;
 }
 
-.wf_toolbar * {
-	display: inline-block;
+.wf_toolbar_button{
 	vertical-align: middle;
-	margin: 2px;
+	display: inline;
+	list-style: none;
+	margin: 0px 1px 0px 1px;
 	padding: 0px;
+	width: 16px;
+	height: 16px;
 }
 
 
