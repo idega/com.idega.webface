@@ -1,5 +1,5 @@
 /*
- * $Id: WFTabBar.java,v 1.1 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: WFTabBar.java,v 1.2 2004/10/21 11:31:16 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -27,10 +27,10 @@ import com.idega.webface.event.WFTabListener;
  * A perspective can be any component that is rendered when
  * its task bar button is pressed.   
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/10/21 11:31:16 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFTabBar extends WFContainer implements ActionListener {
 	
@@ -263,7 +263,16 @@ public class WFTabBar extends WFContainer implements ActionListener {
 		WFTabBar taskbar = (WFTabBar) button.getParent();
 		taskbar.setSelectedButtonId(button.getId());
 		WFTabEvent e = new WFTabEvent(taskbar);
-		taskbar.queueEvent(e);
+		//(JJ) Cant do this since it will create a concurrent modification exception
+//		taskbar.queueEvent(e);
+        try
+        {
+        	taskbar.broadcast(e);
+        }
+        catch (AbortProcessingException e1)
+        {
+        	e1.printStackTrace();
+        }
 	}
 	
 	public List getButtonIds(){
