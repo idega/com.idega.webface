@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <extend>../com.idega.core.bundle/base-project.xml</extend>
+  <extend>${base.project.dir}/base-project.xmlend>
   <name>idegaWeb WebFace</name>
   <artifactId>com.idega.webface</artifactId>
   <currentVersion>0.8.1-SNAPSHOT</currentVersion>
