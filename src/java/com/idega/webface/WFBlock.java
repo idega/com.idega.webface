@@ -17,12 +17,14 @@ import javax.faces.context.FacesContext;
  */
 public class WFBlock extends WFContainer
 {
+	
+	public static String RENDERER_TYPE="wf_block";
+	
 	private boolean toolbarEmbeddedInTitlebar=true;
 	private String mainAreaStyleClass = null;
-	
 	public WFBlock(){
-		setStyleClass("wf_simplebox");
-		setMainAreaStyleClass("wf_blockmainarea");
+		setStyleClass(WFConstants.STYLE_CLASS_BOX);
+		setMainAreaStyleClass(WFConstants.STYLE_CLASS_MAINAREA);
 	}
 	
 	public WFBlock(String titleBarText){
@@ -117,9 +119,11 @@ public class WFBlock extends WFContainer
 		}
 	}
 
-	/**
-	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
-	 */
+	public String getRendererType(){
+		return RENDERER_TYPE;
+	}
+	
+	/*
 	public void encodeBegin(FacesContext context) throws IOException {
 		if (!isRendered()) {
 			return;
@@ -133,7 +137,7 @@ public class WFBlock extends WFContainer
 			renderFacet(context, "toolbar");
 		}
 		renderFacet(context, "titlebar");
-	}
+	}*/
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)

@@ -1,5 +1,5 @@
 /*
- * $Id: SearchArticleBlock.java,v 1.1 2004/06/28 09:32:10 anders Exp $
+ * $Id: SearchArticleBlock.java,v 1.2 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -30,10 +30,10 @@ import com.idega.webface.test.bean.*;
 /**
  * Block for searching articles.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:32:10 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SearchArticleBlock extends WFBlock implements ManagedContentBeans, ActionListener, Serializable {
 
@@ -159,7 +159,7 @@ public class SearchArticleBlock extends WFBlock implements ManagedContentBeans, 
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setAuthor", "author");
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setComment", "comment");
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setDescription", "description");
-		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCase.STATUS_PUBLISHED);
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setUpdated", new Boolean(true));
 				

@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemCaseBean.java,v 1.1 2004/06/28 09:09:50 anders Exp $
+ * $Id: ContentItemCaseBean.java,v 1.2 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -16,27 +16,14 @@ import java.util.Date;
 /**
  * Bean for idegaWeb content item cases.   
  * <p>
- * Last modified: $Date: 2004/06/28 09:09:50 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
-public class ContentItemCaseBean implements Serializable {
+public class ContentItemCaseBean implements Serializable, ContentItemCase {
 	
-	public final static String CASE_CODE = "CONTIM";
-	
-	public final static String STATUS_NEW = "SNEW";
-	public final static String STATUS_READY_FOR_REVIEW = "RFRV";
-	public final static String STATUS_UNDER_REVIEW = "UNRV";
-	public final static String STATUS_REWRITE = "RWRT";
-	public final static String STATUS_PENDING_PUBLISHING = "PPUB";
-	public final static String STATUS_PUBLISHED = "PUBL";
-	public final static String STATUS_EXPIRED = "EXPD";
-	public final static String STATUS_DELETED = "DELE";
-
-	public final static String STATUS_LOC_KEY_PREFIX = "case_status_";
-
 	private int _caseId = 0;
 	private String _caseCode = null;
 	private String _caseStatus = null;

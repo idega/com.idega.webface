@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbarButton.java,v 1.3 2004/06/30 13:35:21 anders Exp $
+ * $Id: WFTab.java,v 1.1 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -18,26 +18,26 @@ import javax.faces.context.FacesContext;
 /**
  * ...  
  * <p>
- * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  */
-public class WFTaskbarButton extends HtmlCommandLink {
+public class WFTab extends HtmlCommandLink {
 
 	private boolean _selected = false;
 
 	/**
 	 * Default constructor. 
 	 */
-	public WFTaskbarButton() {
+	public WFTab() {
 		super();
 	}
 
 	/**
 	 * Constructs a taskbar button with the specified label text. 
 	 */
-	public WFTaskbarButton(String buttonLabel, boolean isValueRef) {
+	public WFTab(String buttonLabel, boolean isValueRef) {
 		this();
 		if (isValueRef) {
 			getChildren().add(WFUtil.getTextVB(buttonLabel));

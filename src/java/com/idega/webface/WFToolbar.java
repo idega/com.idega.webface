@@ -3,12 +3,7 @@
  */
 package com.idega.webface;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Iterator;
-
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 /**
  * A menu component with toolbar buttons. 
@@ -19,8 +14,11 @@ import javax.faces.context.ResponseWriter;
 public class WFToolbar extends WFContainer implements Serializable
 {
 	
+	public static String RENDERER_TYPE="wf_toolbar";
+	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
+	
 	public WFToolbar(){
-		setStyleClass("wf_toolbar");
+		setStyleClass(DEFAULT_STYLE_CLASS);
 	}
 
 	
@@ -28,16 +26,12 @@ public class WFToolbar extends WFContainer implements Serializable
 		this.getChildren().add(button);
 	}
 
-	/**
-	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
-	 */
+	/*
 	public void encodeBegin(FacesContext context) throws IOException {
 		super.encodeBegin(context);
 	}
 	
 	/**
-	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
-	 */
 	public void encodeChildren(FacesContext context) throws IOException {
 		Iterator children = this.getChildren().iterator();
 		ResponseWriter out = context.getResponseWriter();
@@ -51,14 +45,15 @@ public class WFToolbar extends WFContainer implements Serializable
 		out.endElement("tr");
 	}
 	
-	/**
-	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
-	 */
 	public void encodeEnd(FacesContext context) throws IOException {
 		super.encodeEnd(context);
 	}
 
 	protected String getMarkupElementType(){
 		return "table";
+	}*/
+	
+	public String getRendererType(){
+		return RENDERER_TYPE;
 	}
 }

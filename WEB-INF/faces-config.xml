@@ -12,6 +12,21 @@
 	</component>
 
 	<component>
+		<component-type>WorkspacePage</component-type>
+		<component-class>com.idega.webface.workspace.WorkspacePage</component-class>
+	</component>
+
+	<component>
+		<component-type>ArticleBlock</component-type>
+		<component-class>com.idega.webface.test.component.ArticleBlock</component-class>
+	</component>
+
+	<component>
+		<component-type>ListArticlesBlock</component-type>
+		<component-class>com.idega.webface.test.component.ListArticlesBlock</component-class>
+	</component>
+
+	<component>
 		<component-type>CreateArticlePage</component-type>
 		<component-class>com.idega.webface.test.CreateArticlePage</component-class>
 	</component>

@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewMenuButton.java,v 1.4 2004/06/30 13:35:21 anders Exp $
+ * $Id: WFViewMenuButton.java,v 1.5 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -12,12 +12,12 @@ package com.idega.webface;
 /**
  * Button for WFViewMenu components.  
  * <p>
- * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-public class WFViewMenuButton extends WFTaskbarButton {
+public class WFViewMenuButton extends WFTab {
 
 	/**
 	 * Default constructor. 

@@ -3,7 +3,6 @@
  */
 package com.idega.webface;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.faces.FactoryFinder;
@@ -405,18 +404,6 @@ public class WFUtil {
 			value = Integer.parseInt(getParameter(component, name));
 		} catch (Exception e) {}
 		return value;
-	}
-	
-	/**
-	 * Render the specified facet.
-	 */
-	public static void renderFacet(FacesContext context, UIComponent component, String facetName) throws IOException {
-		UIComponent facet = (UIComponent) (component.getFacets().get(facetName));
-		if (facet != null) {
-			facet.encodeBegin(context);
-			facet.encodeChildren(context);
-			facet.encodeEnd(context);
-		}
 	}
 	
 	/**

@@ -1,5 +1,5 @@
 /*
- * $Id: CMSPage.java,v 1.7 2004/06/30 13:34:56 anders Exp $
+ * $Id: CMSPage.java,v 1.8 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,23 +23,23 @@ import com.idega.webface.WFContainer;
 import com.idega.webface.WFList;
 import com.idega.webface.WFPage;
 import com.idega.webface.WFPanelUtil;
-import com.idega.webface.WFTaskbar;
+import com.idega.webface.WFTabBar;
 import com.idega.webface.WFUtil;
 import com.idega.webface.WFViewMenu;
-import com.idega.webface.event.WFTaskbarEvent;
-import com.idega.webface.event.WFTaskbarListener;
+import com.idega.webface.event.WFTabEvent;
+import com.idega.webface.event.WFTabListener;
 import com.idega.webface.test.bean.*;
 import com.idega.webface.test.component.*;
 
 /**
  * Content management system test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/30 13:34:56 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
-public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarListener, ActionListener, Serializable {
+public class CMSPage extends WFPage implements  ManagedContentBeans, WFTabListener, ActionListener, Serializable {
 	
 	private final static String P = "cms_page_"; // Parameter prefix
 	
@@ -60,6 +60,27 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 		super.encodeBegin(context);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
+	 */
+	public void encodeChildren(FacesContext context) throws IOException {
+		// TODO Auto-generated method stub
+		super.encodeChildren(context);
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
+	 */
+	public void encodeEnd(FacesContext arg0) throws IOException {
+		// TODO Auto-generated method stub
+		super.encodeEnd(arg0);
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#getRendersChildren()
+	 */
+	public boolean getRendersChildren() {
+		// TODO Auto-generated method stub
+		return super.getRendersChildren();
+	}
 	/**
 	 * Creates the page content. 
 	 */
@@ -84,7 +105,7 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	 */
 	protected UIComponent getMainTaskbar() {
 		String bref = WFPage.CONTENT_BUNDLE + ".";
-		WFTaskbar tb = new WFTaskbar();
+		WFTabBar tb = new WFTabBar();
 		tb.setMainAreaStyleClass(null);
 		tb.setId(MAIN_TASKBAR_ID);
 		tb.addButtonVB(TASK_ID_CONTENT, bref + "content", getContentPerspective());
@@ -176,7 +197,7 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	public void processAction(ActionEvent event) {
 		UIComponent link = event.getComponent();
 		String id = WFUtil.getParameter(link, "id");
-		WFTaskbar tb = (WFTaskbar) link.getParent().getParent().getParent().findComponent(MAIN_TASKBAR_ID);
+		WFTabBar tb = (WFTabBar) link.getParent().getParent().getParent().findComponent(MAIN_TASKBAR_ID);
 		tb.setSelectedButtonId(TASK_ID_EDIT);
 		ArticleBlock ab = (ArticleBlock) tb.findComponent(ArticleBlock.ARTICLE_BLOCK_ID);
 		ab.setEditMode();
@@ -190,9 +211,9 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setDescription", "description");
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setSource", "source");
 		if (link.getId().equals(ArticleListBean.ARTICLE_ID)) {
-			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCase.STATUS_PUBLISHED);
 		} else {
-			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_UNDER_REVIEW);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCase.STATUS_UNDER_REVIEW);
 		}
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
 
@@ -203,7 +224,7 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	 * Sets the page in edit mode.
 	 */
 	public void setEditMode() {
-		WFTaskbar tb = (WFTaskbar) findComponent(MAIN_TASKBAR_ID);
+		WFTabBar tb = (WFTabBar) findComponent(MAIN_TASKBAR_ID);
 		tb.setSelectedButtonId(TASK_ID_EDIT);
 		ArticleBlock ab = (ArticleBlock) tb.findComponent(ArticleBlock.ARTICLE_BLOCK_ID);
 		ab.setEditMode();		
@@ -211,10 +232,10 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarLi
 	
 	/**
 	 * Called when the edit mode in the article block changes.
-	 * @see com.idega.webface.event.WFTaskbarListener#taskbarButtonPressed() 
+	 * @see com.idega.webface.event.WFTabListener#taskbarButtonPressed() 
 	 */
-	public void taskbarButtonPressed(WFTaskbarEvent e) {
-		WFTaskbar t = e.getTaskbar();
+	public void tabPressed(WFTabEvent e) {
+		WFTabBar t = e.getTaskbar();
 		UIComponent articleVersionBlock = t.findComponent(ArticleVersionBlock.ARTICLE_VERSION_BLOCK_ID);
 		if (t.getSelectedButtonId().equals(ArticleBlock.TASK_ID_PREVIEW)) {
 			articleVersionBlock.setRendered(true);

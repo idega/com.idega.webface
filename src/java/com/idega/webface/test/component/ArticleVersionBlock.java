@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleVersionBlock.java,v 1.2 2004/06/30 13:34:57 anders Exp $
+ * $Id: ArticleVersionBlock.java,v 1.3 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,16 +23,17 @@ import com.idega.webface.WFPage;
 import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFCommaSeparatedListConverter;
+import com.idega.webface.test.bean.ContentItemCase;
 import com.idega.webface.test.bean.ContentItemCaseBean;
 import com.idega.webface.test.bean.ManagedContentBeans;
 
 /**
  * Block for listing article versions.   
  * <p>
- * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ArticleVersionBlock extends WFBlock implements ManagedContentBeans, ActionListener, Serializable {
 
@@ -146,7 +147,7 @@ public class ArticleVersionBlock extends WFBlock implements ManagedContentBeans,
 		WFUtil.invoke(ARTICLE_VERSION_ITEM_BEAN_ID, "setComment", "comment");
 		WFUtil.invoke(ARTICLE_VERSION_ITEM_BEAN_ID, "setDescription", "description");
 		WFUtil.invoke(ARTICLE_VERSION_ITEM_BEAN_ID, "setSource", "source");
-		WFUtil.invoke(ARTICLE_VERSION_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
+		WFUtil.invoke(ARTICLE_VERSION_ITEM_BEAN_ID, "setStatus", ContentItemCase.STATUS_PUBLISHED);
 		WFUtil.invoke(ARTICLE_VERSION_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
 		
 		WFUtil.invoke(ARTICLE_VERSION_ITEM_BEAN_ID, "setUpdated", new Boolean(true));

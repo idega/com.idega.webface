@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.5 2004/07/20 23:53:09 tryggvil Exp $
+ * $Id: WFPage.java,v 1.6 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -13,26 +13,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
-
 import javax.faces.FacesException;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-
 import com.idega.faces.IWBaseComponent;
 
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/07/20 23:53:09 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFPage extends IWBaseComponent {
 
@@ -97,6 +97,32 @@ public class WFPage extends IWBaseComponent {
 		}
 		context.getExternalContext().getSessionMap().put(WF_BUNDLE, new BundleMap(bundle));
 	}
+	
+	
+	 
+		public void encodeChildren(FacesContext context) throws IOException {
+			if(getRendersChildren()){
+				Iterator children = this.getChildren().iterator();
+				while (children.hasNext()) {
+					UIComponent element = (UIComponent) children.next();
+					renderChild(context,element);
+				}
+			}
+			/*Iterator children = this.getChildren().iterator();
+				while (children.hasNext()) {
+					UIComponent element = (UIComponent) children.next();
+					renderChild(context,element);
+				}*/
+			//super.encodeChildren(context);
+		}
+	
+		/* (non-Javadoc)
+		 * @see javax.faces.component.UIComponent#getRendersChildren()
+		 */
+		public boolean getRendersChildren() {
+			return true;
+			//return super.getRendersChildren();
+		}	
 
 	private static class BundleMap implements Map {
 

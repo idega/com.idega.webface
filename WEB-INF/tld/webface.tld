@@ -9,6 +9,39 @@
     <jsp-version>1.2</jsp-version>
     <short-name>Idega Webface Tag Library</short-name>
     <description>JSF Idega Webface Tag Library</description>
+    <uri>http://xmlns.idega.com/com.idega.webface</uri>
+
+	<tag>
+		<name>workspace_page</name>
+		<tag-class>com.idega.webface.workspace.WorkspacePageTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+
+	<tag>
+		<name>articleblock</name>
+		<tag-class>com.idega.webface.test.component.ArticleBlockTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>listarticlesblock</name>
+		<tag-class>com.idega.webface.test.component.ListArticlesBlockTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
 
 	<tag>
 		<name>cms_page</name>

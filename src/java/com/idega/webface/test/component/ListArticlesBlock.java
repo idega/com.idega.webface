@@ -1,5 +1,5 @@
 /*
- * $Id: ListArticlesBlock.java,v 1.2 2004/06/30 13:34:57 anders Exp $
+ * $Id: ListArticlesBlock.java,v 1.3 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -30,16 +30,17 @@ import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFDateConverter;
+import com.idega.webface.test.bean.ContentItemCase;
 import com.idega.webface.test.bean.ContentItemCaseBean;
 import com.idega.webface.test.bean.ManagedContentBeans;
 
 /**
  * Block for listing articles.   
  * <p>
- * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, ActionListener, Serializable {
 
@@ -66,6 +67,7 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 	 * Default contructor.
 	 */
 	public ListArticlesBlock() {
+		this("untitled");
 	}
 	
 	/**
@@ -194,7 +196,7 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 		UIComponent link = event.getComponent();
 		String id = WFUtil.getParameter(link, "id");
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "clear");
-		ContentItemCaseBean caze = new ContentItemCaseBean();
+		ContentItemCase caze = new ContentItemCaseBean();
 		caze.setPublishedFromDate(new Date());
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setCase", caze);		
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setLocaleId", "en");
@@ -214,7 +216,7 @@ public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, A
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setAuthor", "Author");
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setComment", "Comment");
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setDescription", "Description");
-		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCase.STATUS_PUBLISHED);
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setLocaleId", "sv");
 		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setHeadline", "Electronic Rykjavik klar");

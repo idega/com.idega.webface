@@ -1,11 +1,8 @@
 package com.idega.webface;
 import java.io.IOException;
-
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
 import com.idega.faces.IWBaseComponent;
+import com.idega.util.RenderUtils;
 /**
  * Title:        idegaclasses
  * Description:  Container holding child components.  
@@ -16,10 +13,9 @@ import com.idega.faces.IWBaseComponent;
  */
 public class WFContainer extends IWBaseComponent
 {
-//	private static String HTML_TABLE_TAG="TABLE";
-	private static String HTML_DIV_TAG="DIV";
-	
 //	private static boolean imagesSet = false;
+	
+	public static String RENDERER_TYPE="wf_container";
 	
 	/*private static Image topleft;
 	private static Image topright;
@@ -35,7 +31,7 @@ public class WFContainer extends IWBaseComponent
 	private String backgroundColor;
 	private String width;
 	private String height;
-	private String styleClass;
+	private String styleClass=RENDERER_TYPE;
 
 	
 	public WFContainer()
@@ -45,6 +41,17 @@ public class WFContainer extends IWBaseComponent
 		//setAllMargins(0);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#getRendererType()
+	 */
+	public String getRendererType() {
+		return RENDERER_TYPE;
+	}
+
+	public String getFamily() {
+		return WFConstants.FAMILY_WEBFACE;
+	}
+	
 	public void setLightShadowColor(String color)
 	{
 		_lightColor = color;
@@ -117,7 +124,9 @@ public class WFContainer extends IWBaseComponent
 	 * @uml.property name="styleClass"
 	 */
 	public void setStyleClass(String styleClass) {
-		this.styleClass = styleClass;
+		if(styleClass!=null){
+			this.styleClass = styleClass;
+		}
 	}
 
 	/**
@@ -139,46 +148,7 @@ public class WFContainer extends IWBaseComponent
 		this.width = width;
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
-	 */
-	public void encodeBegin(FacesContext ctx) throws IOException {
-		if (!isRendered()) {
-			return;
-		}
-		ResponseWriter out = ctx.getResponseWriter();
-//		out.write("<link type=\"text/css\" href=\"style/webfacestyle.css\" rel=\"stylesheet\">");
-		//RenderUtils.ensureAllTagsFinished();
-		out.startElement(getMarkupElementType(),this);
-		if(this.getStyleClass()!=null){
-			out.writeAttribute("class",this.getStyleClass(),null);
-		}
-		if(this.getStyleAttribute()!=null){
-			out.writeAttribute("style",this.getStyleAttribute(),null);
-		}
-		
-	}
-	/* (non-Javadoc)
-	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
-	 */
-	public void encodeChildren(FacesContext context) throws IOException {
-		if (!isRendered()) {
-			return;
-		}
-		// TODO Auto-generated method stub
-		super.encodeChildren(context);
-	}
-	/* (non-Javadoc)
-	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
-	 */
-	public void encodeEnd(FacesContext ctx) throws IOException {
-		if (!isRendered()) {
-			return;
-		}
-		ResponseWriter out = ctx.getResponseWriter();
-		// TODO Auto-generated method stub
-		out.endElement(getMarkupElementType());
-	}
+
 	
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
@@ -205,15 +175,14 @@ public class WFContainer extends IWBaseComponent
 	 * Render the specified facet.
 	 */
 	protected void renderFacet(FacesContext context, String facetName) throws IOException {
-		UIComponent facet = (UIComponent) (getFacets().get(facetName));
+		/*UIComponent facet = (UIComponent) (getFacets().get(facetName));
 		if (facet != null) {
 			facet.encodeBegin(context);
 			facet.encodeChildren(context);
 			facet.encodeEnd(context);
-		}
+		}*/
+		RenderUtils.renderFacet(context,this,facetName);
 	}
 	
-	protected String getMarkupElementType(){
-		return HTML_DIV_TAG;
-	}
+
 }

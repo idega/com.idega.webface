@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleItemBean.java,v 1.2 2004/06/30 13:34:57 anders Exp $
+ * $Id: ArticleItemBean.java,v 1.3 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -18,10 +18,10 @@ import java.util.List;
 /**
  * Bean for idegaWeb article content items.   
  * <p>
- * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public class ArticleItemBean extends ContentItemBean implements Serializable {
@@ -83,7 +83,7 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 		if (l == null) {
 			l = new ArrayList();
 		}
-		ContentItemFieldBean field = new ContentItemFieldBean();
+		ContentItemField field = new ContentItemFieldBean();
 		field.setBinaryValue(imageData);
 		field.setFieldType(contentType);
 		field.setOrderNo(l.size());
@@ -100,7 +100,7 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 			List l = getImages();
 			l.remove(imageNo);
 			for (int i = 0; i < l.size(); i++) {
-				ContentItemFieldBean field = (ContentItemFieldBean) l.get(i);
+				ContentItemField field = (ContentItemField) l.get(i);
 				field.setOrderNo(i);
 			}
 		} catch (Exception e) {}
@@ -114,7 +114,7 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 		if (l == null) {
 			l = new ArrayList();
 		}
-		ContentItemFieldBean field = new ContentItemFieldBean();
+		ContentItemField field = new ContentItemFieldBean();
 		field.setValue(contentItemId.toString());
 //		field.setFieldType(contentType);
 		field.setName("Content item..." + contentItemId);
@@ -131,14 +131,14 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 		try {
 			List l = getRelatedContentItems();
 			for (Iterator iter = l.iterator(); iter.hasNext();) {
-				ContentItemFieldBean field = (ContentItemFieldBean) iter.next();
+				ContentItemField field = (ContentItemField) iter.next();
 				if (field.getValue().equals(itemId)) {
 					l.remove(field);
 					break;
 				}
 			}
 			for (int i = 0; i < l.size(); i++) {
-				ContentItemFieldBean field = (ContentItemFieldBean) l.get(i);
+				ContentItemField field = (ContentItemField) l.get(i);
 				field.setOrderNo(i);
 			}
 		} catch (Exception e) {}
@@ -183,7 +183,7 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 			addErrorKey(KEY_ERROR_BODY_EMPTY);
 			storeOk = false;
 		}
-		if (getRequestedStatus() != null && getRequestedStatus().equals(ContentItemCaseBean.STATUS_PUBLISHED)) {
+		if (getRequestedStatus() != null && getRequestedStatus().equals(ContentItemCase.STATUS_PUBLISHED)) {
 			if (getCase().getPublishedFromDate() == null) {
 				addErrorKey(KEY_ERROR_PUBLISHED_FROM_DATE_EMPTY);
 				storeOk = false;

@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleBlock.java,v 1.2 2004/06/30 13:34:57 anders Exp $
+ * $Id: ArticleBlock.java,v 1.3 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -40,21 +40,21 @@ import com.idega.webface.WFList;
 import com.idega.webface.WFPage;
 import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFPlainOutputText;
-import com.idega.webface.WFTaskbar;
+import com.idega.webface.WFTabBar;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFCommaSeparatedListConverter;
-import com.idega.webface.event.WFTaskbarListener;
+import com.idega.webface.event.WFTabListener;
 import com.idega.webface.test.bean.CaseListBean;
-import com.idega.webface.test.bean.ContentItemCaseBean;
+import com.idega.webface.test.bean.ContentItemCase;
 import com.idega.webface.test.bean.ManagedContentBeans;
 
 /**
  * Block for editing an article.   
  * <p>
- * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ArticleBlock extends WFBlock implements ActionListener, ManagedContentBeans {
 
@@ -124,7 +124,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	/**
 	 * Constructs an ArticleBlock with the specified title key. 
 	 */
-	public ArticleBlock(String titleKey, WFTaskbarListener taskbarListener) {
+	public ArticleBlock(String titleKey, WFTabListener taskbarListener) {
 		super(titleKey);
 		setId(ARTICLE_BLOCK_ID);
 		getTitlebar().setValueRefTitle(true);
@@ -132,7 +132,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		
 		String bref = WFPage.CONTENT_BUNDLE + ".";
 		
-		WFTaskbar tb = new WFTaskbar();
+		WFTabBar tb = new WFTabBar();
 		tb.setId(TASKBAR_ID);
 		add(tb);
 		tb.addButtonVB(TASK_ID_EDIT, bref + "edit", getEditContainer());
@@ -434,63 +434,64 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	public void updateEditButtons() {
 		WFComponentSelector cs = (WFComponentSelector) findComponent(BUTTON_SELECTOR_ID);
 		String s = WFUtil.getStringValue(ARTICLE_ITEM_BEAN_ID, "status");
-
-		if (s.equals(ContentItemCaseBean.STATUS_NEW)) {
-			cs.setSelectedId(SAVE_ID, false);
-			cs.setSelectedId(FOR_REVIEW_ID, true);
-			cs.setSelectedId(PUBLISH_ID, true);
-			cs.setSelectedId(REWRITE_ID, false);
-			cs.setSelectedId(REJECT_ID, false);
-			cs.setSelectedId(DELETE_ID, false);
-		} else if (s.equals(ContentItemCaseBean.STATUS_READY_FOR_REVIEW)) {
-			cs.setSelectedId(SAVE_ID, false);
-			cs.setSelectedId(FOR_REVIEW_ID, false);
-			cs.setSelectedId(PUBLISH_ID, true);
-			cs.setSelectedId(REWRITE_ID, true);
-			cs.setSelectedId(REJECT_ID, true);
-			cs.setSelectedId(DELETE_ID, false);
-		} else if (s.equals(ContentItemCaseBean.STATUS_UNDER_REVIEW)) {
-			cs.setSelectedId(SAVE_ID, false);
-			cs.setSelectedId(FOR_REVIEW_ID, false);
-			cs.setSelectedId(PUBLISH_ID, true);
-			cs.setSelectedId(REWRITE_ID, true);
-			cs.setSelectedId(REJECT_ID, true);
-			cs.setSelectedId(DELETE_ID, false);
-		} else if (s.equals(ContentItemCaseBean.STATUS_REWRITE)) {
-			cs.setSelectedId(SAVE_ID, false);
-			cs.setSelectedId(FOR_REVIEW_ID, true);
-			cs.setSelectedId(PUBLISH_ID, true);
-			cs.setSelectedId(REWRITE_ID, false);
-			cs.setSelectedId(REJECT_ID, false);
-			cs.setSelectedId(DELETE_ID, false);
-		} else if (s.equals(ContentItemCaseBean.STATUS_PENDING_PUBLISHING)) {
-			cs.setSelectedId(SAVE_ID, true);
-			cs.setSelectedId(FOR_REVIEW_ID, false);
-			cs.setSelectedId(PUBLISH_ID, false);
-			cs.setSelectedId(REWRITE_ID, false);
-			cs.setSelectedId(REJECT_ID, false);
-			cs.setSelectedId(DELETE_ID, true);
-		} else if (s.equals(ContentItemCaseBean.STATUS_PUBLISHED)) {
-			cs.setSelectedId(SAVE_ID, true);
-			cs.setSelectedId(FOR_REVIEW_ID, false);
-			cs.setSelectedId(PUBLISH_ID, false);
-			cs.setSelectedId(REWRITE_ID, false);
-			cs.setSelectedId(REJECT_ID, false);
-			cs.setSelectedId(DELETE_ID, true);
-		} else if (s.equals(ContentItemCaseBean.STATUS_EXPIRED)) {
-			cs.setSelectedId(SAVE_ID, true);
-			cs.setSelectedId(FOR_REVIEW_ID, false);
-			cs.setSelectedId(PUBLISH_ID, false);
-			cs.setSelectedId(REWRITE_ID, false);
-			cs.setSelectedId(REJECT_ID, false);
-			cs.setSelectedId(DELETE_ID, true);
-		} else if (s.equals(ContentItemCaseBean.STATUS_DELETED)) {
-			cs.setSelectedId(SAVE_ID, true);
-			cs.setSelectedId(FOR_REVIEW_ID, true);
-			cs.setSelectedId(PUBLISH_ID, true);
-			cs.setSelectedId(REWRITE_ID, true);
-			cs.setSelectedId(REJECT_ID, true);
-			cs.setSelectedId(DELETE_ID, true);
+		if(cs!=null){
+			if (s.equals(ContentItemCase.STATUS_NEW)) {
+				cs.setSelectedId(SAVE_ID, false);
+				cs.setSelectedId(FOR_REVIEW_ID, true);
+				cs.setSelectedId(PUBLISH_ID, true);
+				cs.setSelectedId(REWRITE_ID, false);
+				cs.setSelectedId(REJECT_ID, false);
+				cs.setSelectedId(DELETE_ID, false);
+			} else if (s.equals(ContentItemCase.STATUS_READY_FOR_REVIEW)) {
+				cs.setSelectedId(SAVE_ID, false);
+				cs.setSelectedId(FOR_REVIEW_ID, false);
+				cs.setSelectedId(PUBLISH_ID, true);
+				cs.setSelectedId(REWRITE_ID, true);
+				cs.setSelectedId(REJECT_ID, true);
+				cs.setSelectedId(DELETE_ID, false);
+			} else if (s.equals(ContentItemCase.STATUS_UNDER_REVIEW)) {
+				cs.setSelectedId(SAVE_ID, false);
+				cs.setSelectedId(FOR_REVIEW_ID, false);
+				cs.setSelectedId(PUBLISH_ID, true);
+				cs.setSelectedId(REWRITE_ID, true);
+				cs.setSelectedId(REJECT_ID, true);
+				cs.setSelectedId(DELETE_ID, false);
+			} else if (s.equals(ContentItemCase.STATUS_REWRITE)) {
+				cs.setSelectedId(SAVE_ID, false);
+				cs.setSelectedId(FOR_REVIEW_ID, true);
+				cs.setSelectedId(PUBLISH_ID, true);
+				cs.setSelectedId(REWRITE_ID, false);
+				cs.setSelectedId(REJECT_ID, false);
+				cs.setSelectedId(DELETE_ID, false);
+			} else if (s.equals(ContentItemCase.STATUS_PENDING_PUBLISHING)) {
+				cs.setSelectedId(SAVE_ID, true);
+				cs.setSelectedId(FOR_REVIEW_ID, false);
+				cs.setSelectedId(PUBLISH_ID, false);
+				cs.setSelectedId(REWRITE_ID, false);
+				cs.setSelectedId(REJECT_ID, false);
+				cs.setSelectedId(DELETE_ID, true);
+			} else if (s.equals(ContentItemCase.STATUS_PUBLISHED)) {
+				cs.setSelectedId(SAVE_ID, true);
+				cs.setSelectedId(FOR_REVIEW_ID, false);
+				cs.setSelectedId(PUBLISH_ID, false);
+				cs.setSelectedId(REWRITE_ID, false);
+				cs.setSelectedId(REJECT_ID, false);
+				cs.setSelectedId(DELETE_ID, true);
+			} else if (s.equals(ContentItemCase.STATUS_EXPIRED)) {
+				cs.setSelectedId(SAVE_ID, true);
+				cs.setSelectedId(FOR_REVIEW_ID, false);
+				cs.setSelectedId(PUBLISH_ID, false);
+				cs.setSelectedId(REWRITE_ID, false);
+				cs.setSelectedId(REJECT_ID, false);
+				cs.setSelectedId(DELETE_ID, true);
+			} else if (s.equals(ContentItemCase.STATUS_DELETED)) {
+				cs.setSelectedId(SAVE_ID, true);
+				cs.setSelectedId(FOR_REVIEW_ID, true);
+				cs.setSelectedId(PUBLISH_ID, true);
+				cs.setSelectedId(REWRITE_ID, true);
+				cs.setSelectedId(REJECT_ID, true);
+				cs.setSelectedId(DELETE_ID, true);
+			}
 		}
 	}
 	
@@ -561,7 +562,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Sets this block to edit mode. 
 	 */
 	public void setEditMode() {
-		WFTaskbar tb = (WFTaskbar) findComponent(TASKBAR_ID);
+		WFTabBar tb = (WFTabBar) findComponent(TASKBAR_ID);
 		tb.setSelectedButtonId(TASK_ID_EDIT);
 	}
 
@@ -569,7 +570,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Sets this block to preview mode. 
 	 */
 	public void setPreviewMode() {
-		WFTaskbar tb = (WFTaskbar) findComponent(TASKBAR_ID);
+		WFTabBar tb = (WFTabBar) findComponent(TASKBAR_ID);
 		tb.setSelectedButtonId(TASK_ID_PREVIEW);
 	}
 
@@ -577,7 +578,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	 * Sets this block to message mode. 
 	 */
 	public void setMessageMode() {
-		WFTaskbar tb = (WFTaskbar) findComponent(TASKBAR_ID);
+		WFTabBar tb = (WFTabBar) findComponent(TASKBAR_ID);
 		tb.setSelectedButtonId(TASK_ID_MESSAGES);
 	}
 	
@@ -590,19 +591,19 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		if (id.equals(SAVE_ID)) {
 			ab.storeArticle();
 		} else if (id.equals(FOR_REVIEW_ID)) {
-			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCaseBean.STATUS_READY_FOR_REVIEW);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCase.STATUS_READY_FOR_REVIEW);
 			ab.storeArticle();
 		} else if (id.equals(PUBLISH_ID)) {
-			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCaseBean.STATUS_PUBLISHED);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCase.STATUS_PUBLISHED);
 			ab.storeArticle();
 		} else if (id.equals(REWRITE_ID)) {
-			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCaseBean.STATUS_REWRITE);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCase.STATUS_REWRITE);
 			ab.storeArticle();
 		} else if (id.equals(REJECT_ID)) {
-			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCaseBean.STATUS_DELETED);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCase.STATUS_DELETED);
 			ab.storeArticle();
 		} else if (id.equals(DELETE_ID)) {
-			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCaseBean.STATUS_DELETED);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setRequestedStatus", ContentItemCase.STATUS_DELETED);
 			ab.storeArticle();
 		} else if (id.equals(EDIT_CATEGORIES_ID)) {
 			ab.setEditView(CATEGORY_EDITOR_ID);

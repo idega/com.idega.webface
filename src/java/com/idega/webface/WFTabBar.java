@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbar.java,v 1.6 2004/06/30 13:35:21 anders Exp $
+ * $Id: WFTabBar.java,v 1.1 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,47 +11,47 @@ package com.idega.webface;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
-import com.idega.webface.event.WFTaskbarEvent;
-import com.idega.webface.event.WFTaskbarListener;
+import com.idega.webface.event.WFTabEvent;
+import com.idega.webface.event.WFTabListener;
 
 /**
  * Manages task bar buttons and corresponding perspectives. 
  * A perspective can be any component that is rendered when
  * its task bar button is pressed.   
  * <p>
- * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.1 $
  */
-public class WFTaskbar extends WFContainer implements ActionListener {
+public class WFTabBar extends WFContainer implements ActionListener {
+	
+	public static String RENDERER_TYPE="wf_tabbar";
 	
 	private String _selectedButtonId = null;
 	private List _buttonIds = null;
-	private String _taskbarStyleClass = null;
-	private String _mainAreaStyleClass = null;
-	private String _buttonSelectedStyleClass = null;
-	private String _buttonDeselectedStyleClass = null;
+	private String _taskbarStyleClass = "wf_tabbar";
+	private String _mainAreaStyleClass = "wf_tabbarmainarea";
+	private String _buttonSelectedStyleClass = "wf_tabbarbuttonselected";
+	private String _buttonDeselectedStyleClass = "wf_tabbarbuttondeselected";
 	
 	/**
 	 * Default contructor.
 	 */
-	public WFTaskbar() {
+	public WFTabBar() {
 		_buttonIds = new ArrayList();
-		setTaskbarStyleClass("wf_taskbar");
-		setMainAreaStyleClass("wf_taskbarmainarea");
-		setButtonSelectedStyleClass("wf_taskbarbuttonselected");
-		setButtonDeselectedStyleClass("wf_taskbarbuttondeselected");
+		//setTaskbarStyleClass("wf_taskbar");
+		//setMainAreaStyleClass("wf_taskbarmainarea");
+		//setButtonSelectedStyleClass("wf_taskbarbuttonselected");
+		//setButtonDeselectedStyleClass("wf_taskbarbuttondeselected");
 	}
 
 	/**
@@ -125,10 +125,10 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	}
 	
 	/**
-	 * Adds a tastbar button with its corresponding perspective component.
+	 * Adds a tab button with its corresponding perspective component.
 	 */
-	public WFTaskbarButton addButton(String buttonId, String buttonLabel, UIComponent perspective, boolean isValueRef) {
-		WFTaskbarButton button = new WFTaskbarButton(buttonLabel, isValueRef);
+	public WFTab addButton(String buttonId, String buttonLabel, UIComponent perspective, boolean isValueRef) {
+		WFTab button = new WFTab(buttonLabel, isValueRef);
 		button.setId(buttonId);
 //		button.setValue(buttonLabel);
 		button.addActionListener(this);
@@ -142,26 +142,25 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		c.setStyleClass(getMainAreaStyleClass());
 		c.add(perspective);
 		getFacets().put("perspective_" + buttonId, c);
-		return button; 
+		return button;
 	}
 	
 	/**
 	 * Adds a tastbar button with its corresponding perspective component.
 	 */
-	public WFTaskbarButton addButton(String buttonId, String buttonLabel, UIComponent perspective) {
+	public WFTab addButton(String buttonId, String buttonLabel, UIComponent perspective) {
 		return addButton(buttonId, buttonLabel, perspective, false);
 	}
 	
 	/**
 	 * Adds a tastbar button with value bin ding label and its corresponding perspective component.
 	 */
-	public WFTaskbarButton addButtonVB(String buttonId, String buttonLabelRef, UIComponent perspective) {
+	public WFTab addButtonVB(String buttonId, String buttonLabelRef, UIComponent perspective) {
 		return addButton(buttonId, buttonLabelRef, perspective, true);
 	}
 	
-	/**
-	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
-	 */
+	/*
+	 *
 	public void encodeBegin(FacesContext context) throws IOException {
 		super.encodeBegin(context);
 		ResponseWriter out = context.getResponseWriter();
@@ -176,7 +175,7 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		while (iter.hasNext()) {
 			String buttonId = (String) iter.next();
 			String buttonStyleClass = getButtonDeselectedStyleClass();
-			WFTaskbarButton button = (WFTaskbarButton) getFacet("button_" + buttonId);
+			WFTab button = (WFTab) getFacet("button_" + buttonId);
 			if (buttonId.equals(_selectedButtonId)) {
 				button.setSelected(true);
 				buttonStyleClass = getButtonSelectedStyleClass();
@@ -193,6 +192,7 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		out.endElement("tr");
 		out.endElement("table");
 	}
+	*/
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
@@ -206,6 +206,10 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
 		super.encodeEnd(context);
+	}
+	
+	public String getRendererType(){
+		return RENDERER_TYPE;
 	}
 	
 	/**
@@ -240,14 +244,14 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	/**
 	 * Register the specified listener for taskbar events.
 	 */
-	public void addTaskbarListener(WFTaskbarListener listener) {
+	public void addTaskbarListener(WFTabListener listener) {
 		addFacesListener(listener);
 	}
 
 	/**
 	 * Remove the specified listener for taskbar events.
 	 */
-	public void removeTaskbarListener(WFTaskbarListener listener) {
+	public void removeTaskbarListener(WFTabListener listener) {
 		removeFacesListener(listener);
 	}
 
@@ -255,10 +259,15 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	 * @see javax.faces.event.ActionListener#processAction(javax.faces.event.ActionEvent)
 	 */
 	public void processAction(ActionEvent event) throws AbortProcessingException {
-		WFTaskbarButton button = (WFTaskbarButton) event.getComponent();
-		WFTaskbar taskbar = (WFTaskbar) button.getParent();
+		WFTab button = (WFTab) event.getComponent();
+		WFTabBar taskbar = (WFTabBar) button.getParent();
 		taskbar.setSelectedButtonId(button.getId());
-		WFTaskbarEvent e = new WFTaskbarEvent(taskbar);
+		WFTabEvent e = new WFTabEvent(taskbar);
 		taskbar.queueEvent(e);
 	}
+	
+	public List getButtonIds(){
+		return this._buttonIds;
+	}
+	
 }

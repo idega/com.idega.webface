@@ -1,5 +1,5 @@
 /*
- * $Id: WFDateInput.java,v 1.3 2004/06/30 13:35:21 anders Exp $
+ * $Id: WFDateInput.java,v 1.4 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -19,14 +19,15 @@ import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import com.idega.util.RenderUtils;
 
 /**
  * Input component for date/time using dropdown menus for selection.
  * <p>
- * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFDateInput extends UIInput {
 
@@ -300,20 +301,20 @@ public class WFDateInput extends UIInput {
 			dayInput.setValue(day);
 		}
 		if (_showYear && _displayDayLast) {
-			WFUtil.renderFacet(context, this, "year_input");
+			RenderUtils.renderFacet(context, this, "year_input");
 			out.write(" ");
 		}
 		if (_showDay && !_displayDayLast) {
-			WFUtil.renderFacet(context, this, "day_input");
+			RenderUtils.renderFacet(context, this, "day_input");
 			out.write(" ");
 		}
-		WFUtil.renderFacet(context, this, "month_input");
+		RenderUtils.renderFacet(context, this, "month_input");
 		out.write(" ");		
 		if (_showYear && !_displayDayLast) {
-			WFUtil.renderFacet(context, this, "year_input");
+			RenderUtils.renderFacet(context, this, "year_input");
 		}
 		if (_showDay && _displayDayLast) {
-			WFUtil.renderFacet(context, this, "day_input");
+			RenderUtils.renderFacet(context, this, "day_input");
 		}
 		
 		if (_showTime) {
@@ -333,13 +334,13 @@ public class WFDateInput extends UIInput {
 			if (hour != null) {
 				hourInput.setValue(hour);
 			}
-			WFUtil.renderFacet(context, this, "hour_input");			
+			RenderUtils.renderFacet(context, this, "hour_input");			
 			HtmlSelectOneMenu minuteInput = (HtmlSelectOneMenu) getFacet("minute_input");
 			minuteInput.setId(getId() + "_minute");
 			if (minute != null) {
 				minuteInput.setValue(minute);
 			}
-			WFUtil.renderFacet(context, this, "minute_input");
+			RenderUtils.renderFacet(context, this, "minute_input");
 		}
 	}
 	
@@ -376,6 +377,10 @@ public class WFDateInput extends UIInput {
 	 * @see javax.faces.component.UIComponent#getRenderType()
 	 */
 	public String getRenderType() {
+		return null;
+	}
+	
+	public String getRendererType(){
 		return null;
 	}
 	

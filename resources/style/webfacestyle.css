@@ -1,33 +1,419 @@
-/*** General HTML definitions ***/body {	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 10px;	background-color: #ECE9D8;	/*background-color: #EEEEEE;*/	margin: 0px;}td {	vertical-align: middle;	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 10px;}a {	text-decoration: none;  	font-weight: bold;}a:hover {	text-decoration: underline;}/*** idegaWeb WebFace CSS classes ***/.wf_body {	margin: 0px;}.wf_smalltext {	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 10px;}.wf_headertext {	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 10px;	font-weight: bold;}.wf_color_red {	color: red;}.wf_applicationpanel {	border-spacing: 0px;	padding-left: 4px;	padding-top: 2px;}.wf_applicationleftcolumn {	width: 240px;	padding-right: 6px;}.wf_applicationrightcolumn {	width: 700px;}.wf_simplebox {	margin: 0px;	border: 1px solid #848284;	padding: 0px;	/***border-style: double;***/	width:100%;}.wf_simplebox .wf_titlebar {	border-right-width: 0px;	margin: 0px;}.wf_blockmainarea {	padding: 8px;}.wf_viewmenublockarea {	padding: 0px;	width: 100%;}.wf_titlebar {	/***background-color: #5A5A5A;***/	background-color: #ECE9D8;	background-image: url(../icons/bluegradient1.gif);	border-top-width: 1px;	border-right-width: 1px;	border-bottom-width: 1px;	border-left-width: 1px;	border-top-style: solid;	border-right-style: solid;	border-bottom-style: solid;	border-left-style: solid;	border-top-color: #FFFFFF;	border-right-color: #848284;	border-bottom-color: #848284;	border-left-color: #FFFFFF;	height: 24px;	width: 100%;	margin:0px;	background-repeat: repeat-y;}.wf_titlebar td {	vertical-align: middle;}.wf_titlebartext {	color: #FFFFFF;	text-align: left;	vertical-align: middle;}.wf_toolbar {	border-spacing: 0px;	padding: 0px;	float: right;}.wf_list {	border-spacing: px;	padding: 2px;	width: 100%;}.wf_listtable {	border-spacing: 2px;	padding: 2px;	width: 100%;}.wf_listnavigation {	border-spacing: 0px;	padding-left: 4px;	padding-right: 4px;	width: 100%;}.wf_listheading {	background-color: #d0daea;  	font-weight: bold;	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 10px;}.wf_listevenrow {	background-color: #f0f0f0;}.wf_listevenrow td {	white-space: nowrap;}.wf_listevenrow:hover {	background-color: #DDDDDD;}.wf_listoddrow {	background-color: #ffffff;}.wf_listoddrow td{	white-space: nowrap;}.wf_listoddrow:hover {	background-color: #DDDDDD;}.wf_listlink {	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 10px;  	font-weight: normal;}.wf_listtext {	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 10px;  	font-weight: normal;}
+
+/*** General HTML definitions ***/
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #ECE9D8;
+	/*background-color: #EEEEEE;*/
+	margin: 0px;
+}
+
+td {
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+a {
+	text-decoration: none;
+  	font-weight: bold;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/*** idegaWeb WebFace CSS classes ***/
+
+.wf_body {
+	margin: 0px;
+}
+
+.wf_smalltext {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+.wf_headertext {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.wf_color_red {
+	color: red;
+}
+
+.wf_applicationpanel {
+	border-spacing: 0px;
+	padding-left: 4px;
+	padding-top: 2px;
+}
+
+.wf_applicationleftcolumn {
+	width: 240px;
+	padding-right: 6px;
+}
+
+.wf_applicationrightcolumn {
+	width: 700px;
+}
+
+.wf_simplebox {
+	margin: 0px;
+	border: 1px solid #848284;
+	padding: 0px;
+	/***border-style: double;***/
+	width:100%;
+}
+
+.wf_simplebox .wf_titlebar {
+	border-right-width: 0px;
+	margin: 0px;
+}
+
+.wf_blockmainarea {
+	padding: 8px;
+}
+
+.wf_viewmenublockarea {
+	padding: 0px;
+	width: 100%;
+}
+
+.wf_titlebar {
+	/***background-color: #5A5A5A;***/
+	background-color: #ECE9D8;
+	background-image: url(../icons/bluegradient1.gif);
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #FFFFFF;
+	border-right-color: #848284;
+	border-bottom-color: #848284;
+	border-left-color: #FFFFFF;
+	height: 24px;
+	width: 100%;
+	margin:0px;
+	background-repeat: repeat-y;
+}
+
+.wf_titlebar td {
+	vertical-align: middle;
+}
+
+.wf_titlebartext {
+	color: #FFFFFF;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.wf_toolbar {
+	border-spacing: 0px;
+	padding: 0px;
+	float: right;
+}
+
+.wf_list {
+	border-spacing: px;
+	padding: 2px;
+	width: 100%;
+}
+
+.wf_listtable {
+	border-spacing: 2px;
+	padding: 2px;
+	width: 100%;
+}
+
+.wf_listnavigation {
+	border-spacing: 0px;
+	padding-left: 4px;
+	padding-right: 4px;
+	width: 100%;
+}
+
+.wf_listheading {
+	background-color: #d0daea;
+  	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+.wf_listevenrow {
+	background-color: #f0f0f0;
+}
+
+.wf_listevenrow td {
+	white-space: nowrap;
+}
+
+.wf_listevenrow:hover {
+	background-color: #DDDDDD;
+}
+
+.wf_listoddrow {
+	background-color: #ffffff;
+}
+
+.wf_listoddrow td{
+	white-space: nowrap;
+}
+
+.wf_listoddrow:hover {
+	background-color: #DDDDDD;
+}
+
+.wf_listlink {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+  	font-weight: normal;
+}
+
+.wf_listtext {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+  	font-weight: normal;
+}
 /*TabBar*/
-.wf_tabbarmainarea {	padding: 8px;}.wf_tabbarbuttonselected {	border-top: 1px solid #848284;	border-left: 1px solid #848284;	border-bottom: 1px solid #FFFFFF;	border-right: 1px solid #FFFFFF;	padding: 2px 4px 4px 4px;	vertical-align: middle;	text-align: center;	margin:0px;	width: 100px;	/*background-color: #E6E3D2;*/	background-color: #DDD8C4;  	font-weight: bold;	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 11px;	color: #ffffff;}.wf_tabbarbuttonselected a {	color:white;}.wf_tabbarbuttondeselected {	border-top: 1px solid #FFFFFF;	border-left: 1px solid #FFFFFF;	border-bottom: 1px solid #848284;	border-right: 1px solid #848284;	padding: 2px 4px 4px 4px;	vertical-align: middle;	text-align: center;	margin:0px;	width: 100px;	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 11px;}.wf_viewmenu {	border-spacing: 1px;	padding: 3px;	width: 100%;}.wf_viewmenubuttonselected {	border-top: 1px solid #848284;	border-left: 1px solid #848284;	border-bottom: 1px solid #FFFFFF;	border-right: 1px solid #FFFFFF;	background-color: #DDD8C4;	padding: 4px 4px 4px 15px;	vertical-align: middle;	margin:0px;	color: #ffffff;}.wf_viewmenubuttondeselected a {	color: black;  	font-weight: normal;}.wf_viewmenubuttondeselected {	border-top: 1px solid #FFFFFF;	border-left: 1px solid #FFFFFF;	border-bottom: 1px solid #848284;	border-right: 1px solid #848284;	padding: 4px 4px 4px 15px;	vertical-align: middle;	margin:0px;}.wf_panel {	border-spacing: 0px;	padding: 0px;}.wf_paneltable {	border-spacing: 2px;	padding: 0px;	width: 100%;}.wf_inputcomponentrow td {	background-color: #CCCCCC;	padding: 5px;}.wf_inputheaderrow td {  	font-weight: bold;  	color:blue;	padding-left: 5px;	border: 1px dotted #FFFFFF;}.wf_inputcomponent {	font-family: arial;	font-size: 8pt;	color: #000000;	text-align: justify;	border: 1 solid #000000;}.wf_selectonemenu {	font-family: arial;	font-size:8pt;	color:#000000;	text-align: justify; } .wf_button { 	color: #000000;	font-size: 10px;	font-family: Verdana,Arial,Helvetica,sans-serif;	font-weight: normal;	border-width: 1px;	border-style: solid;	border-color: #000000; }.wf_errormessages {	padding: 6px;}.wf_errortext {	color: #ff0000;}.wf_bannerbox {	background-color: #000000;	width: 100%;	height: 24px;	margin:0px;}.wf_bannerimg {	/*src: url("http://idega.is/iw_cache/585_idega_logo.gif");*/	/*** float: right; ***/	position: absolute;	left:500; top:0;	}.wf_bannertext {	font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 12px;	text-decoration: none;	color: #FFFFFF;	position: absolute;	left:20; top:3;	}.wf_bannertext i {	color: #FF9900;	font-style: italic;}.wf_valign_middle {	vertical-align: middle;}
+
+.wf_tabbarmainarea {
+	padding: 1.5em;
+	background: #B0B29D;
+	min-height: 300px;
+	border-top: 2em solid #FFF3B3;
+}
+
+.wf_tabbar {
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	bottom: -1px;
+	left: 20px;
+	width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
+}
+
+.wf_tabbarbuttonselected a {
+	color:white;
+}
+
+.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected
+{
+	display: inline;
+	list-style: none;
+}
+
+
+.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a
+{
+	width: 8em;
+	display: block;
+	float: left;
+	padding: 4px 0;
+	margin-top: 1px;
+	margin-right: 2px;
+	text-align: center;
+	font-family: tahoma;
+	font-size: 85%;
+	text-decoration: none;
+	color: #333;
+}
+
+.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a:hover 
+{
+	border: 1px solid #666;
+	border-bottom: none;
+	background: #ECE9D8;
+	padding-bottom: 6px;
+	margin-top: 0;
+}
+
+.wf_tabbarbuttondeselected a 
+{
+	background: #DBD7C1;
+	border: 1px solid #AAA;
+	border-bottom: none;
+ 
+}
+
+.wf_tabbarbuttondeselected a:hover
+{
+	margin-top: 0;
+	border-color: #666;
+	background: #ECE9D8;
+	padding-bottom: 5px;
+}
+
+/*End TabBar*/
+
+.wf_viewmenu {
+	border-spacing: 1px;
+	padding: 3px;
+	width: 100%;
+}
+
+.wf_viewmenubuttonselected {
+	border-top: 1px solid #848284;
+	border-left: 1px solid #848284;
+	border-bottom: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	background-color: #DDD8C4;
+	padding: 4px 4px 4px 15px;
+	vertical-align: middle;
+	margin:0px;
+	color: #ffffff;
+}
+
+.wf_viewmenubuttondeselected a {
+	color: black;
+  	font-weight: normal;
+}
+
+.wf_viewmenubuttondeselected {
+	border-top: 1px solid #FFFFFF;
+	border-left: 1px solid #FFFFFF;
+	border-bottom: 1px solid #848284;
+	border-right: 1px solid #848284;
+	padding: 4px 4px 4px 15px;
+	vertical-align: middle;
+	margin:0px;
+}
+
+.wf_panel {
+	border-spacing: 0px;
+	padding: 0px;
+}
+
+.wf_paneltable {
+	border-spacing: 2px;
+	padding: 0px;
+	width: 100%;
+}
+
+.wf_inputcomponentrow td {
+	background-color: #CCCCCC;
+	padding: 5px;
+}
+
+.wf_inputheaderrow td {
+  	font-weight: bold;
+  	color:blue;
+	padding-left: 5px;
+	border: 1px dotted #FFFFFF;
+}
+
+.wf_inputcomponent {
+	font-family: arial;
+	font-size: 8pt;
+	color: #000000;
+	text-align: justify;
+	border: 1 solid #000000;
+}
+
+.wf_selectonemenu {
+	font-family: arial;
+	font-size:8pt;
+	color:#000000;
+	text-align: justify; 
+}
+ 
+.wf_button { 
+	color: #000000;
+	font-size: 10px;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-weight: normal;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000; 
+}
+
+.wf_errormessages {
+	padding: 6px;
+}
+
+.wf_errortext {
+	color: #ff0000;
+}
+
+.wf_bannerbox {
+	background-color: #000000;
+	width: 100%;
+	height: 24px;
+	margin:0px;
+}
+
+.wf_bannerimg {
+	/*src: url("http://idega.is/iw_cache/585_idega_logo.gif");*/
+	/*** float: right; ***/
+	position: absolute;
+	left:500; top:0;	
+}
+
+.wf_bannertext {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration: none;
+	color: #FFFFFF;
+	position: absolute;
+	left:20; top:3;	
+}
+
+.wf_bannertext i {
+	color: #FF9900;
+	font-style: italic;
+}
+
+.wf_valign_middle {
+	vertical-align: middle;
+}
+
+/*Bezel*/
+
+.wf_bezel
+{
+	margin: 10px;
+	border: 1px solid #848284;
+	padding: 30px;
+        background-color:#C8C7BA;
+}
+
+/*Bezel*/
 
 
 
 /*Workspace*/
 
 .wf_workspacebar{
-	background-color: black;
+	background-color: #666666;
 	color: white;
+	position: absolute;
+	top: 0px;
+	left: 0;
+	width: 55em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
+	width: 100%;
+	height: 4em;
 }
 
 .wf_appdecor{
+	margin: 0.5em;
 	color: white;
-	font-size: 12px;
+	font-size: 11px;
 	display:inline;
+}
+
+.wf_appdecor i{
+	color: orange;
 }
 
 .wf_login{
+	margin: 20px;
 	color: white;
 	font-size: 12px;
-	float:right;
 	display:inline;
 }
-
-.wf_tabbarbuttonselected{
-	display:inline;
-}
-.wf_tabbarbuttondeselected{
-	display:inline;
-}
-

@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.5 2004/06/30 13:35:21 anders Exp $
+ * $Id: WFList.java,v 1.6 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -22,6 +22,7 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
+import com.idega.util.RenderUtils;
 import com.idega.webface.event.WFListNavigationEvent;
 import com.idega.webface.event.WFListNavigationListener;
 
@@ -29,10 +30,10 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFList extends HtmlDataTable implements ActionListener {
 	
@@ -90,6 +91,12 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		return null;
 	}
 		
+	/* (non-Javadoc)
+	 * @see javax.faces.component.UIComponent#getRendererType()
+	 */
+	public String getRendererType() {
+		return null;
+	}
 	/**
 	 * Returns true if the list navigation is shown.
 	 */
@@ -333,14 +340,14 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		}
 		
 		if (currentPage > 1) {
-			WFUtil.renderFacet(context, this, "navigationlink_previous");
+			RenderUtils.renderFacet(context, this, "navigationlink_previous");
 			out.write(" ");
 		}
 		for (int i = 1; i <= nrOfPages && i <= MAX_NAVIGATION_LINKS; i++) {
 			if ((i + pageOffset) == currentPage) {
 				out.write(String.valueOf(i + pageOffset));
 			} else {
-				WFUtil.renderFacet(context, this, "navigationlink_goto" + i);
+				RenderUtils.renderFacet(context, this, "navigationlink_goto" + i);
 			}
 			out.write("&nbsp;");
 		}
@@ -350,7 +357,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		out.writeAttribute("valign", "middle", null);
 		out.writeAttribute("class", "wf_smalltext", null);
 		if (currentPage < nrOfPages) {
-			WFUtil.renderFacet(context, this, "navigationlink_next");
+			RenderUtils.renderFacet(context, this, "navigationlink_next");
 		}
 		out.endElement("td");
 		out.endElement("tr");

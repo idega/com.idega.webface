@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewMenu.java,v 1.5 2004/06/30 13:35:21 anders Exp $
+ * $Id: WFViewMenu.java,v 1.6 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,10 +23,10 @@ import javax.faces.event.ActionListener;
 /**
  * Menu with buttons for switching the view root. 
  * <p>
- * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFViewMenu extends WFContainer implements ActionListener {
 	
@@ -150,13 +150,16 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 		super.encodeBegin(context);
 		
 		String viewId = context.getViewRoot().getViewId();
-		viewId = viewId.substring(0, viewId.indexOf('.')) + ".jsf";
-		for (Iterator iter = _buttonIds.iterator(); iter.hasNext();) {
-			String buttonId = (String) iter.next();
-			String buttonViewId = (String) getAttributes().get("view_" + buttonId);
-			if (buttonViewId.equals(viewId)) {
-				_selectedButtonId = buttonId;
-				break;
+		int indexOfDot = viewId.indexOf('.');
+		if(indexOfDot!=-1){
+			viewId = viewId.substring(0, indexOfDot) + ".jsf";
+			for (Iterator iter = _buttonIds.iterator(); iter.hasNext();) {
+				String buttonId = (String) iter.next();
+				String buttonViewId = (String) getAttributes().get("view_" + buttonId);
+				if (buttonViewId.equals(viewId)) {
+					_selectedButtonId = buttonId;
+					break;
+				}
 			}
 		}
 		

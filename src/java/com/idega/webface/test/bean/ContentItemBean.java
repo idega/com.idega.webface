@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.3 2004/07/20 23:20:26 tryggvil Exp $
+ * $Id: ContentItemBean.java,v 1.4 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -27,13 +27,13 @@ import com.idega.webface.WFUtil;
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/07/20 23:20:26 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 
-public class ContentItemBean implements Serializable {
+public class ContentItemBean implements Serializable, ContentItem {
 	
 	private int _contentItemId = 0;
 	private Locale _locale = null;
@@ -46,7 +46,7 @@ public class ContentItemBean implements Serializable {
 	private String _pendingLocaleId = null;
 	private String _requestedStatus = null;
 	
-	private ContentItemCaseBean _caseBean = null;
+	private ContentItemCase _caseBean = null;
 	
 	private Map _itemFields = null;
 	private Map _categories = null;
@@ -152,7 +152,7 @@ public class ContentItemBean implements Serializable {
 		_selectedAvailableCategories = null;
 		_selectedCategories = null;
 		
-		setStatus(ContentItemCaseBean.STATUS_NEW);
+		setStatus(ContentItemCase.STATUS_NEW);
 	}
 
 	// Locale dependent attributes
@@ -194,13 +194,13 @@ public class ContentItemBean implements Serializable {
 	/**
 	 * Returns the item field with the specified key. 
 	 */
-	public ContentItemFieldBean getItemField(String key) {
+	public ContentItemField getItemField(String key) {
 		if (_itemFields == null) {
 			_itemFields = new HashMap();
 		}
-		ContentItemFieldBean field = (ContentItemFieldBean) _itemFields.get(key + getLocaleId());
+		ContentItemField field = (ContentItemField) _itemFields.get(key + getLocaleId());
 		if (field == null) {
-			field = new ContentItemFieldBean(-1, -1, key, "", 0, ContentItemFieldBean.FIELD_TYPE_STRING);
+			field = new ContentItemFieldBean(-1, -1, key, "", 0, ContentItemField.FIELD_TYPE_STRING);
 			setItemField(key + getLocaleId(), field);
 		}
 		return field;
@@ -209,7 +209,7 @@ public class ContentItemBean implements Serializable {
 	/**
 	 *Sets the item field with the specified key. 
 	 */
-	public void setItemField(String key, ContentItemFieldBean field) {
+	public void setItemField(String key, ContentItemField field) {
 		if (_itemFields == null) {
 			_itemFields = new HashMap();
 		}
@@ -243,9 +243,9 @@ public class ContentItemBean implements Serializable {
 		if (_itemFields == null) {
 			_itemFields = new HashMap();
 		}
-		ContentItemFieldBean field = getItemField(key);
+		ContentItemField field = getItemField(key);
 		if (field == null) {
-			field = new ContentItemFieldBean(-1, -1, key, value, 0, ContentItemFieldBean.FIELD_TYPE_STRING);
+			field = new ContentItemFieldBean(-1, -1, key, value, 0, ContentItemField.FIELD_TYPE_STRING);
 		} else {
 			field.setValue(value);
 		}
@@ -255,14 +255,14 @@ public class ContentItemBean implements Serializable {
 	/**
 	 * Returns the case for this content item.
 	 */
-	public ContentItemCaseBean getCase() {
+	public ContentItemCase getCase() {
 		return _caseBean;
 	}
 	
 	/**
 	 * Sets the case for this content item. 
 	 */
-	public void setCase(ContentItemCaseBean caseBean) {
+	public void setCase(ContentItemCase caseBean) {
 		_caseBean = caseBean;
 	}
 	

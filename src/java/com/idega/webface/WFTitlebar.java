@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import com.idega.util.RenderUtils;
 
 /**
  * WFTitlebar //TODO: tryggvil Describe class
@@ -18,6 +19,9 @@ import javax.faces.context.ResponseWriter;
  */
 public class WFTitlebar extends WFContainer implements Serializable 
 {
+	public static String RENDERER_TYPE="wf_titlebar";
+	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
+	
 	private boolean viewWithTitleBar=true;
 
 	private WFToolbar defaultToolbar;
@@ -29,7 +33,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	private boolean valueRefTitle = false;
 	
 	public WFTitlebar(){
-		setStyleClass("wf_titlebar");
+		setStyleClass(DEFAULT_STYLE_CLASS);
 		setIconImageURI("icons/view_default.gif");
 	}
 	
@@ -174,9 +178,11 @@ public class WFTitlebar extends WFContainer implements Serializable
 		this.iconImageURI = iconImageURI;
 	}
 	
-	/**
-	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
-	 */
+	public String getRendererType(){
+		return RENDERER_TYPE;
+	}
+	
+	/*
 	public void encodeBegin(FacesContext context) throws IOException {
 		ResponseWriter out = context.getResponseWriter();
 		super.encodeBegin(context);
@@ -188,7 +194,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		out.endElement("td");
 		out.startElement("td", null);
 		out.writeAttribute("width", "100%", null);
-		WFUtil.renderFacet(context, this, "title");
+		RenderUtils.renderFacet(context, this, "title");
 //		out.startElement("font", null);
 //		out.writeAttribute("class", "wf_titlebartext", null);
 //		out.write(getTitleText());
@@ -199,23 +205,18 @@ public class WFTitlebar extends WFContainer implements Serializable
 		out.write("");
 		renderFacet(context, "toolbar");
 	}
-	
-	/**
-	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
-	 */
+
 	public void encodeChildren(FacesContext context) throws IOException {		
 		super.encodeChildren(context);
 	}
 	
-	/**
-	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
-	 */
+
 	public void encodeEnd(FacesContext context) throws IOException {
 		ResponseWriter out = context.getResponseWriter();
 		out.endElement("td");
 		out.endElement("tr");
 		super.encodeEnd(context);
-	}
+	}*/
 	
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
@@ -238,7 +239,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		valueRefTitle = ((Boolean) values[2]).booleanValue();
 	}
 
-	protected String getMarkupElementType(){
-		return "table";
-	}
+	//protected String getMarkupElementType(){
+	//	return "table";
+	//}
 }

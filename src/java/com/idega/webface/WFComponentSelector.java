@@ -1,5 +1,5 @@
 /*
- * $Id: WFComponentSelector.java,v 1.1 2004/06/08 16:12:48 anders Exp $
+ * $Id: WFComponentSelector.java,v 1.2 2004/10/19 11:09:29 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -21,10 +21,10 @@ import javax.faces.context.ResponseWriter;
 /**
  * Container holding child components of which only selected children will be rendered. 
  * <p>
- * Last modified: $Date: 2004/06/08 16:12:48 $ by $Author: anders $
+ * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFComponentSelector extends WFContainer {
 	
@@ -64,6 +64,10 @@ public class WFComponentSelector extends WFContainer {
 	 */
 	public String getDividerText() {
 		return _dividerText;
+	}
+	
+	public String getRendererType(){
+		return null;
 	}
 	
 	/**
