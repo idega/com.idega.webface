@@ -317,12 +317,16 @@ public class WFBlock extends WFContainer {
         */
     }
 
-    
+    /**
+     * Sets so that the "mainArea" or area below the title and toolbars doesn't include
+     *  any margins between the borders and the content of this block.
+     */
     public void setNoMarginsOnMainArea(){
     		setMainAreaStyleAttributes("margin:0px;padding:0px;");
     }
 
 	/**
+	 * Sets all style attributes for the mainArea container
 	 * @param string
 	 */
 	public void setMainAreaStyleAttributes(String styleString) {
@@ -330,6 +334,7 @@ public class WFBlock extends WFContainer {
 	}
     
 	/**
+	 * Gets all set style attributes for the mainArea container
 	 * @param string
 	 */
 	public String getMainAreaStyleAttributes() {
