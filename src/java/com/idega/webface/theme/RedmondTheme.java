@@ -9,7 +9,7 @@
 package com.idega.webface.theme;
 
 import javax.faces.render.RenderKit;
-import com.idega.idegaweb.GlobalIncludeManager;
+import com.idega.idegaweb.include.GlobalIncludeManager;
 
 
 /**

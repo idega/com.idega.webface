@@ -12,7 +12,7 @@ import javax.faces.FactoryFinder;
 import javax.faces.context.FacesContext;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
-import com.idega.idegaweb.GlobalIncludeManager;
+import com.idega.idegaweb.include.GlobalIncludeManager;
 import com.idega.webface.renderkit.WFRenderKit;
 
 
