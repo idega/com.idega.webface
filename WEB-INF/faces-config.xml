@@ -44,12 +44,6 @@
 	     </renderer>
 	</render-kit>
 
-
-	<component>
-		<component-type>WorkspacePage</component-type>
-		<component-class>com.idega.webface.workspace.WorkspacePage</component-class>
-	</component>
-
 	<component>
 		<component-type>WFBlock</component-type>
 		<component-class>com.idega.webface.WFBlock</component-class>
