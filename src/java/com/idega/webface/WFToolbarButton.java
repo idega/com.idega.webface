@@ -179,6 +179,10 @@ public class WFToolbarButton extends UICommand {
 		if (formName == null) {
 			throw new IOException("Toolbars should be nested in a UIForm !");
 		}
+		if (toolTip != null) {
+			out.writeAttribute("alt", toolTip, null);
+			out.writeAttribute("title", toolTip, null);
+		}
 		if (getPressedImageURI() != null) {
 			String onmousedown = "this.src='" + getPressedImageURI() +"'";
 			out.writeAttribute("onmousedown", onmousedown, null);
