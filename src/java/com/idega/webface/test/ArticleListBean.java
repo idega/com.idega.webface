@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleListBean.java,v 1.1 2004/05/27 12:36:56 anders Exp $
+ * $Id: ArticleListBean.java,v 1.2 2004/06/07 07:50:56 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,6 +14,7 @@ import java.io.Serializable;
 import javax.faces.component.UIColumn;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
 import com.idega.webface.WFUtil;
@@ -21,18 +22,20 @@ import com.idega.webface.bean.WFListBean;
 import com.idega.webface.model.WFDataModel;
 
 /**
- * Presentation bean for article lists.   
+ * Bean for article list rows.   
  * <p>
- * Last modified: $Date: 2004/05/27 12:36:56 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/07 07:50:56 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class ArticleListBean extends WFListBean implements Serializable {
 	
 	private WFDataModel _dataModel = null;
+	private ActionListener _articleLinkListener = null;
 
+	private String _id = null;
 	private String _headline = null;
 	private String _published = null;
 	private String _author = null;
@@ -89,11 +92,19 @@ public class ArticleListBean extends WFListBean implements Serializable {
 	 * Default constructor.
 	 */
 	public ArticleListBean() {}
+
+	/**
+	 * Constructs a new article list bean with the specified article link listener.
+	 */
+	public ArticleListBean(ActionListener l) {
+		setArticleLinkListener(l);
+	}
 	
 	/**
 	 * Constructs a new article list bean with the specified parameters. 
 	 */
-	public ArticleListBean(String headline, String published, String author, String status) {
+	public ArticleListBean(String id, String headline, String published, String author, String status) {
+		_id = id;
 		_headline = headline;
 		_published = published;
 		_author = author;
@@ -101,17 +112,22 @@ public class ArticleListBean extends WFListBean implements Serializable {
 		_testStyle = "";
 	}
 		
+	public String getId() { return _id; }
 	public String getHeadline() { return _headline; }
 	public String getPublished() { return _published; }
 	public String getAuthor() { return _author; }
 	public String getStatus() { return _status; }
 	public String getTestStyle() { return _testStyle; }
 
+	public void setId(String s) { _id = s; }
 	public void setHeadline(String s) { _headline = s; }
 	public void setPublished(String s) { _published = s; }
 	public void setAuthor(String s) { _author = s; }
 	public void setStatus(String s) { _status = s; }
 	public void setTestStyle(String s) { _testStyle = s; }
+	
+	public ActionListener getArticleLinkListener() { return _articleLinkListener; }
+	public void setArticleLinkListener(ActionListener l) { _articleLinkListener = l; }
 	
 	/**
 	 * @see com.idega.webface.bean.WFListBean#updateDataModel() 
@@ -129,7 +145,7 @@ public class ArticleListBean extends WFListBean implements Serializable {
 			maxRow = availableRows;
 		}
 		for (int i = start; i < maxRow; i++) {
-			ArticleListBean a = new ArticleListBean(testHeadlines[i], testPublished[i], testAuthors[i], testStatus[i]);
+			ArticleListBean a = new ArticleListBean(String.valueOf(i), testHeadlines[i], testPublished[i], testAuthors[i], testStatus[i]);
 			if (i == 5) {
 				// set test style red
 				a.setTestStyle("color:red");
@@ -153,17 +169,20 @@ public class ArticleListBean extends WFListBean implements Serializable {
 			columns[i] = c;
 		}
 		
-		String styleAttr =  var + "." + "testStyle";
-		HtmlCommandLink l = WFUtil.getListLinkVB("headline", var + "." + "headline");
+		String styleAttr =  var + ".testStyle";
+		HtmlCommandLink l = WFUtil.getListLinkVB(var + ".headline");
+		WFUtil.setValueBinding(l, "id", var + ".id");
 		WFUtil.setValueBinding(l, "style", styleAttr);
+		l.addActionListener(_articleLinkListener);
+		WFUtil.addParameterVB(l, "id", var + ".id");
 		columns[0].getChildren().add(l);
-		HtmlOutputText t = WFUtil.getListTextVB(var + "." + "published");
+		HtmlOutputText t = WFUtil.getListTextVB(var + ".published");
 		WFUtil.setValueBinding(t, "style", styleAttr);
 		columns[1].getChildren().add(t);
-		t = WFUtil.getListTextVB(var + "." + "author");
+		t = WFUtil.getListTextVB(var + ".author");
 		WFUtil.setValueBinding(t, "style", styleAttr);
 		columns[2].getChildren().add(t);
-		t = WFUtil.getListTextVB(var + "." + "status");
+		t = WFUtil.getListTextVB(var + ".status");
 		WFUtil.setValueBinding(t, "style", styleAttr);
 		columns[3].getChildren().add(t);		
 		
