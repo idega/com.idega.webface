@@ -28,6 +28,7 @@ public class WFToolbarButton extends UICommand {
 	private String hoverImageURI;
 	private String inactiveImageURI;
 	private String pressedImageURI;
+	private String styleClass;
 	
 	public WFToolbarButton() {
 		// Default contstructor, for JSF
@@ -142,6 +143,14 @@ public class WFToolbarButton extends UICommand {
 		this.toolTip = toolTip;
 	}
 
+	public void setStyleClass(String styleClass) {
+		this.styleClass = styleClass;
+	}
+	
+	public String getStyleClass() {
+		return styleClass;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -171,29 +180,36 @@ public class WFToolbarButton extends UICommand {
 		out.writeAttribute("name", buttonId, null);
 		out.writeAttribute("value", "false", null);		
 		out.endElement("input");
-		
-		out.startElement("img", null);
-		out.writeAttribute("src", getDefaultImageURI(), null);
-		out.writeAttribute("id", imageId, null);
+
 		String formName = determineFormName(this);
-		if (formName == null) {
-			throw new IOException("Toolbars should be nested in a UIForm !");
+		if (getDefaultImageURI() != null) {
+			out.startElement("img", null);
+			out.writeAttribute("src", getDefaultImageURI(), null);
+			out.writeAttribute("id", imageId, null);
+			if (formName == null) {
+				throw new IOException("Toolbars should be nested in a UIForm !");
+			}
+			if (toolTip != null) {
+				out.writeAttribute("alt", toolTip, null);
+				out.writeAttribute("title", toolTip, null);
+			}
+			if (getPressedImageURI() != null) {
+				String onmousedown = "this.src='" + getPressedImageURI() +"'";
+				out.writeAttribute("onmousedown", onmousedown, null);
+			}
+			String onmouseout = "document.forms['" + formName + "'].elements['" + buttonId + "'].value='';this.src='" + 
+					getDefaultImageURI() + "'";
+			out.writeAttribute("onmouseout", onmouseout, null);
+			out.endElement("img");
+		} else {
+			out.startElement("div", null);
+			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
+			"'].value='true';document.forms['" + formName + "'].submit();";
+			out.writeAttribute("onmouseup", onmouseup, null);
+			out.writeAttribute("class", styleClass, null);
+			System.out.println("Setting class = "+styleClass);
+			out.endElement("div");
 		}
-		if (toolTip != null) {
-			out.writeAttribute("alt", toolTip, null);
-			out.writeAttribute("title", toolTip, null);
-		}
-		if (getPressedImageURI() != null) {
-			String onmousedown = "this.src='" + getPressedImageURI() +"'";
-			out.writeAttribute("onmousedown", onmousedown, null);
-		}
-		String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
-				"'].value='true';document.forms['" + formName + "'].submit();";
-		out.writeAttribute("onmouseup", onmouseup, null);
-		String onmouseout = "document.forms['" + formName + "'].elements['" + buttonId + "'].value='';this.src='" + 
-				getDefaultImageURI() + "'";
-		out.writeAttribute("onmouseout", onmouseout, null);
-		out.endElement("img");
 	}
 		
 	/**
