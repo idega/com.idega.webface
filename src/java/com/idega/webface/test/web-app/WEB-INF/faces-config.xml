@@ -26,6 +26,11 @@
 		<component-class>com.idega.webface.test.ListArticlesPage</component-class>
 	</component>
 
+	<component>
+		<component-type>PreviewArticlePage</component-type>
+		<component-class>com.idega.webface.test.PreviewArticlePage</component-class>
+	</component>
+
 	<managed-bean>
 		<managed-bean-name>articleItemBean</managed-bean-name>
 		<managed-bean-class>com.idega.webface.test.ArticleItemBean</managed-bean-class>
@@ -34,6 +39,12 @@
 
 	<managed-bean>
 		<managed-bean-name>articleVersionItemBean</managed-bean-name>
+		<managed-bean-class>com.idega.webface.test.ArticleItemBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>previewArticleBean</managed-bean-name>
 		<managed-bean-class>com.idega.webface.test.ArticleItemBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
@@ -71,6 +82,12 @@
 	<managed-bean>
 		<managed-bean-name>fileUploadBean</managed-bean-name>
 		<managed-bean-class>com.idega.webface.test.FileUploadBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>relatedItemsListBean</managed-bean-name>
+		<managed-bean-class>com.idega.webface.test.CaseListBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	

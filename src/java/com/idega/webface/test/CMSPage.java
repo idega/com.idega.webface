@@ -1,5 +1,5 @@
 /*
- * $Id: CMSPage.java,v 1.3 2004/06/18 14:11:02 anders Exp $
+ * $Id: CMSPage.java,v 1.4 2004/06/23 13:23:43 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -32,15 +32,12 @@ import com.idega.webface.event.WFTaskbarListener;
 /**
  * Content management system test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public class CMSPage extends WFPage implements ActionListener, WFTaskbarListener, Serializable {
-
-	public final static String ARTICLE_LIST_BEAN_ID = "articleListBean";
-	public final static String CASE_LIST_BEAN_ID = "caseListBean";
+public class CMSPage extends WFPage implements  ManagedContentBeans, WFTaskbarListener, ActionListener, Serializable {
 	
 	private final static String P = "cms_page_"; // Parameter prefix
 	
@@ -65,8 +62,8 @@ public class CMSPage extends WFPage implements ActionListener, WFTaskbarListener
 	 * Creates the page content. 
 	 */
 	protected void createContent() {
-		boolean isArticleBeanUpdated = WFUtil.getBooleanValue(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "updated");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setUpdated", new Boolean(false));
+		boolean isArticleBeanUpdated = WFUtil.getBooleanValue(ARTICLE_ITEM_BEAN_ID, "updated");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setUpdated", new Boolean(false));
 		
 		WFUtil.invoke(ARTICLE_LIST_BEAN_ID, "setArticleLinkListener", this, ActionListener.class);
 		
@@ -85,6 +82,7 @@ public class CMSPage extends WFPage implements ActionListener, WFTaskbarListener
 	 */
 	protected UIComponent getMainTaskbar() {
 		WFTaskbar tb = new WFTaskbar();
+		tb.setMainAreaStyleClass(null);
 		tb.setId(MAIN_TASKBAR_ID);
 		tb.addButton(TASK_ID_CONTENT, "Content", getContentPerspective());
 		tb.addButton(TASK_ID_EDIT, "Edit", getEditPerspective());
@@ -171,20 +169,20 @@ public class CMSPage extends WFPage implements ActionListener, WFTaskbarListener
 		ArticleBlock ab = (ArticleBlock) tb.findComponent(ArticleBlock.ARTICLE_BLOCK_ID);
 		ab.setEditMode();
 
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "clear");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setLocaleId", "sv");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setHeadline", "headline");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setBody", id);
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setAuthor", "author");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setComment", "comment");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setDescription", "description");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setSource", "source");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "clear");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setLocaleId", "sv");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setHeadline", "headline");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setBody", id);
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setAuthor", "author");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setComment", "comment");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setDescription", "description");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setSource", "source");
 		if (link.getId().equals(ArticleListBean.ARTICLE_ID)) {
-			WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
 		} else {
-			WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_UNDER_REVIEW);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_UNDER_REVIEW);
 		}
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
 
 		ab.updateEditButtons();
 	}

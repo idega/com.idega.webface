@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleItemBean.java,v 1.4 2004/06/18 14:11:02 anders Exp $
+ * $Id: ArticleItemBean.java,v 1.5 2004/06/23 13:23:43 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,15 +11,16 @@ package com.idega.webface.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Bean for idegaWeb article content items.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 
 public class ArticleItemBean extends ContentItemBean implements Serializable {
@@ -28,6 +29,7 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 	
 	public final static String KEY_ERROR_HEADLINE_EMPTY = KP + "headline_empty";
 	public final static String KEY_ERROR_BODY_EMPTY = KP + "body_empty";
+	public final static String KEY_ERROR_PUBLISHED_FROM_DATE_EMPTY = KP + "published_from_date_empty";	
 	
 	private boolean _isUpdated = false;
 	private List _errorKeys = null;
@@ -104,6 +106,44 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 	}
 	
 	/**
+	 * Adds a related content item to this article item.
+	 */
+	public void addRelatedContentItem(Integer contentItemId) {
+		List l = getRelatedContentItems();
+		if (l == null) {
+			l = new ArrayList();
+		}
+		ContentItemFieldBean field = new ContentItemFieldBean();
+		field.setValue(contentItemId.toString());
+//		field.setFieldType(contentType);
+		field.setName("Content item..." + contentItemId);
+		field.setOrderNo(l.size());
+		l.add(field);
+		setRelatedContentItems(l);
+	}
+	
+	/**
+	 * Removes the related content item with the specified item id from this article item.
+	 */
+	public void removeRelatedContentItem(Integer contentItemId) {
+		String itemId = contentItemId.toString();
+		try {
+			List l = getRelatedContentItems();
+			for (Iterator iter = l.iterator(); iter.hasNext();) {
+				ContentItemFieldBean field = (ContentItemFieldBean) iter.next();
+				if (field.getValue().equals(itemId)) {
+					l.remove(field);
+					break;
+				}
+			}
+			for (int i = 0; i < l.size(); i++) {
+				ContentItemFieldBean field = (ContentItemFieldBean) l.get(i);
+				field.setOrderNo(i);
+			}
+		} catch (Exception e) {}
+	}
+	
+	/**
 	 * Returns localization keys for error messages.  
 	 */
 	public List getErrorKeys() {
@@ -133,6 +173,7 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 	public Boolean store() {
 		boolean storeOk = true;
 		clearErrorKeys();
+		
 		if (getHeadline().trim().equals("")) {
 			addErrorKey(KEY_ERROR_HEADLINE_EMPTY);
 			storeOk = false;
@@ -141,7 +182,17 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 			addErrorKey(KEY_ERROR_BODY_EMPTY);
 			storeOk = false;
 		}
-		// Store article item
+		if (getRequestedStatus().equals(ContentItemCaseBean.STATUS_PUBLISHED)) {
+			if (getCase().getPublishedFromDate() == null) {
+				addErrorKey(KEY_ERROR_PUBLISHED_FROM_DATE_EMPTY);
+				storeOk = false;
+			}
+		}
+		
+		if (storeOk) {
+			setStatus(getRequestedStatus());
+		}
+		
 		return new Boolean(storeOk);
 	}
 }

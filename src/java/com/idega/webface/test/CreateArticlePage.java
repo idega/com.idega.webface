@@ -1,5 +1,5 @@
 /*
- * $Id: CreateArticlePage.java,v 1.2 2004/06/18 14:11:02 anders Exp $
+ * $Id: CreateArticlePage.java,v 1.3 2004/06/23 13:23:43 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -18,10 +18,10 @@ import com.idega.webface.WFUtil;
 /**
  * Created article test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class CreateArticlePage extends CMSPage {
 
@@ -32,7 +32,7 @@ public class CreateArticlePage extends CMSPage {
 		add(WFUtil.getBannerBox());
 		add(getMainTaskbar());
 		
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "clear");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "clear");
 	}
 	
 	/**

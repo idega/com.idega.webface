@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbar.java,v 1.4 2004/06/08 16:14:47 anders Exp $
+ * $Id: WFTaskbar.java,v 1.5 2004/06/23 13:23:43 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,16 +29,17 @@ import com.idega.webface.event.WFTaskbarListener;
  * A perspective can be any component that is rendered when
  * its task bar button is pressed.   
  * <p>
- * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFTaskbar extends WFContainer implements ActionListener {
 	
 	private String _selectedButtonId = null;
 	private List _buttonIds = null;
 	private String _taskbarStyleClass = null;
+	private String _mainAreaStyleClass = null;
 	private String _buttonSelectedStyleClass = null;
 	private String _buttonDeselectedStyleClass = null;
 	
@@ -48,6 +49,7 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	public WFTaskbar() {
 		_buttonIds = new ArrayList();
 		setTaskbarStyleClass("wf_taskbar");
+		setMainAreaStyleClass("wf_taskbarmainarea");
 		setButtonSelectedStyleClass("wf_taskbarbuttonselected");
 		setButtonDeselectedStyleClass("wf_taskbarbuttondeselected");
 	}
@@ -57,6 +59,13 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	 */
 	public String getTaskbarStyleClass() {
 		return _taskbarStyleClass;
+	}
+
+	/**
+	 * Returns the css class for the main container perspective area.
+	 */
+	public String getMainAreaStyleClass() {
+		return _mainAreaStyleClass;
 	}
 
 	/**
@@ -85,6 +94,13 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	 */
 	public void setTaskbarStyleClass(String taskbarStyleClass) {
 		_taskbarStyleClass = taskbarStyleClass;
+	}
+
+	/**
+	 * Sets the css class for the perspecitive main area container. 
+	 */
+	public void setMainAreaStyleClass(String mainAreaStyleClass) {
+		_mainAreaStyleClass = mainAreaStyleClass;
 	}
 
 	/**
@@ -122,7 +138,10 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 			_selectedButtonId = buttonId;
 		}
 		getFacets().put("button_" + buttonId, button);
-		getFacets().put("perspective_" + buttonId, perspective);
+		WFContainer c = new WFContainer();
+		c.setStyleClass(getMainAreaStyleClass());
+		c.add(perspective);
+		getFacets().put("perspective_" + buttonId, c);
 		return button; 
 	}
 	
@@ -179,13 +198,14 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[6];
+		Object values[] = new Object[7];
 		values[0] = super.saveState(ctx);
 		values[1] = _selectedButtonId;
 		values[2] = _buttonIds;
 		values[3] = _taskbarStyleClass;
-		values[4] = _buttonSelectedStyleClass;
-		values[5] = _buttonDeselectedStyleClass;
+		values[4] = _mainAreaStyleClass;
+		values[5] = _buttonSelectedStyleClass;
+		values[6] = _buttonDeselectedStyleClass;
 		return values;
 	}
 	
@@ -198,8 +218,9 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 		_selectedButtonId = (String) values[1];
 		_buttonIds = (List) values[2];
 		_taskbarStyleClass = (String) values[3];
-		_buttonSelectedStyleClass = (String) values[4];
-		_buttonDeselectedStyleClass = (String) values[5];
+		_mainAreaStyleClass = (String) values[4];
+		_buttonSelectedStyleClass = (String) values[5];
+		_buttonDeselectedStyleClass = (String) values[6];
 	}
 	
 	/**

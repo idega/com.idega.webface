@@ -23,6 +23,7 @@ import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectManyListbox;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
@@ -217,6 +218,17 @@ public class WFUtil {
 	}
 	
 	/**
+	 * Returns an html date input with value binding.
+	 */
+	public static WFDateInput getDateInput(String id, String ref) {
+		WFDateInput di = new WFDateInput();
+		di.setId(id);
+		di.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		setInputStyle(di);
+		return di;
+	}
+	
+	/**
 	 * Returns an html text area component with value binding. 
 	 */
 	public static HtmlInputTextarea getTextArea(String id, String ref, String width, String height) {
@@ -276,6 +288,16 @@ public class WFUtil {
 		return b;
 	}
 	
+	/**
+	 * Returns the two specified components as one component group.
+	 */
+	public static HtmlPanelGroup group(UIComponent c1, UIComponent c2) {
+		HtmlPanelGroup g = new HtmlPanelGroup();
+		g.getChildren().add(c1);
+		g.getChildren().add(c2);
+		return g;
+	}
+
 	/**
 	 * Returns the idega page header banner. 
 	 */
@@ -453,10 +475,10 @@ public class WFUtil {
 			System.out.println("Resource bundle '" + bundleName + "' could not be found.");
 			return text;
 		}
-		String s = bundle.getString(localizationKey);
-		if (s != null) {
-			text = s;
-		}
+		try {
+			text = bundle.getString(localizationKey);
+		} catch (Exception e) {}
+		
 		return text;
 	}
 	
@@ -474,7 +496,7 @@ public class WFUtil {
 	/**
 	 * Returns a value by calling a method in a managed bean. 
 	 */
-	public static Object getObjectValue(String beanId, String methodName) {
+	public static Object getValue(String beanId, String methodName) {
 		ValueBinding vb = WFUtil.createValueBinding("#{" + beanId + "." + methodName + "}");
 		return vb.getValue(FacesContext.getCurrentInstance());		
 	}
@@ -482,15 +504,15 @@ public class WFUtil {
 	/**
 	 * Returns a string value by calling a method in a managed bean. 
 	 */
-	public static String getValue(String beanId, String methodName) {
-		return (String) getObjectValue(beanId, methodName);		
+	public static String getStringValue(String beanId, String methodName) {
+		return (String) getValue(beanId, methodName);		
 	}
 	
 	/**
 	 * Returns a boolean value by calling a method in a managed bean. 
 	 */
 	public static boolean getBooleanValue(String beanId, String methodName) {
-		return ((Boolean) getObjectValue(beanId, methodName)).booleanValue();		
+		return ((Boolean) getValue(beanId, methodName)).booleanValue();		
 	}
 	
 	/**

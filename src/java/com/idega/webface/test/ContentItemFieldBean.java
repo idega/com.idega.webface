@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemFieldBean.java,v 1.2 2004/06/18 14:11:02 anders Exp $
+ * $Id: ContentItemFieldBean.java,v 1.3 2004/06/23 13:23:43 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,10 +14,10 @@ import java.io.Serializable;
 /**
  * Bean for idegaWeb content item fields.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public class ContentItemFieldBean implements Serializable {
@@ -33,6 +33,8 @@ public class ContentItemFieldBean implements Serializable {
 	private int _orderNo = 0;
 	private String _fieldType = null;
 	
+	private String _name = null; // Transient, not stored in database 
+
 	/**
 	 * Default constructor.
 	 */
@@ -74,4 +76,6 @@ public class ContentItemFieldBean implements Serializable {
 	public void setFieldType(String s) { _fieldType = s; }
 	
 	public String getImageURI() { return "showimg.jsp?image_number=" + _orderNo; }
+	public String getName() { return _name; }
+	public void setName(String s) { _name = s; } 
 }

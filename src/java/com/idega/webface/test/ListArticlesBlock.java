@@ -1,5 +1,5 @@
 /*
- * $Id: ListArticlesBlock.java,v 1.1 2004/06/18 14:08:59 anders Exp $
+ * $Id: ListArticlesBlock.java,v 1.2 2004/06/23 13:23:43 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,6 +14,7 @@ import java.util.Date;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
@@ -23,7 +24,7 @@ import com.idega.webface.WFComponentSelector;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFErrorMessages;
 import com.idega.webface.WFList;
-import com.idega.webface.WFPanel;
+import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFDateConverter;
@@ -31,12 +32,12 @@ import com.idega.webface.convert.WFDateConverter;
 /**
  * Block for listing articles.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:08:59 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class ListArticlesBlock extends WFBlock implements ActionListener, Serializable {
+public class ListArticlesBlock extends WFBlock implements ManagedContentBeans, ActionListener, Serializable {
 
 	public final static String LIST_ARTICLES_BLOCK_ID = "list_articles_block";
 
@@ -99,37 +100,39 @@ public class ListArticlesBlock extends WFBlock implements ActionListener, Serial
 	private UIComponent getSearchPanel() {
 
 		String ref = LIST_ARTICLES_BEAN_ID + ".";
-		
-		WFPanel p = new WFPanel();		
-		p.setInputHeader("Published from:", 1, 1);		
-		p.setInputHeader("Published to:", 2, 1);		
-		p.setInputHeader("Category:", 3, 1);		
-		
-		HtmlInputText searchPublishedFromInput = WFUtil.getInputText(SEARCH_PUBLISHED_FROM_ID, ref + "searchPublishedFrom");		
-		searchPublishedFromInput.setSize(20);
-		searchPublishedFromInput.setConverter(new WFDateConverter());
-		p.setInput(searchPublishedFromInput, 1, 2);
-		
-		HtmlInputText searchPublishedToInput = WFUtil.getInputText(SEARCH_PUBLISHED_TO_ID, ref + "searchPublishedTo");		
-		searchPublishedToInput.setSize(20);
-		searchPublishedToInput.setConverter(new WFDateConverter());
-		p.setInput(searchPublishedToInput, 2, 2);
-		
-		HtmlSelectOneMenu searchCategoryMenu = WFUtil.getSelectOneMenu(SEARCH_CATEGORY_ID, ref + "categories", ref + "searchCategoryId");
-		p.setInput(searchCategoryMenu, 3, 2);
-		
-		p.set(WFUtil.getText(" "), 1, 3);
-		p.set(WFUtil.getButton(LIST_BUTTON_ID, "List", this), 1, 6);
 
+		WFContainer mainContainer = new WFContainer();
+		
 		WFErrorMessages em = new WFErrorMessages();
 		em.addErrorMessage(SEARCH_PUBLISHED_FROM_ID);
 		em.addErrorMessage(SEARCH_PUBLISHED_TO_ID);
-
-		WFContainer c = new WFContainer();
-		c.add(em);
-		c.add(p);
 		
-		return c;
+		mainContainer.add(em);
+		
+		HtmlPanelGrid p = WFPanelUtil.getFormPanel(3);		
+		p.getChildren().add(WFUtil.getText("Published from:"));		
+		p.getChildren().add(WFUtil.getText("Published to:"));		
+		p.getChildren().add(WFUtil.getText("Category:"));		
+		HtmlInputText searchPublishedFromInput = WFUtil.getInputText(SEARCH_PUBLISHED_FROM_ID, ref + "searchPublishedFrom");		
+		searchPublishedFromInput.setSize(20);
+		searchPublishedFromInput.setConverter(new WFDateConverter());
+		p.getChildren().add(searchPublishedFromInput);		
+		HtmlInputText searchPublishedToInput = WFUtil.getInputText(SEARCH_PUBLISHED_TO_ID, ref + "searchPublishedTo");		
+		searchPublishedToInput.setSize(20);
+		searchPublishedToInput.setConverter(new WFDateConverter());
+		p.getChildren().add(searchPublishedToInput);		
+		HtmlSelectOneMenu searchCategoryMenu = WFUtil.getSelectOneMenu(SEARCH_CATEGORY_ID, ref + "categories", ref + "searchCategoryId");
+		p.getChildren().add(searchCategoryMenu);
+		
+		mainContainer.add(p);
+		mainContainer.add(WFUtil.getText(" "));
+
+		p = WFPanelUtil.getPlainFormPanel(1);
+		p.getChildren().add(WFUtil.getButton(LIST_BUTTON_ID, "List", this));
+		
+		mainContainer.add(p);
+		
+		return mainContainer;
 	}
 	
 	/*
@@ -147,7 +150,7 @@ public class ListArticlesBlock extends WFBlock implements ActionListener, Serial
 	 * Returns the view article panel.
 	 */
 	private UIComponent getViewArticlePanel() {
-		String ref = ArticleBlock.ARTICLE_ITEM_BEAN_ID + ".";
+		String ref = ARTICLE_ITEM_BEAN_ID + ".";
 		WFContainer c = new WFContainer();
 		c.setStyleAttribute("padding", "10px");
 		c.setId(VIEW_ARTICLE_PANEL_ID);
@@ -183,14 +186,14 @@ public class ListArticlesBlock extends WFBlock implements ActionListener, Serial
 		
 		UIComponent link = event.getComponent();
 		String id = WFUtil.getParameter(link, "id");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "clear");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "clear");
 		ContentItemCaseBean caze = new ContentItemCaseBean();
 		caze.setPublishedFromDate(new Date());
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setCase", caze);		
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setLocaleId", "en");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setHeadline", "Electronic Reykjavik Up-And-Running (id = " + id + ")");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setTeaser", "Teaser");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setBody", "The first 24/7 service offered by Reykjavik Municipality as part of the Electronic Reykjavik " +
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setCase", caze);		
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setLocaleId", "en");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setHeadline", "Electronic Reykjavik Up-And-Running (id = " + id + ")");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setTeaser", "Teaser");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setBody", "The first 24/7 service offered by Reykjavik Municipality as part of the Electronic Reykjavik " +
 				"concept, was launched on May 25th., as planned. Now all applications and administration " +
 				"processes regarding Music school applications and internal student registration are " +
 				"implemented in the IdegaWeb eGOV solution.<br/><br/>" +
@@ -201,15 +204,15 @@ public class ListArticlesBlock extends WFBlock implements ActionListener, Serial
 				"For more information, you can access the website of Reykjavik <a href=\"#\">here</a>. " +
 				"Click on the icon for Electronic Reykjavik (Rafræn Reykjavik) or go directly to the portal " +
 				"<a href=\"#\">here</a>.");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setAuthor", "Author");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setComment", "Comment");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setDescription", "Description");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setLocaleId", "sv");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setHeadline", "Electronic Rykjavik klar");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setBody", "Den första 24-timmarsmyndigheten för Reykjaviks kommun igång.");
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setLocaleId", "en");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setAuthor", "Author");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setComment", "Comment");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setDescription", "Description");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setLocaleId", "sv");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setHeadline", "Electronic Rykjavik klar");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setBody", "Den första 24-timmarsmyndigheten för Reykjaviks kommun igång.");
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setLocaleId", "en");
 
 		WFComponentSelector cs = (WFComponentSelector) event.getComponent().getParent().getParent().getParent().findComponent(DISPLAY_SELECTOR_ID);
 		cs.setSelectedId(LIST_PANEL_ID, false);

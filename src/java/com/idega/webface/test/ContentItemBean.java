@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.4 2004/06/18 14:11:02 anders Exp $
+ * $Id: ContentItemBean.java,v 1.5 2004/06/23 13:23:43 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,10 +23,10 @@ import java.util.Map;
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 
 public class ContentItemBean implements Serializable {
@@ -40,6 +40,7 @@ public class ContentItemBean implements Serializable {
 	private int _createdByUserId = 0;
 
 	private String _pendingLocaleId = null;
+	private String _requestedStatus = null;
 	
 	private ContentItemCaseBean _caseBean = null;
 	
@@ -47,6 +48,7 @@ public class ContentItemBean implements Serializable {
 	private Map _categories = null;
 	private Map _mainCategoryIds = null;
 	private Map _versionIds = null;
+	private Map _locales = null;
 
 	private Map _allCategories = null;
 	private Map _allLocales = null;
@@ -80,7 +82,7 @@ public class ContentItemBean implements Serializable {
 		_createdByUserId = createdByUserId;
 		
 		if (_locale == null) {
-			_locale = new Locale("sv");
+			setLocale(new Locale("sv"));
 		}
 		
 		setVersionId(versionId);
@@ -96,23 +98,35 @@ public class ContentItemBean implements Serializable {
 	public int getCreatedByUserId() { return _createdByUserId; }
 
 	public void setContentItemId(int id) { _contentItemId = id; } 
-	public void setLocale(Locale l) { _locale = l; }
-	public void setLocaleId(String localeId) { _locale = new Locale(localeId); }
+	public void setLocaleId(String localeId) { setLocale(new Locale(localeId)); }
 	public void setName(String s) { _name = s; }
 	public void setDescription(String s) { _description = s; }
 	public void setItemType(String s) { _itemType = s; }
 	public void setCreatedTimestamp(Date d) { _createdTimestamp = d; }
 	public void setCreatedByUserId(int id) { _createdByUserId = id; }
 	
+	public void setLocale(Locale locale) {
+		_locale = locale;
+		if (_locales == null) {
+			_locales = new HashMap();
+		}
+		_locales.put(locale.getLanguage(), locale);
+	}
+	
+	public Map getLocales() { return _locales; }
+	
 	public String getPendingLocaleId() { return _pendingLocaleId != null ? _pendingLocaleId : _locale.getLanguage(); }
 	public void setPendingLocaleId(String localeId) { _pendingLocaleId = localeId; }
+
+	public String getRequestedStatus() { return _requestedStatus; }
+	public void setRequestedStatus(String requestedStatus) { _requestedStatus = requestedStatus; }
 
 	/**
 	 * Clears all attributes for this bean.
 	 */
 	public void clear() {
 		_contentItemId = 0;
-		_locale = Locale.getDefault();
+		setLocale(Locale.getDefault());
 		_name = null;
 		_description = null;
 		_itemType = null;
@@ -409,7 +423,7 @@ public class ContentItemBean implements Serializable {
 	 */
 	public void updateLocale() {
 		if (_pendingLocaleId != null) {
-			_locale = new Locale(_pendingLocaleId);
+			setLocale(new Locale(_pendingLocaleId));
 			_pendingLocaleId = null;
 		}
 	}

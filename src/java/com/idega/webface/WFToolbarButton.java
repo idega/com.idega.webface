@@ -145,6 +145,7 @@ public class WFToolbarButton extends UICommand {
 		ResponseWriter out = context.getResponseWriter();
 
 		String buttonId = getClientId(context);
+		String imageId = buttonId + "_img";
 		
 		out.startElement("input", null);
 		out.writeAttribute("id", buttonId, null);
@@ -155,12 +156,21 @@ public class WFToolbarButton extends UICommand {
 		
 		out.startElement("img", null);
 		out.writeAttribute("src", getDefaultImageURI(), null);
+		out.writeAttribute("id", imageId, null);
 		String formName = determineFormName(this);
 		if (formName == null) {
 			throw new IOException("Toolbars should be nested in a UIForm !");
 		}
-		String onmouseup = "setHiddenField('" + buttonId + "','true'); submitForm('" + formName + "');";
+		if (getPressedImageURI() != null) {
+			String onmousedown = "this.src='" + getPressedImageURI() +"'";
+			out.writeAttribute("onmousedown", onmousedown, null);
+		}
+		String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
+				"'].value='true';document.forms['" + formName + "'].submit();";
 		out.writeAttribute("onmouseup", onmouseup, null);
+		String onmouseout = "document.forms['" + formName + "'].elements['" + buttonId + "'].value='';this.src='" + 
+				getDefaultImageURI() + "'";
+		out.writeAttribute("onmouseout", onmouseout, null);
 		out.endElement("img");
 	}
 		

@@ -1,5 +1,5 @@
 /*
- * $Id: WFPanelUtil.java,v 1.2 2004/06/18 14:11:02 anders Exp $
+ * $Id: WFPanelUtil.java,v 1.3 2004/06/23 13:23:43 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,10 +14,10 @@ import javax.faces.component.html.HtmlPanelGrid;
 /**
  * Utility class for creating default application panels.
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFPanelUtil {
 
@@ -33,24 +33,22 @@ public class WFPanelUtil {
 	}
 
 	/**
-	 * Returns an application two columns main panel. 
+	 * Returns a form panel with css style for alternating header and input rows. 
 	 */
-	public static HtmlPanelGrid getFormPanel(int columns, int rows) {
+	public static HtmlPanelGrid getFormPanel(int columns) {
+		HtmlPanelGrid p = getPlainFormPanel(columns);
+		String rowClasses = "wf_inputheaderrow,wf_inputcomponentrow";
+		p.setRowClasses(rowClasses); // Note: rowClasses not implemented in myFaces grid renderer (2004-05-28)
+		return p;
+	}
+
+	/**
+	 * Returns a plain form panel without css style for rows. 
+	 */
+	public static HtmlPanelGrid getPlainFormPanel(int columns) {
 		HtmlPanelGrid p = new HtmlPanelGrid();
 		p.setColumns(columns);
-		p.setStyleClass("wf_formpanel");
-		String rowClasses = "";
-		for (int i = 0; i < rows; i++) {
-			if (i % 2 == 0) {
-				rowClasses += "wf_inputheaderrow";
-			} else {
-				rowClasses += "wf_inputcomponentrow";
-			}
-			if (i != rows - 1) {
-				rowClasses += ",";
-			}
-		}
-		p.setRowClasses(rowClasses); // Note: rowClasses not implemented in myFaces grid renderer (2002-05-28)
+		p.setStyleClass("wf_paneltable");
 		return p;
 	}
 }
