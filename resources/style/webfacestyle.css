@@ -143,6 +143,39 @@
         text-align:left;
 }
 
+.wf_listheaderlink {
+	background-color: #ffffff;
+  	font-weight: bold;
+	font-size: 11px;
+        color:#4a4a4a;
+        padding-bottom:4px;
+        padding-top:4px;
+        text-align:left;
+        text-decoration:underline;
+}
+
+.wf_listheaderlink_clicked {
+	background-color: #ffffff;
+  	font-weight: bold;
+	font-size: 11px;
+        color: #7b4040;
+        padding-bottom:4px;
+        padding-top:4px;
+        text-align:left;
+        text-decoration:underline;
+}
+
+.wf_listheaderlink_clicked_descending {
+	background-color: #ffffff;
+  	font-weight: bold;
+	font-size: 11px;
+        color: #3b6f44;
+        padding-bottom:4px;
+        padding-top:4px;
+        text-align:left;
+        text-decoration:underline;
+}
+
 .wf_listevenrow {
 	background-color: #ffffff;
 }
