@@ -21,6 +21,8 @@
   </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/myfaces/jars/jsf-api-1.0.jar">
   </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/myfaces/jars/myfaces-components-1.0.5.jar">
+  </classpathentry>
   <classpathentry kind="output" path="target/classes">
   </classpathentry>
 </classpath>
