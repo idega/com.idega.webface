@@ -19,6 +19,9 @@
 	text-decoration: underline;
 }
 
+.wf_frame {
+}
+
 .wf_smalltext {
         font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
@@ -499,6 +502,10 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	/***top:4em;***/
 	/***left:20em;***/
 	margin: 4.5em 0em 0em 200px;
+}
+
+.ws_main .wf_frame {
+   margin: 0em 0em 0em -200px;
 }
 
 .wf_workspacebar{
