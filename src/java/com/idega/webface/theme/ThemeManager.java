@@ -17,10 +17,14 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class ThemeManager {
-	
+		
 	Logger log = Logger.getLogger(ThemeManager.class.getName());
 	private static ThemeManager instance;
 	Class defaultThemeClass=WFDefaultTheme.class;
+	
+	public static void unload() {
+		instance = null;
+	}
 	
 	private ThemeManager(){
 		initialize();
