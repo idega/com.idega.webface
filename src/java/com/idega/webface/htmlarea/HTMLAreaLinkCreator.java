@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.2 2005/03/08 17:04:21 gimmi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.3 2005/03/09 09:45:06 gimmi Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -35,35 +35,45 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	public final static String IW_BUNDLE_IDENTIFIER = "com.idega.webface";
 	
 	
-	public final static String PARAMETER_CREATOR = "pc";
 	private final static String PARAMETER_HREF = "f_href";
 	private final static String PARAMETER_TARGET = "f_target";
 	private final static String PARAMETER_TOOLTIP = "f_title";
 	private final static String PARAMETER_LINK_TYPE = "f_lt";
+	public final static String PARAMETER_CREATOR = "pc";
 	
-	private Collection tabs = null;
-	private boolean useLinkTarget = true;
-	private IWBundle bundle;
+	protected Collection tabs = null;
+	protected IWBundle bundle;
 	private String selectedType;
-	HTMLAreaLinkType currentLinkType = null;
+	private HTMLAreaLinkType currentLinkType = null;
 	
 	public void initializeContent() {
 		IWContext iwc = IWContext.getInstance();
 		init(iwc);
 		
 		WFContainer con = new WFContainer();
-		UIComponent creation = currentLinkType.getLinkCreation();
+		UIComponent creation = getCreationComponent();
 		con.add(getLinkTabBar());
 		if (creation != null) {
 			con.add(creation);
 		}
-		con.add(getSubmitTable(currentLinkType));
+		con.add(getSubmitTable());
 
 		add(con);
 		
 	}
 	
-	private void init(IWContext iwc) {
+	/**
+	 * 
+	 * <p>
+	 * TODO gimmi describe method getCreation
+	 * </p>
+	 * @return
+	 */
+	protected UIComponent getCreationComponent() {
+		return currentLinkType.getLinkCreation();
+	}
+	
+	protected void init(IWContext iwc) {
 		bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
 		if (tabs == null) {
 			tabs = new Vector();
@@ -110,7 +120,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		return bundle.getLocalizedText(key);
 	}
 	
-	private WFTabBar getLinkTabBar() {
+	protected WFTabBar getLinkTabBar() {
 		WFTabBar bar = new WFTabBar();
 		int col = 1;
 		Iterator iter = getLinkTypes().iterator();
@@ -124,7 +134,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		return bar;
 	}
 	
-	private WFBlock getSubmitTable(HTMLAreaLinkType currentLinkType) {
+	protected WFBlock getSubmitTable() {
 		WFBlock block = new WFBlock();
 		WFTitlebar header = new WFTitlebar();
 		header.addTitleText(bundle.getLocalizedText("link_creator"));
@@ -184,14 +194,12 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		line2.getChildren().add(title);
 		block.add(line2);
 		
-		if (useLinkTarget) {
-			WFContainer line3 = new WFContainer();
-			line3.setStyleClass("wf_htmlare_linkcreator_line");
-			line3.setId("wf_lc_target");
-			line3.getChildren().add(txtTarget);
-			line3.getChildren().add(menu);
-			block.add(line3);
-		}
+		WFContainer line3 = new WFContainer();
+		line3.setStyleClass("wf_htmlare_linkcreator_line");
+		line3.setId("wf_lc_target");
+		line3.getChildren().add(txtTarget);
+		line3.getChildren().add(menu);
+		block.add(line3);
 
 		WFContainer line4 = new WFContainer();
 		line4.setStyleClass("wf_htmlare_linkcreator_line");
@@ -208,7 +216,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		return this.IW_BUNDLE_IDENTIFIER;
 	}
 
-	private Collection getLinkTypes() {
+	protected Collection getLinkTypes() {
 		return tabs;
 	}
 	
@@ -241,9 +249,5 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 			}
 		}
 	}
-	
-	public void setUseLinkTarget(boolean useLinkTarget) {
-		this.useLinkTarget = useLinkTarget;
-	}
-	
+		
 }
