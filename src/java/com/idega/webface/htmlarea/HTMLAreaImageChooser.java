@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.1 2005/03/09 09:45:43 gimmi Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.2 2005/03/20 18:26:58 gimmi Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -14,10 +14,12 @@ import java.util.Vector;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.ui.DropdownMenu;
+import com.idega.presentation.ui.FieldSet;
 import com.idega.presentation.ui.IFrame;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFContainer;
@@ -137,61 +139,103 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		iframe.setId(PARAMETER_PREVIEW);
 		iframe.setName(PARAMETER_PREVIEW);
 		iframe.setSrc("");
+		iframe.addLanguageParameter(false);
 		
 		HtmlCommandButton saveButton = new HtmlCommandButton();
 		bundle.getLocalizedUIComponent("save", saveButton);
 		saveButton.setType("button");
 		saveButton.setOnclick("onOK()");
 		saveButton.setId("HTMLAIC_SB");
+
+		HtmlCommandButton previewButton = new HtmlCommandButton();
+		bundle.getLocalizedUIComponent("preview", previewButton);
+		previewButton.setType("button");
+		previewButton.setOnclick("onPreview()");
+		previewButton.setId("HTMLAIC_PB");
 		
 		WFContainer urlLine = new WFContainer();
-		urlLine.setStyleClass("wf_imagechooser_line");
-		urlLine.getChildren().add(bundle.getLocalizedText("url"));
+		urlLine.setStyleClass("wf_imagechooser_line_long");
+		urlLine.getChildren().add(getLabel("url", PARAMETER_URL));
 		urlLine.getChildren().add(url);
+		urlLine.getChildren().add(previewButton);
 		
 		WFContainer altLine = new WFContainer();
-		altLine.setStyleClass("wf_imagechooser_line");
-		altLine.getChildren().add(bundle.getLocalizedText("alt"));
+		altLine.setStyleClass("wf_imagechooser_line_long");
+		altLine.getChildren().add(getLabel("alt", PARAMETER_ALT));
 		altLine.getChildren().add(alt);
 		
 		WFContainer alignmentLine = new WFContainer();
-		alignmentLine.setStyleClass("wf_imagechooser_line");
-		alignmentLine.getChildren().add(bundle.getLocalizedText("alignment"));
+		alignmentLine.setStyleClass("wf_imagechooser_line_short");
+		alignmentLine.getChildren().add(getLabel("alignment", PARAMETER_ALIGNMENT));
 		alignmentLine.getChildren().add(alignment);
 		
 		WFContainer borderLine = new WFContainer();
-		borderLine.setStyleClass("wf_imagechooser_line");
-		borderLine.getChildren().add(bundle.getLocalizedText("border"));
+		borderLine.setStyleClass("wf_imagechooser_line_short");
+		borderLine.getChildren().add(getLabel("border", PARAMETER_BORDER));
 		borderLine.getChildren().add(border);
+
+		FieldSet layoutBox = new FieldSet(bundle.getLocalizedString("layout"));
+		layoutBox.setStyleClass("wf_imagechooser_left_box");
+		layoutBox.add(alignmentLine);
+		layoutBox.add(borderLine);
 		
 		WFContainer horizLine = new WFContainer();
-		horizLine.setStyleClass("wf_imagechooser_line");
-		horizLine.getChildren().add(bundle.getLocalizedText("horizontal"));
+		horizLine.setStyleClass("wf_imagechooser_line_short");
+		horizLine.getChildren().add(getLabel("horizontal", PARAMETER_HORIZONTAL_SPACING));
 		horizLine.getChildren().add(horiz);
 		
 		WFContainer vertiLine = new WFContainer();
-		vertiLine.setStyleClass("wf_imagechooser_line");
-		vertiLine.getChildren().add(bundle.getLocalizedText("vertical"));
+		vertiLine.setStyleClass("wf_imagechooser_line_short");
+		vertiLine.getChildren().add(getLabel("vertical", PARAMETER_VERTICAL_SPACING));
 		vertiLine.getChildren().add(vert);
 		
+		FieldSet spacingBox = new FieldSet(bundle.getLocalizedString("spacing"));
+		spacingBox.setStyleClass("wf_imagechooser_right_box");
+		spacingBox.add(horizLine);
+		spacingBox.add(vertiLine);
+
 		WFContainer previewLine = new WFContainer();
 		previewLine.setStyleClass("wf_imagechooser_preview");
-		previewLine.getChildren().add(bundle.getLocalizedText("image_preview"));
-//		previewLine.getChildren().add(iframe);
+		previewLine.getChildren().add(getLabel("image_preview", PARAMETER_PREVIEW));
+		previewLine.getChildren().add(iframe);
 
 		WFContainer saveLine = new WFContainer();
 		saveLine.setStyleClass("wf_imagechooser_line");
 		saveLine.getChildren().add(saveButton);
 		
+		FieldSet mainFieldSet = new FieldSet(bundle.getLocalizedString("image_chooser"));
+		mainFieldSet.setStyleClass("wf_imagechooser_fieldset");
+		mainFieldSet.getChildren().add(urlLine);
+		mainFieldSet.getChildren().add(altLine);
+//		mainFieldSet.getChildren().add(alignmentLine);
+//		mainFieldSet.getChildren().add(borderLine);
+//		mainFieldSet.getChildren().add(horizLine);
+//		mainFieldSet.getChildren().add(vertiLine);
+		mainFieldSet.getChildren().add(layoutBox);
+		mainFieldSet.getChildren().add(spacingBox);
+		mainFieldSet.getChildren().add(previewLine);
+		mainFieldSet.getChildren().add(saveLine);
+		
+//		block.add(mainFieldSet);
+		
 		block.add(urlLine);
 		block.add(altLine);
-		block.add(alignmentLine);
-		block.add(borderLine);
-		block.add(horizLine);
-		block.add(vertiLine);
+		block.add(layoutBox);
+		block.add(spacingBox);
+//		block.add(alignmentLine);
+//		block.add(borderLine);
+//		block.add(horizLine);
+//		block.add(vertiLine);
 		block.add(previewLine);
 		block.add(saveLine);
 		return block;
+	}
+	
+	public HtmlOutputLabel getLabel(String localizeKey, String forName) {
+		HtmlOutputLabel label = new HtmlOutputLabel();
+		bundle.getLocalizedUIComponent(localizeKey, label);
+		label.setFor(forName);
+		return label;
 	}
 
 	public void setExternalTabClass(String tab) {
