@@ -30,6 +30,7 @@ import javax.faces.event.ActionListener;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
+import com.idega.webface.htmlarea.HTMLArea;
 
 /**
  * Common utility class.
@@ -221,6 +222,18 @@ public class WFUtil {
 	 */
 	public static HtmlInputTextarea getTextArea(String id, String ref, String width, String height) {
 		HtmlInputTextarea a = new HtmlInputTextarea();
+		a.setId(id);
+		a.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		a.setStyle("width:" + width + ";height:" + height + ";");
+		setInputStyle(a);
+		return a;
+	}
+	
+	/**
+	 * Returns an html text area component with value binding. 
+	 */
+	public static HTMLArea getHtmlAreaTextArea(String id, String ref, String width, String height) {
+		HTMLArea a = new HTMLArea();
 		a.setId(id);
 		a.setValueBinding("value", createValueBinding("#{" + ref + "}"));
 		a.setStyle("width:" + width + ";height:" + height + ";");
