@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
 
+import com.idega.idegaweb.IWBundle;
 import com.idega.webface.event.WFToolbarButtonPressedListener;
 
 /**
@@ -32,6 +33,11 @@ public class WFToolbarButton extends UICommand {
 		// Default contstructor, for JSF
 	}
 
+	public WFToolbarButton(String defaultImageURI, IWBundle bundle) {
+		String uri = bundle.getResourcesVirtualPath()+"/"+defaultImageURI;
+		this.setDefaultImageURI(uri);
+	}
+	
 	public WFToolbarButton(String defaultImageURI) {
 		String uriWithBundle = WFUtil.getBundle().getResourcesVirtualPath()+"/"+defaultImageURI;
 		this.setDefaultImageURI(uriWithBundle);
