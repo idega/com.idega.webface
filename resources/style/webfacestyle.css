@@ -299,6 +299,8 @@ div.wf_titlebar, div.wf_toolbar{
 
 .wf_toolbar_button span{
 	float: left;
+	cursor: pointer;
+	cursor: hand;
 }
 
 
