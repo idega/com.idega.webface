@@ -3,6 +3,12 @@
  */
 package com.idega.webface;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Iterator;
+
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
 /**
  * IWApplicationToolbar //TODO: tryggvil Describe class
@@ -10,11 +16,10 @@ package com.idega.webface;
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
  */
-public class WFToolbar extends WFContainer
+public class WFToolbar extends WFContainer implements Serializable
 {
 	
 	public WFToolbar(){
-		addDefaultButtons();
 		setStyleClass("wf_toolbar");
 	}
 
@@ -22,24 +27,44 @@ public class WFToolbar extends WFContainer
 	 * 
 	 */
 	private void addDefaultButtons() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 	
 	public void addButton(WFToolbarButton button){
 		this.getChildren().add(button);
 	}
+
+	/**
+	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
+	 */
+	public void encodeBegin(FacesContext context) throws IOException {
+		super.encodeBegin(context);
+	}
 	
-	/*public void encodeChildren(FacesContext context) throws IOException {
+	/**
+	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
+	 */
+	public void encodeChildren(FacesContext context) throws IOException {
 		Iterator children = this.getChildren().iterator();
 		ResponseWriter out = context.getResponseWriter();
 		out.startElement("tr",this);
 		while (children.hasNext()) {
 			WFToolbarButton element = (WFToolbarButton) children.next();
-			
-			//renderChild(context,element);
+			out.startElement("td", null);
+			renderChild(context, element);
+			out.endElement("td");
 		}
 		out.endElement("tr");
-	}*/
+	}
 	
+	/**
+	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
+	 */
+	public void encodeEnd(FacesContext context) throws IOException {
+		super.encodeEnd(context);
+	}
+
+	protected String getMarkupElementType(){
+		return "table";
+	}
 }

@@ -3,9 +3,11 @@
  */
 package com.idega.webface;
 
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIGraphic;
-import javax.faces.component.html.HtmlOutputText;
+import java.io.IOException;
+import java.io.Serializable;
+
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
 /**
  * WFTitlebar //TODO: tryggvil Describe class
@@ -13,23 +15,11 @@ import javax.faces.component.html.HtmlOutputText;
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
  */
-public class WFTitlebar extends WFContainer
+public class WFTitlebar extends WFContainer implements Serializable 
 {
-	
 	private boolean viewWithTitleBar=true;
 
-	/**
-	 * 
-	 * @uml.property name="defaultToolbar"
-	 * @uml.associationEnd multiplicity="(0 1)"
-	 */
 	private WFToolbar defaultToolbar;
-
-	/**
-	 * 
-	 * @uml.property name="embeddedToolbar"
-	 * @uml.associationEnd multiplicity="(0 1)"
-	 */
 	private WFToolbar embeddedToolbar;
 
 	private String titleText="Untitled";
@@ -40,7 +30,6 @@ public class WFTitlebar extends WFContainer
 	public WFTitlebar(){
 		setStyleClass("wf_titlebar");
 		setIconImageURI("icons/view_default.gif");
-		setDefaultToolbar();
 	}
 	
 	public WFTitlebar(String text){
@@ -57,36 +46,28 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @return
-	 * 
-	 * @uml.property name="defaultToolbar"
 	 */
 	public WFToolbar getDefaultToolbar() {
 		return defaultToolbar;
 	}
-
-
+	
 	/**
 	 * @return
 	 */
-	public boolean isViewWithTitleBar()
-	{
+	public boolean isViewWithTitleBar() {
 		return viewWithTitleBar;
 	}
 
 	/**
 	 * @param toolbar
-	 * 
-	 * @uml.property name="defaultToolbar"
 	 */
 	public void setDefaultToolbar(WFToolbar toolbar) {
-		set(4, toolbar);
 		this.defaultToolbar = toolbar;
+		getChildren().add(toolbar);
 	}
 
 	/**
 	 * @param b
-	 * 
-	 * @uml.property name="viewWithTitleBar"
 	 */
 	public void setViewWithTitleBar(boolean b) {
 		viewWithTitleBar = b;
@@ -94,8 +75,6 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @return
-	 * 
-	 * @uml.property name="titleText"
 	 */
 	public String getTitleText() {
 		return titleText;
@@ -103,21 +82,13 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @param string
-	 * 
-	 * @uml.property name="titleText"
 	 */
 	public void setTitleText(String string) {
-		HtmlOutputText hText = new HtmlOutputText();
-		hText.setValue(string);
-		hText.setStyleClass("wf_titlebartext");
-		set(1, hText);
 		titleText = string;
 	}
 
 	/**
 	 * @return
-	 * 
-	 * @uml.property name="titlebarColor"
 	 */
 	public String getTitlebarColor() {
 		return titlebarColor;
@@ -125,8 +96,6 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @return
-	 * 
-	 * @uml.property name="titleTextColor"
 	 */
 	public String getTitleTextColor() {
 		return titleTextColor;
@@ -134,8 +103,6 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @param string
-	 * 
-	 * @uml.property name="titlebarColor"
 	 */
 	public void setTitlebarColor(String string) {
 		titlebarColor = string;
@@ -143,8 +110,6 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @param string
-	 * 
-	 * @uml.property name="titleTextColor"
 	 */
 	public void setTitleTextColor(String string) {
 		titleTextColor = string;
@@ -152,8 +117,6 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @return Returns the embeddedToolbar.
-	 * 
-	 * @uml.property name="embeddedToolbar"
 	 */
 	public WFToolbar getEmbeddedToolbar() {
 		return embeddedToolbar;
@@ -161,18 +124,14 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @param embeddedToolbar The embeddedToolbar to set.
-	 * 
-	 * @uml.property name="embeddedToolbar"
 	 */
 	public void setEmbeddedToolbar(WFToolbar embeddedToolbar) {
-		set(3, embeddedToolbar);
 		this.embeddedToolbar = embeddedToolbar;
+		getChildren().add(embeddedToolbar);
 	}
 
 	/**
 	 * @return Returns the iconImageURI.
-	 * 
-	 * @uml.property name="iconImageURI"
 	 */
 	public String getIconImageURI() {
 		return iconImageURI;
@@ -180,29 +139,74 @@ public class WFTitlebar extends WFContainer
 
 	/**
 	 * @param iconImageURI The iconImageURI to set.
-	 * 
-	 * @uml.property name="iconImageURI"
 	 */
 	public void setIconImageURI(String iconImageURI) {
-		UIGraphic graphic = new UIGraphic();
-		graphic.setUrl(iconImageURI);
-		set(1, graphic);
 		this.iconImageURI = iconImageURI;
 	}
-
 	
-	protected void set(int index,UIComponent comp){
-		//if(getChildren().size()<index){
-				getChildren().add(comp);
-				//getChildren().add(index,comp);
-		/*}
-		else{
-			if(getChildren().get(index)==null){
-				getChildren().add(index,comp);
-			}
-			else{
-				getChildren().set(index,comp);
-			}
-		}*/
+	/**
+	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
+	 */
+	public void encodeBegin(FacesContext context) throws IOException {
+		ResponseWriter out = context.getResponseWriter();
+		super.encodeBegin(context);
+		out.startElement("tr", null);
+		out.startElement("td", null);
+		out.writeAttribute("width", "20", null); // TODO: fix css style
+		out.startElement("img", null);
+		out.writeAttribute("src", getIconImageURI(), null);
+		out.endElement("td");
+		out.startElement("td", null);
+		out.writeAttribute("width", "100%", null);
+		out.startElement("font", null);
+		out.writeAttribute("class", "wf_titlebartext", null);
+		out.write(getTitleText());
+		out.endElement("font");
+		out.endElement("td");
+		out.startElement("td", null);
+		out.writeAttribute("nowrap", "true", null);
+		out.write("");
+	}
+	
+	/**
+	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
+	 */
+	public void encodeChildren(FacesContext context) throws IOException {
+		super.encodeChildren(context);
+	}
+	
+	/**
+	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
+	 */
+	public void encodeEnd(FacesContext context) throws IOException {
+		ResponseWriter out = context.getResponseWriter();
+		out.endElement("td");
+		out.endElement("tr");
+		super.encodeEnd(context);
+	}
+	
+	/**
+	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
+	 */
+	public Object saveState(FacesContext ctx) {
+		Object values[] = new Object[3];
+		values[0] = super.saveState(ctx);
+		values[1] = titleText;
+		values[2] = embeddedToolbar;
+		return values;
+	}
+	
+	/**
+	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
+	 */
+	public void restoreState(FacesContext ctx, Object state) {
+		Object values[] = (Object[])state;
+		super.restoreState(ctx, values[0]);
+		titleText = (String) values[1];
+		embeddedToolbar = (WFToolbar) values[2];
+	}
+
+	protected String getMarkupElementType(){
+		return "table";
 	}
 }

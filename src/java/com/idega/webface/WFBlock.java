@@ -6,8 +6,12 @@ package com.idega.webface;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
 
 /**
  * WFBlock //TODO: tryggvil Describe class
@@ -15,137 +19,97 @@ import javax.faces.context.ResponseWriter;
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
  */
-public class WFBlock extends WFContainer
+public class WFBlock extends WFContainer implements ActionListener
 {
-
-	/**
-	 * 
-	 * @uml.property name="titlebar"
-	 * @uml.associationEnd multiplicity="(0 1)"
-	 */
+	private final static String ACTION_BACK = "back"; // temp test
+	
 	private WFTitlebar titlebar;
-
-	/**
-	 * 
-	 * @uml.property name="toolbar"
-	 * @uml.associationEnd multiplicity="(0 1)"
-	 */
 	private WFToolbar toolbar;
-
-	/**
-	 * 
-	 * @uml.property name="mainArea"
-	 * @uml.associationEnd multiplicity="(0 1)"
-	 */
 	private WFContainer mainArea;
-
 	private boolean toolbarEmbeddedInTitlebar=true;
 	
 	public WFBlock(){
-		setDefaultTitlebar();
-		setWidth("200px");
+		setWidth("300px");
 		setHeight("300px");
 		this.setStyleClass("wf_simplebox");
 	}
 	
 	public WFBlock(String titleBarText){
 		this();
-		this.getTitlebar().setTitleText(titleBarText);
+		WFTitlebar titlebar = new WFTitlebar(titleBarText);
+		setTitlebar(titlebar);
+		setDefaultToolbar();
 	}
 	
 	/**
 	 * 
 	 */
-	private void setDefaultTitlebar() {
-		
-		//WFToolbar toolbar = new WFToolbar();
-		//this.setToolbar(toolbar);
-		
-		
+	private void setDefaultToolbar() {
 		WFToolbar toolbar = new WFToolbar();
 		this.setToolbar(toolbar);
-		this.getTitlebar().getDefaultToolbar().setWidth("60px");
 		
-		toolbar.addButton(new WFBackButton());
+		WFBackButton backButton = new WFBackButton();
+		backButton.setId(ACTION_BACK);
+		backButton.setValue("back button");
+		backButton.addActionListener(this);
+		toolbar.addButton(backButton);
 		toolbar.addButton(new WFForwardButton());
 		toolbar.addButton(new WFStopButton());
-		toolbar.setWidth("100px");
 	}
 
 	/**
 	 * @return
-	 * 
-	 * @uml.property name="titlebar"
 	 */
 	public WFTitlebar getTitlebar() {
-		if (titlebar == null) {
-			setTitlebar(new WFTitlebar());
-		}
 		return titlebar;
 	}
 
 	/**
 	 * @return
-	 * 
-	 * @uml.property name="toolbar"
 	 */
 	public WFToolbar getToolbar() {
-		if (toolbar == null) {
-			setToolbar(new WFToolbar());
-		}
 		return toolbar;
 	}
 
 	/**
 	 * @param titlebar
-	 * 
-	 * @uml.property name="titlebar"
 	 */
 	public void setTitlebar(WFTitlebar titlebar) {
 		this.titlebar = titlebar;
-		this.set(0, titlebar);
+		getChildren().add(titlebar);
 	}
 
 	/**
 	 * @param toolbar
-	 * 
-	 * @uml.property name="toolbar"
 	 */
 	public void setToolbar(WFToolbar toolbar) {
 		this.toolbar = toolbar;
-		if (this.isToolbarEmbeddedInTitlebar()) {
-			getTitlebar().setEmbeddedToolbar(toolbar);
-		} else {
-			this.set(1, toolbar);
-		}
+		titlebar.setEmbeddedToolbar(toolbar);
 	}
 
-	
-	
-
-	/* (non-Javadoc)
+	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
-	public void encodeBegin(FacesContext ctx) throws IOException {
-		ResponseWriter out = ctx.getResponseWriter();
-		out.write("<link type=\"text/css\" href=\"/style/webfacestyle.css\" rel=\"stylesheet\">");
-		// TODO Auto-generated method stub
-		super.encodeBegin(ctx);
+	public void encodeBegin(FacesContext context) throws IOException {
+		ResponseWriter out = context.getResponseWriter();
+		out.write("<link type=\"text/css\" href=\"style/webfacestyle.css\" rel=\"stylesheet\">");
+		super.encodeBegin(context);
 	}
-	/* (non-Javadoc)
+	
+	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
 	public void encodeChildren(FacesContext context) throws IOException {
-		// TODO Auto-generated method stub
 		super.encodeChildren(context);
 	}
-	/* (non-Javadoc)
+	
+	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
-	public void encodeEnd(FacesContext arg0) throws IOException {
-		// TODO Auto-generated method stub
-		super.encodeEnd(arg0);
+	public void encodeEnd(FacesContext context) throws IOException {
+		super.encodeEnd(context);
 	}
+	
 	/**
 	 * @return Returns the toolbarEmbeddedInTitlebar.
 	 */
@@ -154,28 +118,43 @@ public class WFBlock extends WFContainer
 	}
 
 	/**
-	 * @param toolbarEmbeddedInTitlebar The toolbarEmbeddedInTitlebar to set.
-	 * 
-	 * @uml.property name="toolbarEmbeddedInTitlebar"
+	 * @param toolbarEmbeddedInTitlebar the toolbarEmbeddedInTitlebar to set
 	 */
 	public void setToolbarEmbeddedInTitlebar(boolean toolbarEmbeddedInTitlebar) {
 		this.toolbarEmbeddedInTitlebar = toolbarEmbeddedInTitlebar;
 	}
+	
+	/**
+	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
+	 */
+	public Object saveState(FacesContext ctx) {
+		Object values[] = new Object[3];
+		values[0] = super.saveState(ctx);
+		values[1] = titlebar;
+		values[2] = toolbar;
+		return values;
+	}
+	
+	/**
+	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
+	 */
+	public void restoreState(FacesContext ctx, Object state) {
+		Object values[] = (Object[])state;
+		super.restoreState(ctx, values[0]);
+		titlebar = (WFTitlebar) values[1];
+		toolbar = (WFToolbar) values[2];
+	}
 
-	
-	
-	protected void set(int index,UIComponent comp){
-		//if(getChildren().size()<index){
-				getChildren().add(comp);
-				//getChildren().add(index,comp);
-		/*}
-		else{
-			if(getChildren().get(index)==null){
-				getChildren().add(index,comp);
-			}
-			else{
-				getChildren().set(index,comp);
-			}
-		}*/
+	/**
+	 * @see javax.faces.event.ActionListener#processAction(javax.faces.event.ActionEvent)
+	 */
+	public void processAction(ActionEvent event) throws AbortProcessingException {
+		UIComponent source = event.getComponent();
+		if (source.getId().equals(ACTION_BACK)) {
+			System.out.println("EVENT: back button clicked");
+			HtmlOutputText text = new HtmlOutputText();
+			text.setValue("back ");
+			source.getParent().getParent().getParent().getChildren().add(text);
+		}
 	}
 }

@@ -48,11 +48,22 @@ public class WFContainer extends IWBaseComponent
 	{
 		_lightColor = color;
 	}
+	
+	public String getLightShadowColor()
+	{
+		return _lightColor;
+	}
+	
 	public void setDarkShadowColor(String color)
 	{
 		_darkColor = color;
 	}
 
+	public String getDarkShadowColor()
+	{
+		return _darkColor;
+	}
+	
 	/**
 	 * @return
 	 * 

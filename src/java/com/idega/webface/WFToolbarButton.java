@@ -3,12 +3,14 @@
  */
 package com.idega.webface;
 import java.io.IOException;
-import java.util.Iterator;
+
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIGraphic;
+import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.ActionEvent;
+
 /**
  * IWApplicationToolButton //TODO: tryggvil Describe class Copyright (C) idega
  * software 2003
@@ -22,11 +24,9 @@ public class WFToolbarButton extends UICommand {
 	private String hoverImageURI;
 	private String inactiveImageURI;
 	private String pressedImageURI;
+
 	public WFToolbarButton(String defaultImageURI) {
 		this.setDefaultImageURI(defaultImageURI);
-		UIGraphic defaultImage = new UIGraphic();
-		defaultImage.setUrl(defaultImageURI);
-		this.getChildren().add(defaultImage);
 	}
 
 	/**
@@ -130,31 +130,45 @@ public class WFToolbarButton extends UICommand {
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
-		ResponseWriter out = context.getResponseWriter();
-		out.startElement("a", this);
-		out.writeAttribute("href", "?rugl", null);
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/**
+	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
+	 */
+	public void encodeChildren(FacesContext context) throws IOException {
+//		Iterator children = this.getChildren().iterator();
+//		while (children.hasNext()) {
+//			UIComponent element = (UIComponent) children.next();
+//			renderChild(context, element);
+//		}
+	}
+	
+	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
 		ResponseWriter out = context.getResponseWriter();
-		out.endElement("a");
-	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
-	 */
-	public void encodeChildren(FacesContext context) throws IOException {
-		Iterator children = this.getChildren().iterator();
-		while (children.hasNext()) {
-			UIComponent element = (UIComponent) children.next();
-			renderChild(context, element);
+
+		String buttonId = getClientId(context);
+		
+		out.startElement("input", null);
+		out.writeAttribute("id", buttonId, null);
+		out.writeAttribute("type", "hidden", null);
+		out.writeAttribute("name", buttonId, null);
+		out.writeAttribute("value", "false", null);		
+		out.endElement("input");
+		
+		out.startElement("img", null);
+		out.writeAttribute("src", getDefaultImageURI(), null);
+		String formName = determineFormName(this);
+		if (formName == null) {
+			throw new IOException("Toolbars should be nested in a UIForm !");
 		}
+		String onmouseup = "setHiddenField('" + buttonId + "','true'); submitForm('" + formName + "');";
+		out.writeAttribute("onmouseup", onmouseup, null);
+		out.endElement("img");
 	}
+		
 	/**
 	 * Renders a child component for the current component. This operation is
 	 * handy when implementing renderes that perform child rendering themselves
@@ -170,5 +184,44 @@ public class WFToolbarButton extends UICommand {
 		child.encodeBegin(context);
 		child.encodeChildren(context);
 		child.encodeEnd(context);
+	}
+	
+	/**
+	 * @see javax.faces.component.UIComponent#decode(javax.faces.context.FacesContext)
+	 */
+	public void decode(FacesContext context) {
+		String buttonId = getClientId(context);
+		String inputValue =	(String) context.getExternalContext().getRequestParameterMap().get(buttonId);
+		if (inputValue.equals("true")) {
+			ActionEvent event = new ActionEvent(this);
+			queueEvent(event);
+		}
+	}
+	
+	/**
+	 * Determines the client id of the form in which a component is enclosed.
+	 * Useful for generating submitForm('xyz') javascripts...
+	 * 
+	 * @return
+	 */
+	public static String determineFormName(UIComponent component) {
+		String ret = null;
+		UIComponent current = component.getParent();
+		UIComponent form = null;
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		
+		while(current != null) {
+			if(current instanceof UIForm) {
+				form = current;
+				break;
+			}
+			current = current.getParent();
+		}
+		
+		if(form != null) {
+			ret = form.getClientId(ctx);
+		}
+		
+		return ret;
 	}
 }
