@@ -91,9 +91,13 @@ public class WFTitlebar extends WFContainer implements Serializable
 		} else {
 			title = WFUtil.getText(string);
 		}
-		title.setStyleClass("wf_titlebartext");
-		getFacets().put("title", title);
+		setTitleText(title);
 		titleText = string;
+	}
+	
+	public void setTitleText(HtmlOutputText text) {
+		text.setStyleClass("wf_titlebartext");
+		getFacets().put("title", text);
 	}
 	
 	/**
