@@ -1,5 +1,5 @@
 /*
- * $Id: CMSPage.java,v 1.8 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: CMSPage.java,v 1.9 2004/10/21 11:46:29 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,33 +11,38 @@ package com.idega.webface.test;
 
 import java.io.IOException;
 import java.io.Serializable;
-
+import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
-
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFList;
 import com.idega.webface.WFPage;
 import com.idega.webface.WFPanelUtil;
+import com.idega.webface.WFTab;
 import com.idega.webface.WFTabBar;
 import com.idega.webface.WFUtil;
 import com.idega.webface.WFViewMenu;
 import com.idega.webface.event.WFTabEvent;
 import com.idega.webface.event.WFTabListener;
-import com.idega.webface.test.bean.*;
-import com.idega.webface.test.component.*;
+import com.idega.webface.test.bean.ArticleListBean;
+import com.idega.webface.test.bean.ContentItemCase;
+import com.idega.webface.test.bean.ManagedContentBeans;
+import com.idega.webface.test.component.ArticleBlock;
+import com.idega.webface.test.component.ArticleVersionBlock;
 
 /**
  * Content management system test/demo page. 
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/10/21 11:46:29 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class CMSPage extends WFPage implements  ManagedContentBeans, WFTabListener, ActionListener, Serializable {
 	
@@ -50,12 +55,25 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTabListen
 	private final static String ARTICLE_LIST_ID = P + "article_list";
 	private final static String CASE_LIST_ID = P + "case_list";
 	
+	private boolean isInitalized=false;
+	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
-		if (getChildren().size() == 0) {
+		if (!isInitalized) {
 			createContent();
+			isInitalized=true;
+		}
+		else {
+			//debug
+			UIComponent button1 = findComponent(TASK_ID_CONTENT);
+			WFTab contentButton = (WFTab)button1;
+			if(contentButton!=null) {
+				ActionListener[] listeners = contentButton.getActionListeners();
+				String st = listeners.toString();
+			}
+			
 		}
 		super.encodeBegin(context);
 	}
@@ -92,8 +110,13 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTabListen
 		
 		WFUtil.invoke(CASE_LIST_BEAN_ID, "setCaseLinkListener", this, ActionListener.class);
 		
-		add(WFUtil.getBannerBox());
-		add(getMainTaskbar());
+		getChildren().add(WFUtil.getBannerBox());
+		getChildren().add(getMainTaskbar());
+		
+		HtmlInputSecret passwdInput = new HtmlInputSecret();
+		passwdInput.setValue("test");
+		passwdInput.setTitle("Testtitle");
+		getChildren().add(passwdInput);
 		
 		if (isArticleBeanUpdated) {
 			setEditMode();
@@ -108,8 +131,22 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTabListen
 		WFTabBar tb = new WFTabBar();
 		tb.setMainAreaStyleClass(null);
 		tb.setId(MAIN_TASKBAR_ID);
-		tb.addButtonVB(TASK_ID_CONTENT, bref + "content", getContentPerspective());
-		tb.addButtonVB(TASK_ID_EDIT, bref + "edit", getEditPerspective());
+		WFTab buttonContent = tb.addButtonVB(TASK_ID_CONTENT, bref + "content", getContentPerspective());
+		buttonContent.addActionListener(this);
+		WFTab buttonEdit = tb.addButtonVB(TASK_ID_EDIT, bref + "edit", getEditPerspective());
+		buttonEdit.addActionListener(this);
+		tb.addTaskbarListener(this);
+		
+		
+		UICommand debugButton = new HtmlCommandButton();
+		debugButton.setId("debugbutton");
+		debugButton.setValue("debug");
+		debugButton.setImmediate(true);
+		
+		debugButton.addActionListener(this);
+		this.getChildren().add(debugButton);
+		
+		
 		return tb;
 	}
 	
@@ -196,8 +233,10 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTabListen
 	 */
 	public void processAction(ActionEvent event) {
 		UIComponent link = event.getComponent();
+
 		String id = WFUtil.getParameter(link, "id");
 		WFTabBar tb = (WFTabBar) link.getParent().getParent().getParent().findComponent(MAIN_TASKBAR_ID);
+
 		tb.setSelectedButtonId(TASK_ID_EDIT);
 		ArticleBlock ab = (ArticleBlock) tb.findComponent(ArticleBlock.ARTICLE_BLOCK_ID);
 		ab.setEditMode();
@@ -242,5 +281,23 @@ public class CMSPage extends WFPage implements  ManagedContentBeans, WFTabListen
 		} else {
 			articleVersionBlock.setRendered(false);			
 		}
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.StateHolder#restoreState(javax.faces.context.FacesContext, java.lang.Object)
+	 */
+	public void restoreState(FacesContext ctx, Object state) {
+		Object values[] = (Object[])state;
+		super.restoreState(ctx, values[0]);
+		Boolean bIsInitalized = (Boolean) values[1];
+		this.isInitalized=bIsInitalized.booleanValue();
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.component.StateHolder#saveState(javax.faces.context.FacesContext)
+	 */
+	public Object saveState(FacesContext ctx) {
+		Object values[] = new Object[2];
+		values[0] = super.saveState(ctx);
+		values[1] = Boolean.valueOf(this.isInitalized);
+		return values;
 	}
 }
