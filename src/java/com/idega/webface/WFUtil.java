@@ -46,6 +46,16 @@ public class WFUtil {
 	public static IWBundle getBundle(){
 		return getBundle(FacesContext.getCurrentInstance());
 	}
+	
+	/**
+	 * This is only temporary. Will be moved to content bundle
+	 * @return
+	 */
+	public static IWBundle getContentBundle(){
+		//TODO: Move this to com.idega.content
+		FacesContext context = FacesContext.getCurrentInstance();
+		return IWContext.getIWContext(context).getIWMainApplication().getBundle("com.idega.content");
+	}
 
 	public static IWBundle getBundle(FacesContext context){
 		return IWContext.getIWContext(context).getIWMainApplication().getBundle(BUNDLE_IDENTIFIER);

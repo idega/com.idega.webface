@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.3 2004/06/30 13:35:21 anders Exp $
+ * $Id: WFPage.java,v 1.4 2004/07/20 20:56:24 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,10 +29,10 @@ import com.idega.faces.IWBaseComponent;
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/06/30 13:35:21 $ by $Author: anders $
+ * Last modified: $Date: 2004/07/20 20:56:24 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFPage extends IWBaseComponent {
 
@@ -72,22 +72,27 @@ public class WFPage extends IWBaseComponent {
 		}
 		
 		locale = new Locale("sv", "SE"); //test
+//		TODO: Move this to com.idega.content
 		ResourceBundle bundle = null;
 //		String bundleName = "com.idega.webface.test.TestBundle";
-		String bundleName = "com.idega.webface.test.Content";
+		//String bundleName = "com.idega.webface.test.Content";
 		try {
-			bundle = ResourceBundle.getBundle(bundleName, locale);
+			//bundle = ResourceBundle.getBundle(bundleName, locale);
+			bundle = WFUtil.getContentBundle().getResourceBundle(locale);
 		} catch (MissingResourceException e) {
-			System.out.println("Resource bundle '" + bundleName + "' could not be found.");
+			//System.out.println("Resource bundle '" + bundleName + "' could not be found.");
+			e.printStackTrace();
 			return;
 		}
 		context.getExternalContext().getSessionMap().put(CONTENT_BUNDLE, new BundleMap(bundle));
 		
-		bundleName = "com.idega.webface.test.Webface";
+		//bundleName = "com.idega.webface.test.Webface";
 		try {
-			bundle = ResourceBundle.getBundle(bundleName, locale);
+			//bundle = ResourceBundle.getBundle(bundleName, locale);
+			bundle = WFUtil.getBundle().getResourceBundle(locale);
 		} catch (MissingResourceException e) {
-			System.out.println("Resource bundle '" + bundleName + "' could not be found.");
+			//System.out.println("Resource bundle '" + bundleName + "' could not be found.");
+			e.printStackTrace();
 			return;
 		}
 		context.getExternalContext().getSessionMap().put(WF_BUNDLE, new BundleMap(bundle));
