@@ -1,0 +1,21 @@
+<document>
+  <properties>
+    <title>Webface changes</title>
+    <author email="tryggvi@idega.com">Tryggvi Larusson</author>
+  </properties>
+  <body>
+  
+    <release version="0.8.1" date="2005-03-10">
+      <action dev="tryggvil" type="update">
+        Declaration of version for use with 3.0.0 core.
+      </action>              
+    </release>
+
+    <release version="0.8" date="2004-07-10">
+      <action dev="tryggvil" type="update">
+        Declaration of version for use with 1.9 core.
+      </action>              
+    </release>
+
+  </body>
+</document>

@@ -4,7 +4,7 @@
   <extend>${base.project.dir}/base-dependencies.xml</extend>
   <name>idegaWeb WebFace</name>
   <artifactId>com.idega.webface</artifactId>
-  <currentVersion>0.8.1-SNAPSHOT</currentVersion>
+  <currentVersion>0.8.1</currentVersion>
   <inceptionYear>2003</inceptionYear>
   <shortDescription>JSF Components</shortDescription>
   <description>idegaWeb WebFace is a component API Built on JavaServer Faces</description>
@@ -13,6 +13,11 @@
       <id>0.8</id>
       <name>0.8</name>
       <tag>WEBFACE_0_8</tag>
+    </version>
+    <version>
+      <id>0.8.1</id>
+      <name>0.8.1</name>
+      <tag>WEBFACE_0_8_1</tag>
     </version>
   </versions>  
   <developers>
@@ -35,8 +40,8 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.core</artifactId>
-      <!--<version>1.9</version>-->
-      <version>SNAPSHOT</version>
+      <version>3.0.0</version>
+      <!--<version>SNAPSHOT</version>-->
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
@@ -46,8 +51,8 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.faces</artifactId>
-      <!--<version>0.9</version>-->
-      <version>SNAPSHOT</version>
+      <version>1.0.0</version>
+      <!--<version>SNAPSHOT</version>-->
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
