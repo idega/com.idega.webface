@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.6 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: WFList.java,v 1.7 2004/11/02 17:46:12 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -30,10 +30,10 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/11/02 17:46:12 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WFList extends HtmlDataTable implements ActionListener {
 	
@@ -84,18 +84,14 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		this(listBeanSessionId, 0, 0);
 	}
 		
-	/**
-	 * @see javax.faces.component.UIComponent#getRenderType()
-	 */
-	public String getRenderType() {
-		return null;
-	}
+
 		
 	/* (non-Javadoc)
 	 * @see javax.faces.component.UIComponent#getRendererType()
 	 */
 	public String getRendererType() {
-		return null;
+		//return null;
+		return super.getRendererType();
 	}
 	/**
 	 * Returns true if the list navigation is shown.
@@ -212,6 +208,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		if (_showListNavigation && !_navigationBelowList) {
 			renderListNavigation(context);
 		}
+		super.encodeBegin(context);
 	}
 	
 	/**
@@ -219,20 +216,25 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 */
 	public void encodeChildren(FacesContext context) throws IOException {
 		// Render table
-		super.encodeBegin(context);
+		//super.encodeBegin(context);
 		super.encodeChildren(context);
-		super.encodeEnd(context);
+		//super.encodeEnd(context);
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
+		
+		super.encodeEnd(context);
+		
 		if (_showListNavigation && _navigationBelowList) {
 			renderListNavigation(context);
 		}
 		ResponseWriter out = context.getResponseWriter();
 		out.endElement("div");
+		
+		
 	}
 	
 	/**
@@ -403,5 +405,10 @@ public class WFList extends HtmlDataTable implements ActionListener {
 			gotoLink.addActionListener(this);
 			getFacets().put("navigationlink_goto" + i, gotoLink);			
 		}
+	}
+	
+	public boolean getRendersChildren(){
+		//this component renders its children
+		return true;
 	}
 }
