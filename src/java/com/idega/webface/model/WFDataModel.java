@@ -1,5 +1,5 @@
 /*
- * $Id: WFDataModel.java,v 1.1 2004/05/27 12:36:32 anders Exp $
+ * $Id: WFDataModel.java,v 1.2 2004/11/16 00:51:35 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -19,10 +19,10 @@ import javax.faces.model.DataModelListener;
  * WFDataModel is an extension of DataModel that supports setting row values
  * at any row index. The size of the model is dynamically expanded when needed.   
  * <p>
- * Last modified: $Date: 2004/05/27 12:36:32 $ by $Author: anders $
+ * Last modified: $Date: 2004/11/16 00:51:35 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @see javax.faces.model.DataModel
  */
 public class WFDataModel extends DataModel implements Serializable {
@@ -69,7 +69,10 @@ public class WFDataModel extends DataModel implements Serializable {
 	 * @see javax.faces.model.DataModel#isRowAvailable()
 	 */
 	public boolean isRowAvailable() {
-		return (_rowIndex < _rowData.length);
+		if(_rowData!=null){
+			return (_rowIndex < _rowData.length);
+		}
+		return false;
 	}
 
 	/**
