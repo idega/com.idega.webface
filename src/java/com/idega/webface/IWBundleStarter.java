@@ -45,6 +45,10 @@ public class IWBundleStarter implements IWBundleStartable {
 		ViewManager viewManager = ViewManager.getInstance(bundle.getApplication());
 		ViewNode node = viewManager.getWorkspaceRoot();
 		
+		DefaultViewNode img = new DefaultViewNode("imagechooser", node);
+		img.setVisibleInMenus(false);
+		img.setJspUri(bundle.getJSPURI("imageChooser.jsp"));
+
 		DefaultViewNode temp = new DefaultViewNode("linkchooser", node);
 		temp.setVisibleInMenus(false);
 		temp.setJspUri(bundle.getJSPURI("linkChooser.jsp"));

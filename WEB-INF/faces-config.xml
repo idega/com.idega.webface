@@ -80,4 +80,9 @@
 		<component-class>com.idega.webface.htmlarea.HTMLAreaLinkCreator</component-class>
 	</component>
 
+	<component>
+		<component-type>HTMLAreaImageChooser</component-type>
+		<component-class>com.idega.webface.htmlarea.HTMLAreaImageChooser</component-class>
+	</component>
+
 </faces-config>
