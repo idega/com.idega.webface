@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractWFEditableListManagedBean.java,v 1.2 2005/01/10 13:52:19 gummi Exp $
+ * $Id: AbstractWFEditableListManagedBean.java,v 1.3 2005/01/12 11:54:13 gummi Exp $
  * Created on 29.12.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -20,10 +20,10 @@ import com.idega.webface.model.WFDataModel;
 
 /**
  * 
- *  Last modified: $Date: 2005/01/10 13:52:19 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/01/12 11:54:13 $ by $Author: gummi $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 
@@ -37,7 +37,7 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 		super();
 	}
 	
-	public abstract Object[] getData();
+	public abstract WFEditableListDataBean[] getData();
 	public abstract int getNumberOfColumns();
 	public abstract UIComponent getUIComponent(String var, int columnIndex);
 	public abstract UIComponent getHeader(int columnIndex);
@@ -63,7 +63,7 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 			dataModel = new WFDataModel();
 		}
 		
-		Object[] beans = getData();
+		WFEditableListDataBean[] beans = getData();
 		
 		int availableRows = beans.length;
 		 
@@ -89,21 +89,21 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 		List l = new ArrayList();
 		
 		for (int i = 0; i < getNumberOfColumns(); i++) {
-			UIColumn col2 = new UIColumn();
+			UIColumn column = new UIColumn();
 			
 			UIComponent header = getHeader(i);
 			if(header != null){
-				col2.setHeader(header);
+				column.setHeader(header);
 			}
 			
 			UIComponent footer = getFooter(i);
 			if(footer != null){
-				col2.setFooter(footer);
+				column.setFooter(footer);
 			}
 			
 			UIComponent component = createCellWrapper(var,i);
-			col2.getChildren().add(component);
-			l.add(col2);
+			column.getChildren().add(component);
+			l.add(column);
 		}
 		
 		
