@@ -11,7 +11,6 @@ import java.util.Iterator;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import com.idega.webface.WFBezel;
 import com.idega.webface.WFConstants;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFTab;

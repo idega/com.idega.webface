@@ -3,13 +3,9 @@
  */
 package com.idega.webface;
 
-import java.io.IOException;
 import java.io.Serializable;
-
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import com.idega.util.RenderUtils;
 
 /**
  * WFTitlebar //TODO: tryggvil Describe class
