@@ -1,5 +1,5 @@
 /*
- * $Id: FileUploadForm.java,v 1.1 2004/06/18 14:08:23 anders Exp $
+ * $Id: FileUploadForm.java,v 1.2 2004/06/18 14:55:23 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -16,7 +16,7 @@ import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.event.ActionListener;
 
-import net.sourceforge.myfaces.custom.fileupload.HtmlInputFileUpload;
+//import net.sourceforge.myfaces.custom.fileupload.HtmlInputFileUpload;
 
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFPanel;
@@ -25,10 +25,10 @@ import com.idega.webface.WFUtil;
 /**
  * Form for uploading files.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:08:23 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:55:23 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class FileUploadForm extends WFContainer implements Serializable {
 
@@ -63,6 +63,7 @@ public class FileUploadForm extends WFContainer implements Serializable {
 	 * Creates a file upload panel.
 	 */
 	private UIComponent getFileUploadPanel() {
+		/*
 		String ref = FILE_UPLOAD_BEAN_ID + ".";
 		
 		WFPanel p = new WFPanel();
@@ -84,6 +85,8 @@ public class FileUploadForm extends WFContainer implements Serializable {
 		p.set(g, 1, 4);
 
 		return p;
+		*/
+		return null;
 	}
 	
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: FileUploadBean.java,v 1.1 2004/06/18 14:08:07 anders Exp $
+ * $Id: FileUploadBean.java,v 1.2 2004/06/18 14:55:23 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,7 +11,7 @@ package com.idega.webface.test;
 
 import java.io.IOException;
 
-import net.sourceforge.myfaces.custom.fileupload.UploadedFile;
+//import net.sourceforge.myfaces.custom.fileupload.UploadedFile;
 
 import com.idega.webface.WFUtil;
 
@@ -19,13 +19,13 @@ import com.idega.webface.WFUtil;
 /**
  * Bean holding uploaded file data. 
  * <p>
- * Last modified: $Date: 2004/06/18 14:08:07 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:55:23 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class FileUploadBean {
-	
+/*	
     private UploadedFile _upFile;
     private String _name = "";
 
@@ -44,8 +44,8 @@ public class FileUploadBean {
     public void setName(String name) {
         _name = name;
     }
-
+*/
     public void upload() throws IOException {
-		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "addImage", _upFile.getBytes(), _upFile.getContentType());
+//		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "addImage", _upFile.getBytes(), _upFile.getContentType());
     }
 }
