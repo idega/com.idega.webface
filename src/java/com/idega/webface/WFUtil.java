@@ -40,7 +40,7 @@ import com.idega.webface.htmlarea.HTMLArea;
  */
 public class WFUtil {
 	
-	private static String BUNDLE_IDENTIFIER="com.idega.webface";
+	private static String bundle_identifier="com.idega.webface";
 	
 	public static IWBundle getBundle(){
 		return getBundle(FacesContext.getCurrentInstance());
@@ -57,7 +57,7 @@ public class WFUtil {
 	}
 
 	public static IWBundle getBundle(FacesContext context){
-		return IWContext.getIWContext(context).getIWMainApplication().getBundle(BUNDLE_IDENTIFIER);
+		return IWContext.getIWContext(context).getIWMainApplication().getBundle(bundle_identifier);
 	}
 	
 	public static IWResourceBundle getResourceBundle(FacesContext context){
@@ -87,6 +87,16 @@ public class WFUtil {
 	}
 	
 	/**
+	 * Returns an html text component with value binding.
+	 */
+	public static HtmlOutputText getTextVB(String bundleIdentifier,String localizationKey) {
+		HtmlOutputText t = new HtmlOutputText();
+		String valueBinding = "#{bundles['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		t.setValueBinding("value",createValueBinding(valueBinding));
+		return t;
+	}
+	
+	/**
 	 * Returns an html header text component.
 	 */
 	public static HtmlOutputText getHeaderText(String s) {
@@ -102,6 +112,12 @@ public class WFUtil {
 	public static HtmlOutputText getHeaderTextVB(String ref) {
 		HtmlOutputText t = new HtmlOutputText();
 		t.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		t.setStyleClass("wf_headertext");
+		return t;
+	}
+	
+	public static HtmlOutputText getHeaderTextVB(String bundleIdentifier,String localizationKey) {
+		HtmlOutputText t = getTextVB(bundleIdentifier, localizationKey);
 		t.setStyleClass("wf_headertext");
 		return t;
 	}
@@ -193,6 +209,15 @@ public class WFUtil {
 		HtmlOutputText t = new HtmlOutputText();
 		t.setStyleClass("wf_listtext");
 		t.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		return t;
+	}
+	
+	/**
+	 * Returns an html list text with value binding.
+	 */
+	public static HtmlOutputText getListTextVB(String bundleIdentifier,String localizationKey) {
+		HtmlOutputText t = getTextVB(bundleIdentifier, localizationKey);
+		t.setStyleClass("wf_listtext");
 		return t;
 	}
 	
@@ -302,6 +327,18 @@ public class WFUtil {
 	}
 	
 	/**
+	 * Returns an html command button with value binding text label.
+	 */
+	public static HtmlCommandButton getButtonVB(String id, String bundleIdentifier, String localizationKey) {
+		HtmlCommandButton b = new HtmlCommandButton();
+		b.setId(id);
+		String valueBinding = "#{bundles['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		b.setValueBinding("value",createValueBinding(valueBinding));
+		setInputStyle(b);
+		return b;
+	}
+	
+	/**
 	 * Returns an html command button with value binding text label and with the specified action listener added.
 	 */
 	public static HtmlCommandButton getButtonVB(String id, String key, ActionListener actionListener) {
@@ -393,6 +430,17 @@ public class WFUtil {
 	}
 	
 	/**
+	 * Adds a UIParameter with value binding to the specified component. 
+	 */
+	public static void addParameterVB(UIComponent component, String name, String bundleIdentifier, String localizationKey) {
+		UIParameter p = new UIParameter();
+		p.setName(name);
+		String valueBinding = "#{bundles['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		p.setValueBinding("value",createValueBinding(valueBinding));
+		component.getChildren().add(p);		
+	}
+	
+	/**
 	 * Returns the value for the parameter with the specified name. 
 	 */
 	public static String getParameter(UIComponent component, String name) {
@@ -467,6 +515,15 @@ public class WFUtil {
 	 */
 	public static void addMessageVB(UIComponent component, String ref) {
 		ValueBinding vb = WFUtil.createValueBinding("#{" + ref + "}");
+		addMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
+	}
+	
+	/**
+	 * Adds a message with value binding for the specified component. 
+	 */
+	public static void addMessageVB(UIComponent component, String bundleIdentifier,String localizationKey) {
+		String valueBinding = "#{bundles['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		ValueBinding vb = WFUtil.createValueBinding(valueBinding);
 		addMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
 	}
 	
