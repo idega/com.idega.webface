@@ -8,6 +8,9 @@
  */
 package com.idega.webface;
 
+import com.idega.core.view.DefaultViewNode;
+import com.idega.core.view.ViewManager;
+import com.idega.core.view.ViewNode;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWBundleStartable;
 import com.idega.repository.data.SingletonRepository;
@@ -26,7 +29,8 @@ public class IWBundleStarter implements IWBundleStartable {
 	 */
 	public void start(IWBundle starterBundle) {
 		//Initialize the ThemeManager;
-		ThemeManager manager = ThemeManager.getInstance();
+		ThemeManager.getInstance();
+		addViews(starterBundle);
 	}
 
 	/* (non-Javadoc)
@@ -34,6 +38,21 @@ public class IWBundleStarter implements IWBundleStartable {
 	 */
 	public void stop(IWBundle starterBundle) {
 		SingletonRepository.getRepository().unloadInstance(ThemeManager.class);
+	}
+	
+	public void addViews(IWBundle bundle){
+
+		ViewManager viewManager = ViewManager.getInstance(bundle.getApplication());
+		ViewNode node = viewManager.getWorkspaceRoot();
+		
+		DefaultViewNode temp = new DefaultViewNode("linkchooser", node);
+		temp.setVisibleInMenus(false);
+		temp.setJspUri(bundle.getJSPURI("linkChooser.jsp"));
+		
+		DefaultViewNode t2 = new DefaultViewNode("edit", temp);
+		t2.setVisibleInMenus(false);
+		t2.setJspUri(bundle.getJSPURI("linkChooserEdit.jsp"));
+
 	}
 	
 }
