@@ -13,6 +13,10 @@ function DynamicCSS(editor, args) {
 	var toolbar = cfg.toolbar;
 	var self = this;
 	var i18n = DynamicCSS.I18N;
+	var toolbarIndex = args[0];
+	if (toolbarIndex == null) {
+		toolbarIndex = 0;
+	}
 
         /*var cssArray=null;
         var cssLength=0;
@@ -28,9 +32,9 @@ function DynamicCSS(editor, args) {
 	};
 	cfg.registerDropdown(css_class);
 
-	toolbar[0].splice(0, 0, "separator");
-	toolbar[0].splice(0, 0, "DynamicCSS-class");
-	toolbar[0].splice(0, 0, "T[CSS]");
+	toolbar[toolbarIndex].splice(0, 0, "separator");
+	toolbar[toolbarIndex].splice(0, 0, "DynamicCSS-class");
+	toolbar[toolbarIndex].splice(0, 0, "T[CSS]");
 };
 
 DynamicCSS.parseStyleSheet=function(editor){

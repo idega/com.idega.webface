@@ -15,6 +15,10 @@ function CSS(editor, params) {
 	var self = this;
 	var i18n = CSS.I18N;
 	var plugin_config = params[0];
+	var toolbarIndex = params[1];
+	if (toolbarIndex == null) {
+		toolbarIndex = 1;
+	}
 	var combos = plugin_config.combos;
 
 	var first = true;
@@ -31,10 +35,10 @@ function CSS(editor, params) {
 		cfg.registerDropdown(css_class);
 
 		// prepend to the toolbar
-		toolbar[1].splice(0, 0, first ? "separator" : "space");
-		toolbar[1].splice(0, 0, id);
+		toolbar[toolbarIndex].splice(0, 0, first ? "separator" : "space");
+		toolbar[toolbarIndex].splice(0, 0, id);
 		if (combo.label)
-			toolbar[1].splice(0, 0, "T[" + combo.label + "]");
+			toolbar[toolbarIndex].splice(0, 0, "T[" + combo.label + "]");
 		first = false;
 	}
 };
