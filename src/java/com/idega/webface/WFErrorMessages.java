@@ -1,5 +1,5 @@
 /*
- * $Id: WFErrorMessages.java,v 1.1 2004/05/27 12:37:18 anders Exp $
+ * $Id: WFErrorMessages.java,v 1.2 2004/05/28 08:03:14 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -12,7 +12,6 @@ package com.idega.webface;
 import java.io.IOException;
 import java.util.Iterator;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlMessage;
 import javax.faces.context.FacesContext;
@@ -20,10 +19,10 @@ import javax.faces.context.FacesContext;
 /**
  * Container for error messages.
  * <p>
- * Last modified: $Date: 2004/05/27 12:37:18 $ by $Author: anders $
+ * Last modified: $Date: 2004/05/28 08:03:14 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFErrorMessages extends WFContainer {
 	
@@ -73,7 +72,7 @@ public class WFErrorMessages extends WFContainer {
 				UIComponent forComponent = m.findComponent(m.getFor());
 				Iterator iter = context.getMessages(forComponent.getClientId(context));
 				if (iter.hasNext()) {
-					FacesMessage fm = (FacesMessage) iter.next();
+					//FacesMessage fm = (FacesMessage) iter.next();
 					hasMessages = true;
 				}				
 			}
