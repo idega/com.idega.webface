@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleBlock.java,v 1.6 2004/06/23 13:23:43 anders Exp $
+ * $Id: ArticleBlock.java,v 1.7 2004/06/24 13:21:36 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -47,10 +47,10 @@ import com.idega.webface.event.WFTaskbarListener;
 /**
  * Block for editing an article.   
  * <p>
- * Last modified: $Date: 2004/06/23 13:23:43 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/24 13:21:36 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ArticleBlock extends WFBlock implements ActionListener, ManagedContentBeans {
 
@@ -65,7 +65,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 	private final static String HEADLINE_ID = P + "headline";
 	private final static String LOCALE_ID = P + "locale";
 	private final static String TEASER_ID = P + "teaser";
-	private final static String BODY_ID = P + "body";
+	public final static String BODY_ID = P + "body";
 	private final static String MAIN_CATEGORY_ID = P + "main_category";
 	private final static String AUTHOR_ID = P + "author";
 	private final static String SOURCE_ID = P + "source";
@@ -181,8 +181,11 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		p.getChildren().add(authorInput);		
 		p.getChildren().add(WFUtil.getText("Body:"));		
 		p.getChildren().add(WFUtil.getText("Images:"));		
-		HtmlInputTextarea bodyArea = WFUtil.getTextArea(BODY_ID, ref + "body", "400px", "300px");
-		p.getChildren().add(bodyArea);
+		HtmlInputTextarea bodyArea = WFUtil.getTextArea(BODY_ID, ref + "body", "460px", "400px");
+		HtmlCommandButton editButton = WFUtil.getButton("test", "Edit");
+		editButton.setOnclick("wurl='htmlarea/webface/htmledit.jsp?" + PREVIEW_ARTICLE_ITEM_ID + 
+					"='+this.tabindex;window.open(wurl,'Edit','height=450,width=600,resizable=yes,status=no,toolbar=no,menubar=no,location=no,scrollbars=no');return false;");
+		p.getChildren().add(WFUtil.group(WFUtil.group(bodyArea, WFUtil.getBreak()), editButton));
 		WFContainer imageContainer = new WFContainer();		
 		imageContainer.add(WFUtil.getButton(ADD_IMAGE_ID, "Add image", this));
 		imageContainer.add(WFUtil.getBreak());
@@ -341,7 +344,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 		HtmlOutputLink link = new HtmlOutputLink();
 		WFUtil.setValueBinding(link, "tabindex", var + ".value");
 		link.setOnclick("wurl='previewarticle.jsf?" + PREVIEW_ARTICLE_ITEM_ID + 
-					"='+this.tabindex;window.open(wurl,'Preview','height=300,width=500,status=no,toolbar=no,menubar=no,location=yes,scrollbars=yes  ');return false;");
+					"='+this.tabindex;window.open(wurl,'Preview','height=300,width=500,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes  ');return false;");
 		HtmlOutputText txt = new HtmlOutputText();
 		WFUtil.setValueBinding(txt, "value", var + ".name");
 		link.getChildren().add(txt);
@@ -484,13 +487,14 @@ public class ArticleBlock extends WFBlock implements ActionListener, ManagedCont
 
 		HtmlPanelGrid p = WFPanelUtil.getPlainFormPanel(1);
 		p.getChildren().add(WFUtil.getHeaderTextVB(ref + "headline"));
-		p.getChildren().add(WFUtil.getBreak());
+		p.getChildren().add(WFUtil.getText(" "));
 		p.getChildren().add(WFUtil.getTextVB(ref + "teaser"));
-		p.getChildren().add(WFUtil.getBreak());
+		p.getChildren().add(WFUtil.getText(" "));
 		WFPlainOutputText bodyText = new WFPlainOutputText();
 		WFUtil.setValueBinding(bodyText, "value", ref + "body");
 		p.getChildren().add(bodyText);
-		p.getChildren().add(WFUtil.getBreak(2));		
+		p.getChildren().add(WFUtil.getBreak());		
+		p.getChildren().add(new WFPlainOutputText("<hr/>"));		
 		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Author: "), WFUtil.getTextVB(ref + "author")));
 		p.getChildren().add(WFUtil.getText(" "));
 		p.getChildren().add(WFUtil.group(WFUtil.getHeaderText("Created: "), WFUtil.getText("4/20/04 3:04 PM")));
