@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.1 2005/03/08 10:39:39 gimmi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.2 2005/03/08 17:04:21 gimmi Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -11,14 +11,12 @@ package com.idega.webface.htmlarea;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Vector;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
-import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import com.idega.idegaweb.IWBundle;
 import com.idega.presentation.IWBaseComponent;
@@ -36,24 +34,18 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	
 	public final static String IW_BUNDLE_IDENTIFIER = "com.idega.webface";
 	
-	private Collection tabs = null;
 	
-	private final String PARAMETER_CREATOR = "pc";
+	public final static String PARAMETER_CREATOR = "pc";
 	private final static String PARAMETER_HREF = "f_href";
 	private final static String PARAMETER_TARGET = "f_target";
 	private final static String PARAMETER_TOOLTIP = "f_title";
 	private final static String PARAMETER_LINK_TYPE = "f_lt";
 	
+	private Collection tabs = null;
+	private boolean useLinkTarget = true;
 	private IWBundle bundle;
 	private String selectedType;
 	HTMLAreaLinkType currentLinkType = null;
-	
-	public void decode(FacesContext context) {
-		Map parameters = context.getExternalContext().getRequestParameterMap();
-		selectedType = (String) parameters.get(PARAMETER_LINK_TYPE);
-		System.out.println(selectedType);
-		super.decode(context);
-	}
 	
 	public void initializeContent() {
 		IWContext iwc = IWContext.getInstance();
@@ -78,6 +70,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		}
 		tabs.add(new HTMLAreaExternalLinkType());
 		tabs.add(new HTMLAreaEmailLinkType());
+		tabs.add(new HTMLAreaPageLinkType());
 		
 		selectedType = iwc.getParameter(PARAMETER_LINK_TYPE);
 		String pc = iwc.getParameter(PARAMETER_CREATOR);
@@ -132,6 +125,11 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	}
 	
 	private WFBlock getSubmitTable(HTMLAreaLinkType currentLinkType) {
+		WFBlock block = new WFBlock();
+		WFTitlebar header = new WFTitlebar();
+		header.addTitleText(bundle.getLocalizedText("link_creator"));
+		block.setTitlebar(header);
+
 		HtmlInputText url = new HtmlInputText();
 		url.setId(PARAMETER_HREF);
 		url.setSize(40);
@@ -177,33 +175,31 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		line1.setId("wf_lc_href");
 		line1.getChildren().add(txtUrl);
 		line1.getChildren().add(url);
+		block.add(line1);
 
 		WFContainer line2 = new WFContainer();
 		line2.setStyleClass("wf_htmlare_linkcreator_line");
 		line2.setId("wf_lc_tooltip");
 		line2.getChildren().add(txtTitle);
 		line2.getChildren().add(title);
+		block.add(line2);
 		
-		WFContainer line3 = new WFContainer();
-		line3.setStyleClass("wf_htmlare_linkcreator_line");
-		line3.setId("wf_lc_target");
-		line3.getChildren().add(txtTarget);
-		line3.getChildren().add(menu);
+		if (useLinkTarget) {
+			WFContainer line3 = new WFContainer();
+			line3.setStyleClass("wf_htmlare_linkcreator_line");
+			line3.setId("wf_lc_target");
+			line3.getChildren().add(txtTarget);
+			line3.getChildren().add(menu);
+			block.add(line3);
+		}
 
 		WFContainer line4 = new WFContainer();
 		line4.setStyleClass("wf_htmlare_linkcreator_line");
 		line4.setId("wf_lc_save");
 		line4.getChildren().add(saveButton);
+		block.add(line4);
 
 				
-		WFBlock block = new WFBlock();
-		WFTitlebar header = new WFTitlebar();
-		header.addTitleText(bundle.getLocalizedText("link_creator"));
-		block.setTitlebar(header);
-		block.add(line1);
-		block.add(line2);
-		block.add(line3);
-		block.add(line4);
 		return block;
 	}
 	
@@ -244,6 +240,10 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void setUseLinkTarget(boolean useLinkTarget) {
+		this.useLinkTarget = useLinkTarget;
 	}
 	
 }
