@@ -1,7 +1,6 @@
 <project>
     <extend>../com.idega.core.bundle/base-project.xml</extend>
     <name>idegaWeb WebFace</name>
-    <groupId>com.idega.webface</groupId>
     <artifactId>com.idega.webface</artifactId>
     <currentVersion>1.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
