@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewSelector.java,v 1.4 2004/10/21 11:45:23 joakim Exp $
+ * $Id: WFViewSelector.java,v 1.5 2004/11/02 17:47:27 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,17 +11,19 @@ package com.idega.webface;
 
 import java.io.IOException;
 import javax.faces.component.UICommand;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Component for selecting the view root. 
  * <p>
- * Last modified: $Date: 2004/10/21 11:45:23 $ by $Author: joakim $
+ * Last modified: $Date: 2004/11/02 17:47:27 $ by $Author: joakim $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFViewSelector extends UICommand implements ActionListener {
 	
@@ -47,23 +49,35 @@ public class WFViewSelector extends UICommand implements ActionListener {
 	 * Sets the id for the selected view.
 	 */
 	public void setViewId(String selectedViewId) {
+		/*
 		if (!_actionListenerAdded) {
 			addActionListener(this);
 			_actionListenerAdded = true;			
 		}
-		_selectedViewId = selectedViewId;
-		//ActionEvent event = new ActionEvent(this);
-		//queueEvent(event);
+		*/
 		
-		//String viewId = this.getViewId();
-		//WFUtil.setViewRoot(selectedViewId);
-		
-		try {
-			FacesContext.getCurrentInstance().getExternalContext().dispatch(selectedViewId);
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(_selectedViewId==null || !_selectedViewId.equals(selectedViewId)){
+			_selectedViewId = selectedViewId;
+			//ActionEvent event = new ActionEvent(this);
+			//queueEvent(event);
+			
+			//String viewId = this.getViewId();
+			//WFUtil.setViewRoot(selectedViewId);
+			
+			try {
+				ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+				HttpServletRequest request = (HttpServletRequest)extContext.getRequest();
+				String requestURI = request.getRequestURI();
+				//We don´t want to send a dispatch to the same page again:
+				if(!requestURI.endsWith(selectedViewId)){
+					
+					extContext.dispatch(selectedViewId);
+				}
+			}
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}	
