@@ -1,5 +1,5 @@
 /*
- * $Id: CaseListBean.java,v 1.2 2004/06/11 13:56:02 anders Exp $
+ * $Id: CaseListBean.java,v 1.3 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -25,13 +25,13 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for content item case list rows.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
-public class CaseListBean extends WFListBean implements Serializable {
+public class CaseListBean implements WFListBean, Serializable {
 
 	public final static String CASE_ID = "case_id";
 	
@@ -146,19 +146,20 @@ public class CaseListBean extends WFListBean implements Serializable {
 	/**
 	 * @see com.idega.webface.bean.WFListBean#updateDataModel() 
 	 */
-	public void updateDataModel(int start, int rows) {
+	public void updateDataModel(Integer start, Integer rows) {
 		if (_dataModel == null) {
 			_dataModel = new WFDataModel();
 		}
 		int availableRows = testDescriptions.length;
-		if (rows == 0) {
-			rows = availableRows;
+		int nrOfRows = rows.intValue();
+		if (nrOfRows == 0) {
+			nrOfRows = availableRows;
 		}
-		int maxRow = start + rows;
+		int maxRow = start.intValue() + nrOfRows;
 		if (maxRow > availableRows) {
 			maxRow = availableRows;
 		}
-		for (int i = start; i < maxRow; i++) {
+		for (int i = start.intValue(); i < maxRow; i++) {
 			CaseListBean c = new CaseListBean(String.valueOf(i), testDescriptions[i], testCreated[i], testLastModified[i], testAuthors[i], testStatus[i]);
 			_dataModel.set(c, i);
 		}

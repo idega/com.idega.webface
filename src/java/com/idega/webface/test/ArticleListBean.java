@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleListBean.java,v 1.4 2004/06/11 13:56:02 anders Exp $
+ * $Id: ArticleListBean.java,v 1.5 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -24,13 +24,13 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for article list rows.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 
-public class ArticleListBean extends WFListBean implements Serializable {
+public class ArticleListBean implements WFListBean, Serializable {
 	
 	public final static String ARTICLE_ID = "article_id";
 	
@@ -134,19 +134,20 @@ public class ArticleListBean extends WFListBean implements Serializable {
 	/**
 	 * @see com.idega.webface.bean.WFListBean#updateDataModel() 
 	 */
-	public void updateDataModel(int start, int rows) {
+	public void updateDataModel(Integer start, Integer rows) {
 		if (_dataModel == null) {
 			_dataModel = new WFDataModel();
 		}
 		int availableRows = testHeadlines.length;
-		if (rows == 0) {
-			rows = availableRows;
+		int nrOfRows = rows.intValue();
+		if (nrOfRows == 0) {
+			nrOfRows = availableRows;
 		}
-		int maxRow = start + rows;
+		int maxRow = start.intValue() + nrOfRows;
 		if (maxRow > availableRows) {
 			maxRow = availableRows;
 		}
-		for (int i = start; i < maxRow; i++) {
+		for (int i = start.intValue(); i < maxRow; i++) {
 			ArticleListBean a = new ArticleListBean(String.valueOf(i), testHeadlines[i], testPublished[i], testAuthors[i], testStatus[i]);
 			if (i == 5) {
 				// set test style red

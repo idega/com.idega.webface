@@ -13,7 +13,7 @@
 <body>
 
 <f:view>
-	<h:form id="testScreen" name="form1">
+	<h:form id="testScreen" name="form1" enctype="multipart/form-data">
 	<w:create_article_page id="testpage" />
 	</h:form>
 </f:view>

@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.3 2004/06/11 13:56:02 anders Exp $
+ * $Id: WFList.java,v 1.4 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,7 +11,6 @@ package com.idega.webface;
 
 import java.io.IOException;
 
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
@@ -23,7 +22,6 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
-import com.idega.webface.bean.WFListBean;
 import com.idega.webface.event.WFListNavigationEvent;
 import com.idega.webface.event.WFListNavigationListener;
 
@@ -31,14 +29,15 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public class WFList extends HtmlDataTable implements ActionListener, NamingContainer {
+public class WFList extends HtmlDataTable implements ActionListener {
 	
 	private boolean _showListNavigation = true;
+	private boolean _navigationBelowList = false;
 	private String _listStyleClass = null;
 	private String _listBeanSessionId = null;
 
@@ -68,13 +67,20 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 		String var = listBeanSessionId + "_var";
 		setVar(var);
 		setValueBinding("value", WFUtil.createValueBinding("#{" + _listBeanSessionId + ".dataModel}"));
-		WFListBean listBean = (WFListBean) WFUtil.getSessionBean(_listBeanSessionId); 
-		UIColumn[] columns = listBean.createColumns(var);
+		UIColumn[] columns = (UIColumn[]) WFUtil.invoke(_listBeanSessionId, "createColumns", var);
 		for (int i = 0; i < columns.length; i++) {
 			addColumn(columns[i]);
 		}
 		setRows(rows);
 		setFirst(first);
+	}
+	
+	/**
+	 * Constructs a new WFList component with the specified list session bean as data source
+	 * with first row set to the beginning of the list and number of rows unlimited.
+	 */
+	public WFList(String listBeanSessionId) {
+		this(listBeanSessionId, 0, 0);
 	}
 		
 	/**
@@ -89,6 +95,13 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	 */
 	public boolean getShowListNavigation() {
 		return _showListNavigation;
+	}
+		
+	/**
+	 * Returns true if the list navigation shall be placed below the list.
+	 */
+	public boolean getNavigationBelowList() {
+		return _navigationBelowList;
 	}
 
 	/**
@@ -107,8 +120,7 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 			setListNavigationLinks();			
 		}
 		if (_listBeanSessionId != null) {
-			WFListBean listBean = (WFListBean) WFUtil.getSessionBean(_listBeanSessionId);
-			listBean.updateDataModel(getFirst(), getRows());
+			WFUtil.invoke(_listBeanSessionId, "updateDataModel", new Integer(getFirst()), new Integer(getRows()));
 		}
 	}
 
@@ -126,6 +138,13 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	 */
 	public void setShowListNavigation(boolean showListNavigation) {
 		_showListNavigation = showListNavigation;
+	}
+		
+	/**
+	 * Sets if if the list navigation shall be placed below the list.
+	 */
+	public void setNavigationBelowList(boolean navigationBelowList) {
+		_navigationBelowList = navigationBelowList;
 	}
 
 	/**
@@ -183,7 +202,7 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 		if (getListStyleClass() != null) {
 			out.writeAttribute("class", getListStyleClass(), null);
 		}
-		if (_showListNavigation) {
+		if (_showListNavigation && !_navigationBelowList) {
 			renderListNavigation(context);
 		}
 	}
@@ -202,6 +221,9 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
+		if (_showListNavigation && _navigationBelowList) {
+			renderListNavigation(context);
+		}
 		ResponseWriter out = context.getResponseWriter();
 		out.endElement("div");
 	}
@@ -210,11 +232,12 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[4];
+		Object values[] = new Object[5];
 		values[0] = super.saveState(ctx);
 		values[1] = new Boolean(_showListNavigation);
-		values[2] = _listStyleClass;
-		values[3] = _listBeanSessionId;
+		values[2] = new Boolean(_navigationBelowList);
+		values[3] = _listStyleClass;
+		values[4] = _listBeanSessionId;
 		return values;
 	}
 	
@@ -225,8 +248,9 @@ public class WFList extends HtmlDataTable implements ActionListener, NamingConta
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
 		_showListNavigation = ((Boolean) values[1]).booleanValue();
-		_listStyleClass = (String) values[2];
-		_listBeanSessionId = (String) values[3];
+		_navigationBelowList = ((Boolean) values[2]).booleanValue();
+		_listStyleClass = (String) values[3];
+		_listBeanSessionId = (String) values[4];
 	}
 
 	/**

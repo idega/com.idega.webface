@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 /**
- * IWApplicationToolbar //TODO: tryggvil Describe class
+ * A menu component with toolbar buttons. 
  * Copyright (C) idega software 2003
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
@@ -23,12 +23,6 @@ public class WFToolbar extends WFContainer implements Serializable
 		setStyleClass("wf_toolbar");
 	}
 
-	/**
-	 * 
-	 */
-	private void addDefaultButtons() {
-		// TODO Auto-generated method stub		
-	}
 	
 	public void addButton(WFToolbarButton button){
 		this.getChildren().add(button);

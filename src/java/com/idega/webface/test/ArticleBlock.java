@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleBlock.java,v 1.3 2004/06/11 13:56:02 anders Exp $
+ * $Id: ArticleBlock.java,v 1.4 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -10,9 +10,14 @@
 package com.idega.webface.test;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
+import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlDataTable;
+import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
@@ -28,30 +33,32 @@ import com.idega.webface.WFComponentSelector;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFErrorMessages;
 import com.idega.webface.WFPanel;
+import com.idega.webface.WFPlainOutputText;
 import com.idega.webface.WFTaskbar;
 import com.idega.webface.WFUtil;
 import com.idega.webface.convert.WFCommaSeparatedListConverter;
 import com.idega.webface.convert.WFDateConverter;
+import com.idega.webface.event.WFTaskbarListener;
 
 /**
  * Block for editing an article.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ArticleBlock extends WFBlock implements ActionListener {
 
 	public final static String ARTICLE_BLOCK_ID = "article_block";
 
-	public final static String ARTICLE_ITEM_BEAN_ID = "article_item_bean";
-	
-	private final static String TASK_ID_EDIT = "t_edit";
-	private final static String TASK_ID_PREVIEW = "t_preview";
-	private final static String TASK_ID_MESSAGES = "t_messages";
+	public final static String ARTICLE_ITEM_BEAN_ID = "articleItemBean";
 	
 	private final static String P = "article_block_"; // Id prefix
+	
+	public final static String TASK_ID_EDIT = P + "t_edit";
+	public final static String TASK_ID_PREVIEW = P + "t_preview";
+	public final static String TASK_ID_MESSAGES = P + "t_messages";
 	
 	private final static String HEADLINE_ID = P + "headline";
 	private final static String LOCALE_ID = P + "locale";
@@ -74,6 +81,11 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 	private final static String DELETE_ID = P + "delete";
 	private final static String CANCEL_ID = P + "cancel";
 	private final static String EDIT_CATEGORIES_ID = P + "edit_categories";
+	private final static String ADD_IMAGE_ID = P + "add_image";
+	private final static String REMOVE_IMAGE_ID = P + "remove_image";
+	private final static String FILE_UPLOAD_FORM_ID = P + "file_upload_form";
+	private final static String FILE_UPLOAD_ID = P + "file_upload";
+	private final static String FILE_UPLOAD_CANCEL_ID = P + "file_upload_cancel";
 	
 	private final static String TASKBAR_ID = P + "taskbar";
 
@@ -97,10 +109,9 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 	/**
 	 * Constructs an ArticleBlock with the specified title key. 
 	 */
-	public ArticleBlock(String titleKey) {
+	public ArticleBlock(String titleKey, WFTaskbarListener taskbarListener) {
 		super(titleKey);
 		setId(ARTICLE_BLOCK_ID);
-		setWidth("700px");
 		getTitlebar().setLocalizedTitle(true);
 		setMainAreaStyleClass(null);
 		
@@ -111,22 +122,16 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		tb.addButton(TASK_ID_PREVIEW, "Preview", getPreviewContainer());
 		tb.addButton(TASK_ID_MESSAGES, "Messages", getMessageContainer());
 		tb.setSelectedButtonId(TASK_ID_EDIT);
-		
-		if (getArticleItemBean() == null) {
-			ArticleItemBean bean = new ArticleItemBean();
-			bean.setLocaleId("sv");
-			bean.setHeadline("");
-			bean.setBody("");
-			bean.setTeaser("");
-			bean.setAuthor("");
-			bean.setComment("");
-			bean.setSource("");
-			bean.setStatus(ContentItemCaseBean.STATUS_NEW);
-			setArticleItemBean(bean);
-		} else {
-			setArticleItemBean(getArticleItemBean());
+		if (taskbarListener != null) {
+			tb.addTaskbarListener(taskbarListener);
 		}
-		setEditMode();
+	}
+	
+	/**
+	 * Constructs an ArticleBlock with the specified title key and taskbar listener. 
+	 */
+	public ArticleBlock(String titleKey) {
+		this(titleKey, null);
 	}
 	
 	/*
@@ -146,7 +151,7 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		headlineInput.setSize(40);
 		p.setInput(headlineInput, 1, 2);		
 		HtmlSelectOneMenu localeMenu = WFUtil.getSelectOneMenu(LOCALE_ID, ref + "allLocales", ref + "pendingLocaleId");
-		localeMenu.setOnchange("document.forms['testScreen'].submit();");
+		localeMenu.setOnchange("document.forms[0].submit();");
 		p.setInput(localeMenu, 2, 2);		
 		p.setInputHeader("Teaser:", 1, 3);		
 		p.setInputHeader("Author:", 2, 3);		
@@ -158,8 +163,12 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		p.setInputHeader("Body:", 1, 5);		
 		p.setInputHeader("Images:", 2, 5);		
 		HtmlInputTextarea bodyArea = WFUtil.getTextArea(BODY_ID, ref + "body", "400px", "300px");
-		p.setInput(bodyArea, 1, 6);		
-		p.setInput(WFUtil.getText(" "), 2, 6);
+		p.setInput(bodyArea, 1, 6);
+		WFContainer imageContainer = new WFContainer();		
+		imageContainer.add(WFUtil.getLink(ADD_IMAGE_ID, "Add image", this));
+		imageContainer.add(WFUtil.getBreak());
+		imageContainer.add(getImageList());
+		p.setInput(imageContainer, 2, 6);
 		p.setInputHeader("Source:", 1, 7);		
 		p.setInputHeader("main category:", 2, 7);		
 		HtmlInputTextarea sourceArea = WFUtil.getTextArea(SOURCE_ID, ref + "source", "440px", "30px");
@@ -239,9 +248,39 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		editorSelector.setStyleAttribute("padding", "8px");
 		editorSelector.add(c);
 		editorSelector.add(getCategoryEditContainer());
+		FileUploadForm f = new FileUploadForm(this, FILE_UPLOAD_ID, FILE_UPLOAD_CANCEL_ID);
+		f.setId(FILE_UPLOAD_FORM_ID);
+		editorSelector.add(f);
 		editorSelector.setSelectedId(ARTICLE_EDITOR_ID, true);
 		
 		return editorSelector;
+	}
+
+	/*
+	 * Returns a list with images for the article.
+	 */
+	private UIComponent getImageList() {
+		String var = "article_images";
+		HtmlDataTable t = new HtmlDataTable();
+		t.setVar(var);
+		WFUtil.setValueBinding(t, "value", ARTICLE_ITEM_BEAN_ID + ".images");
+		t.setColumnClasses("wf_valign_middle");
+		
+		UIColumn col = new UIColumn();
+		HtmlGraphicImage image = new HtmlGraphicImage();
+		image.setStyle("width:40px;height:40px;");
+		WFUtil.setValueBinding(image, "url", var + ".imageURI");
+		col.getChildren().add(image);
+		t.getChildren().add(col);
+		
+		col = new UIColumn();
+		HtmlCommandButton removeButton = WFUtil.getButton(REMOVE_IMAGE_ID, "Remove", this);
+		removeButton.setOnclick("return confirm('Are you sure you want to remove the image?');return false;");
+		WFUtil.addParameterVB(removeButton, "image_no", var + ".orderNoString");
+		col.getChildren().add(removeButton);
+		t.getChildren().add(col);
+		
+		return t;
 	}
 	
 	/*
@@ -283,12 +322,12 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		return p;
 	}
 	
-	/*
+	/**
 	 * Updates the buttons in edit mode depending on the status of the current article.
 	 */
-	private void updateEditButtons() {
+	public void updateEditButtons() {
 		WFComponentSelector cs = (WFComponentSelector) findComponent(BUTTON_SELECTOR_ID);
-		String s = getArticleItemBean().getStatus();
+		String s = WFUtil.getValue(ARTICLE_ITEM_BEAN_ID, "status");
 
 		if (s.equals(ContentItemCaseBean.STATUS_NEW)) {
 			cs.setSelectedId(SAVE_ID, false);
@@ -362,7 +401,9 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		c.add(WFUtil.getBreak(2));
 		c.add(WFUtil.getTextVB(ref + "teaser"));
 		c.add(WFUtil.getBreak(2));
-		c.add(WFUtil.getTextVB(ref + "body"));
+		WFPlainOutputText bodyText = new WFPlainOutputText();
+		WFUtil.setValueBinding(bodyText, "value", ref + "body");
+		c.add(bodyText);
 		c.add(WFUtil.getBreak(4));
 		
 		c.add(WFUtil.getHeaderText("Author: "));
@@ -429,21 +470,6 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		WFTaskbar tb = (WFTaskbar) findComponent(TASKBAR_ID);
 		tb.setSelectedButtonId(TASK_ID_MESSAGES);
 	}
-
-	/**
-	 * Returns the article item session bean.
-	 */
-	public ArticleItemBean getArticleItemBean() {
-		return (ArticleItemBean) WFUtil.getSessionBean(ARTICLE_ITEM_BEAN_ID);
-	}
-
-	/**
-	 * Sets the article item session bean.
-	 */
-	public void setArticleItemBean(ArticleItemBean bean) {
-		WFUtil.setSessionBean(ARTICLE_ITEM_BEAN_ID, bean);
-		updateEditButtons();
-	}
 	
 	/**
 	 * javax.faces.event.ActionListener#processAction()
@@ -454,32 +480,52 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		if (id.equals(SAVE_ID)) {
 			ab.storeArticle();
 		} else if (id.equals(FOR_REVIEW_ID)) {
-			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_READY_FOR_REVIEW);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_READY_FOR_REVIEW);
 			ab.storeArticle();
 		} else if (id.equals(PUBLISH_ID)) {
-			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_PUBLISHED);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
 			ab.storeArticle();
 		} else if (id.equals(REWRITE_ID)) {
-			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_REWRITE);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_REWRITE);
 			ab.storeArticle();
 		} else if (id.equals(REJECT_ID)) {
-			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_DELETED);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_DELETED);
 			ab.storeArticle();
 		} else if (id.equals(DELETE_ID)) {
-			getArticleItemBean().setStatus(ContentItemCaseBean.STATUS_DELETED);
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_DELETED);
 			ab.storeArticle();
 		} else if (id.equals(EDIT_CATEGORIES_ID)) {
 			WFComponentSelector cs = (WFComponentSelector) event.getComponent().findComponent(EDITOR_SELECTOR_ID);
 			cs.setSelectedId(ARTICLE_EDITOR_ID, false);
 			cs.setSelectedId(CATEGORY_EDITOR_ID, true);
+			cs.setSelectedId(FILE_UPLOAD_FORM_ID, false);
 		} else if (id.equals(ADD_CATEGORIES_ID)) {
-			getArticleItemBean().addSelectedCategories();
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "addSelectedCategories");
 		} else if (id.equals(SUB_CATEGORIES_ID)) {
-			getArticleItemBean().removeSelectedCategories();
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "removeSelectedCategories");
 		} else if (id.equals(CATEGORY_BACK_ID)) {
 			WFComponentSelector cs = (WFComponentSelector) event.getComponent().findComponent(EDITOR_SELECTOR_ID);
 			cs.setSelectedId(ARTICLE_EDITOR_ID, true);
 			cs.setSelectedId(CATEGORY_EDITOR_ID, false);
+			cs.setSelectedId(FILE_UPLOAD_FORM_ID, false);
+		} else if (id.equals(ADD_IMAGE_ID)) {
+			WFComponentSelector cs = (WFComponentSelector) event.getComponent().findComponent(EDITOR_SELECTOR_ID);
+			cs.setSelectedId(ARTICLE_EDITOR_ID, false);
+			cs.setSelectedId(CATEGORY_EDITOR_ID, false);
+			cs.setSelectedId(FILE_UPLOAD_FORM_ID, true);
+		} else if (id.equals(FILE_UPLOAD_CANCEL_ID)) {
+			WFComponentSelector cs = (WFComponentSelector) event.getComponent().findComponent(EDITOR_SELECTOR_ID);
+			cs.setSelectedId(ARTICLE_EDITOR_ID, true);
+			cs.setSelectedId(CATEGORY_EDITOR_ID, false);
+			cs.setSelectedId(FILE_UPLOAD_FORM_ID, false);
+		} else if (id.equals(FILE_UPLOAD_ID)) {
+			WFComponentSelector cs = (WFComponentSelector) event.getComponent().findComponent(EDITOR_SELECTOR_ID);
+			cs.setSelectedId(ARTICLE_EDITOR_ID, true);
+			cs.setSelectedId(CATEGORY_EDITOR_ID, false);
+			cs.setSelectedId(FILE_UPLOAD_FORM_ID, false);
+		} else if (id.equals(REMOVE_IMAGE_ID)) {
+			int imageNo = WFUtil.getIntParameter(event.getComponent(), "image_no");
+			WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "removeImage", new Integer(imageNo));
 		}
 	}
 	
@@ -487,10 +533,15 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 	 * Stores the current article. 
 	 */
 	public void storeArticle() {
-		try {
-			getArticleItemBean().store();
-		} catch (ContentItemException e) {
-			WFUtil.addLocalizedMessage(findComponent(SAVE_ID), e.getLocalizationKey());
+		boolean storeOk = ((Boolean) WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "store")).booleanValue();
+		if (!storeOk) {
+			List errorKeys = (List) WFUtil.getObjectValue(ARTICLE_ITEM_BEAN_ID, "errorKeys");
+			if (errorKeys != null) {
+				for (Iterator iter = errorKeys.iterator(); iter.hasNext();) {
+					String errorKey = (String) iter.next();
+					WFUtil.addLocalizedMessage(findComponent(SAVE_ID), errorKey);
+				}
+			}
 			return;
 		}
 		setUserMessage("Article saved.");
@@ -509,7 +560,8 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
-		getArticleItemBean().updateLocale();
+		WFUtil.invoke(ARTICLE_ITEM_BEAN_ID, "updateLocale");
+		updateEditButtons();
 		super.encodeBegin(context);
 	}
 }

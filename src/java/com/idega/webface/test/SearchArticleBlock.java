@@ -1,5 +1,5 @@
 /*
- * $Id: SearchArticleBlock.java,v 1.1 2004/06/11 13:45:54 anders Exp $
+ * $Id: SearchArticleBlock.java,v 1.2 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -28,16 +28,16 @@ import com.idega.webface.convert.WFDateConverter;
 /**
  * Block for searching articles.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:45:54 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SearchArticleBlock extends WFBlock implements ActionListener, Serializable {
 
 	public final static String SEARCH_ARTICLE_BLOCK_ID = "search_article_block";
 
-	public final static String SEARCH_ARTICLE_BEAN_ID = "search_article_bean";
+	public final static String SEARCH_ARTICLE_BEAN_ID = "searchArticleBean";
 	
 	private final static String P = "search_article_block_"; // Id prefix
 	
@@ -63,13 +63,8 @@ public class SearchArticleBlock extends WFBlock implements ActionListener, Seria
 	public SearchArticleBlock(String titleKey) {
 		super(titleKey);
 		setId(SEARCH_ARTICLE_BLOCK_ID);
-		setWidth("700px");
-//		getTitlebar().setLocalizedTitle(true);
-//		setMainAreaStyleClass(null);
 		
-		if (WFUtil.getSessionBean(SEARCH_ARTICLE_BEAN_ID) == null) {
-			WFUtil.setSessionBean(SEARCH_ARTICLE_BEAN_ID, new SearchArticleBean(this));
-		}
+		WFUtil.invoke(SEARCH_ARTICLE_BEAN_ID, "setArticleLinkListener", this, ActionListener.class);
 
 		add(getSearchPanel());
 		add(WFUtil.getBreak());
@@ -136,31 +131,27 @@ public class SearchArticleBlock extends WFBlock implements ActionListener, Seria
 	 */
 	public void processAction(ActionEvent event) {
 		String date = "no date";
-		SearchArticleBean sab = (SearchArticleBean) WFUtil.getSessionBean(SEARCH_ARTICLE_BEAN_ID);
-		date = ""+ sab.getSearchPublishedFrom();
+		date = "" + WFUtil.getObjectValue(SEARCH_ARTICLE_BEAN_ID, "searchPublishedFrom");
 		
 		if (event.getComponent().getId().equals(SEARCH_BUTTON_ID)) {
-			sab.search();
+			WFUtil.invoke(SEARCH_ARTICLE_BEAN_ID, "search");
 			return;
 		}
 		
 		UIComponent link = event.getComponent();
 		String id = WFUtil.getParameter(link, "id");
-		ArticleItemBean bean = new ArticleItemBean();
-		bean.setLocaleId("sv");
-		bean.setHeadline("search result, date =" +date);
-		bean.setTeaser("Teaser");
-		bean.setBody("Article " + id);
-		bean.setAuthor("author");
-		bean.setComment("comment");
-		bean.setDescription("description");
-		bean.setSource("source");
-		bean.setStatus(ContentItemCaseBean.STATUS_PUBLISHED);
-		bean.setMainCategoryId(3);
-
-		bean.setUpdated(true);
-		
-		WFUtil.setSessionBean(ArticleBlock.ARTICLE_ITEM_BEAN_ID, bean);
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "clear");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setLocaleId", "sv");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setHeadline", "search result, date =" + date);
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setTeaser", "Teaser");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setBody", "Article " + id);
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setAuthor", "author");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setComment", "comment");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setDescription", "description");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setUpdated", new Boolean(true));
+				
 		WFUtil.setViewRoot("/cmspage.jsf");
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleItemBean.java,v 1.3 2004/06/11 13:56:02 anders Exp $
+ * $Id: ArticleItemBean.java,v 1.4 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -10,17 +10,16 @@
 package com.idega.webface.test;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Bean for idegaWeb article content items.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 
 public class ArticleItemBean extends ContentItemBean implements Serializable {
@@ -31,33 +30,13 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 	public final static String KEY_ERROR_BODY_EMPTY = KP + "body_empty";
 	
 	private boolean _isUpdated = false;
+	private List _errorKeys = null;
 	
 	/**
 	 * Default constructor.
 	 */
-	public ArticleItemBean() {}
-	
-	/**
-	 * Constructs a new article content item bean with the specified parameters. 
-	 */
-	public ArticleItemBean(
-			int contentItemId,
-			int versionId,
-			Locale locale,
-			String name,
-			String description,
-			Timestamp createdTimestamp,
-			int createdByUserId) {
-		super(
-			contentItemId,
-			versionId,
-			locale,
-			name,
-			description,
-			"ARTICLE_ITEM",
-			createdTimestamp,
-			createdByUserId);
-		setCase(new ContentItemCaseBean());
+	public ArticleItemBean() {
+		clear();
 	}
 		
 	public String getHeadline() { return getItemField("headline").getValue(); }
@@ -83,17 +62,86 @@ public class ArticleItemBean extends ContentItemBean implements Serializable {
 
 	public boolean isUpdated() { return _isUpdated; }
 	public void setUpdated(boolean b) { _isUpdated = b; }
-
+	public void setUpdated(Boolean b) { _isUpdated = b.booleanValue(); }
+	
+	/**
+	 * Clears all all attributes for this bean. 
+	 */
+	public void clear() {
+		super.clear();
+		_isUpdated = false;
+	}
+	
+	/**
+	 * Adds an image to this article item.
+	 */
+	public void addImage(byte[] imageData, String contentType) {
+		List l = getImages();
+		if (l == null) {
+			l = new ArrayList();
+		}
+		ContentItemFieldBean field = new ContentItemFieldBean();
+		field.setBinaryValue(imageData);
+		field.setFieldType(contentType);
+		field.setOrderNo(l.size());
+		l.add(field);
+		setImages(l);
+	}
+	
+	/**
+	 * Removes the image with the specified image number from this article item.
+	 */
+	public void removeImage(Integer imageNumber) {
+		int imageNo = imageNumber.intValue();
+		try {
+			List l = getImages();
+			l.remove(imageNo);
+			for (int i = 0; i < l.size(); i++) {
+				ContentItemFieldBean field = (ContentItemFieldBean) l.get(i);
+				field.setOrderNo(i);
+			}
+		} catch (Exception e) {}
+	}
+	
+	/**
+	 * Returns localization keys for error messages.  
+	 */
+	public List getErrorKeys() {
+		return _errorKeys;
+	}
+	
+	/**
+	 * Adds an error message localization key.  
+	 */
+	public void addErrorKey(String key) {
+		if (_errorKeys == null) {
+			_errorKeys = new ArrayList();
+		}
+		_errorKeys.add(key);
+	}
+	
+	/**
+	 * Clears all error message localization keys.  
+	 */
+	public void clearErrorKeys() {
+		_errorKeys = new ArrayList();
+	}
+	
 	/**
 	 * Stores this article item to the database. 
 	 */
-	public void store() throws ContentItemException {
+	public Boolean store() {
+		boolean storeOk = true;
+		clearErrorKeys();
 		if (getHeadline().trim().equals("")) {
-			throw new ContentItemException(KEY_ERROR_HEADLINE_EMPTY);
+			addErrorKey(KEY_ERROR_HEADLINE_EMPTY);
+			storeOk = false;
 		}
 		if (getBody().trim().equals("")) {
-			throw new ContentItemException(KEY_ERROR_BODY_EMPTY);
+			addErrorKey(KEY_ERROR_BODY_EMPTY);
+			storeOk = false;
 		}
 		// Store article item
+		return new Boolean(storeOk);
 	}
 }

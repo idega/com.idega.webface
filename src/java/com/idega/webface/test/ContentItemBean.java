@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.3 2004/06/11 13:56:02 anders Exp $
+ * $Id: ContentItemBean.java,v 1.4 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,10 +23,10 @@ import java.util.Map;
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 
 public class ContentItemBean implements Serializable {
@@ -88,7 +88,7 @@ public class ContentItemBean implements Serializable {
 		
 	public int getContentItemId() { return _contentItemId; }
 	public Locale getLocale() { return _locale; }
-	public String getLocaleId() { return _locale.getLanguage(); }
+	public String getLocaleId() { return _locale == null ? "" : _locale.getLanguage(); }
 	public String getName() { return _name; }
 	public String getDescription() { return _description; }
 	public String getItemType() { return _itemType; }
@@ -106,7 +106,36 @@ public class ContentItemBean implements Serializable {
 	
 	public String getPendingLocaleId() { return _pendingLocaleId != null ? _pendingLocaleId : _locale.getLanguage(); }
 	public void setPendingLocaleId(String localeId) { _pendingLocaleId = localeId; }
+
+	/**
+	 * Clears all attributes for this bean.
+	 */
+	public void clear() {
+		_contentItemId = 0;
+		_locale = Locale.getDefault();
+		_name = null;
+		_description = null;
+		_itemType = null;
+		_createdTimestamp = null;
+		_createdByUserId = 0;
+
+		_pendingLocaleId = null;
 	
+		_caseBean = null;
+	
+		_itemFields = null;
+		_categories = null;
+		_mainCategoryIds = null;
+		_versionIds = null;
+
+		_allCategories = null;
+		_allLocales = null;
+	
+		_selectedAvailableCategories = null;
+		_selectedCategories = null;
+		
+		setStatus(ContentItemCaseBean.STATUS_NEW);
+	}
 
 	// Locale dependent attributes
 	
@@ -134,10 +163,14 @@ public class ContentItemBean implements Serializable {
 	}
 	
 	public void setMainCategoryId(int id) {
+		setMainCategoryId(new Integer(id));
+	}
+
+	public void setMainCategoryId(Integer id) {
 		if (_mainCategoryIds == null) {
 			_mainCategoryIds = new HashMap();
 		}
-		_mainCategoryIds.put(getLocaleId(), new Integer(id));
+		_mainCategoryIds.put(getLocaleId(), id);
 	}
 
 	/**
@@ -145,12 +178,12 @@ public class ContentItemBean implements Serializable {
 	 */
 	public ContentItemFieldBean getItemField(String key) {
 		if (_itemFields == null) {
-			return null;
+			_itemFields = new HashMap();
 		}
 		ContentItemFieldBean field = (ContentItemFieldBean) _itemFields.get(key + getLocaleId());
 		if (field == null) {
 			field = new ContentItemFieldBean(-1, -1, key, "", 0, ContentItemFieldBean.FIELD_TYPE_STRING);
-			setItemField(key, field);
+			setItemField(key + getLocaleId(), field);
 		}
 		return field;
 	}
@@ -303,15 +336,6 @@ public class ContentItemBean implements Serializable {
 			_allCategories.put("IT stuff", new Integer(5));
 			_allCategories.put("Press releases", new Integer(6));
 			_allCategories.put("Internal info", new Integer(7));
-			/*
-			_allCategories.put("Public news", "" + new Integer(1));
-			_allCategories.put("Business news", "" + new Integer(2));
-			_allCategories.put("Company info", "" + new Integer(3));
-			_allCategories.put("General info", "" + new Integer(4));
-			_allCategories.put("IT stuff", "" + new Integer(5));
-			_allCategories.put("Press releases", "" + new Integer(6));
-			_allCategories.put("Internal info", "" + new Integer(7));
-			*/
 		}
 		return _allCategories;
 	}

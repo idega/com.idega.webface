@@ -8,7 +8,7 @@ import javax.faces.context.ResponseWriter;
 import com.idega.faces.IWBaseComponent;
 /**
  * Title:        idegaclasses
- * Description:
+ * Description:  Container holding child components.  
  * Copyright:    Copyright (c) 2001
  * Company:      idega
  * @author <a href="tryggvi@idega.is">Tryggvi Larusson</a>
@@ -16,10 +16,10 @@ import com.idega.faces.IWBaseComponent;
  */
 public class WFContainer extends IWBaseComponent
 {
-	private static String HTML_TABLE_TAG="TABLE";
+//	private static String HTML_TABLE_TAG="TABLE";
 	private static String HTML_DIV_TAG="DIV";
 	
-	private static boolean imagesSet = false;
+//	private static boolean imagesSet = false;
 	
 	/*private static Image topleft;
 	private static Image topright;
@@ -143,6 +143,9 @@ public class WFContainer extends IWBaseComponent
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext ctx) throws IOException {
+		if (!isRendered()) {
+			return;
+		}
 		ResponseWriter out = ctx.getResponseWriter();
 //		out.write("<link type=\"text/css\" href=\"style/webfacestyle.css\" rel=\"stylesheet\">");
 		//RenderUtils.ensureAllTagsFinished();
@@ -159,6 +162,9 @@ public class WFContainer extends IWBaseComponent
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
 	public void encodeChildren(FacesContext context) throws IOException {
+		if (!isRendered()) {
+			return;
+		}
 		// TODO Auto-generated method stub
 		super.encodeChildren(context);
 	}
@@ -166,6 +172,9 @@ public class WFContainer extends IWBaseComponent
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
 	public void encodeEnd(FacesContext ctx) throws IOException {
+		if (!isRendered()) {
+			return;
+		}
 		ResponseWriter out = ctx.getResponseWriter();
 		// TODO Auto-generated method stub
 		out.endElement(getMarkupElementType());

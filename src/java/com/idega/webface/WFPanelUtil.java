@@ -1,5 +1,5 @@
 /*
- * $Id: WFPanelUtil.java,v 1.1 2004/06/07 07:51:47 anders Exp $
+ * $Id: WFPanelUtil.java,v 1.2 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,10 +14,10 @@ import javax.faces.component.html.HtmlPanelGrid;
 /**
  * Utility class for creating default application panels.
  * <p>
- * Last modified: $Date: 2004/06/07 07:51:47 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFPanelUtil {
 
@@ -28,7 +28,7 @@ public class WFPanelUtil {
 		HtmlPanelGrid p = new HtmlPanelGrid();
 		p.setColumns(2);
 		p.setStyleClass("wf_applicationpanel");
-		p.setColumnClasses("wf_applicationleftcolumn");
+		p.setColumnClasses("wf_applicationleftcolumn,wf_applicationrightcolumn");
 		return p;
 	}
 
@@ -37,7 +37,7 @@ public class WFPanelUtil {
 	 */
 	public static HtmlPanelGrid getFormPanel(int columns, int rows) {
 		HtmlPanelGrid p = new HtmlPanelGrid();
-		p.setColumns(2);
+		p.setColumns(columns);
 		p.setStyleClass("wf_formpanel");
 		String rowClasses = "";
 		for (int i = 0; i < rows; i++) {

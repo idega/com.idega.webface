@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemFieldBean.java,v 1.1 2004/06/07 07:51:19 anders Exp $
+ * $Id: ContentItemFieldBean.java,v 1.2 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,20 +14,22 @@ import java.io.Serializable;
 /**
  * Bean for idegaWeb content item fields.   
  * <p>
- * Last modified: $Date: 2004/06/07 07:51:19 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class ContentItemFieldBean implements Serializable {
 	
 	public final static String FIELD_TYPE_STRING = "STRING";
+	public final static String FIELD_TYPE_BINARY = "BINARY";
 	
 	private int _contentItemFieldId = 0;
 	private int _versionId = 0;
 	private String _key = null;
 	private String _value = null;
+	private byte[] _binaryValue = null;
 	private int _orderNo = 0;
 	private String _fieldType = null;
 	
@@ -58,13 +60,18 @@ public class ContentItemFieldBean implements Serializable {
 	public int getVersionId() { return _versionId; }
 	public String getKey() { return _key; }
 	public String getValue() { return _value; }
+	public byte[] getBinaryValue() { return _binaryValue; }
 	public int getOrderNo() { return _orderNo; }
+	public String getOrderNoString() { return String.valueOf(_orderNo); }
 	public String getFieldType() { return _fieldType; }
 
 	public void setContentItemFieldId(int id) { _contentItemFieldId = id; } 
 	public void setVersionId(int id) { _versionId = id; }
 	public void setKey(String s) { _key = s; }
 	public void setValue(String s) { _value = s; }
+	public void setBinaryValue(byte[] binaryValue) { _binaryValue = binaryValue; _fieldType = FIELD_TYPE_BINARY; } 
 	public void setOrderNo(int n) { _orderNo = n; }
 	public void setFieldType(String s) { _fieldType = s; }
+	
+	public String getImageURI() { return "showimg.jsp?image_number=" + _orderNo; }
 }

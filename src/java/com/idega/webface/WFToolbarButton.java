@@ -12,7 +12,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
 
 /**
- * IWApplicationToolButton //TODO: tryggvil Describe class Copyright (C) idega
+ * Button component used in WFToolbar. 
  * software 2003
  * 
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson </a>
@@ -129,18 +129,13 @@ public class WFToolbarButton extends UICommand {
 	 * 
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
-	public void encodeBegin(FacesContext context) throws IOException {
+	public void encodeBegin(FacesContext context) {
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
-	public void encodeChildren(FacesContext context) throws IOException {
-//		Iterator children = this.getChildren().iterator();
-//		while (children.hasNext()) {
-//			UIComponent element = (UIComponent) children.next();
-//			renderChild(context, element);
-//		}
+	public void encodeChildren(FacesContext context) {
 	}
 	
 	/**

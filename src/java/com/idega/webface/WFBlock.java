@@ -9,20 +9,18 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
- * WFBlock //TODO: tryggvil Describe class
+ * Component with title bar and container area.
  * Copyright (C) idega software 2003
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
+ * @author Anders Lindman
  * @version 1.0
  */
 public class WFBlock extends WFContainer
 {
-	private WFContainer mainArea;
 	private boolean toolbarEmbeddedInTitlebar=true;
 	private String mainAreaStyleClass = null;
 	
 	public WFBlock(){
-		setWidth("300px");
-//		setHeight("300px");
 		setStyleClass("wf_simplebox");
 		setMainAreaStyleClass("wf_blockmainarea");
 	}
@@ -45,7 +43,6 @@ public class WFBlock extends WFContainer
 		
 		toolbar.addButton(new WFBackButton());
 		toolbar.addButton(new WFForwardButton());
-//		toolbar.addButton(new WFStopButton());
 		toolbar.addButton(new WFHelpButton());
 		toolbar.addButton(new WFCloseButton());
 	}
@@ -124,6 +121,9 @@ public class WFBlock extends WFContainer
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
+		if (!isRendered()) {
+			return;
+		}
 		super.encodeBegin(context);
 		if (mainAreaStyleClass != null) {
 			WFContainer mainArea = (WFContainer) getChildren().get(0);
@@ -138,7 +138,10 @@ public class WFBlock extends WFContainer
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
-	public void encodeChildren(FacesContext context) throws IOException {		
+	public void encodeChildren(FacesContext context) throws IOException {
+		if (!isRendered()) {
+			return;
+		}
 		super.encodeChildren(context);
 	}
 	
@@ -146,6 +149,9 @@ public class WFBlock extends WFContainer
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
+		if (!isRendered()) {
+			return;
+		}
 		super.encodeEnd(context);
 	}
 	

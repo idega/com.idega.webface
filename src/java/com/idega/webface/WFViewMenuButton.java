@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewMenuButton.java,v 1.2 2004/06/08 16:14:47 anders Exp $
+ * $Id: WFViewMenuButton.java,v 1.3 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -12,10 +12,10 @@ package com.idega.webface;
 /**
  * Button for WFViewMenu components.  
  * <p>
- * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFViewMenuButton extends WFTaskbarButton {
 
@@ -31,6 +31,7 @@ public class WFViewMenuButton extends WFTaskbarButton {
 	 */
 	public WFViewMenuButton(String buttonLabel) {
 		super(buttonLabel);
+		setImmediate(true);
 	}
 	
 }

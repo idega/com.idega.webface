@@ -1,5 +1,5 @@
 /*
- * $Id: CMSPage.java,v 1.2 2004/06/11 13:56:02 anders Exp $
+ * $Id: CMSPage.java,v 1.3 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -12,7 +12,6 @@ package com.idega.webface.test;
 import java.io.IOException;
 import java.io.Serializable;
 
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
@@ -27,26 +26,36 @@ import com.idega.webface.WFPanelUtil;
 import com.idega.webface.WFTaskbar;
 import com.idega.webface.WFUtil;
 import com.idega.webface.WFViewMenu;
+import com.idega.webface.event.WFTaskbarEvent;
+import com.idega.webface.event.WFTaskbarListener;
 
 /**
  * Content management system test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class CMSPage extends WFPage implements ActionListener, Serializable {
+public class CMSPage extends WFPage implements ActionListener, WFTaskbarListener, Serializable {
 
-	public final static String ARTICLE_LIST_BEAN_ID = "article_list_bean";
-	public final static String CASE_LIST_BEAN_ID = "case_list_bean";
+	public final static String ARTICLE_LIST_BEAN_ID = "articleListBean";
+	public final static String CASE_LIST_BEAN_ID = "caseListBean";
+	
+	private final static String P = "cms_page_"; // Parameter prefix
+	
+	private final static String TASK_ID_CONTENT = P + "t_content";
+	private final static String TASK_ID_EDIT = P + "t_edit";
+
+	private final static String MAIN_TASKBAR_ID = P + "main_taskbar";
+	private final static String ARTICLE_LIST_ID = P + "article_list";
+	private final static String CASE_LIST_ID = P + "case_list";
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
 		if (getChildren().size() == 0) {
-//			context.getViewRoot().setLocale(new Locale("sv", "SE"));
 			createContent();
 		}
 		super.encodeBegin(context);
@@ -55,21 +64,13 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	/**
 	 * Creates the page content. 
 	 */
-	protected void createContent() {		
-		boolean isArticleBeanUpdated = false;
-		ArticleItemBean bean = (ArticleItemBean) WFUtil.getSessionBean(ArticleBlock.ARTICLE_ITEM_BEAN_ID);
-		if (bean != null) {
-			isArticleBeanUpdated = bean.isUpdated();
-			bean.setUpdated(false);
-		}
+	protected void createContent() {
+		boolean isArticleBeanUpdated = WFUtil.getBooleanValue(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "updated");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setUpdated", new Boolean(false));
 		
-		if (WFUtil.getSessionBean(ARTICLE_LIST_BEAN_ID) == null) {
-			WFUtil.setSessionBean(ARTICLE_LIST_BEAN_ID, new ArticleListBean(this));
-		}
+		WFUtil.invoke(ARTICLE_LIST_BEAN_ID, "setArticleLinkListener", this, ActionListener.class);
 		
-		if (WFUtil.getSessionBean(CASE_LIST_BEAN_ID) == null) {
-			WFUtil.setSessionBean(CASE_LIST_BEAN_ID, new CaseListBean(this));
-		}
+		WFUtil.invoke(CASE_LIST_BEAN_ID, "setCaseLinkListener", this, ActionListener.class);
 		
 		add(WFUtil.getBannerBox());
 		add(getMainTaskbar());
@@ -84,9 +85,9 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	 */
 	protected UIComponent getMainTaskbar() {
 		WFTaskbar tb = new WFTaskbar();
-		tb.setId("main_taskbar");
-		tb.addButton("content", "Content", getContentPerspective());
-		tb.addButton("edit", "Edit", getEditPerspective());
+		tb.setId(MAIN_TASKBAR_ID);
+		tb.addButton(TASK_ID_CONTENT, "Content", getContentPerspective());
+		tb.addButton(TASK_ID_EDIT, "Edit", getEditPerspective());
 		return tb;
 	}
 	
@@ -109,9 +110,13 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	protected UIComponent getEditPerspective() {
 		HtmlPanelGrid ap = WFPanelUtil.getApplicationPanel();
 		ap.getChildren().add(getFunctionBlock());
-		ArticleBlock ab = new ArticleBlock("edit_article");
-		ab.setId("article_block");
-		ap.getChildren().add(ab);
+		WFContainer c = new WFContainer();
+		ArticleBlock ab = new ArticleBlock("edit_article", this);
+		c.add(ab);
+		ArticleVersionBlock av = new ArticleVersionBlock("Previous article versions");
+		av.setRendered(false);
+		c.add(av);
+		ap.getChildren().add(c);
 		return ap;
 	}
 	
@@ -124,7 +129,7 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 		b = WFUtil.setBlockStyle(b, vm);
 		vm.addButton("news_items", "Content Home", "/cmspage.jsf");
 		vm.addButton("create_article", "Create Article", "/createarticle.jsf");
-		vm.addButton("list_articles", "List Articles", "ListArticles.jsf");
+		vm.addButton("list_articles", "List Articles", "/listarticles.jsf");
 		vm.addButton("search_articles", "Search Articles", "/searcharticle.jsf");
 		vm.addButton("users_groups", "Users and Groups", "UserApplication.jsf");
 		vm.addButton("create_page", "Create Page", "CreatePage.jsf");
@@ -138,9 +143,8 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	 */
 	protected UIComponent getArticleList() {
 		WFBlock b = new WFBlock("Article list");
-		b.setWidth("700px");
 		WFList l = new WFList(ARTICLE_LIST_BEAN_ID, 0, 3);
-		l.setId("articlelist");
+		l.setId(ARTICLE_LIST_ID);
 		b.add(l);
 		return b;
 	}
@@ -150,9 +154,8 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	 */
 	protected UIComponent getCaseList() {
 		WFBlock b = new WFBlock("Case list");
-		b.setWidth("700px");
 		WFList l = new WFList(CASE_LIST_BEAN_ID, 0, 3);
-		l.setId("caselist");
+		l.setId(CASE_LIST_ID);
 		b.add(l);
 		return b;
 	}
@@ -163,37 +166,50 @@ public class CMSPage extends WFPage implements ActionListener, Serializable {
 	public void processAction(ActionEvent event) {
 		UIComponent link = event.getComponent();
 		String id = WFUtil.getParameter(link, "id");
-		WFTaskbar tb = (WFTaskbar) link.findComponent(NamingContainer.SEPARATOR_CHAR + "testScreen" +
-				NamingContainer.SEPARATOR_CHAR + "main_taskbar");
-		tb.setSelectedButtonId("edit");
-		ArticleBlock ab = (ArticleBlock) tb.findComponent("article_block");
+		WFTaskbar tb = (WFTaskbar) link.getParent().getParent().getParent().findComponent(MAIN_TASKBAR_ID);
+		tb.setSelectedButtonId(TASK_ID_EDIT);
+		ArticleBlock ab = (ArticleBlock) tb.findComponent(ArticleBlock.ARTICLE_BLOCK_ID);
 		ab.setEditMode();
-		ArticleItemBean bean = new ArticleItemBean();
-		bean.setLocaleId("sv");
-		bean.setHeadline("headline");
-		bean.setTeaser("teaser");
-		bean.setBody(id);
-		bean.setAuthor("author");
-		bean.setComment("comment");
-		bean.setDescription("description");
-		bean.setSource("source");
+
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "clear");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setLocaleId", "sv");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setHeadline", "headline");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setBody", id);
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setAuthor", "author");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setComment", "comment");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setDescription", "description");
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setSource", "source");
 		if (link.getId().equals(ArticleListBean.ARTICLE_ID)) {
-			bean.setStatus(ContentItemCaseBean.STATUS_PUBLISHED);
+			WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_PUBLISHED);
 		} else {
-			bean.setStatus(ContentItemCaseBean.STATUS_UNDER_REVIEW);			
+			WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setStatus", ContentItemCaseBean.STATUS_UNDER_REVIEW);
 		}
-		bean.setMainCategoryId(3);
-		ab.setArticleItemBean(bean);
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "setMainCategoryId", new Integer(3));
+
+		ab.updateEditButtons();
 	}
 	
 	/**
 	 * Sets the page in edit mode.
 	 */
 	public void setEditMode() {
-		WFTaskbar tb = (WFTaskbar) findComponent(NamingContainer.SEPARATOR_CHAR + "testScreen" +
-				NamingContainer.SEPARATOR_CHAR + "main_taskbar");
-		tb.setSelectedButtonId("edit");
-		ArticleBlock ab = (ArticleBlock) tb.findComponent("article_block");
+		WFTaskbar tb = (WFTaskbar) findComponent(MAIN_TASKBAR_ID);
+		tb.setSelectedButtonId(TASK_ID_EDIT);
+		ArticleBlock ab = (ArticleBlock) tb.findComponent(ArticleBlock.ARTICLE_BLOCK_ID);
 		ab.setEditMode();		
+	}
+	
+	/**
+	 * Called when the edit mode in the article block changes.
+	 * @see com.idega.webface.event.WFTaskbarListener#taskbarButtonPressed() 
+	 */
+	public void taskbarButtonPressed(WFTaskbarEvent e) {
+		WFTaskbar t = e.getTaskbar();
+		UIComponent articleVersionBlock = t.findComponent(ArticleVersionBlock.ARTICLE_VERSION_BLOCK_ID);
+		if (t.getSelectedButtonId().equals(ArticleBlock.TASK_ID_PREVIEW)) {
+			articleVersionBlock.setRendered(true);
+		} else {
+			articleVersionBlock.setRendered(false);			
+		}
 	}
 }

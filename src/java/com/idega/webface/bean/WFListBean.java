@@ -1,5 +1,5 @@
 /*
- * $Id: WFListBean.java,v 1.2 2004/06/11 13:56:02 anders Exp $
+ * $Id: WFListBean.java,v 1.3 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -13,14 +13,14 @@ import javax.faces.component.UIColumn;
 import javax.faces.model.DataModel;
 
 /**
- * Abstract presentation bean representing data for a WFList component.   
+ * Interface for beans representing data for a WFList component.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public abstract class WFListBean {
+public interface WFListBean {
 	
 	/**
 	 * Updates the data model for this list bean.
@@ -28,21 +28,21 @@ public abstract class WFListBean {
 	 * @param start the start row
 	 * @param rows the number of rows to update with new data.
 	 */
-	public abstract void updateDataModel(int start, int rows);
+	public void updateDataModel(Integer start, Integer rows);
 		
 	/**
 	 * Returns UIColumn components for the list.
 	 * @var the var attribute for the list
 	 */
-	public abstract UIColumn[] createColumns(String var);
+	public UIColumn[] createColumns(String var);
 		
 	/**
 	 * Returns the data model for this list bean.
 	 */
-	public abstract DataModel getDataModel();
+	public DataModel getDataModel();
 		
 	/**
 	 * Sets the data model for this list bean.
 	 */
-	public abstract void setDataModel(DataModel dataModel);
+	public void setDataModel(DataModel dataModel);
 }

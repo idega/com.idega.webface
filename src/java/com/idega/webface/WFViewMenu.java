@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewMenu.java,v 1.3 2004/06/11 13:56:02 anders Exp $
+ * $Id: WFViewMenu.java,v 1.4 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,10 +23,10 @@ import javax.faces.event.ActionListener;
 /**
  * Menu with buttons for switching the view root. 
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFViewMenu extends WFContainer implements ActionListener {
 	
@@ -179,7 +179,7 @@ public class WFViewMenu extends WFContainer implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
-	public void encodeChildren(FacesContext context) throws IOException {
+	public void encodeChildren(FacesContext context) {
 	}
 	
 	/**

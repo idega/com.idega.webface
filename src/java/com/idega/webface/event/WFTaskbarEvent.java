@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbarEvent.java,v 1.1 2004/06/07 07:49:44 anders Exp $
+ * $Id: WFTaskbarEvent.java,v 1.2 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -15,12 +15,12 @@ import javax.faces.event.FacesListener;
 import com.idega.webface.WFTaskbar;
 
 /**
- * Event fired from a WFTaskbar component when the user clickes a taskbar button.  
+ * Event fired from a WFTaskbar component when the user clicks a taskbar button.  
  * <p>
- * Last modified: $Date: 2004/06/07 07:49:44 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFTaskbarEvent extends FacesEvent {
 	
@@ -36,7 +36,7 @@ public class WFTaskbarEvent extends FacesEvent {
 	 * Returns the WFTaskbar source for this event.
 	 */
 	public WFTaskbar getTaskbar() {
-		return (WFTaskbar) this.getSource();
+		return (WFTaskbar) this.getComponent();
 	}
 
 	/**

@@ -40,4 +40,14 @@
 		</attribute>
 	</tag>
 	
+	<tag>
+		<name>list_articles_page</name>
+		<tag-class>com.idega.webface.test.ListArticlesPageTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	
 </taglib>

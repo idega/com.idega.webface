@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewSelector.java,v 1.2 2004/06/11 13:56:02 anders Exp $
+ * $Id: WFViewSelector.java,v 1.3 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -9,8 +9,6 @@
  */
 package com.idega.webface;
 
-import java.io.IOException;
-
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -19,10 +17,10 @@ import javax.faces.event.ActionListener;
 /**
  * Component for selecting the view root. 
  * <p>
- * Last modified: $Date: 2004/06/11 13:56:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFViewSelector extends UICommand implements ActionListener {
 	
@@ -60,19 +58,19 @@ public class WFViewSelector extends UICommand implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
-	public void encodeBegin(FacesContext context) throws IOException {
+	public void encodeBegin(FacesContext context) {
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
-	public void encodeChildren(FacesContext context) throws IOException {
+	public void encodeChildren(FacesContext context) {
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
-	public void encodeEnd(FacesContext context) throws IOException {
+	public void encodeEnd(FacesContext context) {
 	}
 	
 	/**

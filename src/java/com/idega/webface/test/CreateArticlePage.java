@@ -1,5 +1,5 @@
 /*
- * $Id: CreateArticlePage.java,v 1.1 2004/06/11 13:45:01 anders Exp $
+ * $Id: CreateArticlePage.java,v 1.2 2004/06/18 14:11:02 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -18,10 +18,10 @@ import com.idega.webface.WFUtil;
 /**
  * Created article test/demo page. 
  * <p>
- * Last modified: $Date: 2004/06/11 13:45:01 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class CreateArticlePage extends CMSPage {
 
@@ -32,17 +32,7 @@ public class CreateArticlePage extends CMSPage {
 		add(WFUtil.getBannerBox());
 		add(getMainTaskbar());
 		
-		ArticleItemBean bean = new ArticleItemBean();
-		bean.setLocaleId("sv");
-		bean.setHeadline("");
-		bean.setBody("");
-		bean.setTeaser("");
-		bean.setAuthor("");
-		bean.setComment("");
-		bean.setSource("");
-		bean.setStatus(ContentItemCaseBean.STATUS_NEW);
-		
-		WFUtil.setSessionBean(ArticleBlock.ARTICLE_ITEM_BEAN_ID, bean);
+		WFUtil.invoke(ArticleBlock.ARTICLE_ITEM_BEAN_ID, "clear");
 	}
 	
 	/**
@@ -50,10 +40,6 @@ public class CreateArticlePage extends CMSPage {
 	 */
 	protected UIComponent getMainTaskbar() {
 		return getEditPerspective();
-//		WFTaskbar tb = new WFTaskbar();
-//		tb.setId("main_taskbar");
-//		tb.addButton("edit", "Edit", getEditPerspective());
-//		return tb;
 	}
 	
 	/**
