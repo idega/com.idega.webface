@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbar.java,v 1.3 2004/06/07 07:52:20 anders Exp $
+ * $Id: WFTaskbar.java,v 1.4 2004/06/08 16:14:47 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,10 +29,10 @@ import com.idega.webface.event.WFTaskbarListener;
  * A perspective can be any component that is rendered when
  * its task bar button is pressed.   
  * <p>
- * Last modified: $Date: 2004/06/07 07:52:20 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFTaskbar extends WFContainer implements ActionListener {
 	
@@ -112,9 +112,9 @@ public class WFTaskbar extends WFContainer implements ActionListener {
 	 * Adds a tastbar button with its corresponding perspective component.
 	 */
 	public WFTaskbarButton addButton(String buttonId, String buttonLabel, UIComponent perspective) {
-		WFTaskbarButton button = new WFTaskbarButton();
+		WFTaskbarButton button = new WFTaskbarButton(buttonLabel);
 		button.setId(buttonId);
-		button.setValue(buttonLabel);
+//		button.setValue(buttonLabel);
 		button.addActionListener(this);
 		button.setImmediate(true);
 		_buttonIds.add(buttonId);

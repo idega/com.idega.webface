@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleBlock.java,v 1.1 2004/06/07 07:50:29 anders Exp $
+ * $Id: ArticleBlock.java,v 1.2 2004/06/08 16:14:47 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,12 +14,14 @@ import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlSelectManyListbox;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
 import com.idega.webface.WFBlock;
+import com.idega.webface.WFComponentSelector;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFErrorMessages;
 import com.idega.webface.WFPanel;
@@ -31,10 +33,10 @@ import com.idega.webface.event.WFTaskbarListener;
 /**
  * Block for editing an article.   
  * <p>
- * Last modified: $Date: 2004/06/07 07:50:29 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarListener {
 
@@ -59,11 +61,26 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	private final static String USER_MESSAGE_ID = P + "user_message";
 	
 	private final static String SAVE_ID = P + "save";
+	private final static String FOR_REVIEW_ID = P + "for_review";
+	private final static String PUBLISH_ID = P + "publish";
+	private final static String REWRITE_ID = P + "rewrite";
+	private final static String REJECT_ID = P + "reject";
+	private final static String DELETE_ID = P + "delete";
 	private final static String CANCEL_ID = P + "cancel";
 	private final static String EDIT_CATEGORIES_ID = P + "edit_categories";
 	
 	private final static String TASKBAR_ID = P + "taskbar";
-	
+
+	private final static String BUTTON_SELECTOR_ID = P + "button_selector";
+	private final static String EDITOR_SELECTOR_ID = P + "editor_selector";
+	private final static String ARTICLE_EDITOR_ID = P + "article_editor";
+	private final static String CATEGORY_EDITOR_ID = P + "category_editor";
+
+	private final static String AVAILABLE_CATEGORIES_ID = P + "avaliable_categories";
+	private final static String ARTICLE_CATEGORIES_ID = P + "article_categories";
+	private final static String ADD_CATEGORIES_ID = P + "add_categories";
+	private final static String SUB_CATEGORIES_ID = P + "sub_categories";
+
 	private ArticleItemBean _articleItem = null;
 	
 	/**
@@ -85,7 +102,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		bean.setAuthor("");
 		bean.setComment("");
 		bean.setSource("");
-		setArticleItem(bean);
+		bean.setStatus(ContentItemCaseBean.STATUS_NEW);
 		setWidth("700px");
 		getTitlebar().setLocalizedTitle(true);
 		setMainAreaStyleClass(null);
@@ -98,6 +115,8 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		tb.addButton(TASK_ID_MESSAGES, "Messages", getMessageContainer());
 		tb.setSelectedButtonId(TASK_ID_EDIT);
 		tb.addTaskbarListener(this);
+		
+		setArticleItem(bean);
 	}
 	
 	/*
@@ -106,7 +125,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 	private UIComponent getEditContainer() {
 		
 		WFContainer c = new WFContainer();
-		c.setStyleAttribute("padding", "8px");
+		c.setId(ARTICLE_EDITOR_ID);
 
 		String ref = PARAMETER_ARTICLE_BEAN + ".";
 		
@@ -151,7 +170,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		c2.add(WFUtil.getText(" 4/20/04 3:04 PM"));
 		c2.add(WFUtil.getBreak(2));
 		c2.add(WFUtil.getHeaderText("Status:"));
-		c2.add(WFUtil.getText(" Published"));
+		c2.add(WFUtil.getTextVB(ref + "status"));
 		c2.add(WFUtil.getBreak(2));
 		c2.add(WFUtil.getHeaderText("Current version:"));
 		c2.add(WFUtil.getText(" 1.5"));
@@ -173,18 +192,133 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 
 		WFContainer bc = new WFContainer();
 		bc.setStyleAttribute("padding", "4px");
-		HtmlCommandButton saveButton = WFUtil.getButton(SAVE_ID, "Save", this);
-		em.addErrorMessage(saveButton.getId()); //temp
-		bc.add(saveButton);
-		bc.add(WFUtil.getText(" "));
 		HtmlCommandButton editCategoriesButton = WFUtil.getButton(EDIT_CATEGORIES_ID, "Edit categories", this);
 		bc.add(editCategoriesButton);
-		bc.add(WFUtil.getText(" "));
-		HtmlCommandButton cancelButton = WFUtil.getButton(CANCEL_ID, "Cancel", this);
-		bc.add(cancelButton);
 		c.add(bc);
 
-		return c;
+		c.add(WFUtil.getBreak());
+		
+		WFComponentSelector cs = new WFComponentSelector();
+		cs.setId(BUTTON_SELECTOR_ID);
+		cs.setStyleAttribute("padding", "4px");
+		cs.setDividerText(" ");
+		HtmlCommandButton saveButton = WFUtil.getButton(SAVE_ID, "Save", this);
+		em.addErrorMessage(saveButton.getId());
+		cs.add(saveButton);
+		cs.add(WFUtil.getButton(FOR_REVIEW_ID, "For review", this));
+		cs.add(WFUtil.getButton(PUBLISH_ID, "Publish", this));
+		cs.add(WFUtil.getButton(REWRITE_ID, "Rewrite", this));
+		cs.add(WFUtil.getButton(REJECT_ID, "Reject", this));
+		cs.add(WFUtil.getButton(DELETE_ID, "Delete", this));
+		cs.add(WFUtil.getButton(CANCEL_ID, "Cancel", this));
+		cs.setSelectedId(CANCEL_ID, true);
+		
+		c.add(cs);
+		
+		WFComponentSelector editorSelector = new WFComponentSelector();
+		editorSelector.setId(EDITOR_SELECTOR_ID);
+		editorSelector.setStyleAttribute("padding", "8px");
+		editorSelector.add(c);
+		editorSelector.add(getCategoryEditContainer());
+		editorSelector.setSelectedId(ARTICLE_EDITOR_ID, true);
+		
+		return editorSelector;
+	}
+	
+	/*
+	 * Returns container with form for editing categories.
+	 */
+	private UIComponent getCategoryEditContainer() {
+		WFPanel p = new WFPanel();
+
+		String ref = PARAMETER_ARTICLE_BEAN + ".";
+
+		p.setId(CATEGORY_EDITOR_ID);
+		p.setInputHeader("Available categories:", 1, 1, "20%");		
+		p.setInputHeader(" ", 2, 1);		
+		p.setInputHeader("Categories for this article:", 3, 1, "75%");
+		HtmlSelectManyListbox availableCategories = WFUtil.getSelectManyListbox(AVAILABLE_CATEGORIES_ID,
+				ref + "availableCategories", ref + "selectedAvailableCategories");
+		p.setInput(availableCategories, 1, 2);
+		
+		WFContainer c = new WFContainer();
+		c.add(WFUtil.getBreak());
+		c.add(WFUtil.getButton(ADD_CATEGORIES_ID, ">", this));
+		c.add(WFUtil.getBreak(2));
+		c.add(WFUtil.getButton(SUB_CATEGORIES_ID, "<", this));
+		p.setInput(c, 2, 2);
+		
+		HtmlSelectManyListbox articleCategories = WFUtil.getSelectManyListbox(ARTICLE_CATEGORIES_ID, 
+				ref + "categories", ref + "selectedArticleCategories");
+		p.setInput(articleCategories, 3, 2);		
+		
+		return p;
+	}
+	
+	/*
+	 * Updates the buttons in edit mode depending on the status of the current article.
+	 */
+	private void updateEditButtons() {
+		WFComponentSelector cs = (WFComponentSelector) findComponent(BUTTON_SELECTOR_ID);
+		String s = _articleItem.getStatus();
+
+		if (s.equals(ContentItemCaseBean.STATUS_NEW)) {
+			cs.setSelectedId(SAVE_ID, false);
+			cs.setSelectedId(FOR_REVIEW_ID, true);
+			cs.setSelectedId(PUBLISH_ID, true);
+			cs.setSelectedId(REWRITE_ID, false);
+			cs.setSelectedId(REJECT_ID, false);
+			cs.setSelectedId(DELETE_ID, false);
+		} else if (s.equals(ContentItemCaseBean.STATUS_READY_FOR_REVIEW)) {
+			cs.setSelectedId(SAVE_ID, false);
+			cs.setSelectedId(FOR_REVIEW_ID, false);
+			cs.setSelectedId(PUBLISH_ID, true);
+			cs.setSelectedId(REWRITE_ID, true);
+			cs.setSelectedId(REJECT_ID, true);
+			cs.setSelectedId(DELETE_ID, false);
+		} else if (s.equals(ContentItemCaseBean.STATUS_UNDER_REVIEW)) {
+			cs.setSelectedId(SAVE_ID, false);
+			cs.setSelectedId(FOR_REVIEW_ID, false);
+			cs.setSelectedId(PUBLISH_ID, true);
+			cs.setSelectedId(REWRITE_ID, true);
+			cs.setSelectedId(REJECT_ID, true);
+			cs.setSelectedId(DELETE_ID, false);
+		} else if (s.equals(ContentItemCaseBean.STATUS_REWRITE)) {
+			cs.setSelectedId(SAVE_ID, false);
+			cs.setSelectedId(FOR_REVIEW_ID, true);
+			cs.setSelectedId(PUBLISH_ID, true);
+			cs.setSelectedId(REWRITE_ID, false);
+			cs.setSelectedId(REJECT_ID, false);
+			cs.setSelectedId(DELETE_ID, false);
+		} else if (s.equals(ContentItemCaseBean.STATUS_PENDING_PUBLISHING)) {
+			cs.setSelectedId(SAVE_ID, true);
+			cs.setSelectedId(FOR_REVIEW_ID, false);
+			cs.setSelectedId(PUBLISH_ID, false);
+			cs.setSelectedId(REWRITE_ID, false);
+			cs.setSelectedId(REJECT_ID, false);
+			cs.setSelectedId(DELETE_ID, true);
+		} else if (s.equals(ContentItemCaseBean.STATUS_PUBLISHED)) {
+			cs.setSelectedId(SAVE_ID, true);
+			cs.setSelectedId(FOR_REVIEW_ID, false);
+			cs.setSelectedId(PUBLISH_ID, false);
+			cs.setSelectedId(REWRITE_ID, false);
+			cs.setSelectedId(REJECT_ID, false);
+			cs.setSelectedId(DELETE_ID, true);
+		} else if (s.equals(ContentItemCaseBean.STATUS_EXPIRED)) {
+			cs.setSelectedId(SAVE_ID, true);
+			cs.setSelectedId(FOR_REVIEW_ID, false);
+			cs.setSelectedId(PUBLISH_ID, false);
+			cs.setSelectedId(REWRITE_ID, false);
+			cs.setSelectedId(REJECT_ID, false);
+			cs.setSelectedId(DELETE_ID, true);
+		} else if (s.equals(ContentItemCaseBean.STATUS_DELETED)) {
+			cs.setSelectedId(SAVE_ID, true);
+			cs.setSelectedId(FOR_REVIEW_ID, true);
+			cs.setSelectedId(PUBLISH_ID, true);
+			cs.setSelectedId(REWRITE_ID, true);
+			cs.setSelectedId(REJECT_ID, true);
+			cs.setSelectedId(DELETE_ID, true);
+		}
 	}
 	
 	/*
@@ -256,6 +390,7 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		_articleItem = articleItem;
 		if (_articleItem != null) {
 			FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(PARAMETER_ARTICLE_BEAN, _articleItem);
+			updateEditButtons();
 		}
 	}
 
@@ -318,8 +453,12 @@ public class ArticleBlock extends WFBlock implements ActionListener, WFTaskbarLi
 		ArticleBlock ab = (ArticleBlock) event.getComponent().findComponent(ARTICLE_BLOCK_ID);
 		if (id.equals(SAVE_ID)) {
 			ab.storeArticle();
-		} else if (id.equals(CANCEL_ID)) {
-			// ...
+		} else if (id.equals(EDIT_CATEGORIES_ID)) {
+			WFComponentSelector cs = (WFComponentSelector) event.getComponent().findComponent(EDITOR_SELECTOR_ID);
+			cs.setSelectedId(ARTICLE_EDITOR_ID, false);
+			cs.setSelectedId(CATEGORY_EDITOR_ID, true);
+		} else if (id.equals(ADD_CATEGORIES_ID)) {
+			ab.getArticleItem().addSelectedCategories();
 		}
 	}
 

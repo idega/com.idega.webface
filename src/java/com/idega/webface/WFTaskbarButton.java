@@ -1,5 +1,5 @@
 /*
- * $Id: WFTaskbarButton.java,v 1.1 2004/05/13 13:56:36 anders Exp $
+ * $Id: WFTaskbarButton.java,v 1.2 2004/06/08 16:14:47 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,21 +11,36 @@ package com.idega.webface;
 
 import java.io.IOException;
 
+import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 /**
  * ...  
  * <p>
- * Last modified: $Date: 2004/05/13 13:56:36 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFTaskbarButton extends HtmlCommandLink {
 
 	private boolean _selected = false;
+
+	/**
+	 * Default constructor. 
+	 */
+	public WFTaskbarButton() {
+		super();
+	}
+
+	/**
+	 * Constructs a taskbar button with the specified label text. 
+	 */
+	public WFTaskbarButton(String buttonLabel) {
+		this();
+		getChildren().add(WFUtil.getText(buttonLabel));
+	}
 	
 	/**
 	 * Returns the selected status for this button.
@@ -66,8 +81,14 @@ public class WFTaskbarButton extends HtmlCommandLink {
 		if (!_selected) {
 			super.encodeEnd(context);
 		} else {
-			ResponseWriter out = context.getResponseWriter();
-			out.write(getValue().toString());			
+			if (getChildren().size() > 0) {
+				UIComponent c = (UIComponent) getChildren().get(0);
+				if (c != null) {
+					c.encodeBegin(context);
+					c.encodeChildren(context);
+					c.encodeEnd(context);
+				}
+			}
 		}
 	}
 	

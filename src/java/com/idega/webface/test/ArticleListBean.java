@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleListBean.java,v 1.2 2004/06/07 07:50:56 anders Exp $
+ * $Id: ArticleListBean.java,v 1.3 2004/06/08 16:14:47 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -24,13 +24,15 @@ import com.idega.webface.model.WFDataModel;
 /**
  * Bean for article list rows.   
  * <p>
- * Last modified: $Date: 2004/06/07 07:50:56 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public class ArticleListBean extends WFListBean implements Serializable {
+	
+	public final static String ARTICLE_ID = "article_id";
 	
 	private WFDataModel _dataModel = null;
 	private ActionListener _articleLinkListener = null;
@@ -171,7 +173,7 @@ public class ArticleListBean extends WFListBean implements Serializable {
 		
 		String styleAttr =  var + ".testStyle";
 		HtmlCommandLink l = WFUtil.getListLinkVB(var + ".headline");
-		WFUtil.setValueBinding(l, "id", var + ".id");
+		l.setId(ARTICLE_ID);
 		WFUtil.setValueBinding(l, "style", styleAttr);
 		l.addActionListener(_articleLinkListener);
 		WFUtil.addParameterVB(l, "id", var + ".id");

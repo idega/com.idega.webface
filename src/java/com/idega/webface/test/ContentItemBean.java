@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.1 2004/06/07 07:51:19 anders Exp $
+ * $Id: ContentItemBean.java,v 1.2 2004/06/08 16:14:47 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -12,6 +12,7 @@ package com.idega.webface.test;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -20,10 +21,10 @@ import java.util.Map;
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/06/07 07:51:19 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class ContentItemBean implements Serializable {
@@ -42,6 +43,11 @@ public class ContentItemBean implements Serializable {
 	
 	private Map _itemFields = null;
 	private Map _categories = null;
+
+	private Map _allCategories = null;
+	
+	private Object[] _selectedAvailableCategories = null;
+	private Object[] _selectedArticleCategories = null;
 
 	/**
 	 * Default constructor.
@@ -182,15 +188,100 @@ public class ContentItemBean implements Serializable {
 	}
 	
 	/**
-	 * Returns the categoies associated with this content item.
+	 * Returns the current selected available categories. 
+	 */
+	public Object[] getSelectedAvailableCategories() {
+		return _selectedAvailableCategories;
+	}
+	
+	/**
+	 * Sets the current selected available categories. 
+	 */
+	public void setSelectedAvailableCategories(Object[] selectedAvailableCategories) {
+		_selectedAvailableCategories = selectedAvailableCategories;
+	}
+	
+	/**
+	 * Returns the current selected article categories. 
+	 */
+	public Object[] getSelectedArticleCategories() {
+		return _selectedArticleCategories;
+	}
+	
+	/**
+	 * Sets the current selected article categories. 
+	 */
+	public void setSelectedArticleCategories(Object[] selectedArticleCategories) {
+		_selectedArticleCategories = selectedArticleCategories;
+	}
+	
+	/**
+	 * Returns the categories associated with this content item.
 	 */
 	public Map getCategories() {
 		if (_categories == null) {
 			_categories = new LinkedHashMap();
-			_categories.put("Public news", new Integer(1));
-			_categories.put("Business news", new Integer(2));
-			_categories.put("Company info", new Integer(3));
+			_categories.put("Public news", "" + new Integer(1));
+			_categories.put("Business news", "" + new Integer(2));
+			_categories.put("Company info", "" + new Integer(3));
 		}
 		return _categories;
+	}
+	
+	/**
+	 * Returns all categories available for content items.
+	 */
+	public Map getAllCategories() {
+		if (_allCategories == null) {
+			_allCategories = new LinkedHashMap();
+			/*
+			_allCategories.put("Public news", new Integer(1));
+			_allCategories.put("Business news", new Integer(2));
+			_allCategories.put("Company info", new Integer(3));
+			_allCategories.put("General info", new Integer(4));
+			_allCategories.put("IT stuff", new Integer(5));
+			_allCategories.put("Press releases", new Integer(6));
+			_allCategories.put("Internal info", new Integer(7));
+			 */
+			_allCategories.put("Public news", "" + new Integer(1));
+			_allCategories.put("Business news", "" + new Integer(2));
+			_allCategories.put("Company info", "" + new Integer(3));
+			_allCategories.put("General info", "" + new Integer(4));
+			_allCategories.put("IT stuff", "" + new Integer(5));
+			_allCategories.put("Press releases", "" + new Integer(6));
+			_allCategories.put("Internal info", "" + new Integer(7));
+		}
+		return _allCategories;
+	}
+	
+	/**
+	 * Returns categories not connected to this content item.
+	 */
+	public Map getAvailableCategories() {
+		Map c = new LinkedHashMap();
+		for (Iterator iter = getAllCategories().keySet().iterator(); iter.hasNext();) {
+			String key = (String) iter.next();
+			if (getCategories().get(key) == null) {
+				c.put(key, getAllCategories().get(key));
+			}
+		}
+		return c;
+	}
+	
+	/**
+	 * Adds the selected available categories to this content item.
+	 */
+	public void addSelectedCategories() {
+		Object[] categoryIds = getSelectedAvailableCategories();
+		for (int i = 0; i < categoryIds.length; i++) {
+			String id = categoryIds[i].toString();
+			for (Iterator iter = getAllCategories().keySet().iterator(); iter.hasNext();) {
+				String key = (String) iter.next();
+				if (getAllCategories().get(key).equals(id)) {
+					getCategories().put(key, id);
+					break;
+				}
+			}
+		}
 	}
 }

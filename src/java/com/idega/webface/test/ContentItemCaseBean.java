@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemCaseBean.java,v 1.1 2004/06/07 07:51:19 anders Exp $
+ * $Id: ContentItemCaseBean.java,v 1.2 2004/06/08 16:14:47 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -15,17 +15,24 @@ import java.sql.Timestamp;
 /**
  * Bean for idegaWeb content item cases.   
  * <p>
- * Last modified: $Date: 2004/06/07 07:51:19 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/08 16:14:47 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class ContentItemCaseBean implements Serializable {
 	
 	public final static String CASE_CODE = "CONTIM";
 	
+	public final static String STATUS_NEW = "SNEW";
+	public final static String STATUS_READY_FOR_REVIEW = "RFRV";
+	public final static String STATUS_UNDER_REVIEW = "UNRV";
+	public final static String STATUS_REWRITE = "RWRT";
+	public final static String STATUS_PENDING_PUBLISHING = "PPUB";
 	public final static String STATUS_PUBLISHED = "PUBL";
+	public final static String STATUS_EXPIRED = "EXPD";
+	public final static String STATUS_DELETED = "DELE";
 
 	public final static String STATUS_LOC_KEY_PREFIX = "case_status_";
 
