@@ -1,5 +1,5 @@
 /*
- * $Id: ArticleBlock.java,v 1.4 2004/06/18 14:11:02 anders Exp $
+ * $Id: ArticleBlock.java,v 1.5 2004/06/21 07:14:32 anders Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -43,10 +43,10 @@ import com.idega.webface.event.WFTaskbarListener;
 /**
  * Block for editing an article.   
  * <p>
- * Last modified: $Date: 2004/06/18 14:11:02 $ by $Author: anders $
+ * Last modified: $Date: 2004/06/21 07:14:32 $ by $Author: anders $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ArticleBlock extends WFBlock implements ActionListener {
 
@@ -248,7 +248,8 @@ public class ArticleBlock extends WFBlock implements ActionListener {
 		editorSelector.setStyleAttribute("padding", "8px");
 		editorSelector.add(c);
 		editorSelector.add(getCategoryEditContainer());
-		FileUploadForm f = new FileUploadForm(this, FILE_UPLOAD_ID, FILE_UPLOAD_CANCEL_ID);
+//		FileUploadForm f = new FileUploadForm(this, FILE_UPLOAD_ID, FILE_UPLOAD_CANCEL_ID);
+		FileUploadForm f = new FileUploadForm();
 		f.setId(FILE_UPLOAD_FORM_ID);
 		editorSelector.add(f);
 		editorSelector.setSelectedId(ARTICLE_EDITOR_ID, true);
