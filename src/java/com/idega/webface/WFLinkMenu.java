@@ -1,5 +1,5 @@
 /*
- * $Id: WFLinkMenu.java,v 1.5 2005/03/07 01:30:11 tryggvil Exp $
+ * $Id: WFLinkMenu.java,v 1.6 2005/03/08 10:34:21 gimmi Exp $
  * Created on 2.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputLink;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import com.idega.util.FacesUtil;
 
@@ -23,10 +24,10 @@ import com.idega.util.FacesUtil;
 /**
  * A menu whose menu items are plain html links.
  * 
- *  Last modified: $Date: 2005/03/07 01:30:11 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/03/08 10:34:21 $ by $Author: gimmi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFLinkMenu extends WFMenu {
 
@@ -66,12 +67,15 @@ public class WFLinkMenu extends WFMenu {
 		return addLink(text,url,menuItemId,false);
 	}
 	
-	
 	public HtmlOutputLink addLink(String text,String url,String menuItemId,boolean selected){
+		return addLink(WFUtil.getText(text), url, menuItemId, selected);
+	}	
+	
+	public HtmlOutputLink addLink(HtmlOutputText text,String url,String menuItemId,boolean selected){
 		HtmlOutputLink link = new HtmlOutputLink();
 		link.setValue(url);
 		link.setId(menuItemId);
-		link.getChildren().add(WFUtil.getText(text));
+		link.getChildren().add(text);
 		addToLinkMap(menuItemId,url);
 		this.setMenuItem(menuItemId,link);
 		if(selected){
