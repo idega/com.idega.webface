@@ -359,6 +359,15 @@ public class WFUtil {
 	}
 	
 	/**
+	 * Returns an html command button with value binding text label and with the specified action listener added.
+	 */
+	public static HtmlCommandButton getButtonVB(String id, String bundleIdentifier, String localizationKey, ActionListener actionListener) {
+		HtmlCommandButton b = getButtonVB(id, bundleIdentifier, localizationKey);
+		b.addActionListener(actionListener);
+		return b;
+	}
+	
+	/**
 	 * Returns the two specified components as one component group.
 	 */
 	public static HtmlPanelGroup group(UIComponent c1, UIComponent c2) {
