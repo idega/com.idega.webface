@@ -70,9 +70,14 @@
 		<component-class>com.idega.webface.htmlarea.HTMLArea</component-class>
 	</component>
 	
-		<component>
+	<component>
 		<component-type>WFContainer</component-type>
 		<component-class>com.idega.webface.WFContainer</component-class>
 	</component>
 	
+	<component>
+		<component-type>HTMLAreaLinkCreator</component-type>
+		<component-class>com.idega.webface.htmlarea.HTMLAreaLinkCreator</component-class>
+	</component>
+
 </faces-config>
