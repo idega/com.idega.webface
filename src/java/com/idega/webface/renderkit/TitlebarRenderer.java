@@ -1,5 +1,5 @@
 /*
- * $Id: TitlebarRenderer.java,v 1.1 2004/12/28 13:55:13 eiki Exp $
+ * $Id: TitlebarRenderer.java,v 1.2 2005/01/12 16:41:57 gimmi Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -19,10 +19,10 @@ import com.idega.webface.WFTitlebar;
 
 /**
  * 
- *  Last modified: $Date: 2004/12/28 13:55:13 $ by $Author: eiki $
+ *  Last modified: $Date: 2005/01/12 16:41:57 $ by $Author: gimmi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TitlebarRenderer extends ContainerRenderer {
 	
@@ -43,7 +43,17 @@ public class TitlebarRenderer extends ContainerRenderer {
 		out.endElement("td");
 		out.startElement("td", null);
 		out.writeAttribute("width", "100%", null);
+		out.startElement("div", null);
+
+		String toolTip = titlebar.getToolTip();
+		if (toolTip != null && !toolTip.equals("")) {
+			out.writeAttribute("title", toolTip, null);
+			out.writeAttribute("alt", toolTip, null);
+		}
+
 		RenderUtils.renderFacet(context, component, "title");
+		
+		out.endElement("div");
 //		out.startElement("font", null);
 //		out.writeAttribute("class", "wf_titlebartext", null);
 //		out.write(getTitleText());

@@ -27,6 +27,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	private String titleTextColor;
 	private String iconImageURI;
 //	private boolean valueRefTitle = false;
+	private String toolTip;
 	
 	public WFTitlebar(){
 		setStyleClass(DEFAULT_STYLE_CLASS);
@@ -186,6 +187,15 @@ public class WFTitlebar extends WFContainer implements Serializable
 		return iconImageURI;
 	}
 
+	public void setToolTip(String toolTip) {
+		System.out.println("ToolTip set to "+toolTip);
+		this.toolTip = toolTip;
+	}
+	
+	public String getToolTip() {
+		return toolTip;
+	}
+	
 	/**
 	 * @param iconImageURI The iconImageURI to set.
 	 */
@@ -240,7 +250,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
-//		values[1] = titleText;
+		values[1] = toolTip;
 //		values[2] = new Boolean(valueRefTitle);
 		return values;
 	}
@@ -251,7 +261,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-//		titleText = (String) values[1];
+		toolTip = (String) values[1];
 //		valueRefTitle = ((Boolean) values[2]).booleanValue();
 	}
 
