@@ -1,5 +1,5 @@
 /*
- * $Id: WFLinkMenu.java,v 1.1 2004/11/14 23:38:39 tryggvil Exp $
+ * $Id: WFLinkMenu.java,v 1.2 2004/12/17 13:11:51 gimmi Exp $
  * Created on 2.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -22,10 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * A menu whose menu items are plain html links.
  * 
- *  Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2004/12/17 13:11:51 $ by $Author: gimmi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFLinkMenu extends WFMenu {
 
@@ -48,6 +48,7 @@ public class WFLinkMenu extends WFMenu {
 	public HtmlOutputLink addLink(String text,String url,String menuItemId){
 		HtmlOutputLink link = new HtmlOutputLink();
 		link.setValue(url);
+		link.setId(menuItemId);
 		link.getChildren().add(WFUtil.getText(text));
 		addToLinkMap(menuItemId,url);
 		this.setMenuItem(menuItemId,link);
