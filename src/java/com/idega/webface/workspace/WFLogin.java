@@ -118,6 +118,18 @@ public class WFLogin extends WFContainer {
 		}
 	}	
 	
+	
+	public void setUrlToForwardToOnLogin(String url){
+		UIComponent login = this.getEmbeddedLogin();
+		try {
+			invoker.invokeMethodWithStringParameter(login, "setUrlToForwardToOnLogin", url);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public static final int LAYOUT_VERTICAL = 1;
 	public static final int LAYOUT_HORIZONTAL = 2;
 	public static final int LAYOUT_STACKED = 3;
