@@ -10,6 +10,7 @@ package com.idega.webface;
 
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWBundleStartable;
+import com.idega.repository.data.SingletonRepository;
 import com.idega.webface.theme.ThemeManager;
 
 
@@ -32,7 +33,7 @@ public class IWBundleStarter implements IWBundleStartable {
 	 * @see com.idega.idegaweb.IWBundleStartable#stop(com.idega.idegaweb.IWBundle)
 	 */
 	public void stop(IWBundle starterBundle) {
-		ThemeManager.unload();
+		SingletonRepository.getRepository().unloadInstance(ThemeManager.class);
 	}
 	
 }
