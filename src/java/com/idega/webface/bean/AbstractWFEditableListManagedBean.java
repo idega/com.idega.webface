@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractWFEditableListManagedBean.java,v 1.3 2005/01/12 11:54:13 gummi Exp $
+ * $Id: AbstractWFEditableListManagedBean.java,v 1.4 2005/01/18 17:44:33 gummi Exp $
  * Created on 29.12.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -20,10 +20,10 @@ import com.idega.webface.model.WFDataModel;
 
 /**
  * 
- *  Last modified: $Date: 2005/01/12 11:54:13 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/01/18 17:44:33 $ by $Author: gummi $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 
@@ -113,7 +113,7 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 
 	/**
 	 * This method invokes #constructWFEditableListCellWrapper(...) to get the component and then adds value-binding
-	 * between WFEditableListCellWrapper#(value and selectItemList) and WFEditableListDataBean#(values and selectItemListArray)
+	 * between WFEditableListCellWrapper#(value, rendered and selectItemList) and WFEditableListDataBean#(values, rendered and selectItemListArray)
 	 * 
 	 * @param parentBeanID
 	 * @param var
@@ -124,6 +124,7 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 		WFEditableListCellWrapper component = constructWFEditableListCellWrapper(var, columnIndex);
 		WFUtil.setValueBindingToArray(component,"value",var+".values",columnIndex);
 		WFUtil.setValueBindingToArray(component,"selectItemList",var+".selectItemListArray",columnIndex);
+		WFUtil.setValueBinding(component,"rendered",var+".rendered");
 		return component;
 	}
 	
@@ -157,6 +158,37 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 	 */
 	public void setDataModel(DataModel model) {
 		this.dataModel = (WFDataModel)model;
+	}
+	
+	public class EmptyRow implements WFEditableListDataBean {
+
+		private Object[] NullElementObjectArray;
+		
+		public EmptyRow(){
+			NullElementObjectArray = new Object[getNumberOfColumns()];
+		}
+		
+		/* (non-Javadoc)
+		 * @see com.idega.webface.bean.WFEditableListDataBean#getSelectItemListArray()
+		 */
+		public Object[] getSelectItemListArray() {
+			return NullElementObjectArray;
+		}
+
+		/* (non-Javadoc)
+		 * @see com.idega.webface.bean.WFEditableListDataBean#getValues()
+		 */
+		public Object[] getValues() {
+			return NullElementObjectArray;
+		}
+
+		/* (non-Javadoc)
+		 * @see com.idega.webface.bean.WFEditableListDataBean#getRendered()
+		 */
+		public Boolean getRendered() {
+			return Boolean.FALSE;
+		}
+		
 	}
 
 }
