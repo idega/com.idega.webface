@@ -420,7 +420,28 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 
 /*Bezel End*/
 
+/*Uploader Begin*/
+.wf_webdav_upload{
+      font-weight: bold;
+	  font-size: 11px;
+      color:#4a4a4a;
+      margin:5px;
+}
 
+.wf_webdav_upload input{
+     border: 1px solid #bbbbbb; 
+     margin-top:0px; 
+     margin-bottom:0px;
+     margin-right:3px;  
+     margin-left:3px;
+     display:inline;
+}
+
+.wf_webdav_upload .wf_webdav_upload_button{
+   #margin-left:3px;
+}
+
+/*Uploader End*/
 
 /*Workspace Begin*/
 
@@ -475,16 +496,4 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	display:inline;
 }
 
-/*Workspace End*//kspace End*//ite;
-	font-size: 12px;
-	display:inline;
-}
-
-/*Workspace End*//kspace End*//ont-size: 12px;
-	display:inline;
-}
-
-/*Workspace End*//kspace End*//ine;
-}
-
-/*Workspace End*//kspace End*//space End*//kspace End*//nd*//d*///d*//
+/*Workspace End*/
