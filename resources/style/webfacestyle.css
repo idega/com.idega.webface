@@ -4,10 +4,9 @@
 /*** idegaWeb WebFace CSS classes ***/
 
 .wf_body {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	background-color: #ECE9D8;
-	/*background-color: #EEEEEE;*/
+	background-color: #F1F1F1;
 	margin: 0px;
 }
 
@@ -21,12 +20,12 @@
 }
 
 .wf_smalltext {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
 }
 
 .wf_headertext {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
 	font-weight: bold;
 }
@@ -37,7 +36,7 @@
 
 .wf_applicationpanel {
 	border-spacing: 0px;
-	padding-left: 4px;
+	padding-left: 2px;
 	padding-top: 2px;
 }
 
@@ -64,10 +63,10 @@
 }
 
 .wf_block{
-	border: 1px solid #848284;
+	border: 1px solid #D3D3D3;
 	/***border-style: double;***/
 	/***width:100%;***/
-	margin: 4px 4px 4px 4px;
+	margin: 6px 0px 0px 4px;
 }
 
 .wf_blockmainarea {
@@ -80,34 +79,30 @@
 }
 
 .wf_titlebar {
-	/***background-color: #5A5A5A;***/
-	background-color: #ECE9D8;
-	background-image: url(../icons/bluegradient1.gif);
-	border-top-width: 1px;
-	border-right-width: 1px;
+	background-color: #F5F5F5;
+	border-top-width: 0px;
+	border-right-width: 0px;
 	border-bottom-width: 1px;
-	border-left-width: 1px;
+	border-left-width: 0px;
 	border-top-style: solid;
 	border-right-style: solid;
 	border-bottom-style: solid;
 	border-left-style: solid;
-	border-top-color: #FFFFFF;
-	border-right-color: #848284;
-	border-bottom-color: #848284;
-	border-left-color: #FFFFFF;
+        border-color: #D3D3D3;
 	height: 24px;
 	width: 100%;
 	margin:0px;
-	background-repeat: repeat-y;
 }
 
 .wf_titlebar td {
 	vertical-align: middle;
 }
 
-.wf_titlebartext {
-	color: #FFFFFF;
+.wf_titlebartext {	
+        color: #000000;
 	text-align: left;
+        font-weight: bold;
+        font-size: 11px;
 	vertical-align: middle;
 }
 
@@ -115,17 +110,19 @@
 	border-spacing: 0px;
 	padding: 0px;
 	float: right;
+        border-bottom: 1px;
+        border-color: #D3D3D3;
 }
 
 .wf_list {
-	border-spacing: px;
-	padding: 2px;
+        background-color: #FFFFFF;
+	padding: 0px;
 	width: 100%;
 }
 
 .wf_listtable {
 	border-spacing: 0px;
-	padding: 2px;
+	padding: 0px;
 	width: 100%;
 }
 
@@ -139,10 +136,10 @@
 .wf_listheading {
 	background-color: #ffffff;
   	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
         color:#4a4a4a;
         padding-bottom:4px;
+        padding-top:4px;
         text-align:left;
 }
 
@@ -209,6 +206,7 @@
 
 wf_viewmenubuttondeselected .wf_viewmenu{
 	padding: 0px 0px 0px 0px;
+        #background-image:none;
 }
 
 .wf_viewmenubuttonselected {
@@ -216,13 +214,29 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	border-left: 1px solid #848284;
 	border-bottom: 1px solid #FFFFFF;
 	border-right: 1px solid #FFFFFF;
-	background-color: #DDD8C4;
-	color: #ffffff;
+	background-color: none;
+	font-color: #FFFFFF;
+        background-image: url(images/blueover_tile.gif);
+        background-repeat: repeat-x;
 }
 
 .wf_viewmenubuttondeselected a {
 	color: black;
   	font-weight: normal;
+}
+
+.wf_viewmenubuttondeselected:hover {
+	color: #white;
+        background-image: url(images/blueover_tile.gif);
+        background-repeat: repeat-x;
+        border-bottom: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	border-top: 1px solid #848284;
+	border-left: 1px solid #848284;
+}
+
+.wf_viewmenubuttondeselected a:hover {
+	color: #white;
 }
 
 .wf_viewmenubuttondeselected, .wf_menuheader{
@@ -241,7 +255,7 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 
 .wf_tabbarmainarea {
 	padding: 1.5em;
-	background: #B0B29D;
+	background: #F1F1F1;
 	min-height: 300px;
 	border-top: 2em solid #FFF3B3;
 }
@@ -249,14 +263,18 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 .wf_tabbar {
 	margin: 0;
 	padding: 0;
-	position: absolute;
-	top: 33px;
-	left: 7px;
-	#width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
+         #width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
+	 width: 100%;
+        height:24px;        
+        background-image: url(images/greybar_tile.gif);
+        background-repeat: repeat-x;
 }
 
 .wf_tabbarbuttonselected a {
-	color:white;
+	margin-top: -2;
+	background: #F1F1F1;
+	padding-bottom: 5px;
+        font-color: #4D4D4D;
 }
 
 .wf_tabbarbuttonselected, .wf_tabbarbuttondeselected
@@ -268,43 +286,35 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 
 .wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a
 {
-	width: 8em;
+	width: 7em;
 	display: block;
-	float: left;
-	padding: 4px 0;
-	margin-top: 1px;
-	margin-right: 2px;
+	float: right;
+	padding: 5px 0px;
+	margin: 0px;
 	text-align: center;
-	font-family: tahoma;
-	font-size: 85%;
+	font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
 	text-decoration: none;
-	color: #333;
-        font-weight:bold;
-}
-
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a:hover 
-{
-	border: 1px solid #666;
-	border-bottom: none;
-	background: #ECE9D8;
-	padding-bottom: 6px;
-	margin-top: 0;
+        #font-weight:bold;
+	border-left: 1px solid #C4C4C4;
 }
 
 .wf_tabbarbuttondeselected a 
 {
-	background: #DBD7C1;
-	border: 1px solid #AAA;
-	border-bottom: none;
+	#border-bottom: none;
+        font-color: #4D4D4D;
+        background-image: url(images/greybar_tile.gif);
+        background-repeat: repeat-x;
  
 }
 
 .wf_tabbarbuttondeselected a:hover
 {
-	margin-top: 0;
-	border-color: #666;
-	background: #ECE9D8;
+	margin-top: -2;
+	background-color: #F1F1F1;
 	padding-bottom: 5px;
+        font-color: #4D4D4D;
+        #background-image: none;
 }
 
 /*End TabBar*/
@@ -351,7 +361,7 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 .wf_button { 
 	color: #000000;
 	font-size: 10px;
-	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight: normal;
 	border-width: 1px;
 	border-style: solid;
@@ -381,7 +391,7 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 }
 
 .wf_bannertext {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	text-decoration: none;
 	color: #FFFFFF;
@@ -417,16 +427,16 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 .ws_head{
 	position: absolute;
 	top: 0px;
-	left: 0;
+	left: 0px;
 	width: 55em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
 	width: 100%;
-	height: 4em;
+	height: 2em;
 }
 
 .ws_functionmenu{
 	position:absolute;
-	width:20em;
-	top:4em;
+	width:200px;
+	top:4.5em;
 	left:0em;
 }
 
@@ -434,24 +444,28 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	position:absolute;
 	/***top:4em;***/
 	/***left:20em;***/
-	margin: 4em 0em 0em 20em;
+	margin: 4.5em 0em 0em 200px;
 }
 
 .wf_workspacebar{
-	background-color: #666666;
-	color: white;
-	height: 4em;
+        background-color:#38485C;
+	#color: white;
+	height: 32px;
+        border-bottom: 10px;
+        border-color: #42556D;
 }
 
 .wf_appdecor{
-	margin: 0.5em;
-	color: white;
-	font-size: 11px;
-	display:inline;
+	display:block;
+        height: 32px;
+        width: 100px;
+ background-image: url(images/eplatform.gif);
+        background-repeat: no-repeat;
 }
 
 .wf_appdecor i{
 	color: orange;
+        
 }
 
 .wf_login{
@@ -461,4 +475,16 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	display:inline;
 }
 
-/*Workspace End*/
+/*Workspace End*//kspace End*//ite;
+	font-size: 12px;
+	display:inline;
+}
+
+/*Workspace End*//kspace End*//ont-size: 12px;
+	display:inline;
+}
+
+/*Workspace End*//kspace End*//ine;
+}
+
+/*Workspace End*//kspace End*//space End*//kspace End*//nd*//d*///d*//
