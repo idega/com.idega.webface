@@ -95,14 +95,6 @@
       <properties/>
     </dependency>
     <dependency>
-      <groupId>icu4j</groupId>
-      <artifactId>icu4j</artifactId>
-      <version>2.4</version>
-      <type>jar</type>
-      <url>http://oss.software.ibm.com/icu4j/</url>
-      <properties/>
-    </dependency>
-    <dependency>
       <groupId>myfaces</groupId>
       <artifactId>jsf-api</artifactId>
       <version>1.0</version>
