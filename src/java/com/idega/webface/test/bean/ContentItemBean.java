@@ -1,5 +1,5 @@
 /*
- * $Id: ContentItemBean.java,v 1.2 2004/06/30 13:34:57 anders Exp $
+ * $Id: ContentItemBean.java,v 1.3 2004/07/20 23:20:26 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -27,10 +27,10 @@ import com.idega.webface.WFUtil;
 /**
  * Bean for idegaWeb content items.   
  * <p>
- * Last modified: $Date: 2004/06/30 13:34:57 $ by $Author: anders $
+ * Last modified: $Date: 2004/07/20 23:20:26 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public class ContentItemBean implements Serializable {
@@ -370,9 +370,11 @@ public class ContentItemBean implements Serializable {
 			Locale sv = new Locale("sv");
 			Locale en = new Locale("en");
 			Locale is = new Locale("is");
-			_allLocales.put(WFUtil.getValue(bref + sv.getDisplayLanguage()), sv.getLanguage());
-			_allLocales.put(WFUtil.getValue(bref + en.getDisplayLanguage()), en.getLanguage());
-			_allLocales.put(WFUtil.getValue(bref + is.getDisplayLanguage()), is.getLanguage());
+			String displayLang = is.getDisplayLanguage();
+			String lang = is.getLanguage();
+			_allLocales.put(WFUtil.getValue(bref + sv.getLanguage()), sv.getDisplayLanguage());
+			_allLocales.put(WFUtil.getValue(bref + en.getLanguage()), en.getDisplayLanguage());
+			//_allLocales.put(WFUtil.getValue(bref + is.getDisplayLanguage()), is.getLanguage());
 		}
 		return _allLocales;
 	}

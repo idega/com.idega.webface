@@ -26,7 +26,8 @@ public class WFToolbarButton extends UICommand {
 	private String pressedImageURI;
 
 	public WFToolbarButton(String defaultImageURI) {
-		this.setDefaultImageURI(defaultImageURI);
+		String uriWithBundle = WFUtil.getBundle().getResourcesVirtualPath()+"/"+defaultImageURI;
+		this.setDefaultImageURI(uriWithBundle);
 	}
 
 	/**
