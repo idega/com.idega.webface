@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.4 2004/07/20 20:56:24 tryggvil Exp $
+ * $Id: WFPage.java,v 1.5 2004/07/20 23:53:09 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -29,10 +29,10 @@ import com.idega.faces.IWBaseComponent;
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/07/20 20:56:24 $ by $Author: tryggvil $
+ * Last modified: $Date: 2004/07/20 23:53:09 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFPage extends IWBaseComponent {
 
@@ -110,7 +110,13 @@ public class WFPage extends IWBaseComponent {
 		//Optimized methods
 
 		public Object get(Object key) {
-			return _bundle.getObject(key.toString());
+			try{
+				return _bundle.getObject(key.toString());
+			}
+			catch(MissingResourceException msre){
+				msre.printStackTrace();
+				return "";
+			}
 		}
 
 		public boolean isEmpty() {
