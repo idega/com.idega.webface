@@ -4,18 +4,17 @@
   <extend>../com.idega.core.bundle/base-project.xml</extend>
   <name>idegaWeb WebFace</name>
   <artifactId>com.idega.webface</artifactId>
-  <currentVersion>0.8</currentVersion>
+  <currentVersion>0.8.1-SNAPSHOT</currentVersion>
   <inceptionYear>2003</inceptionYear>
   <shortDescription>JSF Components</shortDescription>
   <description>idegaWeb WebFace is a component API Built on JavaServer Faces</description>
-  <mailingLists>
-    <mailingList>
-      <name>${pom.name} Dev List</name>
-    </mailingList>
-    <mailingList>
-      <name>${pom.name} User List</name>
-    </mailingList>
-  </mailingLists>
+  <versions>
+    <version>
+      <id>0.8</id>
+      <name>0.8</name>
+      <tag>WEBFACE_0_8</tag>
+    </version>
+  </versions>  
   <developers>
     <developer>
       <id>tryggvil</id>
@@ -36,7 +35,8 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.core</artifactId>
-      <version>1.9</version>
+      <!--<version>1.9</version>-->
+      <version>SNAPSHOT</version>
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
@@ -46,7 +46,8 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.faces</artifactId>
-      <version>0.9</version>
+      <!--<version>0.9</version>-->
+      <version>SNAPSHOT</version>
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
@@ -111,21 +112,4 @@
       </includes>
     </unitTest>
   </build>
-  <reports>
-    <report>maven-tasklist-plugin</report>
-    <report>maven-changelog-plugin</report>
-    <report>maven-developer-activity-plugin</report>
-    <report>maven-simian-plugin</report>
-    <report>maven-jcoverage-plugin</report>
-    <report>maven-faq-plugin</report>
-    <report>maven-file-activity-plugin</report>
-    <report>maven-changes-plugin</report>
-  </reports>
-  <versions>
-    <version>
-      <id>0.8</id>
-      <name>0.8</name>
-      <tag>WEBFACE_0_8</tag>
-    </version>
-  </versions>
 </project>
