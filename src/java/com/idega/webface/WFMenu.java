@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.2 2004/11/14 23:38:39 tryggvil Exp $
+ * $Id: WFMenu.java,v 1.3 2005/02/02 13:12:21 tryggvil Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/02/02 13:12:21 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFMenu extends WFContainer {
 
@@ -36,6 +36,7 @@ public class WFMenu extends WFContainer {
 	private String _selectedButtonId = null;
 	
 	public static String RENDERER_TYPE="wf_menu";
+	public static String FACET_MENUHEADER="menu_header";
 	
 	// Standard styles
 	
@@ -62,18 +63,18 @@ public class WFMenu extends WFContainer {
 	}
 	
 	public UIComponent getMenuHeader(){
-		return this.getFacet("menu_header");
+		return this.getFacet(FACET_MENUHEADER);
 	}
 	
 	public void setMenuHeader(UIComponent menuHeader){
 		if(menuHeader instanceof WFContainer){
-			getFacets().put("menu_header",menuHeader);
+			getFacets().put(FACET_MENUHEADER,menuHeader);
 		}
 		else{
 			WFContainer cont = new WFContainer();
 			cont.setStyleClass(this.getMenuHeaderStyleClass());
 			cont.getChildren().add(menuHeader);
-			getFacets().put("menu_header",cont);
+			getFacets().put(FACET_MENUHEADER,cont);
 		}
 	}
 	

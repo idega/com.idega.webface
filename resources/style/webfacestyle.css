@@ -241,11 +241,14 @@
 	margin: 1px 1px 1px 1px;
 }
 
-.wf_viewmenubuttonselected,.wf_viewmenubuttondeselected, .wf_menuheader {
+.wf_viewmenu .wf_viewmenubuttonselected,.wf_viewmenu .wf_viewmenubuttondeselected {
 	padding: 4px 4px 4px 15px;
 	vertical-align: middle;
 	margin:0px;
-	list-style: none;
+	/***list-style: none;***/
+	list-style-image: url(images/viewmenu_mainbullet2.png);
+	list-style-position: inside;
+	font-weight: bold;
 }
 
 wf_viewmenubuttondeselected .wf_viewmenu {
@@ -261,12 +264,11 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	background-color: none;
 	font-color: #FFFFFF;
 	background-image: url(images/blueover_tile.gif);
-	background-repeat: repeat-x;
+	background-repeat: repeat;
 }
 
 .wf_viewmenubuttondeselected a {
 	color: black;
-  	font-weight: normal;
 }
 
 .wf_viewmenubuttondeselected:hover {
@@ -279,19 +281,35 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	border-left: 1px solid #848284;
 }
 
+
+.wf_viewmenu * .wf_viewmenu *,.wf_viewmenu * .wf_viewmenu *:hover{
+	display:inline;
+	background:none;
+	border:none;
+	vertical-align: middle;
+	margin:0px;
+	padding:1px;
+	list-style-image:none;
+	list-style-type:disc;
+	list-style-position: inside;
+	font-size: 8px;
+}
+
+/***By default not display more than two levels of the menu:***/
+.wf_viewmenu * .wf_viewmenu * .wf_viewmenu{
+	display:none;
+}
+
+
 .wf_viewmenubuttondeselected a:hover {
 	color: #white;
 }
 
 .wf_viewmenubuttondeselected, .wf_menuheader{
-	border-top: 1px solid #FFFFFF;
-	border-left: 1px solid #FFFFFF;
-	border-bottom: 1px solid #848284;
-	border-right: 1px solid #848284;
-}
-
-.wf_menuheader{
-	font-weight: bold;
+	border-top: 1px hidden ;
+	border-left: 1px hidden ;
+	border-bottom: 1px hidden;
+	border-right: 1px hidden;
 }
 
 /***WFMenu***/

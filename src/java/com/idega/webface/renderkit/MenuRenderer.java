@@ -1,5 +1,5 @@
 /*
- * $Id: MenuRenderer.java,v 1.1 2004/12/28 13:55:13 eiki Exp $
+ * $Id: MenuRenderer.java,v 1.2 2005/02/02 13:12:21 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -22,10 +22,10 @@ import com.idega.webface.WFTab;
 /**
  *  The renderer for the TabBar component.
  * 
- *  Last modified: $Date: 2004/12/28 13:55:13 $ by $Author: eiki $
+ *  Last modified: $Date: 2005/02/02 13:12:21 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class MenuRenderer extends ContainerRenderer {
 
@@ -62,6 +62,11 @@ public class MenuRenderer extends ContainerRenderer {
 		
 		ResponseWriter out = context.getResponseWriter();
 		
+		UIComponent menuHeader = menu.getMenuHeader();
+		if(menuHeader!=null){
+			this.renderChild(context,menuHeader);
+		}
+		
 		out.startElement("ul", null);
 		if (menu.getMenuStyleClass() != null) {
 			out.writeAttribute("class", menu.getMenuStyleClass(), null);
@@ -71,11 +76,7 @@ public class MenuRenderer extends ContainerRenderer {
 		//MenuItems:
 		
 		
-		UIComponent menuHeader = menu.getMenuHeader();
-		if(menuHeader!=null){
-			this.renderChild(context,menuHeader);
-		}
-		
+
 		Iterator iter = menu.getMenuItemIds().iterator();
 		while (iter.hasNext()) {
 			String buttonId = (String) iter.next();
