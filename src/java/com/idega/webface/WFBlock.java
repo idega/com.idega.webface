@@ -60,6 +60,11 @@ public class WFBlock extends WFContainer {
 	}
 
 	protected void initializeDefault() {
+		String title = (String) getAttributes().get("title");
+		if (title != null) {
+			setTitlebar(new WFTitlebar(title));
+		}
+
 		setDefaultToolbar();
 	}
 	
