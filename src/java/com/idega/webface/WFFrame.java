@@ -1,5 +1,5 @@
 /*
- * $Id: WFFrame.java,v 1.4 2004/11/14 23:38:39 tryggvil Exp $
+ * $Id: WFFrame.java,v 1.5 2004/11/15 23:16:12 tryggvil Exp $
  * Created on 20.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,10 +15,10 @@ import com.idega.presentation.ui.IFrame;
 
 /**
  * 
- *  Last modified: $Date: 2004/11/14 23:38:39 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2004/11/15 23:16:12 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFFrame extends WFBlock {
 
@@ -53,7 +53,10 @@ public class WFFrame extends WFBlock {
 	protected void initializeContent() {
 		IFrame frame = new IFrame(this.getId()+"subframe",this.getFrameURL());
 		frame.setWidth("100%");
-		frame.setHeight("100%");
+		//frame.setHeight("100%");
+		//frame.setHeight("100%");
+		//this.setHeight("650");
+		frame.setHeight("600");
 		add(frame);
 		//frame.setStyleAttribute("margin","0em 0em 0em 0em");
 		//this.setStyleAttribute("margin","0em 0em 0em 0em");
