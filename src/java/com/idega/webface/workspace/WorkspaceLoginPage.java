@@ -145,9 +145,7 @@ public class WorkspaceLoginPage extends Page {
 	protected UIComponent getVersionInfo(){
 		WFContainer cText = new WFContainer();
 		cText.setStyleClass("versioninfo");
-		//HtmlOutputText tText = new HtmlOutputText();
 		HtmlOutputText tText = WFUtil.getTextVB(IWMainApplication.APPLICATION_BEAN_ID+".productInfo.version");
-		//tText.setValue("#{idegaweb_application.productInfo.version}");
 		cText.add(tText);
 		return cText;
 	}
@@ -156,8 +154,6 @@ public class WorkspaceLoginPage extends Page {
 		WFContainer cText = new WFContainer();
 		cText.setStyleClass("productinfo");
 		HtmlOutputText tText = WFUtil.getTextVB(IWMainApplication.APPLICATION_BEAN_ID+".productInfo.fullProductName");
-		//HtmlOutputText tText = new HtmlOutputText();
-		//tText.setValue("#{idegaweb_application.productInfo.name}");
 		cText.add(tText);
 		return cText;
 	}
@@ -166,8 +162,6 @@ public class WorkspaceLoginPage extends Page {
 		WFContainer cText = new WFContainer();
 		cText.setStyleClass("buildid");
 		HtmlOutputText tText = WFUtil.getTextVB(IWMainApplication.APPLICATION_BEAN_ID+".productInfo.buildId");
-		//HtmlOutputText tText = new HtmlOutputText();
-		//tText.setValue("#{idegaweb_application.productInfo.buildId}");
 		cText.add(tText);
 		return cText;
 	}
@@ -176,8 +170,6 @@ public class WorkspaceLoginPage extends Page {
 		WFContainer cText = new WFContainer();
 		cText.setStyleClass("copyrighttext");
 		HtmlOutputText tText = WFUtil.getTextVB(IWMainApplication.APPLICATION_BEAN_ID+".productInfo.copyrightText");
-		//HtmlOutputText tText = new HtmlOutputText();
-		//tText.setValue("#{idegaweb_application.productInfo.buildId}");
 		cText.add(tText);
 		return cText;
 	}		
