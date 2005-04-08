@@ -18,6 +18,7 @@ public class WFToolbar extends WFMenu {
 	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
 	public static String DEFAULT_BUTTON_STYLE_CLASS=DEFAULT_STYLE_CLASS+"_button";
 	public static String DEFAULT_HEADER_STYLE_CLASS=DEFAULT_STYLE_CLASS+"_header";
+	public static String DEFAULT_CONTAINER_STYLE_CLASS=DEFAULT_STYLE_CLASS+"container";
 	
 	public WFToolbar(){
 		setRendererType(RENDERER_TYPE);
@@ -32,6 +33,7 @@ public class WFToolbar extends WFMenu {
 		setSelectedMenuItemStyleClass(DEFAULT_BUTTON_STYLE_CLASS);
 		setDeselectedMenuItemStyleClass(DEFAULT_BUTTON_STYLE_CLASS);
 		setMenuHeaderStyleClass(DEFAULT_HEADER_STYLE_CLASS);
+		setStyleClass(DEFAULT_CONTAINER_STYLE_CLASS);
 		setRendererType(RENDERER_TYPE);
 	}
 

@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.4 2005/03/05 18:38:20 gummi Exp $
+ * $Id: WFMenu.java,v 1.5 2005/04/08 17:05:55 gummi Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2005/03/05 18:38:20 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/04/08 17:05:55 $ by $Author: gummi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFMenu extends WFContainer {
 
@@ -47,6 +47,7 @@ public class WFMenu extends WFContainer {
 	private static String TAB_ITEMSELECTEDSTYLECLASS = "wf_tabbarbuttonselected";
 	private static String TAB_ITEMDESELECTEDSTYLECLASS = "wf_tabbarbuttondeselected";
 	private static String TAB_MENUHEADERSTYLECLASS = "wf_menuheader";
+	private static String TAB_CONTAINERCLASS = TAB_MENUSTYLECLASS+"container";
 	
 	/**
 	 *The "vertical" style classes
@@ -55,6 +56,7 @@ public class WFMenu extends WFContainer {
 	private static String VERTICAL_MENUHEADERSTYLECLASS = "wf_menuheader";
 	private static String VERTICAL_ITEMSELECTEDSTYLECLASS = "wf_viewmenubuttonselected";
 	private static String VERTICAL_ITEMDESELECTEDSTYLECLASS = "wf_viewmenubuttondeselected";
+	private static String VERTICAL_CONTAINERCLASS = VERTICAL_MENUSTYLECLASS+"container";
 	
 
 	public WFMenu() {
@@ -87,6 +89,7 @@ public class WFMenu extends WFContainer {
 		setSelectedMenuItemStyleClass(TAB_ITEMSELECTEDSTYLECLASS);
 		setDeselectedMenuItemStyleClass(TAB_ITEMDESELECTEDSTYLECLASS);
 		setMenuHeaderStyleClass(TAB_MENUHEADERSTYLECLASS);
+		setStyleClass(TAB_CONTAINERCLASS);
 	}
 	
 	/**
@@ -97,6 +100,7 @@ public class WFMenu extends WFContainer {
 		setSelectedMenuItemStyleClass(VERTICAL_ITEMSELECTEDSTYLECLASS);
 		setDeselectedMenuItemStyleClass(VERTICAL_ITEMDESELECTEDSTYLECLASS);
 		setMenuHeaderStyleClass(VERTICAL_MENUHEADERSTYLECLASS);
+		setStyleClass(VERTICAL_CONTAINERCLASS);
 	}
 	
 	/**
@@ -258,4 +262,19 @@ public class WFMenu extends WFContainer {
 		//return this.getFacet("button_"+menuItemId);
 		return this.getFacet("menuitem_"+menuItemId);
 	}
+	
+	public boolean isRendered(){
+		return super.isRendered();
+	}
+	
+	public boolean isEmpty(){
+		for (Iterator iter = getFacetsAndChildren(); iter.hasNext();) {
+			UIComponent comp = (UIComponent) iter.next();
+			if(comp.isRendered()){
+				return false;
+			}
+		}
+		return false;
+	}
+	
 }
