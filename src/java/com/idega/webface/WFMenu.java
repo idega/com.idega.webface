@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.5 2005/04/08 17:05:55 gummi Exp $
+ * $Id: WFMenu.java,v 1.6 2005/04/10 21:35:10 gummi Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2005/04/08 17:05:55 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/04/10 21:35:10 $ by $Author: gummi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFMenu extends WFContainer {
 
@@ -274,7 +274,7 @@ public class WFMenu extends WFContainer {
 				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 }

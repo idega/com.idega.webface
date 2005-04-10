@@ -1,5 +1,5 @@
 /*
- * $Id: MenuRenderer.java,v 1.3 2005/04/08 17:05:55 gummi Exp $
+ * $Id: MenuRenderer.java,v 1.4 2005/04/10 21:35:10 gummi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,7 +14,6 @@ import java.util.Iterator;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import com.idega.webface.WFConstants;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFMenu;
 import com.idega.webface.WFTab;
@@ -22,10 +21,10 @@ import com.idega.webface.WFTab;
 /**
  *  The renderer for the TabBar component.
  * 
- *  Last modified: $Date: 2005/04/08 17:05:55 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/04/10 21:35:10 $ by $Author: gummi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class MenuRenderer extends ContainerRenderer {
 
@@ -84,25 +83,27 @@ public class MenuRenderer extends ContainerRenderer {
 				String buttonStyleClass = menu.getDeselectedMenuItemStyleClass();
 				
 				UIComponent menuItem = menu.getMenuItem(buttonId);
-				if(menuItem instanceof WFTab){
-					WFTab tab = (WFTab) menuItem;
-					if (buttonId.equals(menu.getSelectedMenuItemId())) {
-						tab.setSelected(true);
-						buttonStyleClass = menu.getSelectedMenuItemStyleClass();
-					} else {
-						tab.setSelected(false);
+				if(menuItem.isRendered()){
+					if(menuItem instanceof WFTab){
+						WFTab tab = (WFTab) menuItem;
+						if (buttonId.equals(menu.getSelectedMenuItemId())) {
+							tab.setSelected(true);
+							buttonStyleClass = menu.getSelectedMenuItemStyleClass();
+						} else {
+							tab.setSelected(false);
+						}
 					}
+					if (buttonId.equals(menu.getSelectedMenuItemId())) {
+						buttonStyleClass = menu.getSelectedMenuItemStyleClass();
+					} 
+					out.startElement("li", null);
+					if (buttonStyleClass != null) {
+						out.writeAttribute("class", buttonStyleClass, null);
+					}
+					renderChild(context,menuItem);
+					//renderFacet(context,menu, "button_" + buttonId);
+					out.endElement("li");
 				}
-				if (buttonId.equals(menu.getSelectedMenuItemId())) {
-					buttonStyleClass = menu.getSelectedMenuItemStyleClass();
-				} 
-				out.startElement("li", null);
-				if (buttonStyleClass != null) {
-					out.writeAttribute("class", buttonStyleClass, null);
-				}
-				renderChild(context,menuItem);
-				//renderFacet(context,menu, "button_" + buttonId);
-				out.endElement("li");
 			}
 			//out.endElement("tr");
 			out.endElement("ul");
