@@ -206,10 +206,11 @@ public class WFToolbarButton extends UICommand {
 			out.writeAttribute("onmouseout", onmouseout, null);
 			out.endElement("img");
 		} else {
-			out.startElement("span", null);
+			out.startElement("a", null);
 			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
 			"'].value='true';document.forms['" + formName + "'].submit();";
 			out.writeAttribute("onmouseup", onmouseup, null);
+			
 			if (styleClass != null) {
 				out.writeAttribute("class", styleClass, null);
 			}
@@ -217,7 +218,12 @@ public class WFToolbarButton extends UICommand {
 				out.writeAttribute("alt", toolTip, null);
 				out.writeAttribute("title", toolTip, null);
 			}
-			out.endElement("span");
+			
+			out.writeAttribute("href","#",null);
+			
+//			out.write(toolTip);
+			
+			out.endElement("a");
 		}
 	}
 		

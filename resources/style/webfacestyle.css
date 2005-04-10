@@ -280,12 +280,6 @@ div.wf_titlebar, div.wf_toolbar{
 	border-left-width: 0px;
 }
 
-.wf_toolbar * {
-	display: inline-block;
-	vertical-align: middle;
-	margin: 2px;
-	padding: 0px;
-}
 
 
 .wf_toolbar li{
@@ -293,12 +287,22 @@ div.wf_titlebar, div.wf_toolbar{
 	list-style: none;
 }
 
-.wf_toolbar_button span{
-	float: left;
+/*
+.wf_toolbar_button a{
 	cursor: pointer;
 	cursor: hand;
 }
+*/
 
+.wf_block .wf_toolbarcontainer .wf_toolbar{
+	margin: 0px;
+	padding: 2px;
+}
+
+.wf_block > .wf_toolbarcontainer > .wf_toolbar > li > * {
+	height: 25px;
+	margin: 2px
+}
 
 .wf_list {
 	background-color: #FFFFFF;
