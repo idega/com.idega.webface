@@ -301,7 +301,7 @@ div.wf_titlebar, div.wf_toolbar{
 
 .wf_block > .wf_toolbarcontainer > .wf_toolbar > li > * {
 	height: 25px;
-	margin: 2px
+	margin: 2px;
 }
 
 .wf_list {
