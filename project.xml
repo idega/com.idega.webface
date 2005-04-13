@@ -71,8 +71,8 @@
     </dependency>
     <dependency>
       <groupId>myfaces</groupId>
-      <artifactId>myfaces-components</artifactId>
-      <version>1.0.7</version>
+      <artifactId>myfaces-extensions</artifactId>
+      <version>1.0.9</version>
       <type>jar</type>
       <url>http://www.myfaces.org/</url>
       <properties>
