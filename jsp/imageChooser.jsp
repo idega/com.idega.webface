@@ -6,7 +6,6 @@
 	xmlns:c="http://xmlns.idega.com/com.idega.core"
 	xmlns:wf="http://xmlns.idega.com/com.idega.webface"
 	xmlns:ws="http://xmlns.idega.com/com.idega.workspace"
-	xmlns:cmf="http://myfaces.sourceforge.net/tld/myfaces_ext_0_9.tld"
 	xmlns:co="http://xmlns.idega.com/com.idega.content">
     <jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"/>
     <f:view>
