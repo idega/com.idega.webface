@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.6 2005/04/10 21:35:10 gummi Exp $
+ * $Id: WFMenu.java,v 1.7 2005/04/15 16:26:05 thomas Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2005/04/10 21:35:10 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/04/15 16:26:05 $ by $Author: thomas $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WFMenu extends WFContainer {
 
@@ -223,20 +223,30 @@ public class WFMenu extends WFContainer {
 	 * Generates a unique id for a new menu item.
 	 * @return
 	 */
-	protected String getNextMenuItemId(){
+	protected String getNextMenuItemId(){   
 		int maxValue = 0;
-		for (Iterator iter = getMenuItemIds().iterator(); iter.hasNext();) {
+		Iterator iter = getMenuItemIds().iterator(); 
+		while (iter.hasNext()) {
 			String element = (String) iter.next();
-			int intValue = maxValue;
-			try{
-				intValue = Integer.parseInt(element);
+			int intValue = 0;
+			int d = 1;
+			int i = element.length();
+			while ( --i  > -1) {
+				char c = element.charAt(i);
+				if (Character.isDigit(c)) {
+					int k = Character.getNumericValue(c);
+					intValue += (k * d);
+					d = d * 10;
+				}
+				else {
+					i = -1;
+				}
 			}
-			catch(NumberFormatException nfe){}
-			if(intValue>maxValue){
+			if(intValue>maxValue) {
 				maxValue=intValue;
 			}
 		}
-		return String.valueOf(++maxValue);
+		return "_".concat(String.valueOf(++maxValue));
 	}
 	
 	
