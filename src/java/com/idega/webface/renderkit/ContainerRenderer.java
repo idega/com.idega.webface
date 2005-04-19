@@ -43,8 +43,13 @@ public class ContainerRenderer extends BaseRenderer {
 		if (getStyleClass(container) != null) {
 			out.writeAttribute("class", getStyleClass(container), null);
 		}
-		if (getStyleAttributes(container) != null) {
-			out.writeAttribute("style", getStyleAttributes(container), null);
+		
+		if(this instanceof MenuRenderer) {
+			boolean debug=true;
+		}
+		String styleAttribute = getStyleAttributes(container);
+		if (styleAttribute != null) {
+			out.writeAttribute("style", styleAttribute, null);
 		}
 		String title = container.getTitle();
 		if(title!=null){

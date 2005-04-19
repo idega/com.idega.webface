@@ -1,5 +1,5 @@
 /*
- * $Id: MenuRenderer.java,v 1.4 2005/04/10 21:35:10 gummi Exp $
+ * $Id: MenuRenderer.java,v 1.5 2005/04/19 15:30:51 joakim Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -21,10 +21,10 @@ import com.idega.webface.WFTab;
 /**
  *  The renderer for the TabBar component.
  * 
- *  Last modified: $Date: 2005/04/10 21:35:10 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/04/19 15:30:51 $ by $Author: joakim $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class MenuRenderer extends ContainerRenderer {
 
@@ -125,6 +125,15 @@ public class MenuRenderer extends ContainerRenderer {
 		// TODO Auto-generated method stub
 		WFMenu bar = (WFMenu)container;
 		String attr = super.getStyleAttributes(container);
-		return attr+this.getCssHelper().getBackgroundColorAttribute(bar.getBackgroundColor());
+		String backgroundColor= this.getCssHelper().getBackgroundColorAttribute(bar.getBackgroundColor());
+		if(backgroundColor!=null) {
+			if(attr==null) {
+				attr=backgroundColor;
+			}
+			else {
+				attr+=backgroundColor;
+			}
+		}
+		return attr;
 	}
 }
