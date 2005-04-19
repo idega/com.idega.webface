@@ -44,9 +44,6 @@ public class ContainerRenderer extends BaseRenderer {
 			out.writeAttribute("class", getStyleClass(container), null);
 		}
 		
-		if(this instanceof MenuRenderer) {
-			boolean debug=true;
-		}
 		String styleAttribute = getStyleAttributes(container);
 		if (styleAttribute != null) {
 			out.writeAttribute("style", styleAttribute, null);
