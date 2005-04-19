@@ -294,15 +294,43 @@ div.wf_titlebar, div.wf_toolbar{
 }
 */
 
-.wf_block .wf_toolbarcontainer .wf_toolbar{
-	margin: 0px;
-	padding: 2px;
+
+div.ws_main div.wf_block div.wf_toolbarcontainer{
+	width: 100%;
+	height: 22px;
+	background: #FAFAFA url(images/toolbar/bg_item.gif) repeat-x;
+	border-bottom: 1px solid #D7D7D7;
+}
+div.ws_main div.wf_block ul.wf_toolbar, 
+div.ws_main div.wf_block ul.wf_toolbar li{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+div.ws_main div.wf_block ul.wf_toolbar li{
+	float: left;
+	height: 22px;
+	border: 1px solid #D7D7D7;
+	border-width: 0 1px 0 0;
+	padding: 1px 10px 0;
+}
+div.ws_main div.wf_block ul.wf_toolbar li a,
+div.ws_main div.wf_block ul.wf_toolbar li.wf_toolbarbuttonselected
+{
+	float: left;
+	height: 19px;
+}
+div.ws_main div.wf_block ul.wf_toolbar li.wf_toolbarbuttonselected,
+div.ws_main div.wf_block ul.wf_toolbar li:hover
+{
+/**	background: #E7E7E7 url(images/toolbar/bg_item_selected.gif) repeat-x; **/
+	font-weight: normal;
+	background-color: #E7E7E7;
 }
 
-.wf_block > .wf_toolbarcontainer > .wf_toolbar > li > * {
-	height: 25px;
-	margin: 2px;
-}
+
+
+
 
 .wf_list {
 	background-color: #FFFFFF;

@@ -1,5 +1,5 @@
 /*
- * $Id: MenuRenderer.java,v 1.5 2005/04/19 15:30:51 joakim Exp $
+ * $Id: MenuRenderer.java,v 1.6 2005/04/19 19:24:27 gummi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -21,10 +21,10 @@ import com.idega.webface.WFTab;
 /**
  *  The renderer for the TabBar component.
  * 
- *  Last modified: $Date: 2005/04/19 15:30:51 $ by $Author: joakim $
+ *  Last modified: $Date: 2005/04/19 19:24:27 $ by $Author: gummi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class MenuRenderer extends ContainerRenderer {
 
@@ -40,7 +40,7 @@ public class MenuRenderer extends ContainerRenderer {
 	 */
 	public void encodeBegin(FacesContext context, UIComponent comp)
 			throws IOException {
-		super.encodeBegin(context,comp);
+//		super.encodeBegin(context,comp);
 	}
 	
 	/* (non-Javadoc)
@@ -67,9 +67,14 @@ public class MenuRenderer extends ContainerRenderer {
 		}
 		
 		if(!menu.isEmpty()){
+			out.startElement("div",null);
+			String mainStyle = menu.getMenuStyleClass();
+			if (mainStyle != null) {
+				out.writeAttribute("class", mainStyle+"container", null);
+			}
 			out.startElement("ul", null);
-			if (menu.getMenuStyleClass() != null) {
-				out.writeAttribute("class", menu.getMenuStyleClass(), null);
+			if (mainStyle != null) {
+				out.writeAttribute("class", mainStyle, null);
 			}
 			out.writeAttribute("id", "" + comp.getId(), null);
 			//out.startElement("tr", null);
@@ -107,9 +112,10 @@ public class MenuRenderer extends ContainerRenderer {
 			}
 			//out.endElement("tr");
 			out.endElement("ul");
+			out.endElement("div");
 		}
 		
-		super.encodeEnd(context,comp);
+//		super.encodeEnd(context,comp);
 	}
 	
 	protected String getStyleClass(WFContainer container){
