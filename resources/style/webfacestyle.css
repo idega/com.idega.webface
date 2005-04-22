@@ -11,7 +11,7 @@ div.wf_tabbarmainarea{
 	padding: 30px 0 0;
 	position: relative;
 }
-div.ws_main div.wf_block div.wf_tabbarcontainer{
+div.ws_main div.wf_block div.wf_tabbarcontainer {
 	position: absolute;
 	top: 23px;
 	left: 0;
@@ -19,31 +19,70 @@ div.ws_main div.wf_block div.wf_tabbarcontainer{
 	height: 22px;
 	background: #FAFAFA url(images/tabbar/bg_item.gif) repeat-x;
 	border-bottom: 1px solid #D7D7D7;
+/*	border-right: 1px solid #d7d7d7;*/
 }
+
+div.ws_main div.wf_block div.wf_toolbarcontainer {
+	width: 100%;
+	height: 22px;
+	background: #FAFAFA url(images/toolbar/bg_item.gif) repeat-x;
+	border-bottom: 1px solid #D7D7D7;
+}
+
 div.ws_main div.wf_block ul.wf_tabbar, 
-div.ws_main div.wf_block ul.wf_tabbar li{
+div.ws_main div.wf_block ul.wf_tabbar li,
+div.ws_main div.wf_block ul.wf_toolbar, 
+div.ws_main div.wf_block ul.wf_toolbar li{
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-div.ws_main div.wf_block ul.wf_tabbar li{
+div.ws_main div.wf_block ul.wf_tabbar li,
+div.ws_main div.wf_block ul.wf_toolbar li{
 	float: left;
 	height: 22px;
 	border: 1px solid #D7D7D7;
 	border-width: 0 1px 0 0;
 }
 div.ws_main div.wf_block ul.wf_tabbar li a,
-div.ws_main div.wf_block ul.wf_tabbar li.wf_tabbarbuttonselected
+div.ws_main div.wf_block ul.wf_toolbar li a,
+div.ws_main div.wf_block ul.wf_tabbar li span,
+div.ws_main div.wf_block ul.wf_toolbar li span
 {
 	float: left;
-	padding: 3px 10px 0;
-	height: 19px;
+	padding: 4px 10px 0 35px;
+	height: 18px;
+	font-weight: normal;
+	color: #464646;
 }
 div.ws_main div.wf_block ul.wf_tabbar li.wf_tabbarbuttonselected,
-div.ws_main div.wf_block ul.wf_tabbar li a:hover
+div.ws_main div.wf_block ul.wf_toolbar li.wf_toolbarbuttonselected
 {
 	background: #E7E7E7 url(images/tabbar/bg_item_selected.gif) repeat-x;
-	font-weight: normal;
+}
+div.ws_main div.wf_block ul.wf_tabbar li a,
+div.ws_main div.wf_block ul.wf_tabbar li a:hover,
+div.ws_main div.wf_block ul.wf_toolbar li a,
+div.ws_main div.wf_block ul.wf_toolbar li a:hover,
+div.ws_main div.wf_block ul.wf_tabbar li span,
+div.ws_main div.wf_block ul.wf_toolbar li span
+{
+	background-position: 10px 50%;
+	background-repeat: no-repeat;
+}
+div.ws_main div.wf_block ul.wf_tabbar li a:hover,
+div.ws_main div.wf_block ul.wf_toolbar li a:hover {
+	background-color: #e7e7e7;
+}
+
+div.ws_main div.wf_block ul.wf_tabbar li .article_bar_block_t_edit{
+	background-image: url(images/editscript_16.gif);
+}
+div.ws_main div.wf_block ul.wf_tabbar li .article_bar_block_t_details{
+	background-image: url(images/runscript_16.gif);
+}
+div.ws_main div.wf_block ul.wf_tabbar li .article_bar_block_t_list{
+	background-image: url(images/table_16.gif);
 }
 
 
@@ -236,11 +275,11 @@ div.ws_functionmenu ul.wf_viewmenu li ul li:hover{
 	width: 100%;
 }
 
+/*
 div.wf_titlebar, div.wf_toolbar{
 
 }
 
-/*
 .wf_titlebar * {
 	vertical-align: middle;
 	display:inline;
@@ -268,7 +307,7 @@ div.wf_titlebar, div.wf_toolbar{
 .wf_titlebar .wf_titlebar_icon{
 	float:left;
 }
-*/
+
 .wf_titlebar .wf_toolbar{
 	float:right;
 	margin:2px;
@@ -280,57 +319,13 @@ div.wf_titlebar, div.wf_toolbar{
 	border-left-width: 0px;
 }
 
-
-
-.wf_toolbar li{
-	display: inline;
-	list-style: none;
-}
-
-/*
-.wf_toolbar_button a{
-	cursor: pointer;
-	cursor: hand;
+.wf_toolbar * {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 2px;
+	padding: 0px;
 }
 */
-
-
-div.ws_main div.wf_block div.wf_toolbarcontainer{
-	width: 100%;
-	height: 22px;
-	background: #FAFAFA url(images/toolbar/bg_item.gif) repeat-x;
-	border-bottom: 1px solid #D7D7D7;
-}
-div.ws_main div.wf_block ul.wf_toolbar, 
-div.ws_main div.wf_block ul.wf_toolbar li{
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-div.ws_main div.wf_block ul.wf_toolbar li{
-	float: left;
-	height: 22px;
-	border: 1px solid #D7D7D7;
-	border-width: 0 1px 0 0;
-	padding: 1px 10px 0;
-}
-div.ws_main div.wf_block ul.wf_toolbar li a,
-div.ws_main div.wf_block ul.wf_toolbar li.wf_toolbarbuttonselected
-{
-	float: left;
-	height: 19px;
-}
-div.ws_main div.wf_block ul.wf_toolbar li.wf_toolbarbuttonselected,
-div.ws_main div.wf_block ul.wf_toolbar li:hover
-{
-/**	background: #E7E7E7 url(images/toolbar/bg_item_selected.gif) repeat-x; **/
-	font-weight: normal;
-	background-color: #E7E7E7;
-}
-
-
-
-
 
 .wf_list {
 	background-color: #FFFFFF;

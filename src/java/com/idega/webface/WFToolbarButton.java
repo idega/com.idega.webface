@@ -10,6 +10,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 
 import com.idega.idegaweb.IWBundle;
@@ -25,6 +26,7 @@ import com.idega.webface.event.WFToolbarButtonPressedListener;
 public class WFToolbarButton extends UICommand {
 	private String defaultImageURI;
 	private String toolTip;
+	private String displayText;
 	private String hoverImageURI;
 	private String inactiveImageURI;
 	private String pressedImageURI;
@@ -142,7 +144,17 @@ public class WFToolbarButton extends UICommand {
 	public void setToolTip(String toolTip) {
 		this.toolTip = toolTip;
 	}
+	
+	public String getDisplayText() {
+		if(displayText != null) return displayText;
+		ValueBinding binding = getValueBinding("displayText");
+		return (binding!=null)?(String)binding.getValue(getFacesContext()):null;
+	}
 
+	public void setDisplayText(String text) {
+		this.displayText = text;
+	}
+	
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
@@ -221,7 +233,10 @@ public class WFToolbarButton extends UICommand {
 			
 			out.writeAttribute("href","#",null);
 			
-//			out.write(toolTip);
+			String text = getDisplayText();
+			if(text != null){
+				out.write(text);
+			}
 			
 			out.endElement("a");
 		}
@@ -306,13 +321,14 @@ public class WFToolbarButton extends UICommand {
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[6];
+		Object values[] = new Object[7];
 		values[0] = super.saveState(ctx);
 		values[1] = defaultImageURI;
 		values[2] = hoverImageURI;
 		values[3] = inactiveImageURI;
 		values[4] = pressedImageURI;
 		values[5] = toolTip;
+		values[6] = displayText;
 		return values;
 	}
 
@@ -328,5 +344,6 @@ public class WFToolbarButton extends UICommand {
 		inactiveImageURI = (String) values[3];
 		pressedImageURI = (String) values[4];
 		toolTip = (String) values[5];
+		displayText = (String) values[6];
 	}
 }

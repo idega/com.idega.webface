@@ -1,5 +1,5 @@
 /*
- * $Id: WFTab.java,v 1.1 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: WFTab.java,v 1.2 2005/04/22 17:47:29 gummi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,14 +14,15 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
 /**
  * ...  
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2005/04/22 17:47:29 $ by $Author: gummi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFTab extends HtmlCommandLink {
 
@@ -88,9 +89,16 @@ public class WFTab extends HtmlCommandLink {
 			if (getChildren().size() > 0) {
 				UIComponent c = (UIComponent) getChildren().get(0);
 				if (c != null) {
+					ResponseWriter out = context.getResponseWriter();
+					out.startElement("span",null);
+					String styleClass = getStyleClass();
+					if (styleClass != null) {
+						out.writeAttribute("class", styleClass, null);
+					}
 					c.encodeBegin(context);
 					c.encodeChildren(context);
 					c.encodeEnd(context);
+					out.endElement("span");
 				}
 			}
 		}
