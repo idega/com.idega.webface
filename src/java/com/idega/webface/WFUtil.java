@@ -102,8 +102,13 @@ public class WFUtil {
 	 */
 	public static HtmlOutputText getTextVB(String bundleIdentifier,String localizationKey) {
 		HtmlOutputText t = new HtmlOutputText();
-		String valueBinding = "#{bundles['"+bundleIdentifier+"']['"+localizationKey+"']}";
-		t.setValueBinding("value",createValueBinding(valueBinding));
+		IWContext iwContext = IWContext.getInstance();
+		if(iwContext!=null){
+			IWBundle bundle = iwContext.getIWMainApplication().getBundle(bundleIdentifier);
+			if(bundle!=null){
+				t.setValueBinding("value",bundle.getValueBinding(localizationKey));
+			}
+		}
 		return t;
 	}
 	
