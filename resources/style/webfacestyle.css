@@ -75,17 +75,6 @@ div.ws_main div.wf_block ul.wf_toolbar li a:hover {
 	background-color: #e7e7e7;
 }
 
-div.ws_main div.wf_block ul.wf_tabbar li .article_bar_block_t_edit{
-	background-image: url(images/editscript_16.gif);
-}
-div.ws_main div.wf_block ul.wf_tabbar li .article_bar_block_t_details{
-	background-image: url(images/runscript_16.gif);
-}
-div.ws_main div.wf_block ul.wf_tabbar li .article_bar_block_t_list{
-	background-image: url(images/table_16.gif);
-}
-
-
 div.wf_titlebar{
 	background: #FAFAFA;
 	border: 1px solid #D7D7D7;
