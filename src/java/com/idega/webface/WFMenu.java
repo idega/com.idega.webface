@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.7 2005/04/15 16:26:05 thomas Exp $
+ * $Id: WFMenu.java,v 1.8 2005/05/11 17:52:51 gummi Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2005/04/15 16:26:05 $ by $Author: thomas $
+ *  Last modified: $Date: 2005/05/11 17:52:51 $ by $Author: gummi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class WFMenu extends WFContainer {
 
@@ -270,7 +270,17 @@ public class WFMenu extends WFContainer {
 	
 	public UIComponent getMenuItem(String menuItemId){
 		//return this.getFacet("button_"+menuItemId);
-		return this.getFacet("menuitem_"+menuItemId);
+		UIComponent c = this.getFacet("menuitem_"+menuItemId);
+		if(c==null && menuItemId != null){
+			for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
+				UIComponent button = (UIComponent) iter.next();
+				if(menuItemId.equals(button.getId())){
+					c = button;
+					break;
+				}
+			}
+		}
+		return c;
 	}
 	
 	public boolean isRendered(){

@@ -179,5 +179,36 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
+	
+	<tag>
+		<name>toolbar</name>
+		<tag-class>com.idega.webface.WFToolbarTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>toolbarbutton</name>
+		<tag-class>com.idega.webface.WFToolbarButtonTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>displayText</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	
 
 </taglib>

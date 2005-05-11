@@ -321,7 +321,7 @@ public class WFToolbarButton extends UICommand {
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[7];
+		Object values[] = new Object[8];
 		values[0] = super.saveState(ctx);
 		values[1] = defaultImageURI;
 		values[2] = hoverImageURI;
@@ -329,6 +329,7 @@ public class WFToolbarButton extends UICommand {
 		values[4] = pressedImageURI;
 		values[5] = toolTip;
 		values[6] = displayText;
+		values[7] = styleClass;
 		return values;
 	}
 
@@ -345,5 +346,6 @@ public class WFToolbarButton extends UICommand {
 		pressedImageURI = (String) values[4];
 		toolTip = (String) values[5];
 		displayText = (String) values[6];
+		styleClass = (String)values[7];
 	}
 }

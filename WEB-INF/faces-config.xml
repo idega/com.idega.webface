@@ -78,5 +78,15 @@
 		<component-type>HTMLAreaImageChooser</component-type>
 		<component-class>com.idega.webface.htmlarea.HTMLAreaImageChooser</component-class>
 	</component>
+	
+	<component>
+		<component-type>WFToolbar</component-type>
+		<component-class>com.idega.webface.WFToolbar</component-class>
+	</component>
+	
+	<component>
+		<component-type>WFToolbarButton</component-type>
+		<component-class>com.idega.webface.WFToolbarButton</component-class>
+	</component>
 
 </faces-config>
