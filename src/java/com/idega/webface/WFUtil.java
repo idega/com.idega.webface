@@ -348,7 +348,7 @@ public class WFUtil {
 	public static HtmlCommandButton getButtonVB(String id, String bundleIdentifier, String localizationKey) {
 		HtmlCommandButton b = new HtmlCommandButton();
 		b.setId(id);
-		String valueBinding = "#{bundles['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
 		b.setValueBinding("value",createValueBinding(valueBinding));
 		setInputStyle(b);
 		return b;
@@ -460,7 +460,7 @@ public class WFUtil {
 	public static void addParameterVB(UIComponent component, String name, String bundleIdentifier, String localizationKey) {
 		UIParameter p = new UIParameter();
 		p.setName(name);
-		String valueBinding = "#{bundles['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
 		p.setValueBinding("value",createValueBinding(valueBinding));
 		component.getChildren().add(p);		
 	}
@@ -554,7 +554,7 @@ public class WFUtil {
 	 * Adds a message with value binding for the specified component. 
 	 */
 	public static void addMessageVB(UIComponent component, String bundleIdentifier,String localizationKey) {
-		String valueBinding = "#{bundles['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
 		ValueBinding vb = WFUtil.createValueBinding(valueBinding);
 		addMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
 	}
