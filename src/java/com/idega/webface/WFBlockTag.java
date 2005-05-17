@@ -1,5 +1,5 @@
 /*
- * $Id: WFBlockTag.java,v 1.3 2005/05/11 17:52:50 gummi Exp $
+ * $Id: WFBlockTag.java,v 1.4 2005/05/17 16:12:12 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -16,10 +16,10 @@ import javax.faces.webapp.UIComponentTag;
 /**
  * JSP tag for WFBlock
  * <p>
- * Last modified: $Date: 2005/05/11 17:52:50 $ by $Author: gummi $
+ * Last modified: $Date: 2005/05/17 16:12:12 $ by $Author: tryggvil $
  *
  * @author tryggvil
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFBlockTag extends UIComponentTag {
 	
@@ -51,11 +51,13 @@ public class WFBlockTag extends UIComponentTag {
 	protected void setProperties(UIComponent component) {      
 		super.setProperties(component);
 		if (component != null) {
-			if(isValueReference(title)){
-				ValueBinding vb = getFacesContext().getApplication().createValueBinding(title);
-				component.setValueBinding("title", vb);
-			} else {
-				component.getAttributes().put("title", title);
+			if(title!=null){
+				if(isValueReference(title)){
+					ValueBinding vb = getFacesContext().getApplication().createValueBinding(title);
+					component.setValueBinding("title", vb);
+				} else {
+					component.getAttributes().put("title", title);
+				}
 			}
 		}
 	}
