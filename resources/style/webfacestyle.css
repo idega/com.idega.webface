@@ -253,7 +253,7 @@ div.ws_functionmenu ul.wf_viewmenu li ul li:hover{
 
 .wf_blockmainarea iframe{
 	border:0px;
-	margin: 1px 1px 1px 1px;
+	margin: 0px 0px 0px 0px;
 	padding:0px;
 	width:100%;
 	height:600px;
