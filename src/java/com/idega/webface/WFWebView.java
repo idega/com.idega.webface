@@ -1,5 +1,5 @@
 /*
- * $Id: WFWebView.java,v 1.2 2004/11/15 22:19:54 tryggvil Exp $
+ * $Id: WFWebView.java,v 1.3 2005/06/02 18:08:07 tryggvil Exp $
  * Created on 15.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,10 +15,10 @@ import com.idega.idegaweb.IWMainApplication;
 
 /**
  * 
- *  Last modified: $Date: 2004/11/15 22:19:54 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/06/02 18:08:07 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFWebView extends WFFrame {
 
@@ -38,6 +38,7 @@ public class WFWebView extends WFFrame {
 	 */
 	public WFWebView(String titleBarText) {
 		super(titleBarText);
+		setFrameHeight(0,122);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -47,6 +48,7 @@ public class WFWebView extends WFFrame {
 	 */
 	public WFWebView(String titleBarText, String frameURL) {
 		super(titleBarText, frameURL);
+		setFrameHeight(0,122);
 		// TODO Auto-generated constructor stub
 	}
 }
