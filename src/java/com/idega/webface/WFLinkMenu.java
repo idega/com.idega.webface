@@ -1,5 +1,5 @@
 /*
- * $Id: WFLinkMenu.java,v 1.6 2005/03/08 10:34:21 gimmi Exp $
+ * $Id: WFLinkMenu.java,v 1.7 2005/06/02 17:13:55 eiki Exp $
  * Created on 2.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -24,10 +24,10 @@ import com.idega.util.FacesUtil;
 /**
  * A menu whose menu items are plain html links.
  * 
- *  Last modified: $Date: 2005/03/08 10:34:21 $ by $Author: gimmi $
+ *  Last modified: $Date: 2005/06/02 17:13:55 $ by $Author: eiki $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WFLinkMenu extends WFMenu {
 
@@ -42,11 +42,12 @@ public class WFLinkMenu extends WFMenu {
 	}
 	
 	
-	public void setMenuHeader(String text,String url){
+	public HtmlOutputLink setMenuHeader(String text,String url){
 		HtmlOutputLink link = new HtmlOutputLink();
 		link.setValue(url);
 		link.getChildren().add(WFUtil.getText(text));
 		setMenuHeader(link);
+		return link;
 	}
 	
 	
@@ -64,7 +65,7 @@ public class WFLinkMenu extends WFMenu {
 	public HtmlOutputLink addLink(String text,String url,String menuItemId){
 		//boolean isSelected = isUrlSelected(url);
 		boolean isSelected = false;
-		return addLink(text,url,menuItemId,false);
+		return addLink(text,url,menuItemId,isSelected);
 	}
 	
 	public HtmlOutputLink addLink(String text,String url,String menuItemId,boolean selected){
