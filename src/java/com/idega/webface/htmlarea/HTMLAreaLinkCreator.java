@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.3 2005/03/09 09:45:06 gimmi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.4 2005/06/03 15:22:51 thomas Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -23,6 +23,7 @@ import com.idega.presentation.IWBaseComponent;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.text.Link;
 import com.idega.presentation.ui.DropdownMenu;
+import com.idega.repository.data.RefactorClassRegistry;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFTabBar;
@@ -98,7 +99,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 			}
 		} else {
 			try {
-				currentLinkType = (HTMLAreaLinkType) Class.forName(pc).newInstance();
+				currentLinkType = (HTMLAreaLinkType) RefactorClassRegistry.forName(pc).newInstance();
 			}
 			catch (InstantiationException e) {
 				e.printStackTrace();
@@ -227,11 +228,11 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 			try {
 				while (index > -1) {
 					String tmp = tab.substring(0, index);
-					v.add((HTMLAreaLinkType)Class.forName(tmp).newInstance());
+					v.add((HTMLAreaLinkType) RefactorClassRegistry.forName(tmp).newInstance());
 					tab = tab.substring(index+1);
 					index = tab.indexOf(",");
 				}
-				v.add((HTMLAreaLinkType)Class.forName(tab).newInstance());
+				v.add((HTMLAreaLinkType) RefactorClassRegistry.forName(tab).newInstance());
 				if (tabs == null) {
 					tabs = v;
 				} else {

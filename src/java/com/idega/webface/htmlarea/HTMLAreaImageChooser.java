@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.2 2005/03/20 18:26:58 gimmi Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.3 2005/06/03 15:22:51 thomas Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -21,6 +21,7 @@ import com.idega.presentation.IWContext;
 import com.idega.presentation.ui.DropdownMenu;
 import com.idega.presentation.ui.FieldSet;
 import com.idega.presentation.ui.IFrame;
+import com.idega.repository.data.RefactorClassRegistry;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFTabBar;
@@ -67,7 +68,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 			}
 		} else {
 			try {
-				currentImageType = (HTMLAreaImageType) Class.forName(pc).newInstance();
+				currentImageType = (HTMLAreaImageType) RefactorClassRegistry.forName(pc).newInstance();
 			}
 			catch (InstantiationException e) {
 				e.printStackTrace();
@@ -245,11 +246,11 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 			try {
 				while (index > -1) {
 					String tmp = tab.substring(0, index);
-					v.add((HTMLAreaImageType)Class.forName(tmp).newInstance());
+					v.add((HTMLAreaImageType)RefactorClassRegistry.forName(tmp).newInstance());
 					tab = tab.substring(index+1);
 					index = tab.indexOf(",");
 				}
-				v.add((HTMLAreaImageType)Class.forName(tab).newInstance());
+				v.add((HTMLAreaImageType)RefactorClassRegistry.forName(tab).newInstance());
 				if (tabs == null) {
 					tabs = v;
 				} else {
