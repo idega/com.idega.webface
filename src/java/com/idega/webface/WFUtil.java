@@ -73,7 +73,12 @@ public class WFUtil {
 	 */
 	public static HtmlOutputText getText(String s) {
 		HtmlOutputText t = new HtmlOutputText();
-		t.setValue(s);
+		if(isValueBinding(s)){
+			t.setValueBinding("value", createValueBinding( s ));
+		}
+		else{
+			t.setValue(s);
+		}
 		return t;
 	}
 	
@@ -646,5 +651,25 @@ public class WFUtil {
 		MethodBinding mb = WFUtil.createMethodBinding("#{" + beanId + "." + methodName + "}", params);
 		return mb.invoke(FacesContext.getCurrentInstance(), values);
 	}
+	
+	/**
+	 * <p>
+	 * A method to check if the passed String is a valuebinding expression,
+	 * i.e. a string in the format '#{MyBeanId.myProperty}'
+	 * </p>
+	 * @param any String
+	 * @return
+	 */
+    public static boolean isValueBinding(String value)
+    {
+        if (value == null) return false;
+        
+        int start = value.indexOf("#{");
+        if (start < 0) return false;
+        
+        int end = value.lastIndexOf('}');
+        return (end >=0 && start < end);
+    }
+
 	
 }
