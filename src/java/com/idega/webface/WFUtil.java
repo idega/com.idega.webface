@@ -194,7 +194,7 @@ public class WFUtil {
 	 */
 	public static HtmlCommandLink getLinkVB(String id, String ref, ActionListener actionListener) {
 		HtmlCommandLink l = new HtmlCommandLink();
-		if(id!=null){
+		if(id!=null && !"".equals(id)){
 			l.setId(id);
 		}
 		l.getChildren().add(getTextVB(ref));
