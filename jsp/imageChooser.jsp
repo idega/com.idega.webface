@@ -9,7 +9,7 @@
 	xmlns:co="http://xmlns.idega.com/com.idega.content">
     <jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"/>
     <f:view>
-    		<c:page id="p1" onload="Init()" javascripturls="../idegaweb/bundles/com.idega.webface.bundle/resources/htmlarea/popups/popup.js,../idegaweb/bundles/com.idega.webface.bundle/resources/htmlarea/plugins/Selectdocument/popups/IWSelectDocumentRedir.js">
+    		<c:page id="p1" onload="Init()" javascripturls="../idegaweb/bundles/com.idega.webface.bundle/resources/htmlarea/popups/popup.js,../idegaweb/bundles/com.idega.webface.bundle/resources/htmlarea/plugins/Selectdocument/popups/HTMLAreaImageChooser.js">
                <h:form id="uploadForm" name="uploadForm" enctype="multipart/form-data">
                <wf:htmlareaimagechooser id="lc1" externalTabClass="com.idega.content.presentation.HTMLAreaDocumentImageChooser"/>
 

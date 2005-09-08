@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.3 2005/06/03 15:22:51 thomas Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.4 2005/09/08 23:03:09 tryggvil Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -37,7 +37,8 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 	private final static String PARAMETER_LINK_TYPE = "f_ct";
 	private final static String PARAMETER_CHOOSER = "pch";
 	
-	private static final String PARAMETER_URL = "f_url";
+	//This parameter is referenced as an id in HTMLAreaImageChooser.js:
+	private static final String PARAMETER_URL = "f_url";//HTMLAreaLinkCreator.PARAMETER_HREF;
 	private static final String PARAMETER_ALT = "f_alt";
 	private static final String PARAMETER_ALIGNMENT = "f_align";
 	private static final String PARAMETER_BORDER = "f_border";
@@ -227,7 +228,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 //		block.add(borderLine);
 //		block.add(horizLine);
 //		block.add(vertiLine);
-		block.add(previewLine);
+		//block.add(previewLine);
 		block.add(saveLine);
 		return block;
 	}

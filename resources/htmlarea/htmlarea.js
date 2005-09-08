@@ -1672,12 +1672,14 @@ HTMLArea.prototype._insertImage = function(image) {
 
 		for (var field in param) {
 			var value = param[field];
-			switch (field) {
-			    case "f_alt"    : img.alt	 = value; break;
-			    case "f_border" : img.border = parseInt(value || "0"); break;
-			    case "f_align"  : img.align	 = value; break;
-			    case "f_vert"   : img.vspace = parseInt(value || "0"); break;
-			    case "f_horiz"  : img.hspace = parseInt(value || "0"); break;
+			if(img){
+				switch (field) {
+				    case "f_alt"    : img.alt	 = value; break;
+				    case "f_border" : img.border = parseInt(value || "0"); break;
+				    case "f_align"  : img.align	 = value; break;
+				    case "f_vert"   : img.vspace = parseInt(value || "0"); break;
+				    case "f_horiz"  : img.hspace = parseInt(value || "0"); break;
+				}
 			}
 		}
 	}, outparam);
