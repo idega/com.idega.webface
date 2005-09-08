@@ -1,5 +1,5 @@
 /*
- * $Id: WFPage.java,v 1.11 2004/12/16 17:08:47 joakim Exp $
+ * $Id: WFPage.java,v 1.12 2005/09/08 23:04:40 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -23,10 +23,10 @@ import com.idega.presentation.IWContext;
 /**
  * ...
  * <p>
- * Last modified: $Date: 2004/12/16 17:08:47 $ by $Author: joakim $
+ * Last modified: $Date: 2005/09/08 23:04:40 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class WFPage extends IWBaseComponent {
 
@@ -50,7 +50,7 @@ public class WFPage extends IWBaseComponent {
 	/*
 	 * Test load bundles. 
 	 */
-	private void loadResourceBundles(FacesContext context) {
+	public static void loadResourceBundles(FacesContext context) {
 		if (context.getExternalContext().getSessionMap().get(CONTENT_BUNDLE) != null) {
 			return;
 		}
