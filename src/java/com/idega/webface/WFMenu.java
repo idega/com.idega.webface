@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.8 2005/05/11 17:52:51 gummi Exp $
+ * $Id: WFMenu.java,v 1.9 2005/09/08 23:06:05 tryggvil Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,17 +21,17 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2005/05/11 17:52:51 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/09/08 23:06:05 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class WFMenu extends WFContainer {
 
 	private String menuStyleClass = "wf_tabbar";
-	private String _buttonSelectedStyleClass = "wf_tabbarbuttonselected";
-	private String _buttonDeselectedStyleClass = "wf_tabbarbuttondeselected";
-	private String _menuHeaderStyleClass = "wf_tabbarbuttondeselected";
+	private String _buttonSelectedStyleClass = TAB_ITEMSELECTEDSTYLECLASS;
+	private String _buttonDeselectedStyleClass = TAB_ITEMDESELECTEDSTYLECLASS;
+	private String _menuHeaderStyleClass = TAB_ITEMDESELECTEDSTYLECLASS;
 	private Set _buttonIds = null;
 	private String _selectedButtonId = null;
 	
@@ -44,8 +44,8 @@ public class WFMenu extends WFContainer {
 	 *The "tab" style classes
 	 */
 	private static String TAB_MENUSTYLECLASS = "wf_tabbar";
-	private static String TAB_ITEMSELECTEDSTYLECLASS = "wf_tabbarbuttonselected";
-	private static String TAB_ITEMDESELECTEDSTYLECLASS = "wf_tabbarbuttondeselected";
+	private static String TAB_ITEMSELECTEDSTYLECLASS = "selected";//"wf_tabbarbuttonselected";
+	private static String TAB_ITEMDESELECTEDSTYLECLASS = "deselected";//"wf_tabbarbuttondeselected";
 	private static String TAB_MENUHEADERSTYLECLASS = "wf_menuheader";
 	private static String TAB_CONTAINERCLASS = TAB_MENUSTYLECLASS+"container";
 	
@@ -54,8 +54,8 @@ public class WFMenu extends WFContainer {
 	 */
 	private static String VERTICAL_MENUSTYLECLASS = "wf_viewmenu";
 	private static String VERTICAL_MENUHEADERSTYLECLASS = "wf_menuheader";
-	private static String VERTICAL_ITEMSELECTEDSTYLECLASS = "wf_viewmenubuttonselected";
-	private static String VERTICAL_ITEMDESELECTEDSTYLECLASS = "wf_viewmenubuttondeselected";
+	private static String VERTICAL_ITEMSELECTEDSTYLECLASS = "selected";//"wf_viewmenubuttonselected";
+	private static String VERTICAL_ITEMDESELECTEDSTYLECLASS = "deselected";//"wf_viewmenubuttondeselected";
 	private static String VERTICAL_CONTAINERCLASS = VERTICAL_MENUSTYLECLASS+"container";
 	
 
@@ -63,6 +63,7 @@ public class WFMenu extends WFContainer {
 		super();
 		setVerticalStyle();
 		setRendererType(RENDERER_TYPE);
+		setMenuStyleClass(TAB_MENUSTYLECLASS);
 	}
 	
 	public UIComponent getMenuHeader(){
@@ -120,6 +121,7 @@ public class WFMenu extends WFContainer {
 	 */
 	public String getMenuStyleClass() {
 		return menuStyleClass;
+		//return getStyleClass();
 	}
 
 	/**
@@ -139,8 +141,9 @@ public class WFMenu extends WFContainer {
 	/**
 	 * Sets the css class for this menu. 
 	 */
-	public void setMenuStyleClass(String taskbarStyleClass) {
-		menuStyleClass = taskbarStyleClass;
+	public void setMenuStyleClass(String menuStyleClass) {
+		this.menuStyleClass = menuStyleClass;
+		//setStyleClass(menuStyleClass);
 	}
 
 	/**

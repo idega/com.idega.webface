@@ -37,10 +37,6 @@ div.wf_titlebar div.wf_titlebar_icon img{
 	font-weight: bold;
 }
 
-.wf_color_red {
-	color: red;
-}
-
 .wf_applicationpanel {
 	border-spacing: 0px;
 	padding-left: 2px;
@@ -260,7 +256,7 @@ div.wf_titlebar, div.wf_toolbar{
 	padding:0px;
 }
 
-.wf_viewmenu .wf_viewmenubuttonselected,.wf_viewmenu .wf_viewmenubuttondeselected {
+.wf_viewmenu .selected,.wf_viewmenu .deselected {
 	padding: 4px 4px 4px 15px;
 	vertical-align: middle;
 	margin:0px;
@@ -268,26 +264,26 @@ div.wf_titlebar, div.wf_toolbar{
 	list-style-position: inside;
 }
 
-wf_viewmenubuttondeselected .wf_viewmenu {
+.wf_viewmenu .deselected .wf_viewmenu {
 	padding: 0px 0px 0px 0px;
 	#background-image:none;
 }
 
-.wf_viewmenubuttonselected {
+.wf_viewmenu .selected {
 	background-color: none;
 	color: #FFFFFF;
 	background-image: url(images/blueover_tile2.gif);
 	background-repeat: repeat;
 }
 
-.wf_viewmenubuttondeselected a {
+.wf_viewmenu .deselected a {
 	color: black;
 }
 
-.wf_viewmenubuttondeselected:hover,.wf_viewmenubuttondeselected a:hover {
+.wf_viewmenu .deselected:hover,.wf_viewmenu .deselected a:hover {
 	color: white;
 }
-.wf_viewmenubuttondeselected:hover{
+.wf_viewmenu .deselected:hover{
 	background-image: url(images/blueover_tile2.gif);
 	background-repeat: repeat;
 }
@@ -311,13 +307,10 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	display:none;
 }
 
-.wf_viewmenubuttondeselected a:hover {
-	color: #white;
+.wf_viewmenu .deselected a:hover {
+	color: black;
 }
 
-.wf_viewmenubuttondeselected, wf_viewmenubuttondeselected:hover, wf_viewmenubuttonselected{
-	border: 1px solid #D7D7D7;
-}
 
 .wf_menuheader{
 	display:inline;
@@ -329,7 +322,6 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 
 .wf_tabbarmainarea {
 	padding: 1.5em;
-	background: #fff;
 	min-height: 300px;
 	border-top: 2em solid #FFF3B3;
 }
@@ -345,19 +337,19 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	background-repeat: repeat-x;
 }
 
-.wf_tabbarbuttonselected a {
+.wf_tabbar .selected a {
 	margin-top: -2;
 	background: #F2F2F2;
 	padding-bottom: 5px;
         font-color: #4D4D4D;
 }
 
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected {
+.wf_tabbar .selected, .wf_tabbar .deselected {
 	display: inline;
 	list-style: none;
 }
 
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a {
+.wf_tabbar .selected, .wf_tabbar .deselected a {
 	width: 7em;
 	display: block;
 	float: right;
@@ -370,14 +362,14 @@ wf_viewmenubuttondeselected .wf_viewmenu {
 	border-left: 1px solid #C4C4C4;
 }
 
-.wf_tabbarbuttondeselected a {
+.wf_tabbar .deselected a {
 	#border-bottom: none;
 	font-color: #4D4D4D;
 	background-image: url(images/greybar_tile.gif);
 	background-repeat: repeat-x;
 }
 
-.wf_tabbarbuttondeselected a:hover {
+.wf_tabbar .deselected a:hover {
 	margin-top: -2;
 	background-color: #F2F2F2;
 	padding-bottom: 5px;

@@ -1,5 +1,5 @@
 /*
- * $Id: WFTabbedPane.java,v 1.3 2005/04/22 17:47:29 gummi Exp $
+ * $Id: WFTabbedPane.java,v 1.4 2005/09/08 23:06:05 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -26,10 +26,10 @@ import com.idega.webface.event.WFTabListener;
  * A perspective can be any component that is rendered when
  * its tab bar button is pressed.   
  * <p>
- * Last modified: $Date: 2005/04/22 17:47:29 $ by $Author: gummi $
+ * Last modified: $Date: 2005/09/08 23:06:05 $ by $Author: tryggvil $
  *
  * @author Anders Lindman,Tryggvi Larusson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFTabbedPane extends WFMenu implements ActionListener {
 	
@@ -99,6 +99,9 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 		return addTab(menuItemId, buttonLabelRef, perspective, true);
 	}
 	
+	public WFTab getTab(String menuItemId){
+		return (WFTab)getMenuItem(menuItemId);
+	}
 	
 	/**
 	 * Sets the perspective component for the given menuItemId.<br>

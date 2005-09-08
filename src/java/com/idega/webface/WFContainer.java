@@ -16,6 +16,7 @@ public class WFContainer extends IWBaseComponent
 //	private static boolean imagesSet = false;
 	
 	public static String RENDERER_TYPE="wf_container";
+	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
 	
 	/*private static Image topleft;
 	private static Image topright;
@@ -41,6 +42,7 @@ public class WFContainer extends IWBaseComponent
 
 		//setAllMargins(0);
 		setRendererType(RENDERER_TYPE);
+		setStyleClass(DEFAULT_STYLE_CLASS);
 	}
 
 //	/* (non-Javadoc)

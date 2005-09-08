@@ -1,5 +1,5 @@
 /*
- * $Id: ToolbarRenderer.java,v 1.4 2005/05/11 17:52:51 gummi Exp $
+ * $Id: ToolbarRenderer.java,v 1.5 2005/09/08 23:06:05 tryggvil Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -27,10 +27,10 @@ import com.idega.webface.WFTab;
 
 /**
  * 
- *  Last modified: $Date: 2005/05/11 17:52:51 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/09/08 23:06:05 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ToolbarRenderer extends MenuRenderer {
 	
@@ -113,8 +113,12 @@ public class ToolbarRenderer extends MenuRenderer {
 			
 			
 			Iterator iter = itemList.iterator();
-			while (iter.hasNext()) {
+			boolean isFirstItem = true;
+			boolean hasNext = iter.hasNext();
+			
+			while (hasNext) {
 				UIComponent menuItem =  (UIComponent) iter.next();
+				hasNext=iter.hasNext();
 				String buttonId = menuItem.getId();
 				String buttonStyleClass = menu.getDeselectedMenuItemStyleClass();
 				
@@ -133,6 +137,17 @@ public class ToolbarRenderer extends MenuRenderer {
 					} 
 					out.startElement("li", null);
 					if (buttonStyleClass != null) {
+						if(isFirstItem){
+							buttonStyleClass+=" first";
+							isFirstItem=false;
+						}
+						
+						if(!hasNext){
+							//this is the last item:
+							buttonStyleClass+=" last";
+							isFirstItem=false;							
+						}
+						
 						out.writeAttribute("class", buttonStyleClass, null);
 					}
 					renderChild(context,menuItem);

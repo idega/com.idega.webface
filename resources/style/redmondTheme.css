@@ -200,18 +200,18 @@
 	margin: 1px 1px 1px 1px;
 }
 
-.wf_viewmenubuttonselected,.wf_viewmenubuttondeselected, .wf_menuheader{
+.wf_viewmenu .selected,.wf_viewmenu .selected, .wf_menuheader{
 	padding: 4px 4px 4px 15px;
 	vertical-align: middle;
 	margin:0px;
 	list-style: none;
 }
 
-wf_viewmenubuttondeselected .wf_viewmenu{
+wf_viewmenu .deselected .wf_viewmenu{
 	padding: 0px 0px 0px 0px;
 }
 
-.wf_viewmenubuttonselected {
+.wf_viewmenu .selected {
 	border-top: 1px solid #848284;
 	border-left: 1px solid #848284;
 	border-bottom: 1px solid #FFFFFF;
@@ -220,12 +220,12 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	color: #ffffff;
 }
 
-.wf_viewmenubuttondeselected a {
+.wf_viewmenu .deselected a {
 	color: black;
   	font-weight: normal;
 }
 
-.wf_viewmenubuttondeselected, .wf_menuheader{
+.wf_viewmenu .deselected, .wf_menuheader{
 	border-top: 1px solid #FFFFFF;
 	border-left: 1px solid #FFFFFF;
 	border-bottom: 1px solid #848284;
@@ -255,18 +255,18 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	#width: 45em; /* a width is required for Opera, older Mozilla browsers, and Konqueror browsers */
 }
 
-.wf_tabbarbuttonselected a {
+.wf_tabbar .selected a {
 	color:white;
 }
 
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected
+.wf_tabbar .selected, .wf_tabbarbuttondeselected
 {
 	display: inline;
 	list-style: none;
 }
 
 
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a
+.wf_tabbar .selected, .wf_tabbar .deselected a
 {
 	width: 8em;
 	display: block;
@@ -282,7 +282,7 @@ wf_viewmenubuttondeselected .wf_viewmenu{
         font-weight:bold;
 }
 
-.wf_tabbarbuttonselected, .wf_tabbarbuttondeselected a:hover 
+.wf_tabbar .selected, .wf_tabbar .deselected a:hover 
 {
 	border: 1px solid #666;
 	border-bottom: none;
@@ -291,7 +291,7 @@ wf_viewmenubuttondeselected .wf_viewmenu{
 	margin-top: 0;
 }
 
-.wf_tabbarbuttondeselected a 
+.wf_tabbar .deselected a 
 {
 	background: #DBD7C1;
 	border: 1px solid #AAA;
@@ -299,7 +299,7 @@ wf_viewmenubuttondeselected .wf_viewmenu{
  
 }
 
-.wf_tabbarbuttondeselected a:hover
+.wf_tabbar .deselected a:hover
 {
 	margin-top: 0;
 	border-color: #666;
