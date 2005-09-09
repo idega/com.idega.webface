@@ -277,13 +277,36 @@ public class WFUtil {
 	}
 	
 	/**
-	 * Returns an html text area component with value binding. 
+	 * Returns an html text area component with value binding reference. 
+	 */
+	public static HTMLArea getHtmlAreaTextArea(String id, String ref){
+		return getHtmlAreaTextArea(id,ref,null,null);
+	}
+	
+	/**
+	 * Returns an html text area component with value binding reference, and height and width
 	 */
 	public static HTMLArea getHtmlAreaTextArea(String id, String ref, String width, String height) {
 		HTMLArea a = new HTMLArea();
 		a.setId(id);
 		a.setValueBinding("value", createValueBinding("#{" + ref + "}"));
-		a.setStyle("width:" + width + ";height:" + height + ";");
+		String styleString = null;
+		if(width!=null){
+			if(styleString==null){
+				styleString="";
+			}
+			styleString = "width:" + width+";";
+		}
+		if(height!=null){
+			if(styleString==null){
+				styleString="";
+			}
+			styleString += "height:" + height + ";";
+		}
+		if(styleString!=null){
+			a.setStyle(styleString);
+		}
+		//a.setStyle("width:" + width + ";height:" + height + ";");
 		setInputStyle(a);
 		return a;
 	}
