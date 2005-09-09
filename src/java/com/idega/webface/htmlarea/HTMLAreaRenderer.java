@@ -53,11 +53,12 @@ public class HTMLAreaRenderer extends Renderer {
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
 		HtmlInputTextarea textarea = (HtmlInputTextarea) component;
 		// Setting default values
-		if (textarea.getStyle() == null) {
+		String areaStyle = textarea.getStyle();
+		if (areaStyle == null) {
 			String styleString = "";
-			if (textarea.getCols() <= 0) {
-				styleString += "width:100%;";
-			}
+			//if (textarea.getCols() <= 0) {
+			//	styleString += "width:100%;";
+			//}
 			if (textarea.getRows() <= 0) {
 				styleString += " heigth:400px";
 			}
@@ -261,7 +262,6 @@ public class HTMLAreaRenderer extends Renderer {
 	}
 
 	private String[] getPlugins(UIComponent component) {
-		
 		try {
 			String plugins = ((HTMLArea) component).getPlugins();
 			if (plugins != null) {
@@ -303,7 +303,10 @@ public class HTMLAreaRenderer extends Renderer {
 		}
 		
 		// Adding these as default if nothing else if found
-		return new String[]{"TableOperations", "ContextMenu", "ListType", "CharacterMap", "DynamicCSS", "CSS"};
+		//return new String[]{"TableOperations", "ContextMenu", "ListType", "CharacterMap", "DynamicCSS", "CSS"};
+
+		return new String[]{"TableOperations", "ContextMenu"};
+		
 	}
 	
 	private void addPlugin(String pluginName, String registerString, StringBuffer loadPlugins, StringBuffer initEditorScript, String toolbarNumber) {
