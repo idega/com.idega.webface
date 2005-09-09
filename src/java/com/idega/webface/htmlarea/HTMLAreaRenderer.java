@@ -22,6 +22,12 @@ public class HTMLAreaRenderer extends Renderer {
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.webface";
 	private String rootFolder = null;
 	
+	private static final String HTMLAREA_FOLDER = "/htmlarea/";
+	private static final String XINHA_FOLDER = "/xinha/";
+	
+	private String htmlareaFolder = XINHA_FOLDER;
+	
+	
 	private Renderer textareaRenderer = null;
 	private HashMap pluginLocation = new HashMap();
 	
@@ -33,7 +39,7 @@ public class HTMLAreaRenderer extends Renderer {
 	private void init(IWContext iwc) {
 		if (iwc != null) {
 			IWBundle iwb = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
-			rootFolder = iwb.getResourcesVirtualPath() + "/htmlarea/";
+			rootFolder = iwb.getResourcesVirtualPath() + htmlareaFolder;
 		}
 	}
 	
@@ -56,11 +62,12 @@ public class HTMLAreaRenderer extends Renderer {
 		String areaStyle = textarea.getStyle();
 		if (areaStyle == null) {
 			String styleString = "";
-			//if (textarea.getCols() <= 0) {
-			//	styleString += "width:100%;";
-			//}
+			if (textarea.getCols() <= 0) {
+				//styleString += "width:100%;";
+				styleString += "height:500px;";
+			}
 			if (textarea.getRows() <= 0) {
-				styleString += " heigth:400px";
+				styleString += "height:400px;";
 			}
 			if (!styleString.equals("")) {
 				textarea.setStyle(styleString);
@@ -305,7 +312,8 @@ public class HTMLAreaRenderer extends Renderer {
 		// Adding these as default if nothing else if found
 		//return new String[]{"TableOperations", "ContextMenu", "ListType", "CharacterMap", "DynamicCSS", "CSS"};
 
-		return new String[]{"TableOperations", "ContextMenu"};
+		//Returning no plugins by default:
+		return new String[0];
 		
 	}
 	
