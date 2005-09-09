@@ -672,4 +672,26 @@ public class WFUtil {
     }
 
 	
+    /**
+     * <p>
+     * This method finds a bean instance from a given beanId.<br/>
+     * Goes first to request scope, then to session scope and finally to application scope
+     * and returns the first found.
+     * </p>
+     * @param beanId
+     * @return
+     */
+    public static Object getBeanInstance(String beanId) {
+    	FacesContext context = FacesContext.getCurrentInstance();
+    	Object bean = context.getExternalContext().getRequestMap().get(beanId);
+    	if(bean==null){
+    		bean=context.getExternalContext().getSessionMap().get(beanId);
+    	}
+    	if(bean==null){
+    		bean=context.getExternalContext().getApplicationMap().get(beanId);
+    	}
+    	return bean;
+    }
+    
+    
 }
