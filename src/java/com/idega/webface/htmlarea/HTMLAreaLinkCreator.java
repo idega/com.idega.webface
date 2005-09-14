@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.5 2005/09/08 23:03:09 tryggvil Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.6 2005/09/14 01:28:03 tryggvil Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -123,6 +123,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	
 	protected WFTabBar getLinkTabBar() {
 		WFTabBar bar = new WFTabBar();
+		bar.setStyleClass("ws_mainnavigation");
 		int col = 1;
 		Iterator iter = getLinkTypes().iterator();
 		while (iter.hasNext()) {

@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.4 2005/09/08 23:03:09 tryggvil Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.5 2005/09/14 01:28:03 tryggvil Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -17,6 +17,7 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
+import com.idega.faces.WorkspaceViewHandler;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.ui.DropdownMenu;
 import com.idega.presentation.ui.FieldSet;
@@ -65,7 +66,22 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 					}
 				}
 			} else {
-				currentImageType = new HTMLAreaExternalImageType();
+				
+				
+				//currentImageType = new HTMLAreaExternalImageType();
+				try {
+					pc="com.idega.content.presentation.HTMLAreaDocumentImageChooser";
+					currentImageType = (HTMLAreaImageType) RefactorClassRegistry.forName(pc).newInstance();
+				}
+				catch (InstantiationException e) {
+					e.printStackTrace();
+				}
+				catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+				catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
 			}
 		} else {
 			try {
@@ -85,6 +101,8 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 
 	protected WFTabBar getLinkTabBar() {
 		WFTabBar bar = new WFTabBar();
+		//This should reference WorkspaceBar.MAIN_NAVIGATION_STYLE_CLASS, but this is not typesafe (dependency on workspace is missing)
+		bar.setStyleClass("ws_mainnavigation");
 		int col = 1;
 		Iterator iter = getLinkTypes().iterator();
 		while (iter.hasNext()) {
