@@ -225,21 +225,12 @@ div.wf_titlebar, div.wf_toolbar{
 }
 
 .wf_listlink {
-	font-size: 11px;
-  	font-weight: normal;
-	color:#414141;
 }
 
 .wf_listlink:hover {
-	font-size: 11px;
-  	font-weight: normal;
-	color:#414141;
 }
 
 .wf_listtext {
-	font-size: 11px;
-  	font-weight: normal;
-        color:#878787;
 }
 
 /***WFMenu***/
