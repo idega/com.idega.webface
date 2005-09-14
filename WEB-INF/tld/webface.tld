@@ -11,15 +11,7 @@
     <description>JSF Idega Webface Tag Library</description>
     <uri>http://xmlns.idega.com/com.idega.webface</uri>
 
-	<tag>
-		<name>workspace_page</name>
-		<tag-class>com.idega.webface.workspace.WorkspacePageTag</tag-class>
-		<attribute>
-			<name>id</name>
-			<required>false</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
-	</tag>
+
 	<tag>
 		<name>wfblock</name>
 		<tag-class>com.idega.webface.WFBlockTag</tag-class>
