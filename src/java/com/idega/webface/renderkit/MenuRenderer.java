@@ -1,5 +1,5 @@
 /*
- * $Id: MenuRenderer.java,v 1.6 2005/04/19 19:24:27 gummi Exp $
+ * $Id: MenuRenderer.java,v 1.7 2005/09/14 01:28:34 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -21,10 +21,10 @@ import com.idega.webface.WFTab;
 /**
  *  The renderer for the TabBar component.
  * 
- *  Last modified: $Date: 2005/04/19 19:24:27 $ by $Author: gummi $
+ *  Last modified: $Date: 2005/09/14 01:28:34 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class MenuRenderer extends ContainerRenderer {
 
@@ -68,10 +68,19 @@ public class MenuRenderer extends ContainerRenderer {
 		
 		if(!menu.isEmpty()){
 			out.startElement("div",null);
+			String containerStyle = menu.getStyleClass();
 			String mainStyle = menu.getMenuStyleClass();
-			if (mainStyle != null) {
-				out.writeAttribute("class", mainStyle+"container", null);
+			
+			if (containerStyle == null) {
+				if(mainStyle!=null){
+					containerStyle=mainStyle+"container";
+					out.writeAttribute("class",containerStyle , null);
+				}
 			}
+			else{
+				out.writeAttribute("class", containerStyle, null);
+			}
+			
 			out.startElement("ul", null);
 			if (mainStyle != null) {
 				out.writeAttribute("class", mainStyle, null);
