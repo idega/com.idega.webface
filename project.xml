@@ -36,6 +36,11 @@
       <name>0.9.2</name>
       <tag>WEBFACE_0_9_2</tag>
     </version>
+    <version>
+      <id>1.0</id>
+      <name>1.0</name>
+      <tag>WEBFACE_1_0</tag>
+    </version>
   </versions>
   <developers>
     <developer>
@@ -57,8 +62,12 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.core</artifactId>
-      <!--HELPER--><version>3.0.6</version><!--HELPER-->
+      <!--HELPER-->
+
+      <version>3.0.6</version>
+      <!--HELPER-->
       <!--HELPERversion>SNAPSHOT</versionHELPER-->
+
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
@@ -68,8 +77,12 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.faces</artifactId>
-      <!--HELPER--><version>1.0.3</version><!--HELPER-->
+      <!--HELPER-->
+
+      <version>1.0.3</version>
+      <!--HELPER-->
       <!--HELPERversion>SNAPSHOT</versionHELPER-->
+
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
