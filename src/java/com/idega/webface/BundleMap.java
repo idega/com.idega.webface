@@ -1,5 +1,5 @@
 /*
- * $Id: BundleMap.java,v 1.2 2005/08/10 18:36:26 tryggvil Exp $
+ * $Id: BundleMap.java,v 1.3 2005/10/04 11:49:49 gimmi Exp $
  * Created in 2001 by Tryggvi Larusson
  * 
  * Copyright (C) 2001-2004 Idega hf. All Rights Reserved.
@@ -15,9 +15,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import com.idega.idegaweb.BundleLocalizationMap;
@@ -28,12 +26,12 @@ import com.idega.idegaweb.IWResourceBundle;
  * <p>
  * Map of Bundles for localization. This class is only used inside the ArticleBlock module.
  * </p>
- * Last modified: $Date: 2005/08/10 18:36:26 $ by $Author: tryggvil $<br/>
+ * Last modified: $Date: 2005/10/04 11:49:49 $ by $Author: gimmi $<br/>
  * 
  * @deprecated This class is replaced by com.idega.idegaweb.BundleLocalizationMap
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 class BundleMap extends BundleLocalizationMap {
 

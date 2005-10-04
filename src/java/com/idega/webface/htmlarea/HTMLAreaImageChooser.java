@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.5 2005/09/14 01:28:03 tryggvil Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.6 2005/10/04 11:49:49 gimmi Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -17,7 +17,6 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
-import com.idega.faces.WorkspaceViewHandler;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.ui.DropdownMenu;
 import com.idega.presentation.ui.FieldSet;

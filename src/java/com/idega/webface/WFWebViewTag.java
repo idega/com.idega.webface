@@ -1,5 +1,5 @@
 /*
- * $Id: WFWebViewTag.java,v 1.2 2005/08/11 18:42:43 tryggvil Exp $
+ * $Id: WFWebViewTag.java,v 1.3 2005/10/04 11:49:49 gimmi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -9,15 +9,14 @@
  */
 package com.idega.webface;
 
-import javax.faces.webapp.UIComponentTag;
 
 /**
  * JSP tag for WFBlock
  * <p>
- * Last modified: $Date: 2005/08/11 18:42:43 $ by $Author: tryggvil $
+ * Last modified: $Date: 2005/10/04 11:49:49 $ by $Author: gimmi $
  *
  * @author tryggvil
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFWebViewTag extends WFBlockTag {
 	
