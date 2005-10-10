@@ -104,6 +104,14 @@ public class WFBlock extends WFContainer {
 	 */
 	public void setTitlebar(WFTitlebar titlebar) {
 		getFacets().put(FACET_TITLEBAR, titlebar);
+		String titleBarId = titlebar.getId();
+		if(titleBarId==null){
+			String thisId = this.getId();
+			if(thisId!=null){
+				titleBarId=thisId+"_titlebar";
+				titlebar.setId(titleBarId);
+			}
+		}
 	}
 
 	/**
@@ -121,6 +129,14 @@ public class WFBlock extends WFContainer {
 				getTitlebar().removeEmbeddedToolbar();
 			}
 			getFacets().put(FACET_TOOLBAR, toolbar);
+		}
+		String toolbarId = toolbar.getId();
+		if(toolbarId==null){
+			String thisId = this.getId();
+			if(thisId!=null){
+				toolbarId=thisId+"_toolbar";
+				toolbar.setId(toolbarId);
+			}
 		}
 	}
 

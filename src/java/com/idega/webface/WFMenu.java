@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.9 2005/09/08 23:06:05 tryggvil Exp $
+ * $Id: WFMenu.java,v 1.10 2005/10/10 11:05:00 tryggvil Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2005/09/08 23:06:05 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/10/10 11:05:00 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class WFMenu extends WFContainer {
 
@@ -267,7 +267,16 @@ public class WFMenu extends WFContainer {
 		if(!getMenuItemIds().contains(menuItemId)){
 			getMenuItemIds().add(menuItemId);
 		}
-		this.getFacets().put("menuitem_"+menuItemId,menuItemComponent);
+		String menuItemFacetKey = "menuitem_"+menuItemId;
+		this.getFacets().put(menuItemFacetKey,menuItemComponent);
+		String itemId = menuItemComponent.getId();
+		if(itemId==null){
+			String thisId = this.getId();
+			if(thisId!=null){
+				itemId = thisId+menuItemFacetKey;
+				menuItemComponent.setId(itemId);
+			}
+		}
 		//this.getFacets().put("button_"+menuItemId,menuItemComponent);
 	}
 	
