@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.6 2005/09/14 01:28:03 tryggvil Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.7 2005/10/26 11:46:30 tryggvil Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -17,6 +17,7 @@ import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import com.idega.idegaweb.IWBundle;
 import com.idega.presentation.IWBaseComponent;
@@ -47,7 +48,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	private String selectedType;
 	private HTMLAreaLinkType currentLinkType = null;
 	
-	public void initializeContent() {
+	public void initializeComponent(FacesContext context) {
 		IWContext iwc = IWContext.getInstance();
 		init(iwc);
 		

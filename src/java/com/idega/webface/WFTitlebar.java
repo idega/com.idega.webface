@@ -63,7 +63,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	}
 
 	
-	public void initializeContent(){
+	public void initializeComponent(FacesContext context){
 		initializeDefaultToolbar();
 	}
 	

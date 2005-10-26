@@ -1,5 +1,5 @@
 /*
- * $Id: WFFrame.java,v 1.9 2005/06/02 18:08:07 tryggvil Exp $
+ * $Id: WFFrame.java,v 1.10 2005/10/26 11:46:30 tryggvil Exp $
  * Created on 20.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,10 +15,10 @@ import com.idega.presentation.ui.IFrame;
 
 /**
  * 
- *  Last modified: $Date: 2005/06/02 18:08:07 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/10/26 11:46:30 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class WFFrame extends WFBlock {
 
@@ -55,7 +55,7 @@ public class WFFrame extends WFBlock {
 	/* (non-Javadoc)
 	 * @see com.idega.webface.WFBlock#initializeContent()
 	 */
-	protected void initializeContent() {
+	protected void initializeComponent(FacesContext context) {
 		IFrame frame = new IFrame(this.getId()+"subframe",this.getFrameURL());
 		
 		if(getFrameMarginTop()!=null && getFrameMarginBottom()!=null){
