@@ -178,7 +178,7 @@ public class WFBlock extends WFContainer {
 	public void encodeBegin(FacesContext context) throws IOException {
 		if (!isInitialized()) {
 			initializeDefault();
-			this.initializeComponent(null);
+			this.initializeComponent(context);
 			this.setInitialized();
 		}
 		super.encodeBegin(context);
