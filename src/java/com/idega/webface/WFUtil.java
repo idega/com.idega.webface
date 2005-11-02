@@ -4,7 +4,6 @@
 package com.idega.webface;
 
 import java.util.List;
-
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
@@ -25,7 +24,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionListener;
-
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
@@ -705,15 +703,12 @@ public class WFUtil {
      * @return
      */
     public static Object getBeanInstance(String beanId) {
-    	FacesContext context = FacesContext.getCurrentInstance();
-    	Object bean = context.getExternalContext().getRequestMap().get(beanId);
-    	if(bean==null){
-    		bean=context.getExternalContext().getSessionMap().get(beanId);
-    	}
-    	if(bean==null){
-    		bean=context.getExternalContext().getApplicationMap().get(beanId);
-    	}
-    	return bean;
+	    	FacesContext context = FacesContext.getCurrentInstance();
+	    	Object bean = context.getExternalContext().getRequestMap().get(beanId);
+		String expr= "#{"+beanId+"}";
+		ValueBinding vb = context.getApplication().createValueBinding(expr);
+		bean = vb.getValue(context);
+	    	return bean;
     }
     
     
