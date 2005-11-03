@@ -39,6 +39,10 @@ import com.idega.webface.htmlarea.HTMLArea;
 public class WFUtil {
 	
 	private static String bundle_identifier="com.idega.webface";
+
+	public static final String EXPRESSION_BEGIN="#{";
+	public static final String EXPRESSION_END="}";
+	public static final String VALUE_STRING="value";
 	
 	public static IWBundle getBundle(){
 		return getBundle(FacesContext.getCurrentInstance());
@@ -67,12 +71,15 @@ public class WFUtil {
 	}
 	
 	/**
-	 * Returns an html text component.
+	 * <p>
+	 * Returns an html text component. The String s can be either a full valuebinding expression 
+	 * {myBeanId.myProperty} or a regular text String set as the value. 
+	 * </p>
 	 */
 	public static HtmlOutputText getText(String s) {
 		HtmlOutputText t = new HtmlOutputText();
 		if(isValueBinding(s)){
-			t.setValueBinding("value", createValueBinding( s ));
+			t.setValueBinding(VALUE_STRING, createValueBinding( s ));
 		}
 		else{
 			t.setValue(s);
@@ -80,9 +87,11 @@ public class WFUtil {
 		return t;
 	}
 	
-	
 	/**
-	 * Returns an html text component with a style class
+	 * <p>
+	 * Returns an html text component with a style class. The String s can be either a full valuebinding expression 
+	 * {myBeanId.myProperty} or a regular text String set as the value. 
+	 * </p>
 	 */
 	public static HtmlOutputText getText(String s, String styleClass) {
 		HtmlOutputText t = new HtmlOutputText();
@@ -96,7 +105,7 @@ public class WFUtil {
 	 */
 	public static HtmlOutputText getTextVB(String ref) {
 		HtmlOutputText t = new HtmlOutputText();
-		t.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		t.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		return t;
 	}
 	
@@ -109,7 +118,7 @@ public class WFUtil {
 		if(iwContext!=null){
 			IWBundle bundle = iwContext.getIWMainApplication().getBundle(bundleIdentifier);
 			if(bundle!=null){
-				t.setValueBinding("value",bundle.getValueBinding(localizationKey));
+				t.setValueBinding(VALUE_STRING,bundle.getValueBinding(localizationKey));
 			}
 		}
 		return t;
@@ -130,7 +139,7 @@ public class WFUtil {
 	 */
 	public static HtmlOutputText getHeaderTextVB(String ref) {
 		HtmlOutputText t = new HtmlOutputText();
-		t.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		t.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		t.setStyleClass("wf_headertext");
 		return t;
 	}
@@ -227,7 +236,7 @@ public class WFUtil {
 	public static HtmlOutputText getListTextVB(String ref) {
 		HtmlOutputText t = new HtmlOutputText();
 		t.setStyleClass("wf_listtext");
-		t.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		t.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		return t;
 	}
 	
@@ -246,7 +255,7 @@ public class WFUtil {
 	public static HtmlInputText getInputText(String id, String ref) {
 		HtmlInputText t = new HtmlInputText();
 		t.setId(id);
-		t.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		t.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		setInputStyle(t);
 		return t;
 	}
@@ -257,7 +266,7 @@ public class WFUtil {
 	public static WFDateInput getDateInput(String id, String ref) {
 		WFDateInput di = new WFDateInput();
 		di.setId(id);
-		di.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		di.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		setInputStyle(di);
 		return di;
 	}
@@ -268,7 +277,7 @@ public class WFUtil {
 	public static HtmlInputTextarea getTextArea(String id, String ref, String width, String height) {
 		HtmlInputTextarea a = new HtmlInputTextarea();
 		a.setId(id);
-		a.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		a.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		a.setStyle("width:" + width + ";height:" + height + ";");
 		setInputStyle(a);
 		return a;
@@ -287,7 +296,7 @@ public class WFUtil {
 	public static HTMLArea getHtmlAreaTextArea(String id, String ref, String width, String height) {
 		HTMLArea a = new HTMLArea();
 		a.setId(id);
-		a.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		a.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		String styleString = null;
 		if(width!=null){
 			if(styleString==null){
@@ -315,10 +324,10 @@ public class WFUtil {
 	public static HtmlSelectOneMenu getSelectOneMenu(String id, String itemsRef, String selectedItemRef) {
 		HtmlSelectOneMenu m = new HtmlSelectOneMenu();
 		m.setId(id);
-		m.setValueBinding("value", createValueBinding("#{" + selectedItemRef + "}"));
+		m.setValueBinding(VALUE_STRING, createValueBinding(getExpression(selectedItemRef)));
 		setInputStyle(m);
 		UISelectItems items = new UISelectItems();
-		items.setValueBinding("value", createValueBinding("#{" + itemsRef + "}"));
+		items.setValueBinding(VALUE_STRING, createValueBinding(getExpression(itemsRef)));
 		m.getChildren().add(items);
 		return m;
 	}
@@ -329,10 +338,10 @@ public class WFUtil {
 	public static HtmlSelectManyListbox getSelectManyListbox(String id, String itemsRef, String selectedItemsRef) {
 		HtmlSelectManyListbox m = new HtmlSelectManyListbox();
 		m.setId(id);
-		m.setValueBinding("value", createValueBinding("#{" + selectedItemsRef + "}"));
+		m.setValueBinding(VALUE_STRING, createValueBinding(getExpression(selectedItemsRef)));
 		setInputStyle(m);
 		UISelectItems items = new UISelectItems();
-		items.setValueBinding("value", createValueBinding("#{" + itemsRef + "}"));
+		items.setValueBinding(VALUE_STRING, createValueBinding(getExpression(itemsRef)));
 		m.getChildren().add(items);
 		return m;
 	}
@@ -363,7 +372,7 @@ public class WFUtil {
 	public static HtmlCommandButton getButtonVB(String id, String ref) {
 		HtmlCommandButton b = new HtmlCommandButton();
 		b.setId(id);
-		b.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		b.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		setInputStyle(b);
 		return b;
 	}
@@ -375,7 +384,7 @@ public class WFUtil {
 		HtmlCommandButton b = new HtmlCommandButton();
 		b.setId(id);
 		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
-		b.setValueBinding("value",createValueBinding(valueBinding));
+		b.setValueBinding(VALUE_STRING,createValueBinding(valueBinding));
 		setInputStyle(b);
 		return b;
 	}
@@ -476,7 +485,7 @@ public class WFUtil {
 	public static void addParameterVB(UIComponent component, String name, String ref) {
 		UIParameter p = new UIParameter();
 		p.setName(name);
-		p.setValueBinding("value", createValueBinding("#{" + ref + "}"));
+		p.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		component.getChildren().add(p);		
 	}
 	
@@ -487,7 +496,7 @@ public class WFUtil {
 		UIParameter p = new UIParameter();
 		p.setName(name);
 		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
-		p.setValueBinding("value",createValueBinding(valueBinding));
+		p.setValueBinding(VALUE_STRING,createValueBinding(valueBinding));
 		component.getChildren().add(p);		
 	}
 	
@@ -549,7 +558,7 @@ public class WFUtil {
 	 * Sets a value binding for the specified component.
 	 */
 	public static void setValueBinding(UIComponent component, String attributeName, String attribute) {
-		component.setValueBinding(attributeName, createValueBinding("#{" + attribute + "}"));
+		component.setValueBinding(attributeName, createValueBinding(getExpression(attribute)));
 	}
 	
 	/**
@@ -572,7 +581,7 @@ public class WFUtil {
 	 * Adds a message with value binding for the specified component. 
 	 */
 	public static void addMessageVB(UIComponent component, String ref) {
-		ValueBinding vb = WFUtil.createValueBinding("#{" + ref + "}");
+		ValueBinding vb = WFUtil.createValueBinding(getExpression(ref));
 		addMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
 	}
 	
@@ -652,7 +661,9 @@ public class WFUtil {
 	 * Invokes a method in a managed bean. 
 	 */
 	public static Object invoke(String beanId, String methodName) {
-		MethodBinding mb = WFUtil.createMethodBinding("#{" + beanId + "." + methodName + "}", null); 
+		String reference = beanId + "." + methodName;
+		String expression = getExpression(reference);
+		MethodBinding mb = WFUtil.createMethodBinding(expression, null); 
 		return mb.invoke(FacesContext.getCurrentInstance(), null);
 	}
 	
@@ -660,7 +671,9 @@ public class WFUtil {
 	 * Invokes a method in a managed bean. 
 	 */
 	public static Object invoke(String beanId, String methodName, Object value1, Object value2) {
-		MethodBinding mb = WFUtil.createMethodBinding("#{" + beanId + "." + methodName + "}", 
+		String reference = beanId + "." + methodName;
+		String expression = getExpression(reference);
+		MethodBinding mb = WFUtil.createMethodBinding(expression, 
 				new Class[] { value1.getClass(), value2.getClass() });
 		return mb.invoke(FacesContext.getCurrentInstance(), new Object[] { value1, value2 });
 	}
@@ -669,7 +682,9 @@ public class WFUtil {
 	 * Invokes a method in a managed bean. 
 	 */
 	public static Object invoke(String beanId, String methodName, Object[] values, Class[] params) {
-		MethodBinding mb = WFUtil.createMethodBinding("#{" + beanId + "." + methodName + "}", params);
+		String reference = beanId + "." + methodName;
+		String expression = getExpression(reference);
+		MethodBinding mb = WFUtil.createMethodBinding(expression, params);
 		return mb.invoke(FacesContext.getCurrentInstance(), values);
 	}
 	
@@ -685,14 +700,24 @@ public class WFUtil {
     {
         if (value == null) return false;
         
-        int start = value.indexOf("#{");
+        int start = value.indexOf(EXPRESSION_BEGIN);
         if (start < 0) return false;
         
         int end = value.lastIndexOf('}');
         return (end >=0 && start < end);
     }
 
-	
+    /**
+     * <p>
+     * Creates the expression syntax, i.e. wraps the beanReference String around with #{ and }
+     * </p>
+     * @param beanReference
+     * @return
+     */
+    public static String getExpression(String beanReference){
+    		return EXPRESSION_BEGIN+beanReference+EXPRESSION_END;
+    }
+    
     /**
      * <p>
      * This method finds a bean instance from a given beanId.<br/>
@@ -705,7 +730,7 @@ public class WFUtil {
     public static Object getBeanInstance(String beanId) {
 	    	FacesContext context = FacesContext.getCurrentInstance();
 	    	Object bean = context.getExternalContext().getRequestMap().get(beanId);
-		String expr= "#{"+beanId+"}";
+		String expr= getExpression(beanId);
 		ValueBinding vb = context.getApplication().createValueBinding(expr);
 		bean = vb.getValue(context);
 	    	return bean;
