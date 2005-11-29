@@ -90,7 +90,7 @@ public class HTMLArea extends HtmlInputTextarea {
 		values[1] = plugins;
 		values[2] = allowFontSelection;
 		
-		return (Object) values;
+		return values;
 	}
 	
 	protected Renderer getRenderer(FacesContext context) {

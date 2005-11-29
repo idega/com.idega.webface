@@ -509,7 +509,7 @@ public class WFUtil {
 			UIComponent child = (UIComponent) parameters.get(i);
 			if (child instanceof UIParameter) {
 				UIParameter p = (UIParameter) child;
-				if (((String) p.getName()).equals(name)) {
+				if (p.getName().equals(name)) {
 					return p.getValue().toString();
 				}
 			}

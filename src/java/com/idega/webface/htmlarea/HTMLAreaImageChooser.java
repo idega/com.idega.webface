@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.6 2005/10/04 11:49:49 gimmi Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.7 2005/11/29 15:29:19 laddi Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -264,11 +264,11 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 			try {
 				while (index > -1) {
 					String tmp = tab.substring(0, index);
-					v.add((HTMLAreaImageType)RefactorClassRegistry.forName(tmp).newInstance());
+					v.add(RefactorClassRegistry.forName(tmp).newInstance());
 					tab = tab.substring(index+1);
 					index = tab.indexOf(",");
 				}
-				v.add((HTMLAreaImageType)RefactorClassRegistry.forName(tab).newInstance());
+				v.add(RefactorClassRegistry.forName(tab).newInstance());
 				if (tabs == null) {
 					tabs = v;
 				} else {

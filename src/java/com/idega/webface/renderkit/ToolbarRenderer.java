@@ -1,5 +1,5 @@
 /*
- * $Id: ToolbarRenderer.java,v 1.5 2005/09/08 23:06:05 tryggvil Exp $
+ * $Id: ToolbarRenderer.java,v 1.6 2005/11/29 15:29:19 laddi Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -27,10 +27,10 @@ import com.idega.webface.WFTab;
 
 /**
  * 
- *  Last modified: $Date: 2005/09/08 23:06:05 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/11/29 15:29:19 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ToolbarRenderer extends MenuRenderer {
 	
@@ -87,7 +87,7 @@ public class ToolbarRenderer extends MenuRenderer {
 			} else {
 				Iterator childs = menu.getChildren().iterator();
 				while (childs.hasNext()) {
-					Object obj = (Object) childs.next();
+					Object obj = childs.next();
 					if(obj instanceof WFMenuItems){
 						menuItems = (WFMenuItems)obj;
 						break;
