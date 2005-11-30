@@ -1,5 +1,5 @@
 /*
- * $Id: BlockRenderer.java,v 1.3 2005/02/04 11:13:55 tryggvil Exp $
+ * $Id: BlockRenderer.java,v 1.4 2005/11/30 09:35:43 laddi Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -10,7 +10,6 @@
 package com.idega.webface.renderkit;
 
 import java.io.IOException;
-import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -22,10 +21,10 @@ import com.idega.webface.WFBlock;
  * This is the default Renderer for the WFBlock component.
  * </p>
  * 
- *  Last modified: $Date: 2005/02/04 11:13:55 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/11/30 09:35:43 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class BlockRenderer extends ContainerRenderer{
 	
@@ -40,22 +39,7 @@ public class BlockRenderer extends ContainerRenderer{
 			return;
 		}
 		
-		List children = component.getChildren();
 		String mainAreaStyleClass = block.getMainAreaStyleClass();
-		/*if (mainAreaStyleClass != null) {
-			if(component.getChildren().size()>0){
-				try{
-					WFContainer mainArea = (WFContainer) children.get(0);
-					if(mainArea!=null){
-						mainArea.setStyleClass(mainAreaStyleClass);
-					}
-				}
-				catch(ClassCastException cce){
-					
-				}
-				
-			}
-		}*/
 
 		renderFacet(context, component,WFBlock.FACET_TITLEBAR);
 		if (!block.isToolbarEmbeddedInTitlebar()) {

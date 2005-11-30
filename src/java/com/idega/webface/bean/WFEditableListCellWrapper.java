@@ -1,5 +1,5 @@
 /*
- * $Id: WFEditableListCellWrapper.java,v 1.3 2005/11/29 15:29:19 laddi Exp $
+ * $Id: WFEditableListCellWrapper.java,v 1.4 2005/11/30 09:35:43 laddi Exp $
  * Created on 8.1.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -35,7 +35,6 @@ public class WFEditableListCellWrapper extends UIComponentWrapper {
 	public Object getSelectItemList() {
 		UIComponent component = getUIComponent();
 		if(component != null){
-			UISelectItems items = null;
 			for (Iterator iter = component.getChildren().iterator(); iter.hasNext();) {
 				Object element = iter.next();
 				if(element instanceof UISelectItems){
