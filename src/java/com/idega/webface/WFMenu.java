@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.10 2005/10/10 11:05:00 tryggvil Exp $
+ * $Id: WFMenu.java,v 1.11 2005/12/09 18:27:48 tryggvil Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2005/10/10 11:05:00 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2005/12/09 18:27:48 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class WFMenu extends WFContainer {
 
@@ -228,6 +228,7 @@ public class WFMenu extends WFContainer {
 	 */
 	protected String getNextMenuItemId(){   
 		int maxValue = 0;
+		String thisMenuId = getId();
 		Iterator iter = getMenuItemIds().iterator(); 
 		while (iter.hasNext()) {
 			String element = (String) iter.next();
@@ -249,7 +250,11 @@ public class WFMenu extends WFContainer {
 				maxValue=intValue;
 			}
 		}
-		return "_".concat(String.valueOf(++maxValue));
+		String prefix="_";
+		if(thisMenuId!=null){
+			prefix=thisMenuId+prefix;
+		}
+		return prefix.concat(String.valueOf(++maxValue));
 	}
 	
 	
