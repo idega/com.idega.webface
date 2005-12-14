@@ -30,11 +30,13 @@ import com.idega.presentation.IWContext;
 import com.idega.webface.htmlarea.HTMLArea;
 
 /**
- * Common utility class.
- * Copyright (C) idega software 2004
- * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @author Anders Lindman
- * @version 1.0
+ * <p>
+ * This is a class with various utility methods when working with JSF.
+ * </p>
+ * Last modified: $Date: 2005/12/14 20:41:42 $ by $Author: tryggvil $
+ *
+ * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
+ * @version $Revision: 1.29 $
  */
 public class WFUtil {
 	
