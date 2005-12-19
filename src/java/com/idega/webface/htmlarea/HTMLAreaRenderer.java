@@ -194,8 +194,7 @@ public class HTMLAreaRenderer extends Renderer {
 		String space = "\"space\"";
 		String separator = "\"separator\"";
 		String justify = "\"justifyleft\",\"justifycenter\",\"justifyright\",\"justifyfull\"";
-		String lists = "\"lefttoright\",\"righttoleft\"," +
-			separator+",\"orderedlist\",\"unorderedlist\"";
+		String lists = "\"lefttoright\",\"righttoleft\"," +	separator+",\"orderedlist\",\"unorderedlist\"";
 		
 
 		// This must happen before the plugins are loaded, otherwize this overrides the plugins
@@ -206,7 +205,8 @@ public class HTMLAreaRenderer extends Renderer {
 						"\"bold\",\"italic\",\"underline\",\"strikethrough\","+
 						separator+",\"subscript\",\"superscript\","+separator+",");
 					} else {
-						initEditorScript.append(lists+",");
+						initEditorScript.append("\"bold\",\"italic\",\"underline\",\"strikethrough\","+
+								separator+",\"subscript\",\"superscript\","+separator+",");
 					}
 					initEditorScript.append("\"copy\",\"cut\",\"paste\","+
 					space+",\"undo\",\"redo\","+
@@ -217,7 +217,7 @@ public class HTMLAreaRenderer extends Renderer {
 					if (allowFontSelection) { 
 						initEditorScript.append(justify+","+separator+","+lists+",");
 					} else {
-						initEditorScript.append(justify+",");
+						initEditorScript.append(justify+","+lists+",");
 					}
 					initEditorScript.append("\"outdent\",\"indent\",");
 					if (allowFontSelection) { 
