@@ -1,5 +1,5 @@
 /*
- * $Id: WFTab.java,v 1.2 2005/04/22 17:47:29 gummi Exp $
+ * $Id: WFTab.java,v 1.3 2006/01/04 14:43:11 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -17,12 +17,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 /**
- * ...  
  * <p>
- * Last modified: $Date: 2005/04/22 17:47:29 $ by $Author: gummi $
+ * Component for each "Tab" and is used by the "WFTabbedPane" component.
+ * <p>
+ * Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFTab extends HtmlCommandLink {
 
@@ -67,6 +68,22 @@ public class WFTab extends HtmlCommandLink {
 	public void encodeBegin(FacesContext context) throws IOException {
 		if (!_selected) {
 			super.encodeBegin(context);
+		} else {
+			if (getChildren().size() > 0) {
+				UIComponent c = (UIComponent) getChildren().get(0);
+				if (c != null) {
+					ResponseWriter out = context.getResponseWriter();
+					out.startElement("span",null);
+					String styleClass = getStyleClass();
+					if (styleClass != null) {
+						out.writeAttribute("class", styleClass, null);
+					}
+					c.encodeBegin(context);
+					c.encodeChildren(context);
+					c.encodeEnd(context);
+					out.endElement("span");
+				}
+			}
 		}
 	}
 	
@@ -85,22 +102,6 @@ public class WFTab extends HtmlCommandLink {
 	public void encodeEnd(FacesContext context) throws IOException {
 		if (!_selected) {
 			super.encodeEnd(context);
-		} else {
-			if (getChildren().size() > 0) {
-				UIComponent c = (UIComponent) getChildren().get(0);
-				if (c != null) {
-					ResponseWriter out = context.getResponseWriter();
-					out.startElement("span",null);
-					String styleClass = getStyleClass();
-					if (styleClass != null) {
-						out.writeAttribute("class", styleClass, null);
-					}
-					c.encodeBegin(context);
-					c.encodeChildren(context);
-					c.encodeEnd(context);
-					out.endElement("span");
-				}
-			}
 		}
 	}
 	

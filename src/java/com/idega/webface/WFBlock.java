@@ -6,6 +6,7 @@ package com.idega.webface;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import com.idega.util.StringHandler;
 
 /**
  * Component with title bar and container area. Copyright (C) idega software
@@ -21,10 +22,14 @@ public class WFBlock extends WFContainer {
 	public static String RENDERER_TYPE = "wf_block";
 	public static final String FACET_TOOLBAR="wf_block_toolbar";
 	public static final String FACET_TITLEBAR="wf_block_titlebar";
+	public static final String FACET_HEADER="header";
+	public static final String FACET_FOOTER="footer";
+	public static final String DEFAULT_STYLE_CLASS="wf_block";
+	private static final Object STYLE_CLASS_MAXIMIZE_VERTICALLY = "maximizedvertically";
 	
 	private boolean toolbarEmbeddedInTitlebar = false;
 	private String mainAreaStyleClass = WFConstants.STYLE_CLASS_MAINAREA;
-
+	private boolean maximizedVertically=false;
 	
 	public WFBlock() {
 		this("untitled");
@@ -34,8 +39,21 @@ public class WFBlock extends WFContainer {
 		this(titleBarText, false);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.idega.webface.WFContainer#getStyleClass()
+	 */
+	public String getStyleClass() {
+		StringBuffer sClass = new StringBuffer(super.getStyleClass());
+		if(getMaximizedVertically()){
+			sClass.append(StringHandler.SPACE);
+			sClass.append(STYLE_CLASS_MAXIMIZE_VERTICALLY);
+		}
+		
+		return sClass.toString();
+	}
+
 	public WFBlock(String titleBarText, boolean titleIsVB) {
-		setStyleClass(RENDERER_TYPE);
+		setStyleClass(DEFAULT_STYLE_CLASS);
 		setMainAreaStyleClass(WFConstants.STYLE_CLASS_MAINAREA);
 		WFTitlebar titlebar = new WFTitlebar(titleBarText, titleIsVB);
 		setTitlebar(titlebar);
@@ -49,7 +67,7 @@ public class WFBlock extends WFContainer {
 	 */
 	private void setDefaultToolbar() {
 		/*if (getToolbar() == null) {
-			WFToolbar toolbar = new WFToolbar();
+			WFMenu toolbar = new WFMenu();
 			this.setToolbar(toolbar);
 			
 			WFBackButton back = new WFBackButton();
@@ -86,15 +104,15 @@ public class WFBlock extends WFContainer {
 	/**
 	 * @return
 	 */
-	public WFToolbar getToolbar() {
-		WFToolbar toolbar = null;
+	public WFMenu getToolbar() {
+		WFMenu toolbar = null;
 		if (isToolbarEmbeddedInTitlebar()) {
 			if (getTitlebar() != null) {
 				toolbar = getTitlebar().getEmbeddedToolbar();
 			}
 		}
 		else {
-			toolbar = (WFToolbar) getFacets().get(FACET_TOOLBAR);
+			toolbar = (WFMenu) getFacets().get(FACET_TOOLBAR);
 		}
 		return toolbar;
 	}
@@ -117,7 +135,7 @@ public class WFBlock extends WFContainer {
 	/**
 	 * @param toolbar
 	 */
-	public void setToolbar(WFToolbar toolbar) {
+	public void setToolbar(WFMenu toolbar) {
 		if (isToolbarEmbeddedInTitlebar()) {
 			if (getTitlebar() != null) {
 				getFacets().remove(FACET_TOOLBAR);
@@ -230,7 +248,7 @@ public class WFBlock extends WFContainer {
 	 *            the toolbarEmbeddedInTitlebar to set
 	 */
 	public void setToolbarEmbeddedInTitlebar(boolean toolbarEmbeddedInTitlebar) {
-		WFToolbar toolbar = getToolbar();
+		WFMenu toolbar = getToolbar();
 		this.toolbarEmbeddedInTitlebar = toolbarEmbeddedInTitlebar;
 		if (toolbar != null) {
 			setToolbar(toolbar);
@@ -241,10 +259,11 @@ public class WFBlock extends WFContainer {
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[3];
+		Object values[] = new Object[4];
 		values[0] = super.saveState(ctx);
 		values[1] = new Boolean(toolbarEmbeddedInTitlebar);
 		values[2] = mainAreaStyleClass;
+		values[3] = Boolean.valueOf(maximizedVertically);
 		return values;
 	}
 
@@ -257,7 +276,7 @@ public class WFBlock extends WFContainer {
 		super.restoreState(ctx, values[0]);
 		toolbarEmbeddedInTitlebar = ((Boolean) values[1]).booleanValue();
 		mainAreaStyleClass = (String) values[2];
-		//super.restoreState(ctx,state);
+		maximizedVertically = ((Boolean)values[3]).booleanValue();
 	}
 
 	public void processRestoreState(FacesContext context, Object state) {
@@ -356,5 +375,20 @@ public class WFBlock extends WFContainer {
 	public String getMainAreaStyleAttributes() {
 		return (String)getAttributes().get("mainAreaStyle");
 	}
+	
+	/**
+	 * <p>
+	 * TODO tryggvil describe method setMaximizedVertically
+	 * </p>
+	 * @param b
+	 */
+	public void setMaximizedVertically(boolean b) {
+		this.maximizedVertically=b;
+	}
+	
+	public boolean getMaximizedVertically() {
+		return maximizedVertically;
+	}
+	
     
 }

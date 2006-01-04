@@ -1,5 +1,5 @@
 /*
- * $Id: WFTabEvent.java,v 1.2 2004/11/01 15:00:48 tryggvil Exp $
+ * $Id: WFTabEvent.java,v 1.3 2006/01/04 14:43:11 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -17,10 +17,10 @@ import com.idega.webface.WFTabbedPane;
 /**
  * Event fired from a WFTaskbar component when the user clicks a taskbar button.  
  * <p>
- * Last modified: $Date: 2004/11/01 15:00:48 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFTabEvent extends FacesEvent {
 	
@@ -35,7 +35,7 @@ public class WFTabEvent extends FacesEvent {
 	/**
 	 * Returns the WFTaskbar source for this event.
 	 */
-	public WFTabbedPane getTaskbar() {
+	public WFTabbedPane getTabbedPane() {
 		return (WFTabbedPane) this.getComponent();
 	}
 

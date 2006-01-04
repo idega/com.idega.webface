@@ -1,5 +1,5 @@
 /*
- * $Id: MenuRenderer.java,v 1.7 2005/09/14 01:28:34 tryggvil Exp $
+ * $Id: MenuRenderer.java,v 1.8 2006/01/04 14:43:11 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -17,14 +17,15 @@ import javax.faces.context.ResponseWriter;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFMenu;
 import com.idega.webface.WFTab;
+import com.idega.webface.WFTabbedPane;
 
 /**
  *  The renderer for the TabBar component.
  * 
- *  Last modified: $Date: 2005/09/14 01:28:34 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class MenuRenderer extends ContainerRenderer {
 
@@ -39,21 +40,6 @@ public class MenuRenderer extends ContainerRenderer {
 	 * @see javax.faces.render.Renderer#encodeBegin(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
 	 */
 	public void encodeBegin(FacesContext context, UIComponent comp)
-			throws IOException {
-//		super.encodeBegin(context,comp);
-	}
-	
-	/* (non-Javadoc)
-	 * @see javax.faces.render.Renderer#encodeChildren(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
-	 */
-	public void encodeChildren(FacesContext ctx, UIComponent comp)
-			throws IOException {
-		super.encodeChildren(ctx, comp);
-	}
-	/* (non-Javadoc)
-	 * @see javax.faces.render.Renderer#encodeEnd(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
-	 */
-	public void encodeEnd(FacesContext context, UIComponent comp)
 			throws IOException {
 		WFMenu menu = (WFMenu)comp;
 		
@@ -123,7 +109,33 @@ public class MenuRenderer extends ContainerRenderer {
 			out.endElement("ul");
 			out.endElement("div");
 		}
+//		super.encodeBegin(context,comp);
+	}
+	
+	/* (non-Javadoc)
+	 * @see javax.faces.render.Renderer#encodeChildren(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
+	 */
+	public void encodeChildren(FacesContext context, UIComponent comp)
+			throws IOException {
+		if(comp instanceof WFTabbedPane){
+			WFTabbedPane tabpane = (WFTabbedPane)comp;
+			
+			if(tabpane.getRenderSelectedTabViewAsChild()){
+				ResponseWriter out = context.getResponseWriter();
+				out.startElement("div",null);
+				out.writeAttribute("class",tabpane.getSelectedTabViewStyleClass(),null);
+				out.endElement("div");
+				renderChild(context, tabpane.getSelectedTabView());
+			}
+		}
+		super.encodeChildren(context, comp);
 		
+	}
+	/* (non-Javadoc)
+	 * @see javax.faces.render.Renderer#encodeEnd(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
+	 */
+	public void encodeEnd(FacesContext context, UIComponent comp)
+			throws IOException {
 //		super.encodeEnd(context,comp);
 	}
 	

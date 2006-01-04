@@ -33,10 +33,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2005/12/14 20:41:42 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.29 $
+ * @version $Revision: 1.30 $
  */
 public class WFUtil {
 	
@@ -574,7 +574,38 @@ public class WFUtil {
 	 * Adds a message for the specified component. 
 	 */
 	public static void addMessage(UIComponent component, String message) {
-		FacesMessage m = new FacesMessage(message);
+		addMessage(component,message,null,null);
+	}
+
+	/**
+	 * Adds a message for the specified component. 
+	 */
+	public static void addErrorMessage(UIComponent component, String message) {
+		addErrorMessage(component,message,null,null);
+	}
+	
+	/**
+	 * Adds a message for the specified component. 
+	 */
+	public static void addErrorMessage(UIComponent component, String message,String detail,String summary) {
+		addMessage(component,message,detail,FacesMessage.SEVERITY_ERROR);
+	}
+
+	
+	/**
+	 * Adds a message for the specified component. 
+	 */
+	public static void addMessage(UIComponent component, String summary,String detail,FacesMessage.Severity severity) {
+		FacesMessage m = new FacesMessage();
+		if(detail!=null){
+			m.setDetail(detail);
+		}
+		if(summary!=null){
+			m.setSummary(summary);
+		}
+		if(severity!=null){
+			m.setSeverity(severity);
+		}
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		ctx.addMessage(component.getClientId(ctx), m);
 	}
@@ -594,6 +625,15 @@ public class WFUtil {
 		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
 		ValueBinding vb = WFUtil.createValueBinding(valueBinding);
 		addMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
+	}
+	
+	/**
+	 * Adds a message with value binding for the specified component. 
+	 */
+	public static void addErrorMessageVB(UIComponent component, String bundleIdentifier,String localizationKey) {
+		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		ValueBinding vb = WFUtil.createValueBinding(valueBinding);
+		addErrorMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
 	}
 	
 	/**

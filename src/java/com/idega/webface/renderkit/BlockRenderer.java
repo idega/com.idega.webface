@@ -1,5 +1,5 @@
 /*
- * $Id: BlockRenderer.java,v 1.4 2005/11/30 09:35:43 laddi Exp $
+ * $Id: BlockRenderer.java,v 1.5 2006/01/04 14:43:11 tryggvil Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -14,6 +14,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import com.idega.webface.WFBlock;
+import com.idega.webface.WFBlockTabbed;
+import com.idega.webface.WFContainer;
 
 
 /**
@@ -21,10 +23,10 @@ import com.idega.webface.WFBlock;
  * This is the default Renderer for the WFBlock component.
  * </p>
  * 
- *  Last modified: $Date: 2005/11/30 09:35:43 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class BlockRenderer extends ContainerRenderer{
 	
@@ -45,7 +47,18 @@ public class BlockRenderer extends ContainerRenderer{
 		if (!block.isToolbarEmbeddedInTitlebar()) {
 			renderFacet(context, component,WFBlock.FACET_TOOLBAR);
 		}
+
 		ResponseWriter out = context.getResponseWriter();
+		
+		UIComponent header = component.getFacet(WFBlock.FACET_HEADER);
+		if(header!=null){
+			String headerStyleClass = WFBlock.FACET_HEADER;
+			out.startElement("div",component);
+			out.writeAttribute("class",headerStyleClass,null);
+			renderChild(context,header);
+			out.endElement("div");
+		}
+		
 		renderContainerStart(out,mainAreaStyleClass);
 		String mainAreaStyle = block.getMainAreaStyleAttributes();
 		if(mainAreaStyle!=null){
@@ -57,6 +70,11 @@ public class BlockRenderer extends ContainerRenderer{
 	 * @see javax.faces.render.Renderer#encodeChildren(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
 	 */
 	public void encodeChildren(FacesContext context, UIComponent comp) throws IOException {
+		if(comp instanceof WFBlockTabbed){
+			WFBlockTabbed block = (WFBlockTabbed)comp;
+			UIComponent tabView = block.getTabbedPane().getSelectedTabView();
+			renderChild(context,tabView);
+		}
 		super.encodeChildren(context, comp);
 	}
 	/* (non-Javadoc)
@@ -64,9 +82,21 @@ public class BlockRenderer extends ContainerRenderer{
 	 */
 	public void encodeEnd(FacesContext context, UIComponent comp) throws IOException {
 		ResponseWriter out = context.getResponseWriter();
+
 		renderContainerEnd(out);
+		
+		UIComponent footer = comp.getFacet(WFBlock.FACET_FOOTER);
+		if(footer!=null){
+			String footerStyleClass = WFBlock.FACET_FOOTER;
+			out.startElement("div",comp);
+			out.writeAttribute("class",footerStyleClass,null);
+			renderChild(context,footer);
+			out.endElement("div");
+		}
+		
 		
 		super.encodeEnd(context, comp);
 
 	}
+
 }

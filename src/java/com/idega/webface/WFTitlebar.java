@@ -26,7 +26,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	
 	private boolean viewWithTitleBar=true;
 
-	//private WFToolbar defaultToolbar;
+	//private WFMenu defaultToolbar;
 
 //	private String titleText="Untitled";
 	private String titlebarColor;
@@ -56,7 +56,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	}
 	
 	protected void initializeDefaultToolbar(){
-		WFToolbar toolbar = new WFToolbar();
+		WFMenu toolbar = new WFMenu();
 //		toolbar.addButton(new WFHelpButton());
 //		toolbar.addButton(new WFCloseButton());
 		setDefaultToolbar(toolbar);
@@ -70,9 +70,9 @@ public class WFTitlebar extends WFContainer implements Serializable
 	/**
 	 * @return
 	 */
-	public WFToolbar getDefaultToolbar() {
+	public WFMenu getDefaultToolbar() {
 		//return defaultToolbar;
-		return (WFToolbar)getFacets().get(FACET_DEFAULTTOOLBAR);
+		return (WFMenu)getFacets().get(FACET_DEFAULTTOOLBAR);
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	/**
 	 * @param toolbar
 	 */
-	public void setDefaultToolbar(WFToolbar toolbar) {
+	public void setDefaultToolbar(WFMenu toolbar) {
 		//this.defaultToolbar = toolbar;
 		//getChildren().add(toolbar);
 		getFacets().put(FACET_DEFAULTTOOLBAR,toolbar);
@@ -186,14 +186,14 @@ public class WFTitlebar extends WFContainer implements Serializable
 	/**
 	 * @return Returns the embeddedToolbar.
 	 */
-	public WFToolbar getEmbeddedToolbar() {
-		return (WFToolbar) getFacets().get(FACET_EMBEDDEDTOOLBAR);
+	public WFMenu getEmbeddedToolbar() {
+		return (WFMenu) getFacets().get(FACET_EMBEDDEDTOOLBAR);
 	}
 
 	/**
 	 * @param embeddedToolbar The embeddedToolbar to set.
 	 */
-	public void setEmbeddedToolbar(WFToolbar embeddedToolbar) {
+	public void setEmbeddedToolbar(WFMenu embeddedToolbar) {
 		getFacets().put(FACET_EMBEDDEDTOOLBAR, embeddedToolbar);
 	}
 

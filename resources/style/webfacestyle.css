@@ -1,5 +1,8 @@
 /*** idegaWeb WebFace CSS classes ***/
 
+
+/**WFBlock general definitions**/
+
 .wf_block,.wf_frame{
 	border: 1px solid #D7D7D7;
 	margin: 0 4px 4px 0;
@@ -24,16 +27,52 @@ div.wf_titlebar div.wf_titlebar_icon img{
 	float: left;
 }
 
+.wf_block .footer, .wf_block .buttons{
+	background: #E8E8E8;
+	border-top: 1px solid #D7D7D7;
+	text-align: right;
+	height: 30px;
+	margin: 0px;
+	padding: 5px 20px 5px 20px;
+	width: auto;
+}
 
 
+.wf_block .footer *{
 
+}
+
+.wf_block .header{
+	background: #FFFFFF;
+	border-bottom: 1px solid #D7D7D7;
+	border-width: 0 0 1px;
+	height: 55px;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.wf_block .header .name{
+	position:relative;
+	top: 7px;
+	left: 7px;
+	font-weight:bold;
+}
+
+.wf_block .header .description{
+	position:relative;
+	top: 15px;
+	left: 15px;
+	font-style:italic;
+	font-size:10px;
+}
 
 .wf_smalltext {
-	font-size: 10px;
+	font-size: 0.9em;
 }
 
 .wf_headertext {
-	font-size: 10px;
+	font-size: 1.2em;
 	font-weight: bold;
 }
 
@@ -394,10 +433,7 @@ div.wf_titlebar, div.wf_toolbar{
 }
 
 .wf_inputcomponent {
-	font-size: 8pt;
-	color: #000000;
-	text-align: justify;
-	border: 1px solid #ABABAB;
+
 }
 
 .wf_selectonemenu {
@@ -415,12 +451,16 @@ div.wf_titlebar, div.wf_toolbar{
 	border-color: #000000; 
 }
 
-.wf_errormessages {
-	padding: 10px
+.wf_messages {
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid #A7A7A7;
+    background-color: #F0F0E0;
 }
 
-.wf_errortext {
+.wf_messages .error {
 	color: #ff0000;
+	font-weight: bold;
 }
 
 .wf_bannerbox {
@@ -487,3 +527,26 @@ div.wf_titlebar, div.wf_toolbar{
 }
 
 /*Uploader End*/
+
+/**WFBlock default Form styles**/
+
+.wf_block .formitem{
+	clear: both;
+	padding-top: 2px;
+}
+
+.wf_block .formitem label{
+	text-align: right; 
+	width: 125px;
+	float: left; 
+	padding-right: 10px;
+	padding-top: 2px;
+	font-weight: bold;
+}
+
+.wf_block .buttons{
+	border: 0px;
+	border-top: 1px solid #D7D7D7;
+}
+
+/**END WFBlock default Form styles**/

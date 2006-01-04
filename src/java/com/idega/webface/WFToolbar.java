@@ -7,8 +7,10 @@ import javax.faces.component.UIComponent;
 
 
 /**
- * A menu component with toolbar buttons. 
- * Copyright (C) idega software 2003
+ * <p>
+ * A menu component rendered with toolbar-style buttons as its menu items.
+ * </p>
+ * Copyright (C) idega software 2003-2005
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version 1.0
  */

@@ -1,5 +1,5 @@
 /*
- * $Id: WFTabbedPane.java,v 1.4 2005/09/08 23:06:05 tryggvil Exp $
+ * $Id: WFTabbedPane.java,v 1.5 2006/01/04 14:43:11 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -26,23 +26,21 @@ import com.idega.webface.event.WFTabListener;
  * A perspective can be any component that is rendered when
  * its tab bar button is pressed.   
  * <p>
- * Last modified: $Date: 2005/09/08 23:06:05 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
  *
  * @author Anders Lindman,Tryggvi Larusson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFTabbedPane extends WFMenu implements ActionListener {
 	
 	//public static String RENDERER_TYPE="wf_tabbar";
-	
-	
-
 	/*
 	private String _taskbarStyleClass = "wf_tabbar";
 	private String _buttonSelectedStyleClass = "wf_tabbarbuttonselected";
 	private String _buttonDeselectedStyleClass = "wf_tabbarbuttondeselected";
 	*/
-	private String _mainAreaStyleClass = "wf_tabbarmainarea";
+	private String selectedTabViewStyleClass = "tabview";
+	private boolean renderSelectedViewAsChild=true;
 	
 	/**
 	 * Default contructor.
@@ -52,10 +50,10 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	}
 
 	/**
-	 * Returns the css class for the main container perspective area.
+	 * Returns the css class around the selected tab view if it is rendered out.
 	 */
-	public String getMainAreaStyleClass() {
-		return _mainAreaStyleClass;
+	public String getSelectedTabViewStyleClass() {
+		return selectedTabViewStyleClass;
 	}
 
 
@@ -63,14 +61,14 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	/**
 	 * Sets the css class for the perspecitive main area container. 
 	 */
-	public void setMainAreaStyleClass(String mainAreaStyleClass) {
-		_mainAreaStyleClass = mainAreaStyleClass;
+	public void setSelectedTabViewStyleClass(String mainAreaStyleClass) {
+		selectedTabViewStyleClass = mainAreaStyleClass;
 	}
 
 	/**
-	 * Adds a tab button with its corresponding perspective component.
+	 * Adds a tab button with its corresponding tabview component.
 	 */
-	public WFTab addTab(String menuItemId, String buttonLabel, UIComponent perspective, boolean isValueRef) {
+	public WFTab addTab(String menuItemId, String buttonLabel, UIComponent tabview, boolean isValueRef) {
 		WFTab tab = new WFTab(buttonLabel, isValueRef);
 		tab.setId(menuItemId);
 //		tab.setValue(buttonLabel);
@@ -81,7 +79,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 		//getFacets().put("button_" + menuItemId, button);
 		setMenuItem(menuItemId,tab);
 		//getFacets().put("perspective_" + menuItemId, c);
-		setPerspective(menuItemId,perspective);
+		setTabView(menuItemId,tabview);
 		return tab;
 	}
 	
@@ -104,22 +102,26 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	}
 	
 	/**
-	 * Sets the perspective component for the given menuItemId.<br>
-	 * This perpective component is rendered when the button with id menuItemId is pressed.
+	 * Sets the tabview component for the given menuItemId.<br>
+	 * This tabview component is rendered when the button with id menuItemId is pressed.
 	 * @param menuItemId
 	 * @param perspective
 	 */
-	public void setPerspective(String menuItemId,UIComponent perspective){
-		WFContainer container = new WFContainer();
-		container.setStyleClass(getMainAreaStyleClass());
-		container.add(perspective);
+	public void setTabView(String menuItemId,UIComponent viewComponent){
+		//WFContainer container = new WFContainer();
+		//container.setStyleClass(getMainAreaStyleClass());
+		//container.add(viewComponent);
 		
-		getFacets().put("perspective_" + menuItemId, container);
+		getFacets().put("tabview_" + menuItemId, viewComponent);
 	}
 	
 	
-	public UIComponent getPerspective(String menuItemId){
-		return (UIComponent) getFacets().get("perspective_" + menuItemId);
+	public UIComponent getTabView(String menuItemId){
+		return (UIComponent) getFacets().get("tabview_" + menuItemId);
+	}
+	
+	public UIComponent getSelectedTabView(){
+		return getTabView(getSelectedMenuItemId());
 	}
 	
 	/*
@@ -161,8 +163,29 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
 	public void encodeChildren(FacesContext context) throws IOException {
-		renderChild(context, getPerspective(getSelectedMenuItemId()));
+		super.encodeChildren(context);
 	}
+	
+	/**
+	 * <p>
+	 * Gets if to render the tabview component by default as a child.
+	 * </p>
+	 * @return
+	 */
+	public boolean getRenderSelectedTabViewAsChild() {
+		return renderSelectedViewAsChild;
+	}
+
+	/**
+	 * <p>
+	 * TODO tryggvil describe method getRenderSelectedView
+	 * </p>
+	 * @return
+	 */
+	public void setRenderSelectedTabViewAsChild(boolean doRender) {
+		renderSelectedViewAsChild=doRender;
+	}
+
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
@@ -179,9 +202,10 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[2];
+		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
-		values[1] = _mainAreaStyleClass;
+		values[1] = selectedTabViewStyleClass;
+		values[2] = Boolean.valueOf(renderSelectedViewAsChild);
 		return values;
 	}
 	
@@ -191,7 +215,8 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		_mainAreaStyleClass = (String) values[1];
+		selectedTabViewStyleClass = (String) values[1];
+		renderSelectedViewAsChild = ((Boolean)values[2]).booleanValue();
 	}
 	
 	/**
@@ -217,7 +242,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 		taskbar.setSelectedMenuItemId(button.getId());
 		WFTabEvent e = new WFTabEvent(taskbar);
 		//(JJ) Cant do this since it will create a concurrent modification exception
-//		taskbar.queueEvent(e);
+		//taskbar.queueEvent(e);
         try
         {
         	taskbar.broadcast(e);

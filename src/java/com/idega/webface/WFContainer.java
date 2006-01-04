@@ -1,15 +1,27 @@
+/*
+ * $Id: WFContainer.java,v 1.12 2006/01/04 14:43:11 tryggvil Exp $
+ *
+ * Copyright (C) 2004-2005 Idega. All Rights Reserved.
+ *
+ * This software is the proprietary information of Idega.
+ * Use is subject to license terms.
+ */
 package com.idega.webface;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
 import com.idega.presentation.IWBaseComponent;
 import com.idega.util.RenderUtils;
+
 /**
- * Title:        idegaclasses
- * Description:  Container holding child components.  
- * Copyright:    Copyright (c) 2001
- * Company:      idega
- * @author <a href="tryggvi@idega.is">Tryggvi Larusson</a>
- * @version 1.0
+ *  <p>
+ *  This is a component that renders our child components 
+ *  with a "div" tag surrounded in HTML.
+ *  </p>
+ * 
+ *  Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ * 
+ * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
+ * @version $Revision: 1.12 $
  */
 public class WFContainer extends IWBaseComponent
 {
