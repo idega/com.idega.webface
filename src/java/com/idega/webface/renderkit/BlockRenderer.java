@@ -1,5 +1,5 @@
 /*
- * $Id: BlockRenderer.java,v 1.5 2006/01/04 14:43:11 tryggvil Exp $
+ * $Id: BlockRenderer.java,v 1.6 2006/01/05 15:56:21 laddi Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,7 +15,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFBlockTabbed;
-import com.idega.webface.WFContainer;
 
 
 /**
@@ -23,10 +22,10 @@ import com.idega.webface.WFContainer;
  * This is the default Renderer for the WFBlock component.
  * </p>
  * 
- *  Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/01/05 15:56:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class BlockRenderer extends ContainerRenderer{
 	

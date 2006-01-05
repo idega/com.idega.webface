@@ -1,5 +1,5 @@
 /*
- * $Id: WFWizard.java,v 1.2 2006/01/04 14:43:11 tryggvil Exp $
+ * $Id: WFWizard.java,v 1.3 2006/01/05 15:56:21 laddi Exp $
  * Created on 10.1.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -10,17 +10,16 @@
 package com.idega.webface.wizard;
 
 import com.idega.webface.WFBlock;
-import com.idega.webface.WFContainer;
 
 
 /**
  *  <p>
  *  Class to display a "wizard" type interface with a step-through of actions.
  *  </p>
- *  Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/01/05 15:56:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFWizard extends WFBlock{
 	
