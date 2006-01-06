@@ -332,15 +332,6 @@ div.wf_titlebar, div.wf_toolbar{
 	font-size: 8px;
 }
 
-/***By default not display more than two levels of the menu:***/
-.wf_viewmenu * .wf_viewmenu * .wf_viewmenu{
-	display:none;
-}
-
-.wf_viewmenu .deselected a:hover {
-	color: black;
-}
-
 
 .wf_menuheader{
 	display:inline;
