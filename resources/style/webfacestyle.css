@@ -37,6 +37,13 @@ div.wf_titlebar div.wf_titlebar_icon img{
 	width: auto;
 }
 
+.wf_block .footer .buttons{
+	/**avoid duplication**/
+	background:none;
+	border: none;
+	margin:0px;
+	padding:0px;
+}
 
 .wf_block .footer *{
 
