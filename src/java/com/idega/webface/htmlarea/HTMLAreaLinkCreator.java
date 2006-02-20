@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.8 2005/11/29 15:29:19 laddi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.9 2006/02/20 11:04:59 laddi Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -216,7 +216,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	
 
 	public String getBundleIdentifier() {
-		return this.IW_BUNDLE_IDENTIFIER;
+		return HTMLAreaLinkCreator.IW_BUNDLE_IDENTIFIER;
 	}
 
 	protected Collection getLinkTypes() {
