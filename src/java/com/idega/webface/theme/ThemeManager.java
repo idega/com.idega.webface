@@ -27,8 +27,7 @@ public class ThemeManager implements Singleton {
 	
 	Class defaultThemeClass=WFDefaultTheme.class;
 	
-	
-	private ThemeManager(){
+	protected ThemeManager(){
 		initialize();
 	}
 	
