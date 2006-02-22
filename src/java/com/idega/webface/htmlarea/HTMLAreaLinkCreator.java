@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.9 2006/02/20 11:04:59 laddi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.10 2006/02/22 20:48:07 laddi Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -18,7 +18,6 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 import com.idega.idegaweb.IWBundle;
 import com.idega.presentation.IWBaseComponent;
 import com.idega.presentation.IWContext;
@@ -114,10 +113,6 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		}
 	}
 
-	private ValueBinding localize(String key) {
-		return bundle.getValueBinding(key);
-	}
-	
 	private HtmlOutputText getLocalizedText(String key) {
 		return bundle.getLocalizedText(key);
 	}

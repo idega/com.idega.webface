@@ -8,7 +8,6 @@
  */
 package com.idega.webface.theme;
 
-import javax.faces.render.RenderKit;
 import com.idega.idegaweb.include.GlobalIncludeManager;
 
 
@@ -21,8 +20,6 @@ public class RedmondTheme extends WFDefaultTheme{
 	
 	private String STYLE_SHEET_URL = "/style/redmondTheme.css";
 	private String BUNDLE_IDENTIFIER="com.idega.webface";
-	private RenderKit renderKit;
-
 	public RedmondTheme(){
 		installRenderKit();
 		//Add the stylesheet:

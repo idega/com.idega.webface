@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.1 2005/05/11 17:53:55 gummi Exp $
+ * $Id: WFTreeNode.java,v 1.2 2006/02/22 20:48:07 laddi Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -21,19 +21,17 @@ import com.idega.presentation.IWContext;
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2005/05/11 17:53:55 $ by $Author: gummi $
+ *  Last modified: $Date: 2006/02/22 20:48:07 $ by $Author: laddi $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFTreeNode implements TreeNode {
 	
 	private ICTreeNode icNode;
 	private List children = null;
     private String type = null;
-    private String description;
-	
-	/**
+    /**
 	 * 
 	 */
 	public WFTreeNode(ICTreeNode node) {

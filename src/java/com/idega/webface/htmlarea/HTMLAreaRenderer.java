@@ -22,7 +22,6 @@ public class HTMLAreaRenderer extends Renderer {
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.webface";
 	private String rootFolder = null;
 	
-	private static final String HTMLAREA_FOLDER = "/htmlarea/";
 	private static final String XINHA_FOLDER = "/xinha/";
 	
 	private String htmlareaFolder = XINHA_FOLDER;
