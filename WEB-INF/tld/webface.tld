@@ -25,6 +25,11 @@
 			<required>false</required>
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
+		<attribute>
+			<name>maximizedVertically</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
 	</tag>
 	<tag>
 		<name>webview</name>
