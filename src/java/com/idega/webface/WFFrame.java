@@ -1,5 +1,5 @@
 /*
- * $Id: WFFrame.java,v 1.10 2005/10/26 11:46:30 tryggvil Exp $
+ * $Id: WFFrame.java,v 1.11 2006/03/28 10:06:21 tryggvil Exp $
  * Created on 20.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,10 +15,10 @@ import com.idega.presentation.ui.IFrame;
 
 /**
  * 
- *  Last modified: $Date: 2005/10/26 11:46:30 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/03/28 10:06:21 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class WFFrame extends WFBlock {
 
@@ -30,7 +30,7 @@ public class WFFrame extends WFBlock {
 	 */
 	public WFFrame() {
 		super();
-		setStyleClass(DEFAULT_STYLE_CLASS);
+		setStyleClass(super.getStyleClass()+" "+DEFAULT_STYLE_CLASS);
 		this.setNoMarginsOnMainArea();
 		// TODO Auto-generated constructor stub
 	}
@@ -40,7 +40,8 @@ public class WFFrame extends WFBlock {
 	 */
 	public WFFrame(String titleBarText) {
 		super(titleBarText);
-		setStyleClass(DEFAULT_STYLE_CLASS);
+		//setStyleClass(DEFAULT_STYLE_CLASS);
+		setStyleClass(super.getStyleClass()+" "+DEFAULT_STYLE_CLASS);
 		this.setNoMarginsOnMainArea();
 		// TODO Auto-generated constructor stub
 	}
@@ -48,7 +49,8 @@ public class WFFrame extends WFBlock {
 	public WFFrame(String titleBarText,String frameURL){
 		this(titleBarText);
 		this.setFrameURL(frameURL);
-		setStyleClass(DEFAULT_STYLE_CLASS);
+		//setStyleClass(DEFAULT_STYLE_CLASS);
+		setStyleClass(super.getStyleClass()+" "+DEFAULT_STYLE_CLASS);
 	}
 	
 	

@@ -42,6 +42,11 @@
 	          <renderer-type>wf_htmlarea</renderer-type>
 	          <renderer-class>com.idega.webface.htmlarea.HTMLAreaRenderer</renderer-class>
 	     </renderer>
+	    	<renderer>
+	          <component-family>javax.faces.Data</component-family>
+	          <renderer-type>wf_list</renderer-type>
+	          <renderer-class>com.idega.webface.renderkit.ListRenderer</renderer-class>
+	     </renderer>
 	</render-kit>
 
 	<component>

@@ -4,6 +4,14 @@ function Set( string )                // return character
 	document.getElementById("uploadForm:f_href").value=string;
 }
 
+function SelectDocument( link )
+{
+	href = link.href;
+	link.style.fontWeight='bold';
+	link.parentNode.parentNode.className='selected';
+	//link.className='selected';
+	document.getElementById("uploadForm:f_href").value=href;
+}
 
 // Taken from link.html
 I18N = window.opener.HTMLArea.I18N.dialogs;

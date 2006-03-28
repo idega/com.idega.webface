@@ -4,6 +4,21 @@ function Set( string )                // return character
 	document.getElementById("uploadForm:f_href").value=string;
 }
 
+var previousSelected;
+var previousSelectedClassName;
+
+function SelectDocument( link )
+{
+	if(previousSelected){
+		previousSelected.parentNode.parentNode.className=previousSelectedClassName;
+	}
+	previousSelected=link;
+	previousSelectedClassName=link.parentNode.parentNode.className;
+	href = link.href;
+	link.parentNode.parentNode.className='selected';
+	//link.className='selected';
+	document.getElementById("uploadForm:f_href").value=href;
+}
 
 // Taken from link.html
 //I18N = window.opener.HTMLArea.I18N.dialogs;

@@ -4,9 +4,25 @@ function Set( string )                // return character
 	document.getElementById("uploadForm:f_url").value=string;
 }
 
+var previousSelected;
+var previousSelectedClassName;
+
+function SelectDocument( link )
+{
+	if(previousSelected){
+		previousSelected.parentNode.parentNode.className=previousSelectedClassName;
+	}
+	previousSelected=link;
+	previousSelectedClassName=link.parentNode.parentNode.className;
+	href = link.href;
+	link.parentNode.parentNode.className='selected';
+	//link.className='selected';
+	document.getElementById("uploadForm:f_url").value=href;
+}
+
 function Init() {
   //__dlg_init();
-  setWindowSizeCentered(550,800);
+  //setWindowSizeCentered(550,800);
   var param = window.dialogArguments;
   if (param) {
       document.getElementById("uploadForm:f_url").value = param["f_url"];

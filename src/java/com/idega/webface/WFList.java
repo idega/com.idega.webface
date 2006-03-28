@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.9 2004/12/16 18:33:47 gimmi Exp $
+ * $Id: WFList.java,v 1.10 2006/03/28 10:06:21 tryggvil Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -14,7 +14,7 @@ import java.io.IOException;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
-import javax.faces.component.html.HtmlDataTable;
+import org.apache.myfaces.component.html.ext.HtmlDataTable;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -30,10 +30,10 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2004/12/16 18:33:47 $ by $Author: gimmi $
+ * Last modified: $Date: 2006/03/28 10:06:21 $ by $Author: tryggvil $
  *
  * @author Anders Lindman
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class WFList extends HtmlDataTable implements ActionListener {
 	
@@ -45,8 +45,14 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	private final static String ACTION_PREVIOUS = "previous";
 	private final static String ACTION_NEXT = "next";
 	private final static String ACTION_GOTO = "goto";
+	public final static String DEFAULT_RENDER_TYPE="wf_list";
 	
 	private final static int MAX_NAVIGATION_LINKS = 10;
+	
+	private String tableHeadStyleClass;
+	private String tableBodyStyleClass;
+	boolean isBodyScrollable;
+	private boolean bodyScrollable=false;
 	
 	/**
 	 * Default contructor.
@@ -54,9 +60,9 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	public WFList() {
 		super();
 		setListStyleClass("wf_list");
-		this.setStyleClass("wf_listtable");
-		this.setHeaderClass("wf_listheading");
-		this.setRowClasses("wf_listoddrow,wf_listevenrow");
+		//this.setStyleClass("wf_listtable");
+		//this.setHeaderClass("wf_listheading");
+		this.setRowClasses("oddrow,evenrow");
 	}
 	
 	/**
@@ -74,6 +80,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		}
 		setRows(rows);
 		setFirst(first);
+		
 	}
 	
 	/**
@@ -91,7 +98,8 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 */
 	public String getRendererType() {
 		//return null;
-		return super.getRendererType();
+		//return super.getRendererType();
+		return DEFAULT_RENDER_TYPE;
 	}
 	/**
 	 * Returns true if the list navigation is shown.
@@ -202,6 +210,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		ResponseWriter out = context.getResponseWriter();
 		// Main container
 		out.startElement("div", null);
+		out.writeAttribute("id",getId(),null);
 		if (getListStyleClass() != null) {
 			out.writeAttribute("class", getListStyleClass(), null);
 		}
@@ -241,12 +250,13 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[5];
+		Object values[] = new Object[6];
 		values[0] = super.saveState(ctx);
 		values[1] = new Boolean(_showListNavigation);
 		values[2] = new Boolean(_navigationBelowList);
 		values[3] = _listStyleClass;
 		values[4] = _listBeanSessionId;
+		values[5] = new Boolean(bodyScrollable);
 		return values;
 	}
 	
@@ -260,6 +270,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		_navigationBelowList = ((Boolean) values[2]).booleanValue();
 		_listStyleClass = (String) values[3];
 		_listBeanSessionId = (String) values[4];
+		bodyScrollable=((Boolean)values[5]).booleanValue();
 	}
 
 	/**
@@ -422,5 +433,60 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	public boolean getRendersChildren(){
 		//this component renders its children
 		return true;
+	}
+
+	
+	/**
+	 * @return Returns the tableBodyStyleClass.
+	 */
+	public String getTableBodyStyleClass() {
+		return tableBodyStyleClass;
+	}
+
+	
+	/**
+	 * @param tableBodyStyleClass The tableBodyStyleClass to set.
+	 */
+	public void setTableBodyStyleClass(String tableBodyStyleClass) {
+		this.tableBodyStyleClass = tableBodyStyleClass;
+	}
+
+	
+	/**
+	 * @return Returns the tableHeadStyleClass.
+	 */
+	public String getTableHeadStyleClass() {
+		return tableHeadStyleClass;
+	}
+
+	
+	/**
+	 * @param tableHeadStyleClass The tableHeadStyleClass to set.
+	 */
+	public void setTableHeadStyleClass(String tableHeadStyleClass) {
+		this.tableHeadStyleClass = tableHeadStyleClass;
+	}
+	
+	/**
+	 * Enables scrolling to be done inside the tbody element.<br/>
+	 * Special solution to handle IE is also applied.
+	 */
+	public void setBodyScrollable(boolean scroll){
+		bodyScrollable=scroll;
+		if(scroll){
+			setListStyleClass(getListStyleClass()+" scrollContainer");
+			//setListStyleClass("scrollContainer");
+			//setId("scrollContainer");
+			setStyleClass("scrollTable");
+			setTableHeadStyleClass("fixedHeader");
+		}
+		else{
+
+			//TODO: Handle disabling
+		}
+	}
+	
+	public boolean isBodyScrollable(){
+		return bodyScrollable;
 	}
 }

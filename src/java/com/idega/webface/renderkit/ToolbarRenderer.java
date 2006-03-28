@@ -1,5 +1,5 @@
 /*
- * $Id: ToolbarRenderer.java,v 1.6 2005/11/29 15:29:19 laddi Exp $
+ * $Id: ToolbarRenderer.java,v 1.7 2006/03/28 10:06:21 tryggvil Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -26,11 +26,13 @@ import com.idega.webface.WFTab;
 
 
 /**
- * 
- *  Last modified: $Date: 2005/11/29 15:29:19 $ by $Author: laddi $
+ * <p>
+ * Default Renderer for the WFToolbar component.
+ * </p>
+ *  Last modified: $Date: 2006/03/28 10:06:21 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ToolbarRenderer extends MenuRenderer {
 	

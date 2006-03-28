@@ -5,7 +5,8 @@
 
 .wf_block,.wf_frame{
 	border: 1px solid #D7D7D7;
-	margin: 0 4px 4px 0;
+	/*margin: 0 4px 4px 0;*/
+	margin: 4px 4px 4px 4px;
 	padding: 0;
 	background: #fff;
 	position: relative;
@@ -190,7 +191,7 @@ div.wf_titlebar, div.wf_toolbar{
 	width: 100%;
 }
 
-.wf_listtable {
+.wf_list table {
 	border-spacing: 0px;
 	padding: 0px;
 	width: 100%;
@@ -203,7 +204,7 @@ div.wf_titlebar, div.wf_toolbar{
 	width: 100%;
 }
 
-.wf_listheading {
+.wf_list th {
 	background-color: #ffffff;
   	font-weight: bold;
 	font-size: 11px;
@@ -214,7 +215,6 @@ div.wf_titlebar, div.wf_toolbar{
 }
 
 .wf_listheaderlink {
-	background-color: #ffffff;
   	font-weight: bold;
 	font-size: 11px;
 	color:#4a4a4a;
@@ -225,7 +225,6 @@ div.wf_titlebar, div.wf_toolbar{
 }
 
 .wf_listheaderlink_clicked {
-	background-color: #ffffff;
   	font-weight: bold;
 	font-size: 11px;
 	color: #7b4040;
@@ -236,7 +235,6 @@ div.wf_titlebar, div.wf_toolbar{
 }
 
 .wf_listheaderlink_clicked_descending {
-	background-color: #ffffff;
   	font-weight: bold;
 	font-size: 11px;
 	color: #3b6f44;
@@ -246,38 +244,264 @@ div.wf_titlebar, div.wf_toolbar{
 	text-decoration:underline;
 }
 
-.wf_listevenrow {
+/*.wf_list .evenrow {
 	background-color: #ffffff;
-}
+}*/
 
-.wf_listevenrow td {
+.wf_list .evenrow td,
+.wf_list.scrollContainer .evenrow td{
 	white-space: nowrap;
+	border: 0px;
 }
 
-.wf_listevenrow:hover {
-	background-color: #DDDDDD;
-}
-
-.wf_listoddrow {
+/*.wf_list .oddrow {
 	background-color: #f6f6f6;
-}
+}*/
 
-.wf_listoddrow td{
+.wf_list .oddrow td,
+.wf_list.scrollContainer .oddrow td{
 	white-space: nowrap;
+	border: 0px;
 }
 
-.wf_listoddrow:hover {
+.wf_list table tbody tr td{
+	height: 18px;	
+}
+
+.wf_list table tbody tr td,
+.wf_list table thead tr th
+{
+	border: 0px;
+	/*font-size: 8pt;
+	padding: 3px 8px;
+	border-left: 1px solid #D9D9D9;*/
+}
+
+.wf_list table tbody tr.selected td{
+	font-weight: bold;
+}
+
+.wf_list table tbody tr.selected td{
+	background-color: #3d80df;
+	/*border-left: 1px solid #346DBE;
+	border-bottom: 1px solid #7DAAEA;*/
+}
+
+.wf_list table tbody tr.selected td,
+.wf_list table tbody tr.selected td a{
+	color: #ffffff;
+}
+
+.wf_list .evenrow {
+	background-color: #fff;
+}
+
+/*.wf_list .evenrow:hover
+{
 	background-color: #DDDDDD;
+}*/
+
+.wf_list .oddrow {
+	background-color: #edf3fe;
 }
 
-.wf_listlink {
+/*.wf_list .oddrow:hover
+{
+	background-color: #DDDDDD;
+}*/
+
+/*ScrollTable begin:*/
+
+div.scrollContainer{
+	clear: both;
+	/*border: 1px solid #963;*/
+	border: 0px;
+	/*height: 285px;*/
+	overflow: auto;
+	/*width: 756px;*/
+	width:auto;
 }
 
-.wf_listlink:hover {
+/* WinIE 6.x needs to re-account for it's scrollbar. Give it some padding */
+\html div.scrollContainer/* */ {
+	padding: 0 16px 0 0;
+	/*width: 740px;*/
 }
 
-.wf_listtext {
+/* clean up for allowing display Opera 5.x/6.x and MacIE 5.x */
+html>body div.scrollContainer {
+	height: auto;
+	padding: 0;
 }
+
+/* Reset overflow value to hidden for all non-IE browsers. */
+/* Filter out Opera 5.x/6.x and MacIE 5.x                  */
+head:first-child+body div[class].scrollContainer {
+	/*height: 285px;*/
+	overflow: hidden;
+	/*width: 756px*/
+}
+
+/* define width of table. IE browsers only                 */
+/* if width is set to 100%, you can remove the width       */
+/* property from div.scrollContainer and have the div scale */
+div.scrollContainer table {
+	float: left;
+	width: 100%;
+}
+
+/* WinIE 6.x needs to re-account for padding. Give it a negative margin */
+\html div.scrollContainer table/* */ {
+	margin: 0 -16px 0 0;
+}
+
+/* define width of table. Opera 5.x/6.x and MacIE 5.x */
+html>body div.scrollContainer table {
+	float: none;
+	margin: 0;
+	/*width: 740px;*/
+}
+
+/* define width of table. Add 16px to width for scrollbar.           */
+/* All other non-IE browsers. Filter out Opera 5.x/6.x and MacIE 5.x */
+head:first-child+body div[class].scrollContainer table {
+	/*width: 756px;*/
+}
+
+/* set table header to a fixed position. WinIE 6.x only                                       */
+/* In WinIE 6.x, any element with a position property set to relative and is a child of       */
+/* an element that has an overflow property set, the relative value translates into fixed.    */
+/* Ex: parent element DIV with a class of scrollContainer has an overflow property set to auto */
+div.scrollContainer thead.fixedHeader tr {
+	position: relative;
+	/* expression is for WinIE 5.x only. Remove to validate and for pure CSS solution      */
+	top: expression(document.getElementById("scrollContainer").scrollTop);
+	height: 22px;
+}
+
+div.scrollContainer thead.fixedHeader tr th{
+
+}
+
+
+/* set THEAD element to have block level attributes. All other non-IE browsers            */
+/* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
+/* Filter out Opera 5.x/6.x and MacIE 5.x                                                 */
+head:first-child+body div[class].scrollContainer table thead[class].fixedHeader tr {
+	display: block;
+}
+
+div.scrollContainer thead tr {
+	/*width:756px;*/
+}
+
+/* make the TH elements pretty */
+div.scrollContainer thead.fixedHeader th {
+	/*background: #C96;
+	border-left: 1px solid #EB8;
+	border-right: 1px solid #B74;
+	border-top: 1px solid #EB8;
+	font-weight: normal;
+	padding: 4px 3px;
+	text-align: left*/
+}
+
+/* make the A elements pretty. makes for nice clickable headers                */
+div.scrollContainer thead.fixedHeader a,
+div.scrollContainer thead.fixedHeader a:link, thead.fixedHeader a:visited {
+	color: #FFF;
+	display: block;
+	text-decoration: none;
+	width: 100%;
+}
+
+/* make the A elements pretty. makes for nice clickable headers                */
+/* WARNING: swapping the background on hover may cause problems in WinIE 6.x   */
+div.scrollContainer thead.fixedHeader a:hover {
+	color: #FFF;
+	display: block;
+	text-decoration: underline;
+	width: 100%;
+}
+
+/* define the table content to be scrollable                                              */
+/* set TBODY element to have block level attributes. All other non-IE browsers            */
+/* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
+/* induced side effect is that child TDs no longer accept width: auto                     */
+/* Filter out Opera 5.x/6.x and MacIE 5.x                                                 */
+head:first-child+body div[class].scrollContainer table tbody {
+	display: block;
+	/*height: 262px;*/
+	overflow: auto;
+	width: 100%;
+}
+
+/* make TD elements pretty. Provide alternating classes for striping the table */
+/* http://www.alistapart.com/articles/zebratables/                             */
+div.scrollContainer tbody td, tbody tr.normalRow td {
+	/*background: #FFF;
+	border-bottom: none;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+	padding: 2px 3px 3px 4px*/
+}
+
+div.scrollContainer tbody tr.alternateRow td {
+	/*background: #EEE;
+	border-bottom: none;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+	padding: 2px 3px 3px 4px*/
+}
+
+/* define width of TH elements: 1st, 2nd, and 3rd respectively.      */
+/* All other non-IE browsers. Filter out Opera 5.x/6.x and MacIE 5.x */
+/* Add 16px to last TH for scrollbar padding                         */
+/* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors    */
+head:first-child+body div[class].scrollContainer table thead[class].fixedHeader th {
+	width: 30px;
+	padding: 2px 4px 2px 3px;
+}
+
+head:first-child+body div[class].scrollContainer table thead[class].fixedHeader th + th {
+	width: 300px;
+	padding: 2px 4px 2px 3px;
+}
+
+head:first-child+body div[class].scrollContainer table thead[class].fixedHeader th + th + th {
+	border-right: none;
+	/*padding: 4px 4px 4px 3px;*/
+	width: 150px;
+	padding: 2px 4px 2px 3px;
+}
+
+/* define width of TH elements: 1st, 2nd, and 3rd respectively.      */
+/* All other non-IE browsers. Filter out Opera 5.x/6.x and MacIE 5.x */
+/* Add 16px to last TH for scrollbar padding                         */
+/* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors    */
+head:first-child+body div[class].scrollContainer table tbody td {
+	width: 30px;
+	padding: 2px 4px 2px 3px;
+}
+
+head:first-child+body div[class].scrollContainer table tbody td + td {
+	width: 300px;
+	padding: 2px 4px 2px 3px;
+}
+
+head:first-child+body div[class].scrollContainer table tbody td + td + td {
+	border-right: none;
+	padding: 2px 4px 2px 3px;
+	/*padding: 2px 4px 2px 3px;*/
+	width: 150px;
+}
+
+
+
+/*ScrollTable end:*/
+
 
 /***WFMenu***/
 
@@ -547,4 +771,13 @@ div.wf_titlebar, div.wf_toolbar{
 	border-top: 1px solid #D7D7D7;
 }
 
+/*ImageChooser:*/
+
+.wf_imagechooser_left_box{
+	display:none;
+}
+
+.wf_imagechooser_right_box{
+	display:none;
+}
 /**END WFBlock default Form styles**/
