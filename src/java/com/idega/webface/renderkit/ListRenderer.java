@@ -1,5 +1,5 @@
 /*
- * $Id: ListRenderer.java,v 1.1 2006/03/28 10:06:21 tryggvil Exp $
+ * $Id: ListRenderer.java,v 1.2 2006/03/29 09:11:18 laddi Exp $
  * Created on 21.3.2006 in project com.idega.webface
  *
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -11,16 +11,18 @@ package com.idega.webface.renderkit;
 
 import java.io.IOException;
 import java.util.Iterator;
+
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.ConverterException;
-import org.apache.myfaces.renderkit.RendererUtils;
+
 import org.apache.myfaces.renderkit.html.HTML;
 import org.apache.myfaces.renderkit.html.HtmlRendererUtils;
 import org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer;
+
 import com.idega.webface.WFList;
 
 
@@ -28,10 +30,10 @@ import com.idega.webface.WFList;
  * <p>
  * Default renderer for the WFList table component
  * </p>
- *  Last modified: $Date: 2006/03/28 10:06:21 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/03/29 09:11:18 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ListRenderer extends HtmlTableRenderer{
 
