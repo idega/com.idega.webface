@@ -37,7 +37,7 @@ public class WFContainerTag extends UIComponentTag {
 	}
 	
 	public String getStyleClass() {
-		return styleClass;
+		return this.styleClass;
 	}
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
@@ -48,7 +48,7 @@ public class WFContainerTag extends UIComponentTag {
 	}
 	
 	public String getStyle() {
-		return _style;
+		return this._style;
 	}
 	
 	public void setStyle(String style) {
@@ -57,8 +57,8 @@ public class WFContainerTag extends UIComponentTag {
 	
 	public void release() {      
 		super.release();      
-		styleClass = null ;
-		_style=null;
+		this.styleClass = null ;
+		this._style=null;
 	}
 
 	protected void setProperties(UIComponent component) {      
@@ -66,10 +66,10 @@ public class WFContainerTag extends UIComponentTag {
 		WFContainer container = (WFContainer)component;
 		if (container != null) {
 			if(this.styleClass!=null) {
-				container.setStyleClass(styleClass);
+				container.setStyleClass(this.styleClass);
 			}
 			if(this._style!=null) {
-				container.setStyleAttribute(_style);
+				container.setStyleAttribute(this._style);
 			}
 		}
 	}

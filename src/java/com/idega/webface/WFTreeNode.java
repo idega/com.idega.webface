@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.2 2006/02/22 20:48:07 laddi Exp $
+ * $Id: WFTreeNode.java,v 1.3 2006/04/09 11:59:21 laddi Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import com.idega.presentation.IWContext;
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2006/02/22 20:48:07 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFTreeNode implements TreeNode {
 	
@@ -35,7 +35,7 @@ public class WFTreeNode implements TreeNode {
 	 * 
 	 */
 	public WFTreeNode(ICTreeNode node) {
-		icNode = node;
+		this.icNode = node;
 		String className = node.getClass().getName();
 		if(className.indexOf('.')>-1){
 			setType(className.substring(className.lastIndexOf('.')+1));
@@ -48,7 +48,7 @@ public class WFTreeNode implements TreeNode {
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#isLeaf()
 	 */
 	public boolean isLeaf() {
-		return icNode.isLeaf();
+		return this.icNode.isLeaf();
 	}
 
 	/* (non-Javadoc)
@@ -62,22 +62,22 @@ public class WFTreeNode implements TreeNode {
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getChildren()
 	 */
 	public List getChildren() {
-		if(children == null){
-			children = new ArrayList();
-			for (Iterator iter = icNode.getChildrenIterator(); iter.hasNext();) {
-				children.add(new WFTreeNode((ICTreeNode) iter.next()));
+		if(this.children == null){
+			this.children = new ArrayList();
+			for (Iterator iter = this.icNode.getChildrenIterator(); iter.hasNext();) {
+				this.children.add(new WFTreeNode((ICTreeNode) iter.next()));
 			}
 		}
 
-		System.out.println("[getChildren]:"+children.size());
-		return children;
+		System.out.println("[getChildren]:"+this.children.size());
+		return this.children;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getType()
 	 */
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
 	/* (non-Javadoc)
@@ -92,7 +92,7 @@ public class WFTreeNode implements TreeNode {
 	 */
 	public String getDescription() {
 		IWContext iwc = IWContext.getInstance();
-		return icNode.getNodeName(iwc.getCurrentLocale(),iwc);
+		return this.icNode.getNodeName(iwc.getCurrentLocale(),iwc);
 	}
 
 	/* (non-Javadoc)
@@ -114,15 +114,15 @@ public class WFTreeNode implements TreeNode {
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getIdentifier()
 	 */
 	public String getIdentifier() {
-		System.out.println("[getIdentifier]:"+icNode.getNodeID());
-		return String.valueOf(icNode.getNodeID());
+		System.out.println("[getIdentifier]:"+this.icNode.getNodeID());
+		return String.valueOf(this.icNode.getNodeID());
 	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getChildCount()
 	 */
 	public int getChildCount() {
-		System.out.println("[getChildCount]:"+icNode.getChildCount());
-		return icNode.getChildCount();
+		System.out.println("[getChildCount]:"+this.icNode.getChildCount());
+		return this.icNode.getChildCount();
 	}
 }

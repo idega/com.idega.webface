@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.10 2006/03/28 10:06:21 tryggvil Exp $
+ * $Id: WFList.java,v 1.11 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -30,10 +30,10 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2006/03/28 10:06:21 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class WFList extends HtmlDataTable implements ActionListener {
 	
@@ -70,11 +70,11 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 */
 	public WFList(String listBeanSessionId, int first, int rows) {
 		this();
-		_listBeanSessionId = listBeanSessionId;
+		this._listBeanSessionId = listBeanSessionId;
 		String var = listBeanSessionId + "_var";
 		setVar(var);
-		setValueBinding("value", WFUtil.createValueBinding("#{" + _listBeanSessionId + ".dataModel}"));
-		UIColumn[] columns = (UIColumn[]) WFUtil.invoke(_listBeanSessionId, "createColumns", var);
+		setValueBinding("value", WFUtil.createValueBinding("#{" + this._listBeanSessionId + ".dataModel}"));
+		UIColumn[] columns = (UIColumn[]) WFUtil.invoke(this._listBeanSessionId, "createColumns", var);
 		for (int i = 0; i < columns.length; i++) {
 			addColumn(columns[i]);
 		}
@@ -105,21 +105,21 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * Returns true if the list navigation is shown.
 	 */
 	public boolean getShowListNavigation() {
-		return _showListNavigation;
+		return this._showListNavigation;
 	}
 		
 	/**
 	 * Returns true if the list navigation shall be placed below the list.
 	 */
 	public boolean getNavigationBelowList() {
-		return _navigationBelowList;
+		return this._navigationBelowList;
 	}
 
 	/**
 	 * Returns the css class for this list.
 	 */
 	public String getListStyleClass() {
-		return _listStyleClass;
+		return this._listStyleClass;
 	}
 
 	/**
@@ -130,8 +130,8 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		if (getRows() > 0) {
 			setListNavigationLinks();			
 		}
-		if (_listBeanSessionId != null) {
-			WFUtil.invoke(_listBeanSessionId, "updateDataModel", new Integer(getFirst()), new Integer(getRows()));
+		if (this._listBeanSessionId != null) {
+			WFUtil.invoke(this._listBeanSessionId, "updateDataModel", new Integer(getFirst()), new Integer(getRows()));
 		}
 	}
 
@@ -148,21 +148,21 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * Sets if the list navigation shall be shown. 
 	 */
 	public void setShowListNavigation(boolean showListNavigation) {
-		_showListNavigation = showListNavigation;
+		this._showListNavigation = showListNavigation;
 	}
 		
 	/**
 	 * Sets if if the list navigation shall be placed below the list.
 	 */
 	public void setNavigationBelowList(boolean navigationBelowList) {
-		_navigationBelowList = navigationBelowList;
+		this._navigationBelowList = navigationBelowList;
 	}
 
 	/**
 	 * Sets the css class for this list. 
 	 */
 	public void setListStyleClass(String listStyleClass) {
-		_listStyleClass = listStyleClass;
+		this._listStyleClass = listStyleClass;
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		if (getListStyleClass() != null) {
 			out.writeAttribute("class", getListStyleClass(), null);
 		}
-		if (_showListNavigation && !_navigationBelowList) {
+		if (this._showListNavigation && !this._navigationBelowList) {
 			renderListNavigation(context);
 		}
 		super.encodeBegin(context);
@@ -237,7 +237,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		
 		super.encodeEnd(context);
 		
-		if (_showListNavigation && _navigationBelowList) {
+		if (this._showListNavigation && this._navigationBelowList) {
 			renderListNavigation(context);
 		}
 		ResponseWriter out = context.getResponseWriter();
@@ -252,11 +252,11 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[6];
 		values[0] = super.saveState(ctx);
-		values[1] = new Boolean(_showListNavigation);
-		values[2] = new Boolean(_navigationBelowList);
-		values[3] = _listStyleClass;
-		values[4] = _listBeanSessionId;
-		values[5] = new Boolean(bodyScrollable);
+		values[1] = new Boolean(this._showListNavigation);
+		values[2] = new Boolean(this._navigationBelowList);
+		values[3] = this._listStyleClass;
+		values[4] = this._listBeanSessionId;
+		values[5] = new Boolean(this.bodyScrollable);
 		return values;
 	}
 	
@@ -266,11 +266,11 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		_showListNavigation = ((Boolean) values[1]).booleanValue();
-		_navigationBelowList = ((Boolean) values[2]).booleanValue();
-		_listStyleClass = (String) values[3];
-		_listBeanSessionId = (String) values[4];
-		bodyScrollable=((Boolean)values[5]).booleanValue();
+		this._showListNavigation = ((Boolean) values[1]).booleanValue();
+		this._navigationBelowList = ((Boolean) values[2]).booleanValue();
+		this._listStyleClass = (String) values[3];
+		this._listBeanSessionId = (String) values[4];
+		this.bodyScrollable=((Boolean)values[5]).booleanValue();
 	}
 
 	/**
@@ -440,7 +440,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * @return Returns the tableBodyStyleClass.
 	 */
 	public String getTableBodyStyleClass() {
-		return tableBodyStyleClass;
+		return this.tableBodyStyleClass;
 	}
 
 	
@@ -456,7 +456,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * @return Returns the tableHeadStyleClass.
 	 */
 	public String getTableHeadStyleClass() {
-		return tableHeadStyleClass;
+		return this.tableHeadStyleClass;
 	}
 
 	
@@ -472,7 +472,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * Special solution to handle IE is also applied.
 	 */
 	public void setBodyScrollable(boolean scroll){
-		bodyScrollable=scroll;
+		this.bodyScrollable=scroll;
 		if(scroll){
 			setListStyleClass(getListStyleClass()+" scrollContainer");
 			//setListStyleClass("scrollContainer");
@@ -487,6 +487,6 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	}
 	
 	public boolean isBodyScrollable(){
-		return bodyScrollable;
+		return this.bodyScrollable;
 	}
 }

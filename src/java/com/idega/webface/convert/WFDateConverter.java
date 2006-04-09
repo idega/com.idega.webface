@@ -1,5 +1,5 @@
 /*
- * $Id: WFDateConverter.java,v 1.1 2004/06/11 13:43:57 anders Exp $
+ * $Id: WFDateConverter.java,v 1.2 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -25,10 +25,10 @@ import javax.faces.convert.ConverterException;
 /**
  * Converter for java.util.Date values.   
  * <p>
- * Last modified: $Date: 2004/06/11 13:43:57 $ by $Author: anders $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @see javax.faces.convert.Converter
  */
 public class WFDateConverter implements Converter {
@@ -44,7 +44,7 @@ public class WFDateConverter implements Converter {
 			return date;
 		}
 		if (value.trim().length() == 0) {
-			if (_allowEmptyValues) {
+			if (this._allowEmptyValues) {
 				return date;
 			} else {
 				throw new ConverterException(new FacesMessage("Date input empty."));				
@@ -180,14 +180,14 @@ public class WFDateConverter implements Converter {
 	 * Returns allow empty values. 
 	 */
 	public boolean getAllowEmptyValues() {
-		return _allowEmptyValues;
+		return this._allowEmptyValues;
 	}
 	
 	/**
 	 * Sets allow empty values. 
 	 */
 	public void setAllowEmptyValues(boolean allowEmptyValues) {
-		_allowEmptyValues = allowEmptyValues;
+		this._allowEmptyValues = allowEmptyValues;
 	}
 }
 

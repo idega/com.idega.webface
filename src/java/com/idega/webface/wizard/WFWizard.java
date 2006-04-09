@@ -1,5 +1,5 @@
 /*
- * $Id: WFWizard.java,v 1.3 2006/01/05 15:56:21 laddi Exp $
+ * $Id: WFWizard.java,v 1.4 2006/04/09 11:59:21 laddi Exp $
  * Created on 10.1.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -16,10 +16,10 @@ import com.idega.webface.WFBlock;
  *  <p>
  *  Class to display a "wizard" type interface with a step-through of actions.
  *  </p>
- *  Last modified: $Date: 2006/01/05 15:56:21 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFWizard extends WFBlock{
 	
@@ -34,7 +34,7 @@ public class WFWizard extends WFBlock{
 	 * @return Returns the currentStep.
 	 */
 	public int getCurrentStep() {
-		return currentStep;
+		return this.currentStep;
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class WFWizard extends WFBlock{
 	 * @return Returns the totalSteps.
 	 */
 	public int getTotalSteps() {
-		return totalSteps;
+		return this.totalSteps;
 	}
 	
 	/**

@@ -1,5 +1,5 @@
 /*
- * $Id: WFContainer.java,v 1.12 2006/01/04 14:43:11 tryggvil Exp $
+ * $Id: WFContainer.java,v 1.13 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004-2005 Idega. All Rights Reserved.
  *
@@ -18,10 +18,10 @@ import com.idega.util.RenderUtils;
  *  with a "div" tag surrounded in HTML.
  *  </p>
  * 
- *  Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class WFContainer extends IWBaseComponent
 {
@@ -75,22 +75,22 @@ public class WFContainer extends IWBaseComponent
 	
 	public void setLightShadowColor(String color)
 	{
-		_lightColor = color;
+		this._lightColor = color;
 	}
 	
 	public String getLightShadowColor()
 	{
-		return _lightColor;
+		return this._lightColor;
 	}
 	
 	public void setDarkShadowColor(String color)
 	{
-		_darkColor = color;
+		this._darkColor = color;
 	}
 
 	public String getDarkShadowColor()
 	{
-		return _darkColor;
+		return this._darkColor;
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class WFContainer extends IWBaseComponent
 	 * @uml.property name="backgroundColor"
 	 */
 	public String getBackgroundColor() {
-		return backgroundColor;
+		return this.backgroundColor;
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class WFContainer extends IWBaseComponent
 	 * @uml.property name="backgroundColor"
 	 */
 	public void setBackgroundColor(String string) {
-		backgroundColor = string;
+		this.backgroundColor = string;
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class WFContainer extends IWBaseComponent
 	 * @uml.property name="height"
 	 */
 	public String getHeight() {
-		return height;
+		return this.height;
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class WFContainer extends IWBaseComponent
 	 * @uml.property name="styleClass"
 	 */
 	public String getStyleClass() {
-		return styleClass;
+		return this.styleClass;
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class WFContainer extends IWBaseComponent
 	 * @uml.property name="width"
 	 */
 	public String getWidth() {
-		return width;
+		return this.width;
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class WFContainer extends IWBaseComponent
 		values[0] = super.saveState(ctx);
 		values[1] = getStyleAttribute();
 		values[2] = getStyleClass();
-		values[3] = title;
+		values[3] = this.title;
 		return values;
 	}
 	
@@ -191,7 +191,7 @@ public class WFContainer extends IWBaseComponent
 		super.restoreState(ctx, values[0]);
 		setStyleAttribute((String) values[1]);
 		setStyleClass((String) values[2]);
-		title=(String)values[3];
+		this.title=(String)values[3];
 	}
 	
 	/**
@@ -220,7 +220,7 @@ public class WFContainer extends IWBaseComponent
 	 * @param title
 	 */
 	public String getTitle(){
-		return title;
+		return this.title;
 	}
 
 }

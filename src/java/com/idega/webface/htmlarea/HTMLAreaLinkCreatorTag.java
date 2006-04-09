@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreatorTag.java,v 1.1 2005/03/08 10:39:39 gimmi Exp $
+ * $Id: HTMLAreaLinkCreatorTag.java,v 1.2 2006/04/09 11:59:21 laddi Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -27,14 +27,14 @@ public class HTMLAreaLinkCreatorTag extends UIComponentTag {
 	
 	public void release() {
 		super.release();
-		externalTab = null;
+		this.externalTab = null;
 	}
 	
 	protected void setProperties(UIComponent component) {
 		super.setProperties(component);
 		if (component != null) {
 			HTMLAreaLinkCreator o = (HTMLAreaLinkCreator) component;
-			o.setExternalTabClass(externalTab);
+			o.setExternalTabClass(this.externalTab);
 		}
 	}
 	

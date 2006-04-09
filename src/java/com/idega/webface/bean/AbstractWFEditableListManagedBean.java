@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractWFEditableListManagedBean.java,v 1.4 2005/01/18 17:44:33 gummi Exp $
+ * $Id: AbstractWFEditableListManagedBean.java,v 1.5 2006/04/09 11:59:21 laddi Exp $
  * Created on 29.12.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -20,10 +20,10 @@ import com.idega.webface.model.WFDataModel;
 
 /**
  * 
- *  Last modified: $Date: 2005/01/18 17:44:33 $ by $Author: gummi $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 
@@ -59,8 +59,8 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 	 * @param rows Total number of rows
 	 */
 	public void updateDataModel(Integer start, Integer rows) {
-		if (dataModel == null) {
-			dataModel = new WFDataModel();
+		if (this.dataModel == null) {
+			this.dataModel = new WFDataModel();
 		}
 		
 		WFEditableListDataBean[] beans = getData();
@@ -73,11 +73,11 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 		}
 		int maxRow = Math.min(start.intValue() + nrOfRows,availableRows);
 		for (int i = start.intValue(); i < maxRow; i++) {
-			dataModel.set(beans[i], i);
+			this.dataModel.set(beans[i], i);
 		}
 
-		dataModel.setRowCount(availableRows);
-		dataModelInitialized=true;
+		this.dataModel.setRowCount(availableRows);
+		this.dataModelInitialized=true;
 	}	
 	
 	
@@ -147,10 +147,10 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 	 * @see com.idega.webface.bean.WFListBean#getDataModel()
 	 */
 	public DataModel getDataModel() {
-		if(!dataModelInitialized){
+		if(!this.dataModelInitialized){
 			updateDataModel(new Integer(0),new Integer(0));
 		}
-		return dataModel;
+		return this.dataModel;
 	}
 
 	/* (non-Javadoc)
@@ -165,21 +165,21 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 		private Object[] NullElementObjectArray;
 		
 		public EmptyRow(){
-			NullElementObjectArray = new Object[getNumberOfColumns()];
+			this.NullElementObjectArray = new Object[getNumberOfColumns()];
 		}
 		
 		/* (non-Javadoc)
 		 * @see com.idega.webface.bean.WFEditableListDataBean#getSelectItemListArray()
 		 */
 		public Object[] getSelectItemListArray() {
-			return NullElementObjectArray;
+			return this.NullElementObjectArray;
 		}
 
 		/* (non-Javadoc)
 		 * @see com.idega.webface.bean.WFEditableListDataBean#getValues()
 		 */
 		public Object[] getValues() {
-			return NullElementObjectArray;
+			return this.NullElementObjectArray;
 		}
 
 		/* (non-Javadoc)

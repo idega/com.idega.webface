@@ -79,7 +79,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @return
 	 */
 	public boolean isViewWithTitleBar() {
-		return viewWithTitleBar;
+		return this.viewWithTitleBar;
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @param b
 	 */
 	public void setViewWithTitleBar(boolean b) {
-		viewWithTitleBar = b;
+		this.viewWithTitleBar = b;
 	}
 
 //	/**
@@ -159,28 +159,28 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @return
 	 */
 	public String getTitlebarColor() {
-		return titlebarColor;
+		return this.titlebarColor;
 	}
 
 	/**
 	 * @return
 	 */
 	public String getTitleTextColor() {
-		return titleTextColor;
+		return this.titleTextColor;
 	}
 
 	/**
 	 * @param string
 	 */
 	public void setTitlebarColor(String string) {
-		titlebarColor = string;
+		this.titlebarColor = string;
 	}
 
 	/**
 	 * @param string
 	 */
 	public void setTitleTextColor(String string) {
-		titleTextColor = string;
+		this.titleTextColor = string;
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * @return Returns the iconImageURI.
 	 */
 	public String getIconImageURI() {
-		return iconImageURI;
+		return this.iconImageURI;
 	}
 
 	public void setToolTip(String toolTip) {
@@ -238,7 +238,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 	}
 	
 	public String getIconStyleClass() {
-		return iconStyleClass;
+		return this.iconStyleClass;
 	}
 	
 	/*
@@ -284,7 +284,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		Object values[] = new Object[2];
 		values[0] = super.saveState(ctx);
 //		values[1] = toolTip;
-		values[1] = iconStyleClass;
+		values[1] = this.iconStyleClass;
 //		values[2] = new Boolean(valueRefTitle);
 		return values;
 	}
@@ -296,7 +296,7 @@ public class WFTitlebar extends WFContainer implements Serializable
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
 //		toolTip = (String) values[1];
-		iconStyleClass = (String) values[1];
+		this.iconStyleClass = (String) values[1];
 //		valueRefTitle = ((Boolean) values[2]).booleanValue();
 	}
 

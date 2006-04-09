@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.7 2005/11/29 15:29:19 laddi Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.8 2006/04/09 11:59:21 laddi Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -47,21 +47,21 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 	private static final String PARAMETER_PREVIEW = "ipreview";
 	
 	protected void init(IWContext iwc) {
-		bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
-		if (tabs == null) {
-			tabs = new Vector();
+		this.bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
+		if (this.tabs == null) {
+			this.tabs = new Vector();
 		}
-		tabs.add(new HTMLAreaExternalImageType());
+		this.tabs.add(new HTMLAreaExternalImageType());
 		
 		String selectedType = iwc.getParameter(PARAMETER_LINK_TYPE);
 		String pc = iwc.getParameter(PARAMETER_CHOOSER);
 		if (pc == null) {
 			if (selectedType != null) {
 				Iterator iter = getLinkTypes().iterator();
-				while (iter.hasNext() && currentImageType == null) {
+				while (iter.hasNext() && this.currentImageType == null) {
 					HTMLAreaImageType t = (HTMLAreaImageType) iter.next();
 					if (selectedType.equals(t.getLinkType())) {
-						currentImageType = t;
+						this.currentImageType = t;
 					}
 				}
 			} else {
@@ -70,7 +70,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 				//currentImageType = new HTMLAreaExternalImageType();
 				try {
 					pc="com.idega.content.presentation.HTMLAreaDocumentImageChooser";
-					currentImageType = (HTMLAreaImageType) RefactorClassRegistry.forName(pc).newInstance();
+					this.currentImageType = (HTMLAreaImageType) RefactorClassRegistry.forName(pc).newInstance();
 				}
 				catch (InstantiationException e) {
 					e.printStackTrace();
@@ -84,7 +84,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 			}
 		} else {
 			try {
-				currentImageType = (HTMLAreaImageType) RefactorClassRegistry.forName(pc).newInstance();
+				this.currentImageType = (HTMLAreaImageType) RefactorClassRegistry.forName(pc).newInstance();
 			}
 			catch (InstantiationException e) {
 				e.printStackTrace();
@@ -107,21 +107,21 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		while (iter.hasNext()) {
 			HTMLAreaImageType t = (HTMLAreaImageType) iter.next();
 			HtmlOutputText text = new HtmlOutputText();
-			text.setValueBinding("value", t.getLinkTypeName(bundle));
-			HtmlOutputLink link = bar.addLink(text, null, "HTMLAIC_"+col++, currentImageType.getLinkType().equals(t.getLinkType()));
+			text.setValueBinding("value", t.getLinkTypeName(this.bundle));
+			HtmlOutputLink link = bar.addLink(text, null, "HTMLAIC_"+col++, this.currentImageType.getLinkType().equals(t.getLinkType()));
 			WFUtil.addParameter(link, PARAMETER_CHOOSER, t.getClass().getName());
 		}
 		return bar;
 	}
 
 	protected UIComponent getCreationComponent() {
-		return currentImageType.getCreationComponent();
+		return this.currentImageType.getCreationComponent();
 	}
 	
 	protected WFBlock getSubmitTable() {
 		WFBlock block = new WFBlock();
 		WFTitlebar header = new WFTitlebar();
-		header.addTitleText(bundle.getLocalizedText("image_chooser"));
+		header.addTitleText(this.bundle.getLocalizedText("image_chooser"));
 		block.setTitlebar(header);
 
 		HtmlInputText url = new HtmlInputText();
@@ -161,13 +161,13 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		iframe.addLanguageParameter(false);
 		
 		HtmlCommandButton saveButton = new HtmlCommandButton();
-		bundle.getLocalizedUIComponent("save", saveButton);
+		this.bundle.getLocalizedUIComponent("save", saveButton);
 		saveButton.setType("button");
 		saveButton.setOnclick("onOK()");
 		saveButton.setId("HTMLAIC_SB");
 
 		HtmlCommandButton previewButton = new HtmlCommandButton();
-		bundle.getLocalizedUIComponent("preview", previewButton);
+		this.bundle.getLocalizedUIComponent("preview", previewButton);
 		previewButton.setType("button");
 		previewButton.setOnclick("onPreview()");
 		previewButton.setId("HTMLAIC_PB");
@@ -193,7 +193,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		borderLine.getChildren().add(getLabel("border", PARAMETER_BORDER));
 		borderLine.getChildren().add(border);
 
-		FieldSet layoutBox = new FieldSet(bundle.getLocalizedString("layout"));
+		FieldSet layoutBox = new FieldSet(this.bundle.getLocalizedString("layout"));
 		layoutBox.setStyleClass("wf_imagechooser_left_box");
 		layoutBox.add(alignmentLine);
 		layoutBox.add(borderLine);
@@ -208,7 +208,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		vertiLine.getChildren().add(getLabel("vertical", PARAMETER_VERTICAL_SPACING));
 		vertiLine.getChildren().add(vert);
 		
-		FieldSet spacingBox = new FieldSet(bundle.getLocalizedString("spacing"));
+		FieldSet spacingBox = new FieldSet(this.bundle.getLocalizedString("spacing"));
 		spacingBox.setStyleClass("wf_imagechooser_right_box");
 		spacingBox.add(horizLine);
 		spacingBox.add(vertiLine);
@@ -222,7 +222,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		saveLine.setStyleClass("wf_imagechooser_line");
 		saveLine.getChildren().add(saveButton);
 		
-		FieldSet mainFieldSet = new FieldSet(bundle.getLocalizedString("image_chooser"));
+		FieldSet mainFieldSet = new FieldSet(this.bundle.getLocalizedString("image_chooser"));
 		mainFieldSet.setStyleClass("wf_imagechooser_fieldset");
 		mainFieldSet.getChildren().add(urlLine);
 		mainFieldSet.getChildren().add(altLine);
@@ -252,7 +252,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 	
 	public HtmlOutputLabel getLabel(String localizeKey, String forName) {
 		HtmlOutputLabel label = new HtmlOutputLabel();
-		bundle.getLocalizedUIComponent(localizeKey, label);
+		this.bundle.getLocalizedUIComponent(localizeKey, label);
 		label.setFor(forName);
 		return label;
 	}
@@ -269,10 +269,10 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 					index = tab.indexOf(",");
 				}
 				v.add(RefactorClassRegistry.forName(tab).newInstance());
-				if (tabs == null) {
-					tabs = v;
+				if (this.tabs == null) {
+					this.tabs = v;
 				} else {
-					tabs.addAll(v);
+					this.tabs.addAll(v);
 				}
 			}
 			catch (InstantiationException e) {

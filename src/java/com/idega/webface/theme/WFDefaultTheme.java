@@ -38,7 +38,7 @@ public class WFDefaultTheme {
 	public WFDefaultTheme(){
 		installRenderKit();
 		//Add the stylesheet:
-		GlobalIncludeManager.getInstance().addBundleStyleSheet(BUNDLE_IDENTIFIER,STYLE_SHEET_URL);
+		GlobalIncludeManager.getInstance().addBundleStyleSheet(this.BUNDLE_IDENTIFIER,this.STYLE_SHEET_URL);
 	}
 	
 	public void installRenderKit(){
@@ -55,10 +55,10 @@ public class WFDefaultTheme {
 	}
 	
 	public RenderKit getRenderKit(RenderKit previousKit){
-		if(renderKit==null){
-			renderKit = new WFRenderKit(previousKit);
+		if(this.renderKit==null){
+			this.renderKit = new WFRenderKit(previousKit);
 		}
-		return renderKit;
+		return this.renderKit;
 	}
 	
 }

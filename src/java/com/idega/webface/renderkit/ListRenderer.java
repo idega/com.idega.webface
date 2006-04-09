@@ -1,5 +1,5 @@
 /*
- * $Id: ListRenderer.java,v 1.2 2006/03/29 09:11:18 laddi Exp $
+ * $Id: ListRenderer.java,v 1.3 2006/04/09 11:59:21 laddi Exp $
  * Created on 21.3.2006 in project com.idega.webface
  *
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -30,10 +30,10 @@ import com.idega.webface.WFList;
  * <p>
  * Default renderer for the WFList table component
  * </p>
- *  Last modified: $Date: 2006/03/29 09:11:18 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ListRenderer extends HtmlTableRenderer{
 
@@ -233,18 +233,22 @@ public class ListRenderer extends HtmlTableRenderer{
             if (header)
             {
                 String headerStyleClass = getHeaderClass(component);
-                if (facet != null)
-                    renderTableHeaderRow(facesContext, writer, component, facet, headerStyleClass, colspan);
-                if (hasColumnFacet)
-                    renderColumnHeaderRow(facesContext, writer, component, headerStyleClass);
+                if (facet != null) {
+									renderTableHeaderRow(facesContext, writer, component, facet, headerStyleClass, colspan);
+								}
+                if (hasColumnFacet) {
+									renderColumnHeaderRow(facesContext, writer, component, headerStyleClass);
+								}
             }
             else
             {
                 String footerStyleClass = getFooterClass(component);
-                if (hasColumnFacet)
-                    renderColumnFooterRow(facesContext, writer, component, footerStyleClass);
-                if (facet != null)
-                    renderTableFooterRow(facesContext, writer, component, facet, footerStyleClass, colspan);
+                if (hasColumnFacet) {
+									renderColumnFooterRow(facesContext, writer, component, footerStyleClass);
+								}
+                if (facet != null) {
+									renderTableFooterRow(facesContext, writer, component, facet, footerStyleClass, colspan);
+								}
             }
             writer.endElement(elemName);
         }

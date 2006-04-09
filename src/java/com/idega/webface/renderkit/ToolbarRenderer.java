@@ -1,5 +1,5 @@
 /*
- * $Id: ToolbarRenderer.java,v 1.7 2006/03/28 10:06:21 tryggvil Exp $
+ * $Id: ToolbarRenderer.java,v 1.8 2006/04/09 11:59:21 laddi Exp $
  * Created on 25.8.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -29,10 +29,10 @@ import com.idega.webface.WFTab;
  * <p>
  * Default Renderer for the WFToolbar component.
  * </p>
- *  Last modified: $Date: 2006/03/28 10:06:21 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ToolbarRenderer extends MenuRenderer {
 	
@@ -105,8 +105,9 @@ public class ToolbarRenderer extends MenuRenderer {
 					Iterator iter = keys.iterator();
 					while (iter.hasNext()) {
 						String key = (String) iter.next();
-						if(key.startsWith("menuitem_"))
-						itemList.add(menuFacetMap.get(key));
+						if(key.startsWith("menuitem_")) {
+							itemList.add(menuFacetMap.get(key));
+						}
 					}
 				}
 			}

@@ -1,5 +1,5 @@
 /*
- * $Id: WFTab.java,v 1.3 2006/01/04 14:43:11 tryggvil Exp $
+ * $Id: WFTab.java,v 1.4 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -20,10 +20,10 @@ import javax.faces.context.ResponseWriter;
  * <p>
  * Component for each "Tab" and is used by the "WFTabbedPane" component.
  * <p>
- * Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFTab extends HtmlCommandLink {
 
@@ -52,21 +52,21 @@ public class WFTab extends HtmlCommandLink {
 	 * Returns the selected status for this button.
 	 */
 	public boolean getSelected() {
-		return _selected;
+		return this._selected;
 	}
 	
 	/**
 	 * Sets the selected status for this button.
 	 */
 	public void setSelected(boolean isSelected) {
-		_selected = isSelected;
+		this._selected = isSelected;
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
-		if (!_selected) {
+		if (!this._selected) {
 			super.encodeBegin(context);
 		} else {
 			if (getChildren().size() > 0) {
@@ -91,7 +91,7 @@ public class WFTab extends HtmlCommandLink {
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
 	public void encodeChildren(FacesContext context) throws IOException {
-		if (!_selected) {
+		if (!this._selected) {
 			super.encodeChildren(context);
 		}
 	}
@@ -100,7 +100,7 @@ public class WFTab extends HtmlCommandLink {
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
-		if (!_selected) {
+		if (!this._selected) {
 			super.encodeEnd(context);
 		}
 	}
@@ -111,7 +111,7 @@ public class WFTab extends HtmlCommandLink {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[2];
 		values[0] = super.saveState(ctx);
-		values[1] = new Boolean(_selected);
+		values[1] = new Boolean(this._selected);
 		return values;
 	}
 	
@@ -121,6 +121,6 @@ public class WFTab extends HtmlCommandLink {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		_selected = ((Boolean) values[1]).booleanValue();
+		this._selected = ((Boolean) values[1]).booleanValue();
 	}
 }

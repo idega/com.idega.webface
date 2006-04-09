@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewSelector.java,v 1.5 2004/11/02 17:47:27 joakim Exp $
+ * $Id: WFViewSelector.java,v 1.6 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -20,10 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Component for selecting the view root. 
  * <p>
- * Last modified: $Date: 2004/11/02 17:47:27 $ by $Author: joakim $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFViewSelector extends UICommand implements ActionListener {
 	
@@ -42,7 +42,7 @@ public class WFViewSelector extends UICommand implements ActionListener {
 	 * Returns the id for the selected view.
 	 */
 	public String getViewId() {
-		return _selectedViewId;
+		return this._selectedViewId;
 	}
 
 	/**
@@ -56,8 +56,8 @@ public class WFViewSelector extends UICommand implements ActionListener {
 		}
 		*/
 		
-		if(_selectedViewId==null || !_selectedViewId.equals(selectedViewId)){
-			_selectedViewId = selectedViewId;
+		if(this._selectedViewId==null || !this._selectedViewId.equals(selectedViewId)){
+			this._selectedViewId = selectedViewId;
 			//ActionEvent event = new ActionEvent(this);
 			//queueEvent(event);
 			
@@ -106,8 +106,8 @@ public class WFViewSelector extends UICommand implements ActionListener {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
-		values[1] = _selectedViewId;
-		values[2] = new Boolean(_actionListenerAdded);
+		values[1] = this._selectedViewId;
+		values[2] = new Boolean(this._actionListenerAdded);
 		return values;
 	}
 	
@@ -117,8 +117,8 @@ public class WFViewSelector extends UICommand implements ActionListener {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		_selectedViewId = (String) values[1];
-		_actionListenerAdded = ((Boolean) values[2]).booleanValue();
+		this._selectedViewId = (String) values[1];
+		this._actionListenerAdded = ((Boolean) values[2]).booleanValue();
 	}
 	
 	/**

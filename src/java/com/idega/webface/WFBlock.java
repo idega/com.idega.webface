@@ -169,7 +169,7 @@ public class WFBlock extends WFContainer {
 	 * Returns the css style class for the main area in this block.
 	 */
 	public String getMainAreaStyleClass() {
-		return mainAreaStyleClass;
+		return this.mainAreaStyleClass;
 	}
 
 	/**
@@ -240,7 +240,7 @@ public class WFBlock extends WFContainer {
 	 * @return Returns the toolbarEmbeddedInTitlebar.
 	 */
 	public boolean isToolbarEmbeddedInTitlebar() {
-		return toolbarEmbeddedInTitlebar;
+		return this.toolbarEmbeddedInTitlebar;
 	}
 
 	/**
@@ -261,9 +261,9 @@ public class WFBlock extends WFContainer {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[4];
 		values[0] = super.saveState(ctx);
-		values[1] = new Boolean(toolbarEmbeddedInTitlebar);
-		values[2] = mainAreaStyleClass;
-		values[3] = Boolean.valueOf(maximizedVertically);
+		values[1] = new Boolean(this.toolbarEmbeddedInTitlebar);
+		values[2] = this.mainAreaStyleClass;
+		values[3] = Boolean.valueOf(this.maximizedVertically);
 		return values;
 	}
 
@@ -274,9 +274,9 @@ public class WFBlock extends WFContainer {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[]) state;
 		super.restoreState(ctx, values[0]);
-		toolbarEmbeddedInTitlebar = ((Boolean) values[1]).booleanValue();
-		mainAreaStyleClass = (String) values[2];
-		maximizedVertically = ((Boolean)values[3]).booleanValue();
+		this.toolbarEmbeddedInTitlebar = ((Boolean) values[1]).booleanValue();
+		this.mainAreaStyleClass = (String) values[2];
+		this.maximizedVertically = ((Boolean)values[3]).booleanValue();
 	}
 
 	public void processRestoreState(FacesContext context, Object state) {
@@ -387,7 +387,7 @@ public class WFBlock extends WFContainer {
 	}
 	
 	public boolean getMaximizedVertically() {
-		return maximizedVertically;
+		return this.maximizedVertically;
 	}
 	
     

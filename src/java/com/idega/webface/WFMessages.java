@@ -1,5 +1,5 @@
 /*
- * $Id: WFMessages.java,v 1.1 2006/01/04 14:43:11 tryggvil Exp $
+ * $Id: WFMessages.java,v 1.2 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -20,10 +20,10 @@ import javax.faces.context.FacesContext;
  * <p>
  * Container for JSF Messages.
  * </p>
- * Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman, Tryggvi Larusson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFMessages extends WFContainer {
 	
@@ -117,10 +117,10 @@ public class WFMessages extends WFContainer {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[5];
 		values[0] = super.saveState(ctx);
-		values[1] = infoStyleClass;
-		values[2] = warningStyleClass;
-		values[3] = errorStyleClass;
-		values[4] = fatalStyleClass;
+		values[1] = this.infoStyleClass;
+		values[2] = this.warningStyleClass;
+		values[3] = this.errorStyleClass;
+		values[4] = this.fatalStyleClass;
 		return values;
 	}
 
@@ -131,17 +131,17 @@ public class WFMessages extends WFContainer {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[]) state;
 		super.restoreState(ctx, values[0]);
-		infoStyleClass = (String)values[1];
-		warningStyleClass = (String)values[2];
-		errorStyleClass = (String)values[3];
-		fatalStyleClass = (String)values[4];
+		this.infoStyleClass = (String)values[1];
+		this.warningStyleClass = (String)values[2];
+		this.errorStyleClass = (String)values[3];
+		this.fatalStyleClass = (String)values[4];
 	}
 	
 	/**
 	 * @return Returns the errorStyleClass.
 	 */
 	public String getErrorStyleClass() {
-		return errorStyleClass;
+		return this.errorStyleClass;
 	}
 
 	
@@ -157,7 +157,7 @@ public class WFMessages extends WFContainer {
 	 * @return Returns the fatalStyleClass.
 	 */
 	public String getFatalStyleClass() {
-		return fatalStyleClass;
+		return this.fatalStyleClass;
 	}
 
 	
@@ -173,7 +173,7 @@ public class WFMessages extends WFContainer {
 	 * @return Returns the infoStyleClass.
 	 */
 	public String getInfoStyleClass() {
-		return infoStyleClass;
+		return this.infoStyleClass;
 	}
 
 	
@@ -189,7 +189,7 @@ public class WFMessages extends WFContainer {
 	 * @return Returns the warningStyleClass.
 	 */
 	public String getWarningStyleClass() {
-		return warningStyleClass;
+		return this.warningStyleClass;
 	}
 
 	

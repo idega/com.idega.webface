@@ -1,5 +1,5 @@
 /*
- * $Id: BundleMap.java,v 1.3 2005/10/04 11:49:49 gimmi Exp $
+ * $Id: BundleMap.java,v 1.4 2006/04/09 11:59:21 laddi Exp $
  * Created in 2001 by Tryggvi Larusson
  * 
  * Copyright (C) 2001-2004 Idega hf. All Rights Reserved.
@@ -26,12 +26,12 @@ import com.idega.idegaweb.IWResourceBundle;
  * <p>
  * Map of Bundles for localization. This class is only used inside the ArticleBlock module.
  * </p>
- * Last modified: $Date: 2005/10/04 11:49:49 $ by $Author: gimmi $<br/>
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $<br/>
  * 
  * @deprecated This class is replaced by com.idega.idegaweb.BundleLocalizationMap
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 class BundleMap extends BundleLocalizationMap {
 
@@ -78,14 +78,14 @@ class BundleMap extends BundleLocalizationMap {
 	//Unoptimized methods
 
 	public Collection values() {
-		if (_values == null) {
-			_values = new ArrayList();
+		if (this._values == null) {
+			this._values = new ArrayList();
 			for (Enumeration enumer = getResourceBundle().getKeys(); enumer.hasMoreElements();) {
 				String v = getResourceBundle().getString((String)enumer.nextElement());
-				_values.add(v);
+				this._values.add(v);
 			}
 		}
-		return _values;
+		return this._values;
 	}
 
 	public int size() {
@@ -149,7 +149,7 @@ class BundleMap extends BundleLocalizationMap {
 	 * @return Returns the _bundle.
 	 */
 	public ResourceBundle getResourceBundle() {
-		return _bundle;
+		return this._bundle;
 	}
 	
 	/**

@@ -1,5 +1,5 @@
 /*
- * $Id: WFLinkMenu.java,v 1.8 2005/10/10 11:05:00 tryggvil Exp $
+ * $Id: WFLinkMenu.java,v 1.9 2006/04/09 11:59:21 laddi Exp $
  * Created on 2.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -24,10 +24,10 @@ import com.idega.util.FacesUtil;
 /**
  * A menu whose menu items are plain html links.
  * 
- *  Last modified: $Date: 2005/10/10 11:05:00 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class WFLinkMenu extends WFMenu {
 
@@ -86,10 +86,10 @@ public class WFLinkMenu extends WFMenu {
 	}
 	
 	public Map getLinks(){
-		if(links==null){
-			links=new HashMap();
+		if(this.links==null){
+			this.links=new HashMap();
 		}
-		return links;
+		return this.links;
 	}
 	
 	
@@ -108,7 +108,7 @@ public class WFLinkMenu extends WFMenu {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[2];
 		values[0] = super.saveState(ctx);
-		values[1] = links;
+		values[1] = this.links;
 		return values;
 	}
 	
@@ -118,7 +118,7 @@ public class WFLinkMenu extends WFMenu {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		links = ((Map) values[1]);
+		this.links = ((Map) values[1]);
 	}
 	
 	public void encodeBegin(FacesContext context) throws IOException{

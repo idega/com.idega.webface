@@ -31,7 +31,7 @@ public class WFBezel extends WFContainer {
 	 * @return Returns the color.
 	 */
 	public String getColor() {
-		return color;
+		return this.color;
 	}
 	/**
 	 * @param color The color to set.

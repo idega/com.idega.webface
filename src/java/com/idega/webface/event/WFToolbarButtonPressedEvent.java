@@ -49,7 +49,7 @@ public class WFToolbarButtonPressedEvent extends FacesEvent{
 		 * @uml.property name="button"
 		 */
 		public WFToolbarButton getButton() {
-			return button;
+			return this.button;
 		}
 
 		/**

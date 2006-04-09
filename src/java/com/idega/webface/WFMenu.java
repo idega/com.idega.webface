@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.12 2006/01/04 14:43:11 tryggvil Exp $
+ * $Id: WFMenu.java,v 1.13 2006/04/09 11:59:21 laddi Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class WFMenu extends WFContainer {
 
@@ -108,19 +108,19 @@ public class WFMenu extends WFContainer {
 	 * @return Returns the _menuHeaderStyleClass.
 	 */
 	public String getMenuHeaderStyleClass() {
-		return _menuHeaderStyleClass;
+		return this._menuHeaderStyleClass;
 	}
 	/**
 	 * @param headerStyleClass The _menuHeaderStyleClass to set.
 	 */
 	public void setMenuHeaderStyleClass(String headerStyleClass) {
-		_menuHeaderStyleClass = headerStyleClass;
+		this._menuHeaderStyleClass = headerStyleClass;
 	}
 	/**
 	 * Returns the css class for this menu.
 	 */
 	public String getMenuStyleClass() {
-		return menuStyleClass;
+		return this.menuStyleClass;
 		//return getStyleClass();
 	}
 
@@ -128,14 +128,14 @@ public class WFMenu extends WFContainer {
 	 * Returns the css class for selected task bar button.
 	 */
 	public String getSelectedMenuItemStyleClass() {
-		return _buttonSelectedStyleClass;
+		return this._buttonSelectedStyleClass;
 	}
 
 	/**
 	 * Returns the css class for deselected task bar buttons.
 	 */
 	public String getDeselectedMenuItemStyleClass() {
-		return _buttonDeselectedStyleClass;
+		return this._buttonDeselectedStyleClass;
 	}
 
 	/**
@@ -150,14 +150,14 @@ public class WFMenu extends WFContainer {
 	 * Sets the css class for selected task bar button. 
 	 */
 	public void setSelectedMenuItemStyleClass(String buttonSelectedStyleClass) {
-		_buttonSelectedStyleClass = buttonSelectedStyleClass;
+		this._buttonSelectedStyleClass = buttonSelectedStyleClass;
 	}
 
 	/**
 	 * Sets the css class for deselected task bar button. 
 	 */
 	public void setDeselectedMenuItemStyleClass(String buttonDeselectedStyleClass) {
-		_buttonDeselectedStyleClass = buttonDeselectedStyleClass;
+		this._buttonDeselectedStyleClass = buttonDeselectedStyleClass;
 	}
 	
 	
@@ -167,12 +167,12 @@ public class WFMenu extends WFContainer {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[7];
 		values[0] = super.saveState(ctx);
-		values[1] = menuStyleClass;
-		values[2] = _buttonSelectedStyleClass;
-		values[3] = _buttonDeselectedStyleClass;
-		values[4] = _selectedButtonId;
-		values[5] = _buttonIds;
-		values[6] = _menuHeaderStyleClass;
+		values[1] = this.menuStyleClass;
+		values[2] = this._buttonSelectedStyleClass;
+		values[3] = this._buttonDeselectedStyleClass;
+		values[4] = this._selectedButtonId;
+		values[5] = this._buttonIds;
+		values[6] = this._menuHeaderStyleClass;
 		return values;
 	}
 	
@@ -182,17 +182,17 @@ public class WFMenu extends WFContainer {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		menuStyleClass = (String) values[1];
-		_buttonSelectedStyleClass = (String) values[2];
-		_buttonDeselectedStyleClass = (String) values[3];
-		_selectedButtonId = (String) values[4];
-		_buttonIds = (Set) values[5];
-		_menuHeaderStyleClass = (String)values[6];
+		this.menuStyleClass = (String) values[1];
+		this._buttonSelectedStyleClass = (String) values[2];
+		this._buttonDeselectedStyleClass = (String) values[3];
+		this._selectedButtonId = (String) values[4];
+		this._buttonIds = (Set) values[5];
+		this._menuHeaderStyleClass = (String)values[6];
 	}
 
 	public Set getMenuItemIds() {
-		if(_buttonIds==null){
-			_buttonIds = new LinkedHashSet();
+		if(this._buttonIds==null){
+			this._buttonIds = new LinkedHashSet();
 		}
 		return this._buttonIds;
 	}
@@ -201,14 +201,14 @@ public class WFMenu extends WFContainer {
 	 * Returns the id for the selected button.
 	 */
 	public String getSelectedMenuItemId() {
-		return _selectedButtonId;
+		return this._selectedButtonId;
 	}
 
 	/**
 	 * Sets the id for the selected button.
 	 */
 	public void setSelectedMenuItemId(String selectedButtonId) {
-		_selectedButtonId = selectedButtonId;
+		this._selectedButtonId = selectedButtonId;
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class RedmondTheme extends WFDefaultTheme{
 	public RedmondTheme(){
 		installRenderKit();
 		//Add the stylesheet:
-		GlobalIncludeManager.getInstance().addBundleStyleSheet(BUNDLE_IDENTIFIER,STYLE_SHEET_URL);
+		GlobalIncludeManager.getInstance().addBundleStyleSheet(this.BUNDLE_IDENTIFIER,this.STYLE_SHEET_URL);
 	}
 
 	

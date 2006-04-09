@@ -38,17 +38,17 @@ public class HTMLAreaRenderer extends Renderer {
 	private void init(IWContext iwc) {
 		if (iwc != null) {
 			IWBundle iwb = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
-			rootFolder = iwb.getResourcesVirtualPath() + htmlareaFolder;
+			this.rootFolder = iwb.getResourcesVirtualPath() + this.htmlareaFolder;
 		}
 	}
 	
 	private Renderer getTextareaRenderer(FacesContext context) {
-		if (textareaRenderer == null) {
+		if (this.textareaRenderer == null) {
 			RenderKitFactory factory = (RenderKitFactory)FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
 			RenderKit kit = factory.getRenderKit(context, RenderKitFactory.HTML_BASIC_RENDER_KIT);
-			textareaRenderer = kit.getRenderer("javax.faces.Input", "javax.faces.Textarea");
+			this.textareaRenderer = kit.getRenderer("javax.faces.Input", "javax.faces.Textarea");
 		} 
-		return textareaRenderer;
+		return this.textareaRenderer;
 	}
 	
 	public void decode(FacesContext context, UIComponent component) {
@@ -115,10 +115,10 @@ public class HTMLAreaRenderer extends Renderer {
 		if (pageParent) {
 			// This must be added in this order
 			((Page) parent).addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
-			((Page) parent).addJavascriptURL(rootFolder + "htmlarea.js");
+			((Page) parent).addJavascriptURL(this.rootFolder + "htmlarea.js");
 			((Page) parent).addJavaScriptAfterJavaScriptURLs("htmlAreaLoadPlugins", loadPlugins.toString());
 			((Page) parent).addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
-			((Page) parent).addStyleSheetURL(rootFolder+"htmlarea.css");
+			((Page) parent).addStyleSheetURL(this.rootFolder+"htmlarea.css");
 			((Page) parent).setOnLoad("HTMLArea.init()");
 		} else {
 			// Adding necessary scripts to html file (note: currently added to <body> should be moved to <head>)
@@ -166,7 +166,7 @@ public class HTMLAreaRenderer extends Renderer {
 			if ("CSS".equals(plugins[i])) {
 				addPlugin("CSS", getCSSPluginString().toString(), loadPlugins, initEditorScript, location);
 				// stylesheet used by CSS plugin (and perhaps also DynamicCSS)
-				initEditorScript.append("\teditor.config.pageStyle = \"@import url("+rootFolder+"examples/custom.css);\";\n");
+				initEditorScript.append("\teditor.config.pageStyle = \"@import url("+this.rootFolder+"examples/custom.css);\";\n");
 			} else {
 				addPlugin(plugins[i], plugins[i], loadPlugins, initEditorScript, location);
 			}
@@ -262,7 +262,7 @@ public class HTMLAreaRenderer extends Renderer {
 
 	private StringBuffer getVariablesScript() {
 		StringBuffer variables = new StringBuffer();
-		variables.append("\n\t_editor_url = \"").append(rootFolder).append("\"").append(";\n").append(
+		variables.append("\n\t_editor_url = \"").append(this.rootFolder).append("\"").append(";\n").append(
 		"\t_editor_lang = \"en\";");
 		return variables;
 	}
@@ -333,7 +333,7 @@ public class HTMLAreaRenderer extends Renderer {
 		writer.write("\n");
 		writer.startElement("script", null);
 		writer.writeAttribute("type", "text/javascript", null);
-		writer.writeAttribute("src", rootFolder+url, null);
+		writer.writeAttribute("src", this.rootFolder+url, null);
 		writer.writeText("", "value");
 		writer.endElement("script");
 	}
@@ -342,7 +342,7 @@ public class HTMLAreaRenderer extends Renderer {
 		writer.write("\n");
 		writer.startElement("link", null);
 		writer.writeAttribute("REL", "StyleSheet", null);
-		writer.writeAttribute("HREF", rootFolder+stylesheetName, null);
+		writer.writeAttribute("HREF", this.rootFolder+stylesheetName, null);
 		writer.writeAttribute("TYPE", "text/css", null);
 	}
 	

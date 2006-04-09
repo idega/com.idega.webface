@@ -31,7 +31,7 @@ public class BaseRenderer extends Renderer {
 	 * @return Returns the cssHelper.
 	 */
 	public CssHelper getCssHelper() {
-		return cssHelper;
+		return this.cssHelper;
 	}
 	/* (non-Javadoc)
 	 * @see javax.faces.render.Renderer#encodeChildren(javax.faces.context.FacesContext, javax.faces.component.UIComponent)

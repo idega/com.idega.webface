@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.10 2006/02/22 20:48:07 laddi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.11 2006/04/09 11:59:21 laddi Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -71,35 +71,35 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	 * @return
 	 */
 	protected UIComponent getCreationComponent() {
-		return currentLinkType.getLinkCreation();
+		return this.currentLinkType.getLinkCreation();
 	}
 	
 	protected void init(IWContext iwc) {
-		bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
-		if (tabs == null) {
-			tabs = new Vector();
+		this.bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
+		if (this.tabs == null) {
+			this.tabs = new Vector();
 		}
-		tabs.add(new HTMLAreaExternalLinkType());
-		tabs.add(new HTMLAreaEmailLinkType());
-		tabs.add(new HTMLAreaPageLinkType());
+		this.tabs.add(new HTMLAreaExternalLinkType());
+		this.tabs.add(new HTMLAreaEmailLinkType());
+		this.tabs.add(new HTMLAreaPageLinkType());
 		
-		selectedType = iwc.getParameter(PARAMETER_LINK_TYPE);
+		this.selectedType = iwc.getParameter(PARAMETER_LINK_TYPE);
 		String pc = iwc.getParameter(PARAMETER_CREATOR);
 		if (pc == null) {
-			if (selectedType != null) {
+			if (this.selectedType != null) {
 				Iterator iter = getLinkTypes().iterator();
-				while (iter.hasNext() && currentLinkType == null) {
+				while (iter.hasNext() && this.currentLinkType == null) {
 					HTMLAreaLinkType t = (HTMLAreaLinkType) iter.next();
-					if (selectedType.equals(t.getLinkType())) {
-						currentLinkType = t;
+					if (this.selectedType.equals(t.getLinkType())) {
+						this.currentLinkType = t;
 					}
 				}
 			} else {
-				currentLinkType = new HTMLAreaExternalLinkType();
+				this.currentLinkType = new HTMLAreaExternalLinkType();
 			}
 		} else {
 			try {
-				currentLinkType = (HTMLAreaLinkType) RefactorClassRegistry.forName(pc).newInstance();
+				this.currentLinkType = (HTMLAreaLinkType) RefactorClassRegistry.forName(pc).newInstance();
 			}
 			catch (InstantiationException e) {
 				e.printStackTrace();
@@ -114,7 +114,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	}
 
 	private HtmlOutputText getLocalizedText(String key) {
-		return bundle.getLocalizedText(key);
+		return this.bundle.getLocalizedText(key);
 	}
 	
 	protected WFTabBar getLinkTabBar() {
@@ -125,8 +125,8 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		while (iter.hasNext()) {
 			HTMLAreaLinkType t = (HTMLAreaLinkType) iter.next();
 			HtmlOutputText text = new HtmlOutputText();
-			text.setValueBinding("value", t.getLinkTypeName(bundle));
-			HtmlOutputLink link = bar.addLink(text, null, "HTMLALCL_"+col++, currentLinkType.getLinkType().equals(t.getLinkType()));
+			text.setValueBinding("value", t.getLinkTypeName(this.bundle));
+			HtmlOutputLink link = bar.addLink(text, null, "HTMLALCL_"+col++, this.currentLinkType.getLinkType().equals(t.getLinkType()));
 			WFUtil.addParameter(link, PARAMETER_CREATOR, t.getClass().getName());
 		}
 		return bar;
@@ -135,19 +135,19 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	protected WFBlock getSubmitTable() {
 		WFBlock block = new WFBlock();
 		WFTitlebar header = new WFTitlebar();
-		header.addTitleText(bundle.getLocalizedText("link_creator"));
+		header.addTitleText(this.bundle.getLocalizedText("link_creator"));
 		block.setTitlebar(header);
 
 		HtmlInputText url = new HtmlInputText();
 		url.setId(PARAMETER_HREF);
 		url.setSize(40);
-		if (currentLinkType.getStartingURL() != null) {
-			url.setValue(currentLinkType.getStartingURL());
+		if (this.currentLinkType.getStartingURL() != null) {
+			url.setValue(this.currentLinkType.getStartingURL());
 		}
 		HtmlInputText title = new HtmlInputText();
 		title.setId(PARAMETER_TOOLTIP);
-		if (currentLinkType.getStartingTitle() != null) {
-			title.setValue(currentLinkType.getStartingTitle());
+		if (this.currentLinkType.getStartingTitle() != null) {
+			title.setValue(this.currentLinkType.getStartingTitle());
 		}
 				
 		DropdownMenu menu = new DropdownMenu(PARAMETER_TARGET);
@@ -157,12 +157,12 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		menu.addMenuElement(Link.TARGET_PARENT_WINDOW);
 		menu.addMenuElement(Link.TARGET_NEW_WINDOW);
 		menu.addMenuElement(Link.TARGET_BLANK_WINDOW);
-		if (currentLinkType.getStartingURL() != null) {
-			menu.setSelectedElement(currentLinkType.getStartingTarget());
+		if (this.currentLinkType.getStartingURL() != null) {
+			menu.setSelectedElement(this.currentLinkType.getStartingTarget());
 		}
 
 		HtmlCommandButton saveButton = new HtmlCommandButton();
-		bundle.getLocalizedUIComponent("save", saveButton);
+		this.bundle.getLocalizedUIComponent("save", saveButton);
 		saveButton.setType("button");
 		saveButton.setOnclick("onOK()");
 		saveButton.setId("HTMLALC_SB");
@@ -215,7 +215,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	}
 
 	protected Collection getLinkTypes() {
-		return tabs;
+		return this.tabs;
 	}
 	
 	public void setExternalTabClass(String tab) {
@@ -230,10 +230,10 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 					index = tab.indexOf(",");
 				}
 				v.add(RefactorClassRegistry.forName(tab).newInstance());
-				if (tabs == null) {
-					tabs = v;
+				if (this.tabs == null) {
+					this.tabs = v;
 				} else {
-					tabs.addAll(v);
+					this.tabs.addAll(v);
 				}
 			}
 			catch (InstantiationException e) {

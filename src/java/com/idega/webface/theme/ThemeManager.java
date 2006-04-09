@@ -40,15 +40,15 @@ public class ThemeManager implements Singleton {
 	 */
 	private void initialize() {
 		try {
-			log.info("Initializing ThemeManager");
-			defaultThemeClass.newInstance();
-			log.info("Done Initializing ThemeManager");
+			this.log.info("Initializing ThemeManager");
+			this.defaultThemeClass.newInstance();
+			this.log.info("Done Initializing ThemeManager");
 		}
 		catch (InstantiationException e) {
-			log.warning(e.getMessage());
+			this.log.warning(e.getMessage());
 		}
 		catch (IllegalAccessException e) {
-			log.warning(e.getMessage());
+			this.log.warning(e.getMessage());
 		}
 	}
 	

@@ -33,10 +33,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.30 $
+ * @version $Revision: 1.31 $
  */
 public class WFUtil {
 	
@@ -740,10 +740,14 @@ public class WFUtil {
 	 */
     public static boolean isValueBinding(String value)
     {
-        if (value == null) return false;
+        if (value == null) {
+					return false;
+				}
         
         int start = value.indexOf(EXPRESSION_BEGIN);
-        if (start < 0) return false;
+        if (start < 0) {
+					return false;
+				}
         
         int end = value.lastIndexOf('}');
         return (end >=0 && start < end);

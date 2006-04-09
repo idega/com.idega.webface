@@ -1,5 +1,5 @@
 /*
- * $Id: WFToolbarButtonTag.java,v 1.1 2005/05/11 17:52:51 gummi Exp $
+ * $Id: WFToolbarButtonTag.java,v 1.2 2006/04/09 11:59:21 laddi Exp $
  * Created on 26.4.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -16,10 +16,10 @@ import org.apache.myfaces.taglib.UIComponentTagBase;
 
 /**
  * 
- *  Last modified: $Date: 2005/05/11 17:52:51 $ by $Author: gummi $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFToolbarButtonTag extends UIComponentTagBase {
 
@@ -47,7 +47,7 @@ public class WFToolbarButtonTag extends UIComponentTagBase {
 	}
 	
 	public String getStyleClass() {
-		return styleClass;
+		return this.styleClass;
 	}
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
@@ -57,7 +57,7 @@ public class WFToolbarButtonTag extends UIComponentTagBase {
 	}
 	
 	public String getDisplayText() {
-		return displayText;
+		return this.displayText;
 	}
 	public void setDisplayText(String displayText) {
 		this.displayText = displayText;
@@ -68,8 +68,8 @@ public class WFToolbarButtonTag extends UIComponentTagBase {
 	
 	public void release() {      
 		super.release();      
-		styleClass = null;
-		displayText = null;
+		this.styleClass = null;
+		this.displayText = null;
 	}
 
 	protected void setProperties(UIComponent component) {      
@@ -77,14 +77,14 @@ public class WFToolbarButtonTag extends UIComponentTagBase {
 		if (component != null) {
 			WFToolbarButton button = (WFToolbarButton)component;
 			if(this.styleClass!=null) {
-				button.setStyleClass(styleClass);
+				button.setStyleClass(this.styleClass);
 			}
 			if(this.displayText!=null) {
-				if (isValueReference(displayText)) {
-	                ValueBinding vb = getFacesContext().getApplication().createValueBinding(displayText);
+				if (isValueReference(this.displayText)) {
+	                ValueBinding vb = getFacesContext().getApplication().createValueBinding(this.displayText);
 	                button.setValueBinding("displayText", vb);
 	            } else {
-	            		button.setDisplayText(displayText);
+	            		button.setDisplayText(this.displayText);
 	            }
 			}
 		}

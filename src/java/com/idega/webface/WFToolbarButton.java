@@ -56,7 +56,7 @@ public class WFToolbarButton extends UICommand {
 	 * @uml.property name="defaultImageURI"
 	 */
 	public String getDefaultImageURI() {
-		return defaultImageURI;
+		return this.defaultImageURI;
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class WFToolbarButton extends UICommand {
 	 * @uml.property name="hoverImageURI"
 	 */
 	public String getHoverImageURI() {
-		return hoverImageURI;
+		return this.hoverImageURI;
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class WFToolbarButton extends UICommand {
 	 * @uml.property name="inactiveImageURI"
 	 */
 	public String getInactiveImageURI() {
-		return inactiveImageURI;
+		return this.inactiveImageURI;
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class WFToolbarButton extends UICommand {
 	 * @uml.property name="pressedImageURI"
 	 */
 	public String getPressedImageURI() {
-		return pressedImageURI;
+		return this.pressedImageURI;
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class WFToolbarButton extends UICommand {
 	 * @uml.property name="toolTip"
 	 */
 	public String getToolTip() {
-		return toolTip;
+		return this.toolTip;
 	}
 
 	/**
@@ -146,7 +146,9 @@ public class WFToolbarButton extends UICommand {
 	}
 	
 	public String getDisplayText() {
-		if(displayText != null) return displayText;
+		if(this.displayText != null) {
+			return this.displayText;
+		}
 		ValueBinding binding = getValueBinding("displayText");
 		return (binding!=null)?(String)binding.getValue(getFacesContext()):null;
 	}
@@ -160,7 +162,7 @@ public class WFToolbarButton extends UICommand {
 	}
 	
 	public String getStyleClass() {
-		return styleClass;
+		return this.styleClass;
 	}
 	
 	/*
@@ -202,9 +204,9 @@ public class WFToolbarButton extends UICommand {
 			if (formName == null) {
 				throw new IOException("Toolbars should be nested in a UIForm !");
 			}
-			if (toolTip != null) {
-				out.writeAttribute("alt", toolTip, null);
-				out.writeAttribute("title", toolTip, null);
+			if (this.toolTip != null) {
+				out.writeAttribute("alt", this.toolTip, null);
+				out.writeAttribute("title", this.toolTip, null);
 			}
 			if (getPressedImageURI() != null) {
 				String onmousedown = "this.src='" + getPressedImageURI() +"'";
@@ -223,12 +225,12 @@ public class WFToolbarButton extends UICommand {
 			"'].value='true';document.forms['" + formName + "'].submit();";
 			out.writeAttribute("onmouseup", onmouseup, null);
 			
-			if (styleClass != null) {
-				out.writeAttribute("class", styleClass, null);
+			if (this.styleClass != null) {
+				out.writeAttribute("class", this.styleClass, null);
 			}
-			if (toolTip != null) {
-				out.writeAttribute("alt", toolTip, null);
-				out.writeAttribute("title", toolTip, null);
+			if (this.toolTip != null) {
+				out.writeAttribute("alt", this.toolTip, null);
+				out.writeAttribute("title", this.toolTip, null);
 			}
 			
 			out.writeAttribute("href","#",null);
@@ -323,13 +325,13 @@ public class WFToolbarButton extends UICommand {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[8];
 		values[0] = super.saveState(ctx);
-		values[1] = defaultImageURI;
-		values[2] = hoverImageURI;
-		values[3] = inactiveImageURI;
-		values[4] = pressedImageURI;
-		values[5] = toolTip;
-		values[6] = displayText;
-		values[7] = styleClass;
+		values[1] = this.defaultImageURI;
+		values[2] = this.hoverImageURI;
+		values[3] = this.inactiveImageURI;
+		values[4] = this.pressedImageURI;
+		values[5] = this.toolTip;
+		values[6] = this.displayText;
+		values[7] = this.styleClass;
 		return values;
 	}
 
@@ -340,12 +342,12 @@ public class WFToolbarButton extends UICommand {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[]) state;
 		super.restoreState(ctx, values[0]);
-		defaultImageURI = (String) values[1];
-		hoverImageURI = (String)  values[2];
-		inactiveImageURI = (String) values[3];
-		pressedImageURI = (String) values[4];
-		toolTip = (String) values[5];
-		displayText = (String) values[6];
-		styleClass = (String)values[7];
+		this.defaultImageURI = (String) values[1];
+		this.hoverImageURI = (String)  values[2];
+		this.inactiveImageURI = (String) values[3];
+		this.pressedImageURI = (String) values[4];
+		this.toolTip = (String) values[5];
+		this.displayText = (String) values[6];
+		this.styleClass = (String)values[7];
 	}
 }

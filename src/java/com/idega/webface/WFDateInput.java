@@ -1,5 +1,5 @@
 /*
- * $Id: WFDateInput.java,v 1.4 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: WFDateInput.java,v 1.5 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -24,10 +24,10 @@ import com.idega.util.RenderUtils;
 /**
  * Input component for date/time using dropdown menus for selection.
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFDateInput extends UIInput {
 
@@ -45,73 +45,73 @@ public class WFDateInput extends UIInput {
 		super();
 		java.sql.Date now = new java.sql.Date(System.currentTimeMillis());
 		String year = now.toString().substring(0, 4);
-		_fromYear = Integer.parseInt(year) - 1;
-		_toYear = Integer.parseInt(year) + 2;
-		_showYear = true;
-		_showDay = true;
+		this._fromYear = Integer.parseInt(year) - 1;
+		this._toYear = Integer.parseInt(year) + 2;
+		this._showYear = true;
+		this._showDay = true;
 	}
 	
 	/**
 	 * Returns true if the input shows hour and minute dropdown menus.
 	 */
 	public boolean getShowTime() {
-		return _showTime;
+		return this._showTime;
 	}
 	
 	/**
 	 * Returns true if the year dropdown menu shall be displayed.
 	 */
 	public boolean getShowYear() {
-		return _showYear;
+		return this._showYear;
 	}
 	
 	/**
 	 * Returns true if the day dropdown menu shall be displayed.
 	 */
 	public boolean getShowDay() {
-		return _showDay;
+		return this._showDay;
 	}
 	
 	/**
 	 * Returns true if the dropdown menus shall be displayed in the order: year, month, day.
 	 */
 	public boolean getDisplayDayLast() {
-		return _displayDayLast;
+		return this._displayDayLast;
 	}
 	
 	/**
 	 * Returns the first year for the year dropdown menu.
 	 */
 	public int getFromYear() {
-		return _fromYear;
+		return this._fromYear;
 	}
 	
 	/**
 	 * Returns the last year for the year dropdown menu.
 	 */
 	public int getToYear() {
-		return _toYear;
+		return this._toYear;
 	}
 	
 	/**
 	 * Sets the input to show hour and minute dropdown menus.
 	 */
 	public void setShowTime(boolean showTime) {
-		_showTime = showTime;
+		this._showTime = showTime;
 	}
 	
 	/**
 	 * Sets if the year dropdown menu shall be displayed.
 	 */
 	public void setShowYear(boolean showYear) {
-		_showYear = showYear;
+		this._showYear = showYear;
 	}
 	
 	/**
 	 * Sets if the day dropdown menu shall be displayed.
 	 */
 	public void setShowDay(boolean showDay) {
-		_showDay = showDay;
+		this._showDay = showDay;
 	}
 	
 	/**
@@ -119,28 +119,28 @@ public class WFDateInput extends UIInput {
 	 * If set to false the order will be: day, month, year.
 	 */
 	public void setDisplayDayLast(boolean displayDayLast) {
-		_displayDayLast = displayDayLast;
+		this._displayDayLast = displayDayLast;
 	}
 	
 	/**
 	 * Sets if the day dropdown menu shall be displayed.
 	 */
 	public void setDayYear(boolean showDay) {
-		_showDay = showDay;
+		this._showDay = showDay;
 	}
 	
 	/**
 	 * Sets the first year for the year dropdown menu.
 	 */
 	public void setFromYear(int fromYear) {
-		_fromYear = fromYear;
+		this._fromYear = fromYear;
 	}
 	
 	/**
 	 * Sets the last year for the year dropdown menu.
 	 */
 	public void setToYear(int toYear) {
-		_toYear = toYear;
+		this._toYear = toYear;
 	}
 	
 	/*
@@ -150,7 +150,7 @@ public class WFDateInput extends UIInput {
 		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
 		m.put(WFUtil.getValue(bref + "year"), "");
-		for (int i = _fromYear; i <= _toYear; i++) {
+		for (int i = this._fromYear; i <= this._toYear; i++) {
 			String year = String.valueOf(i);		
 			m.put(year, year);
 		}
@@ -300,24 +300,24 @@ public class WFDateInput extends UIInput {
 		if (day != null) {
 			dayInput.setValue(day);
 		}
-		if (_showYear && _displayDayLast) {
+		if (this._showYear && this._displayDayLast) {
 			RenderUtils.renderFacet(context, this, "year_input");
 			out.write(" ");
 		}
-		if (_showDay && !_displayDayLast) {
+		if (this._showDay && !this._displayDayLast) {
 			RenderUtils.renderFacet(context, this, "day_input");
 			out.write(" ");
 		}
 		RenderUtils.renderFacet(context, this, "month_input");
 		out.write(" ");		
-		if (_showYear && !_displayDayLast) {
+		if (this._showYear && !this._displayDayLast) {
 			RenderUtils.renderFacet(context, this, "year_input");
 		}
-		if (_showDay && _displayDayLast) {
+		if (this._showDay && this._displayDayLast) {
 			RenderUtils.renderFacet(context, this, "day_input");
 		}
 		
-		if (_showTime) {
+		if (this._showTime) {
 			out.write(" " + (String) WFUtil.getValue(bref + "at_time") + " ");
 			
 			String hour = null;
@@ -350,12 +350,12 @@ public class WFDateInput extends UIInput {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[7];
 		values[0] = super.saveState(ctx);
-		values[1] = new Boolean(_showTime);
-		values[2] = new Boolean(_showYear);
-		values[3] = new Boolean(_showDay);
-		values[4] = new Boolean(_displayDayLast);
-		values[5] = new Integer(_fromYear);
-		values[6] = new Integer(_toYear);
+		values[1] = new Boolean(this._showTime);
+		values[2] = new Boolean(this._showYear);
+		values[3] = new Boolean(this._showDay);
+		values[4] = new Boolean(this._displayDayLast);
+		values[5] = new Integer(this._fromYear);
+		values[6] = new Integer(this._toYear);
 		return values;
 	}
 	
@@ -365,12 +365,12 @@ public class WFDateInput extends UIInput {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		_showTime = ((Boolean) values[1]).booleanValue();
-		_showYear = ((Boolean) values[2]).booleanValue();
-		_showDay = ((Boolean) values[3]).booleanValue();
-		_displayDayLast = ((Boolean) values[4]).booleanValue();
-		_fromYear = ((Integer) values[5]).intValue();
-		_toYear = ((Integer) values[6]).intValue();
+		this._showTime = ((Boolean) values[1]).booleanValue();
+		this._showYear = ((Boolean) values[2]).booleanValue();
+		this._showDay = ((Boolean) values[3]).booleanValue();
+		this._displayDayLast = ((Boolean) values[4]).booleanValue();
+		this._fromYear = ((Integer) values[5]).intValue();
+		this._toYear = ((Integer) values[6]).intValue();
 	}
 	
 	/**
@@ -389,7 +389,7 @@ public class WFDateInput extends UIInput {
 	 */
 	public void decode(FacesContext context) {
 		String year = (String) context.getExternalContext().getRequestParameterMap().get(getClientId(context) + "_year");
-		year = year == null ? "" + _fromYear : year;
+		year = year == null ? "" + this._fromYear : year;
 		String month = (String) context.getExternalContext().getRequestParameterMap().get(getClientId(context) + "_month");
 		String day = (String) context.getExternalContext().getRequestParameterMap().get(getClientId(context) + "_day");
 		day = day == null ? "01" : day;

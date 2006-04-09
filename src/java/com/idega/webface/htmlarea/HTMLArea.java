@@ -48,10 +48,10 @@ public class HTMLArea extends HtmlInputTextarea {
 			plugin += "("+toolbarLevel+")";
 		}
 		
-		if (plugins == null) {
-			plugins = plugin;
+		if (this.plugins == null) {
+			this.plugins = plugin;
 		} else {
-			plugins += ","+plugin;
+			this.plugins += ","+plugin;
 		}
 	}
 	
@@ -60,7 +60,9 @@ public class HTMLArea extends HtmlInputTextarea {
 	}
 	
 	public String getPlugins() {
-		if (plugins != null) return plugins;
+		if (this.plugins != null) {
+			return this.plugins;
+		}
 		ValueBinding vb = getValueBinding("plugins");
 		String v = vb != null ? (String)vb.getValue(getFacesContext()) : null;
 		return v != null ? v : null;
@@ -71,7 +73,9 @@ public class HTMLArea extends HtmlInputTextarea {
 	}
 	
 	public boolean getAllowFontSelection() {
-		if (allowFontSelection != null) return allowFontSelection.booleanValue();
+		if (this.allowFontSelection != null) {
+			return this.allowFontSelection.booleanValue();
+		}
 		ValueBinding vb = getValueBinding("allowFontSelection");
 		Boolean v = vb != null ? (Boolean) vb.getValue(getFacesContext()) : null;
 		return v != null ? v.booleanValue() : DEFAULT_ALLOW_FONT_SELECTION;
@@ -80,15 +84,15 @@ public class HTMLArea extends HtmlInputTextarea {
 	public void restoreState(FacesContext context, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(context, values[0]);
-		plugins = (String)values[1];
-		allowFontSelection = (Boolean) values[2];
+		this.plugins = (String)values[1];
+		this.allowFontSelection = (Boolean) values[2];
 	}
 	
 	public Object saveState(FacesContext context)  {
 		Object values[] = new Object[3];
 		values[0] = super.saveState(context);
-		values[1] = plugins;
-		values[2] = allowFontSelection;
+		values[1] = this.plugins;
+		values[2] = this.allowFontSelection;
 		
 		return values;
 	}

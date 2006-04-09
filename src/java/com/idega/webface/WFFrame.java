@@ -1,5 +1,5 @@
 /*
- * $Id: WFFrame.java,v 1.11 2006/03/28 10:06:21 tryggvil Exp $
+ * $Id: WFFrame.java,v 1.12 2006/04/09 11:59:21 laddi Exp $
  * Created on 20.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,10 +15,10 @@ import com.idega.presentation.ui.IFrame;
 
 /**
  * 
- *  Last modified: $Date: 2006/03/28 10:06:21 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class WFFrame extends WFBlock {
 
@@ -69,7 +69,7 @@ public class WFFrame extends WFBlock {
 	 * @return Returns the frameURL.
 	 */
 	public String getFrameURL() {
-		return frameURL;
+		return this.frameURL;
 	}
 	/**
 	 * @param frameURL The frameURL to set.
@@ -93,7 +93,7 @@ public class WFFrame extends WFBlock {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		frameURL = ((String) values[1]);
+		this.frameURL = ((String) values[1]);
 	}
 	
 	/**

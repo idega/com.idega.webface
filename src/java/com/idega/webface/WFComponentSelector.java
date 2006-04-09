@@ -1,5 +1,5 @@
 /*
- * $Id: WFComponentSelector.java,v 1.2 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: WFComponentSelector.java,v 1.3 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -21,10 +21,10 @@ import javax.faces.context.ResponseWriter;
 /**
  * Container holding child components of which only selected children will be rendered. 
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFComponentSelector extends WFContainer {
 	
@@ -42,13 +42,13 @@ public class WFComponentSelector extends WFContainer {
 	 * Sets the child with the specified id to be rendered or not.
 	 */
 	public void setSelectedId(String selectedChildId, boolean renderChild) {
-		if (_selectedChildIds == null) {
-			_selectedChildIds = new HashMap();
+		if (this._selectedChildIds == null) {
+			this._selectedChildIds = new HashMap();
 		}
 		if (renderChild) {
-			_selectedChildIds.put(selectedChildId, selectedChildId);
+			this._selectedChildIds.put(selectedChildId, selectedChildId);
 		} else {
-			_selectedChildIds.remove(selectedChildId);
+			this._selectedChildIds.remove(selectedChildId);
 		}
 	}	
 	
@@ -56,14 +56,14 @@ public class WFComponentSelector extends WFContainer {
 	 * Sets the text to write between each selected child.
 	 */
 	public void setDividerText(String dividerText) {
-		_dividerText = dividerText;
+		this._dividerText = dividerText;
 	}
 	
 	/**
 	 * Returns the text to write between each selected child.
 	 */
 	public String getDividerText() {
-		return _dividerText;
+		return this._dividerText;
 	}
 	
 	public String getRendererType(){
@@ -81,7 +81,7 @@ public class WFComponentSelector extends WFContainer {
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
 	public void encodeChildren(FacesContext context) throws IOException {
-		if (_selectedChildIds == null) {
+		if (this._selectedChildIds == null) {
 			return;
 		}
 		
@@ -89,13 +89,13 @@ public class WFComponentSelector extends WFContainer {
 		
 		for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
 			UIComponent child = (UIComponent) iter.next();
-			if (_selectedChildIds.get(child.getId()) != null) {
+			if (this._selectedChildIds.get(child.getId()) != null) {
 				child.encodeBegin(context);
 				child.encodeChildren(context);
 				child.encodeEnd(context);
 			}
-			if (_dividerText != null) {
-				out.write(_dividerText);
+			if (this._dividerText != null) {
+				out.write(this._dividerText);
 			}
 		}
 	}
@@ -113,8 +113,8 @@ public class WFComponentSelector extends WFContainer {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
-		values[1] = _selectedChildIds;
-		values[2] = _dividerText;
+		values[1] = this._selectedChildIds;
+		values[2] = this._dividerText;
 		return values;
 	}
 	
@@ -124,7 +124,7 @@ public class WFComponentSelector extends WFContainer {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		_selectedChildIds = (Map) values[1];
-		_dividerText = (String) values[2];
+		this._selectedChildIds = (Map) values[1];
+		this._dividerText = (String) values[2];
 	}
 }

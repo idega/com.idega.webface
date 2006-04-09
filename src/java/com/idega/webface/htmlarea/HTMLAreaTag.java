@@ -33,40 +33,40 @@ public class HTMLAreaTag extends UIComponentTag {
 	
 	public void release() {      
 		super.release();      
-		_plugins = null ; 
-		_accesskey = null;
-		_cols = -1;
-		_dir = null;
-		_disabled = false;
-		_lang = null;
-		_readonly = false;
-		_rows = -1;
-		_style = null;
-		_styleClass = null;
-		_tabindex = null;
-		_title = null;
+		this._plugins = null ; 
+		this._accesskey = null;
+		this._cols = -1;
+		this._dir = null;
+		this._disabled = false;
+		this._lang = null;
+		this._readonly = false;
+		this._rows = -1;
+		this._style = null;
+		this._styleClass = null;
+		this._tabindex = null;
+		this._title = null;
 	}
 	
 	protected void setProperties(UIComponent component) {      
 		super.setProperties(component);
 		if (component != null) {
-			component.getAttributes().put("plugins", _plugins);     
-			component.getAttributes().put("accesskey", _accesskey);     
-			component.getAttributes().put("cols", new Integer(_cols));     
-			component.getAttributes().put("dir", _dir);     
-			component.getAttributes().put("disabled",new Boolean(_disabled));     
-			component.getAttributes().put("lang", _lang);     
-			component.getAttributes().put("readonly", new Boolean(_readonly));     
-			component.getAttributes().put("rows", new Integer(_rows));     
-			component.getAttributes().put("style", _style);     
-			component.getAttributes().put("styleClass", _styleClass);     
-			component.getAttributes().put("tabindex", _tabindex);     
-			component.getAttributes().put("title", _title);
+			component.getAttributes().put("plugins", this._plugins);     
+			component.getAttributes().put("accesskey", this._accesskey);     
+			component.getAttributes().put("cols", new Integer(this._cols));     
+			component.getAttributes().put("dir", this._dir);     
+			component.getAttributes().put("disabled",new Boolean(this._disabled));     
+			component.getAttributes().put("lang", this._lang);     
+			component.getAttributes().put("readonly", new Boolean(this._readonly));     
+			component.getAttributes().put("rows", new Integer(this._rows));     
+			component.getAttributes().put("style", this._style);     
+			component.getAttributes().put("styleClass", this._styleClass);     
+			component.getAttributes().put("tabindex", this._tabindex);     
+			component.getAttributes().put("title", this._title);
 		}
 	}
 	
 	public String getPlugins() {
-		return _plugins;
+		return this._plugins;
 	}
 	
 	public void setPlugins(String plugins) {
@@ -74,7 +74,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public String getAccesskey() {
-		return _accesskey;
+		return this._accesskey;
 	}
 	
 	public void setAccesskey(String accesskey) {
@@ -82,7 +82,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public int getCols() {
-		return _cols;
+		return this._cols;
 	}
 	
 	public void setCols(int cols) {
@@ -90,7 +90,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public String getDir() {
-		return _dir;
+		return this._dir;
 	}
 	
 	public void setDir(String dir) {
@@ -98,7 +98,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public boolean getDisabled() {
-		return _disabled;
+		return this._disabled;
 	}
 	
 	public void setDisabled(boolean disabled) {
@@ -106,7 +106,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public String getLang() {
-		return _lang;
+		return this._lang;
 	}
 	
 	public void setlang(String lang) {
@@ -114,7 +114,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public boolean getReadonly() {
-		return _readonly;
+		return this._readonly;
 	}
 	
 	public void setReadonly(boolean readonly) {
@@ -122,7 +122,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public int getRows() {
-		return _rows;
+		return this._rows;
 	}
 	
 	public void setRows(int rows) {
@@ -130,7 +130,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public String getStyle() {
-		return _style;
+		return this._style;
 	}
 	
 	public void setStyle(String style) {
@@ -138,15 +138,15 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public String getStyleClass() {
-		return _styleClass;
+		return this._styleClass;
 	}
 	
 	public void setStyleClass(String styleClass) {
-		_styleClass = styleClass;
+		this._styleClass = styleClass;
 	}
 	
 	public String getTabindex() {
-		return _tabindex;
+		return this._tabindex;
 	}
 	
 	public void setTabindex(String tabindex) {
@@ -154,7 +154,7 @@ public class HTMLAreaTag extends UIComponentTag {
 	}
 	
 	public String getTitle() {
-		return _title;
+		return this._title;
 	}
 	
 	public void setTitle(String title) {

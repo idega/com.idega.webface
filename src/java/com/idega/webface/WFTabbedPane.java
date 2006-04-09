@@ -1,5 +1,5 @@
 /*
- * $Id: WFTabbedPane.java,v 1.5 2006/01/04 14:43:11 tryggvil Exp $
+ * $Id: WFTabbedPane.java,v 1.6 2006/04/09 11:59:21 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -26,10 +26,10 @@ import com.idega.webface.event.WFTabListener;
  * A perspective can be any component that is rendered when
  * its tab bar button is pressed.   
  * <p>
- * Last modified: $Date: 2006/01/04 14:43:11 $ by $Author: tryggvil $
+ * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
  *
  * @author Anders Lindman,Tryggvi Larusson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFTabbedPane extends WFMenu implements ActionListener {
 	
@@ -53,7 +53,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	 * Returns the css class around the selected tab view if it is rendered out.
 	 */
 	public String getSelectedTabViewStyleClass() {
-		return selectedTabViewStyleClass;
+		return this.selectedTabViewStyleClass;
 	}
 
 
@@ -62,7 +62,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	 * Sets the css class for the perspecitive main area container. 
 	 */
 	public void setSelectedTabViewStyleClass(String mainAreaStyleClass) {
-		selectedTabViewStyleClass = mainAreaStyleClass;
+		this.selectedTabViewStyleClass = mainAreaStyleClass;
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	 * @return
 	 */
 	public boolean getRenderSelectedTabViewAsChild() {
-		return renderSelectedViewAsChild;
+		return this.renderSelectedViewAsChild;
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	 * @return
 	 */
 	public void setRenderSelectedTabViewAsChild(boolean doRender) {
-		renderSelectedViewAsChild=doRender;
+		this.renderSelectedViewAsChild=doRender;
 	}
 
 	
@@ -204,8 +204,8 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
-		values[1] = selectedTabViewStyleClass;
-		values[2] = Boolean.valueOf(renderSelectedViewAsChild);
+		values[1] = this.selectedTabViewStyleClass;
+		values[2] = Boolean.valueOf(this.renderSelectedViewAsChild);
 		return values;
 	}
 	
@@ -215,8 +215,8 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
-		selectedTabViewStyleClass = (String) values[1];
-		renderSelectedViewAsChild = ((Boolean)values[2]).booleanValue();
+		this.selectedTabViewStyleClass = (String) values[1];
+		this.renderSelectedViewAsChild = ((Boolean)values[2]).booleanValue();
 	}
 	
 	/**
