@@ -16,11 +16,15 @@ import javax.faces.component.UIComponent;
  */
 public class WFToolbar extends WFMenu {
 	
-	public static String RENDERER_TYPE="wf_toolbar";
+	private static String RENDERER_TYPE="wf_toolbar";
 	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
 	public static String DEFAULT_BUTTON_STYLE_CLASS=DEFAULT_STYLE_CLASS+"_button";
 	public static String DEFAULT_HEADER_STYLE_CLASS=DEFAULT_STYLE_CLASS+"_header";
 	public static String DEFAULT_CONTAINER_STYLE_CLASS=DEFAULT_STYLE_CLASS+"container";
+	
+	public static String getWFRendererType() {
+		return RENDERER_TYPE;
+	}
 	
 	public WFToolbar(){
 		setRendererType(RENDERER_TYPE);

@@ -1,5 +1,5 @@
 /*
- * $Id: WFContainer.java,v 1.13 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFContainer.java,v 1.14 2006/05/08 13:53:59 laddi Exp $
  *
  * Copyright (C) 2004-2005 Idega. All Rights Reserved.
  *
@@ -18,17 +18,21 @@ import com.idega.util.RenderUtils;
  *  with a "div" tag surrounded in HTML.
  *  </p>
  * 
- *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/05/08 13:53:59 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class WFContainer extends IWBaseComponent
 {
 //	private static boolean imagesSet = false;
 	
-	public static String RENDERER_TYPE="wf_container";
-	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
+	private static String RENDERER_TYPE="wf_container";
+	private static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
+	
+	public static String getWFRendererType() {
+		return RENDERER_TYPE;
+	}
 	
 	/*private static Image topleft;
 	private static Image topright;

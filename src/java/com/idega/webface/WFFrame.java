@@ -1,5 +1,5 @@
 /*
- * $Id: WFFrame.java,v 1.12 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFFrame.java,v 1.13 2006/05/08 13:53:59 laddi Exp $
  * Created on 20.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -15,14 +15,14 @@ import com.idega.presentation.ui.IFrame;
 
 /**
  * 
- *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/05/08 13:53:59 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class WFFrame extends WFBlock {
 
-	public static final String DEFAULT_STYLE_CLASS = "wf_frame";
+	private static final String DEFAULT_STYLE_CLASS = "wf_frame";
 	private String frameURL;
 	
 	/**

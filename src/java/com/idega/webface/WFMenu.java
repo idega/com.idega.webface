@@ -1,5 +1,5 @@
 /*
- * $Id: WFMenu.java,v 1.13 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFMenu.java,v 1.14 2006/05/08 13:53:59 laddi Exp $
  * Created on 27.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
  *  such as Tab bars, Task bars, Vertical "side" menus etc.<br>
  *  These are usually rendered as an unordered list in HTML.
  * 
- *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/05/08 13:53:59 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class WFMenu extends WFContainer {
 
@@ -35,8 +35,12 @@ public class WFMenu extends WFContainer {
 	private Set _buttonIds = null;
 	private String _selectedButtonId = null;
 	
-	public static String RENDERER_TYPE="wf_menu";
+	private static String RENDERER_TYPE="wf_menu";
 	public static String FACET_MENUHEADER="menu_header";
+	
+	public static String getWFRendererType() {
+		return RENDERER_TYPE;
+	}
 	
 	// Standard styles
 	

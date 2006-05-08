@@ -19,17 +19,21 @@ import com.idega.util.StringHandler;
 public class WFBlock extends WFContainer {
 
 	//static constants
-	public static String RENDERER_TYPE = "wf_block";
+	private static String RENDERER_TYPE = "wf_block";
 	public static final String FACET_TOOLBAR="wf_block_toolbar";
 	public static final String FACET_TITLEBAR="wf_block_titlebar";
 	public static final String FACET_HEADER="header";
 	public static final String FACET_FOOTER="footer";
-	public static final String DEFAULT_STYLE_CLASS="wf_block";
+	private static final String DEFAULT_STYLE_CLASS="wf_block";
 	private static final Object STYLE_CLASS_MAXIMIZE_VERTICALLY = "maximizedvertically";
 	
 	private boolean toolbarEmbeddedInTitlebar = false;
 	private String mainAreaStyleClass = WFConstants.STYLE_CLASS_MAINAREA;
 	private boolean maximizedVertically=false;
+	
+	public static String getWFRendererType() {
+		return RENDERER_TYPE;
+	}
 	
 	public WFBlock() {
 		this("untitled");

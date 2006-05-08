@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.11 2006/04/09 11:59:21 laddi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.12 2006/05/08 13:53:59 laddi Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -39,7 +39,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	final static String PARAMETER_HREF = "f_href";
 	final static String PARAMETER_TARGET = "f_target";
 	final static String PARAMETER_TOOLTIP = "f_title";
-	final static String PARAMETER_LINK_TYPE = "f_lt";
+	private final static String PARAMETER_LINK_TYPE = "f_lt";
 	public final static String PARAMETER_CREATOR = "pc";
 	
 	protected Collection tabs = null;

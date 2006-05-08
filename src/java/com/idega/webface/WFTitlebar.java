@@ -19,10 +19,14 @@ public class WFTitlebar extends WFContainer implements Serializable
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 3978146556140729395L;
-	public static String RENDERER_TYPE="wf_titlebar";
+	private static String RENDERER_TYPE="wf_titlebar";
 	public static String DEFAULT_STYLE_CLASS=RENDERER_TYPE;
 	public static String DEFAULT_ICON_STYLE_CLASS="wf_titlebar_icon";
 	public static String DEFAULT_TEXT_STYLE_CLASS="wf_titlebar_text";
+	
+	public static String getWFRendererType() {
+		return RENDERER_TYPE;
+	}
 	
 	private boolean viewWithTitleBar=true;
 

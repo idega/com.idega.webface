@@ -16,7 +16,11 @@ import com.idega.webface.htmlarea.HTMLAreaRenderer;
  */
 public class HTMLArea extends HtmlInputTextarea {
 	
-	public static String RENDERER_TYPE="wf_htmlarea";
+	private static String RENDERER_TYPE="wf_htmlarea";
+	
+	public static String getWFRendererType() {
+		return RENDERER_TYPE;
+	}
 	
 	public static String PLUGIN_TABLE_OPERATIONS = "TableOperations";
 	public static String PLUGIN_CONTEXT_MENU = "ContextMenu";

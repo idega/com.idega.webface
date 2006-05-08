@@ -14,9 +14,12 @@ public class WFBezel extends WFContainer {
 	//String color="#DDDDDD";
 	String color;
 	public static String STYLE_CLASS="wf_bezel";
-	public static String RENDERER_TYPE="wf_bezel";
+	private static String RENDERER_TYPE="wf_bezel";
 	
-	
+	public static String getWFRendererType() {
+		return RENDERER_TYPE;
+	}
+		
 	public WFBezel(){
 		super.setStyleClass(STYLE_CLASS);
 	}

@@ -27,13 +27,13 @@ public class WFRenderKit extends BaseRenderKit {
 	
 	public WFRenderKit(RenderKit oldRenderKit){
 		super(oldRenderKit);
-		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFContainer.RENDERER_TYPE,new ContainerRenderer());
-		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFBezel.RENDERER_TYPE,new BezelRenderer());
-		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFMenu.RENDERER_TYPE,new MenuRenderer());
-		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFBlock.RENDERER_TYPE,new BlockRenderer());
-		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFTitlebar.RENDERER_TYPE,new TitlebarRenderer());
-		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFToolbar.RENDERER_TYPE,new ToolbarRenderer());
-		this.addRenderer(WFConstants.FAMILY_WEBFACE,HTMLArea.RENDERER_TYPE, new HTMLAreaRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFContainer.getWFRendererType(),new ContainerRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFBezel.getWFRendererType(),new BezelRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFMenu.getWFRendererType(),new MenuRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFBlock.getWFRendererType(),new BlockRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFTitlebar.getWFRendererType(),new TitlebarRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,WFToolbar.getWFRendererType(),new ToolbarRenderer());
+		this.addRenderer(WFConstants.FAMILY_WEBFACE,HTMLArea.getWFRendererType(), new HTMLAreaRenderer());
 	}
 
 }
