@@ -1,5 +1,5 @@
 /*
- * $Id: WFToolbarTag.java,v 1.1 2005/05/11 17:52:51 gummi Exp $
+ * $Id: WFToolbarTag.java,v 1.2 2006/05/11 15:13:01 eiki Exp $
  * Created on 26.4.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -9,15 +9,15 @@
  */
 package com.idega.webface;
 
-import org.apache.myfaces.taglib.UIComponentTagBase;
+import org.apache.myfaces.shared_tomahawk.taglib.UIComponentTagBase;
 
 
 /**
  * 
- *  Last modified: $Date: 2005/05/11 17:52:51 $ by $Author: gummi $
+ *  Last modified: $Date: 2006/05/11 15:13:01 $ by $Author: eiki $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFToolbarTag extends UIComponentTagBase {
 

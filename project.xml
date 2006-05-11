@@ -86,7 +86,7 @@
     <dependency>
       <groupId>myfaces</groupId>
       <artifactId>myfaces-tomahawk</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.2</version>
       <type>jar</type>
       <url>http://www.myfaces.org/</url>
     </dependency>
