@@ -1,5 +1,5 @@
 /*
- * $Id: ListRenderer.java,v 1.3 2006/04/09 11:59:21 laddi Exp $
+ * $Id: ListRenderer.java,v 1.4 2006/05/11 15:20:46 eiki Exp $
  * Created on 21.3.2006 in project com.idega.webface
  *
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -11,18 +11,15 @@ package com.idega.webface.renderkit;
 
 import java.io.IOException;
 import java.util.Iterator;
-
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.ConverterException;
-
-import org.apache.myfaces.renderkit.html.HTML;
-import org.apache.myfaces.renderkit.html.HtmlRendererUtils;
 import org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer;
-
+import org.apache.myfaces.shared_tomahawk.renderkit.html.HTML;
+import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
 import com.idega.webface.WFList;
 
 
@@ -30,10 +27,10 @@ import com.idega.webface.WFList;
  * <p>
  * Default renderer for the WFList table component
  * </p>
- *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/05/11 15:20:46 $ by $Author: eiki $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ListRenderer extends HtmlTableRenderer{
 
