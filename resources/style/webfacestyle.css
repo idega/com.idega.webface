@@ -696,7 +696,7 @@ head:first-child+body div[class].scrollContainer table tbody td + td + td {
 	/*src: url("http://idega.is/iw_cache/585_idega_logo.gif");*/
 	/*** float: right; ***/
 	position: absolute;
-	left:500; top:0;
+	left:500px; top:0;
 }
 
 .wf_bannertext {
@@ -704,7 +704,7 @@ head:first-child+body div[class].scrollContainer table tbody td + td + td {
 	text-decoration: none;
 	color: #FFFFFF;
 	position: absolute;
-	left:20; top:3;	
+	left:20px; top:3px;	
 }
 
 .wf_bannertext i {
@@ -745,7 +745,6 @@ head:first-child+body div[class].scrollContainer table tbody td + td + td {
 }
 
 .wf_webdav_upload .wf_webdav_upload_button{
-   #margin-left:3px;
 }
 
 /*Uploader End*/
