@@ -3,7 +3,6 @@ package com.idega.webface.htmlarea;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputTextarea;
@@ -12,8 +11,8 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 import javax.faces.render.Renderer;
-
 import com.idega.idegaweb.IWBundle;
+import com.idega.idegaweb.IWMainApplication;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
 
@@ -163,10 +162,11 @@ public class HTMLAreaRenderer extends Renderer {
 			if (location == null) {
 				location = "2";
 			}
-			if ("CSS".equals(plugins[i])) {
-				addPlugin("CSS", getCSSPluginString().toString(), loadPlugins, initEditorScript, location);
-				// stylesheet used by CSS plugin (and perhaps also DynamicCSS)
-				initEditorScript.append("\teditor.config.pageStyle = \"@import url("+this.rootFolder+"examples/custom.css);\";\n");
+			if ("Stylist".equals(plugins[i])) {
+				addPlugin(plugins[i], plugins[i], loadPlugins, initEditorScript, location);
+				//add the stylesheet for the website, customizable as an application property
+				String cssPath = IWMainApplication.getDefaultIWApplicationContext().getApplicationSettings().getProperty("SITE_EDITOR_STYLESHEET_URI", "/content/files/public/style/editorstyles.css");
+				initEditorScript.append("\teditor.config.stylistLoadStylesheet('"+cssPath+"');\n");
 			} else {
 				addPlugin(plugins[i], plugins[i], loadPlugins, initEditorScript, location);
 			}

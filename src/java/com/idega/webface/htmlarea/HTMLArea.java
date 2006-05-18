@@ -8,8 +8,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.render.Renderer;
 
-import com.idega.webface.htmlarea.HTMLAreaRenderer;
-
 
 /**
  * @author gimmi
@@ -24,9 +22,10 @@ public class HTMLArea extends HtmlInputTextarea {
 	
 	public static String PLUGIN_TABLE_OPERATIONS = "TableOperations";
 	public static String PLUGIN_CONTEXT_MENU = "ContextMenu";
+	public static String PLUGIN_FULL_SCREEN = "FullScreen";
 	public static String PLUGIN_LIST_TYPE = "ListType";
 	public static String PLUGIN_CHARACTER_MAP = "CharacterMap";
-	public static String PLUGIN_DYNAMIC_CSS = "DynamicCSS";
+	public static String PLUGIN_STYLIST = "Stylist";
 	public static String PLUGIN_CSS = "CSS";
 	
 	private static final boolean DEFAULT_ALLOW_FONT_SELECTION = true;
