@@ -230,7 +230,7 @@ public class HTMLAreaRenderer extends Renderer {
 		return initEditorScript;
 	}
 
-	private StringBuffer getCSSPluginString() {
+	/*private StringBuffer getCSSPluginString() {
 		// Creatioing the cssPluginString, used to define what "Syntax" is available
 		StringBuffer cssPluginString = new StringBuffer();
 		cssPluginString.append("CSS, ")
@@ -258,7 +258,7 @@ public class HTMLAreaRenderer extends Renderer {
 		.append("\t\t\t\t\t\t\"Deprecated\"     : \"deprecated\"\n")
 		.append("\t\t\t\t}\n\t\t\t}\n\t\t]}");
 		return cssPluginString;
-	}
+	}*/
 
 	private StringBuffer getVariablesScript() {
 		StringBuffer variables = new StringBuffer();
