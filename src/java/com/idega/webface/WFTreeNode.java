@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.3 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFTreeNode.java,v 1.4 2006/05/29 18:23:47 tryggvil Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -21,10 +21,10 @@ import com.idega.presentation.IWContext;
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ *  Last modified: $Date: 2006/05/29 18:23:47 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFTreeNode implements TreeNode {
 	
@@ -114,8 +114,8 @@ public class WFTreeNode implements TreeNode {
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getIdentifier()
 	 */
 	public String getIdentifier() {
-		System.out.println("[getIdentifier]:"+this.icNode.getNodeID());
-		return String.valueOf(this.icNode.getNodeID());
+		System.out.println("[getIdentifier]:"+this.icNode.getId());
+		return this.icNode.getId();
 	}
 
 	/* (non-Javadoc)
