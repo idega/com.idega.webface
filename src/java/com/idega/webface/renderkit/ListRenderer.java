@@ -1,5 +1,5 @@
 /*
- * $Id: ListRenderer.java,v 1.4 2006/05/11 15:20:46 eiki Exp $
+ * $Id: ListRenderer.java,v 1.5 2006/06/16 14:36:28 tryggvil Exp $
  * Created on 21.3.2006 in project com.idega.webface
  *
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -27,10 +27,10 @@ import com.idega.webface.WFList;
  * <p>
  * Default renderer for the WFList table component
  * </p>
- *  Last modified: $Date: 2006/05/11 15:20:46 $ by $Author: eiki $
+ *  Last modified: $Date: 2006/06/16 14:36:28 $ by $Author: tryggvil $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ListRenderer extends HtmlTableRenderer{
 
@@ -59,13 +59,11 @@ public class ListRenderer extends HtmlTableRenderer{
 		return super.determineChildColSpan(uiComponent);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer#encodeColumnChild(javax.faces.context.FacesContext, javax.faces.context.ResponseWriter, javax.faces.component.UIData, javax.faces.component.UIComponent, java.util.Iterator)
-	 */
-	protected void encodeColumnChild(FacesContext facesContext, ResponseWriter writer, UIData uiData, UIComponent component, Iterator columnStyleIterator) throws IOException {
+	/**
+	protected void encodeColumnChild(FacesContext facesContext, ResponseWriter writer, UIData uiData, UIComponent component, Styles style,int index) throws IOException {
 		// TODO Auto-generated method stub
-		super.encodeColumnChild(facesContext, writer, uiData, component, columnStyleIterator);
-	}
+		super.encodeColumnChild(facesContext, writer, uiData, component, Styles style,int index);
+	}**/
 
 	/* (non-Javadoc)
 	 * @see org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer#hasFacet(boolean, javax.faces.component.UIComponent)
@@ -75,13 +73,11 @@ public class ListRenderer extends HtmlTableRenderer{
 		return super.hasFacet(header, uiComponent);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer#renderColumnBody(javax.faces.context.FacesContext, javax.faces.context.ResponseWriter, javax.faces.component.UIData, javax.faces.component.UIComponent, java.util.Iterator)
-	 */
+	/**
 	protected void renderColumnBody(FacesContext facesContext, ResponseWriter writer, UIData uiData, UIComponent component, Iterator columnStyleIterator) throws IOException {
 		// TODO Auto-generated method stub
 		super.renderColumnBody(facesContext, writer, uiData, component, columnStyleIterator);
-	}
+	}**/
 
 	/* (non-Javadoc)
 	 * @see org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer#renderColumnChildHeaderOrFooterRow(javax.faces.context.FacesContext, javax.faces.context.ResponseWriter, javax.faces.component.UIComponent, java.lang.String, boolean)
@@ -123,21 +119,17 @@ public class ListRenderer extends HtmlTableRenderer{
 		super.renderRowAttribute(writer, htmlAttribute, value);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer#renderRowStart(javax.faces.context.FacesContext, javax.faces.context.ResponseWriter, javax.faces.component.UIData, java.util.Iterator)
-	 */
+	/**
 	protected void renderRowStart(FacesContext facesContext, ResponseWriter writer, UIData uiData, Iterator rowStyleClassIterator) throws IOException {
 		// TODO Auto-generated method stub
 		super.renderRowStart(facesContext, writer, uiData, rowStyleClassIterator);
-	}
+	}**/
 
-	/* (non-Javadoc)
-	 * @see org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer#renderRowStyle(javax.faces.context.FacesContext, javax.faces.context.ResponseWriter, javax.faces.component.UIData, java.util.Iterator)
-	 */
+	/**
 	protected void renderRowStyle(FacesContext facesContext, ResponseWriter writer, UIData uiData, Iterator rowStyleIterator) throws IOException {
 		// TODO Auto-generated method stub
 		super.renderRowStyle(facesContext, writer, uiData, rowStyleIterator);
-	}
+	}**/
 
 	/* (non-Javadoc)
 	 * @see org.apache.myfaces.renderkit.html.HtmlTableRendererBase#encodeInnerHtml(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
