@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+  	<groupId>com.idega.block.platform</groupId>
+  	<artifactId>com.idega.block.base</artifactId>
+  	<version>3.1.0</version>
+  </parent>
+  <packaging>jar</packaging>
+  <groupId>com.idega.block.platform</groupId>
+  <name>idegaWeb WebFace</name>
+  <artifactId>com.idega.webface</artifactId>
+  <version>3.1.0</version>
+  <inceptionYear>2003</inceptionYear>
+  <description>idegaWeb WebFace is a component API Built on JavaServer Faces</description>
+  <developers>
+    <developer>
+      <id>tryggvil</id>
+      <name>Tryggvi Larusson</name>
+      <email>tryggvi@idega.is</email>
+      <organization>idega software</organization>
+      <roles/>
+    </developer>
+    <developer>
+      <id>anders</id>
+      <name>Anders Lindman</name>
+      <email>anders.lindman@ncmedia.com</email>
+      <organization/>
+      <roles/>
+    </developer>
+  </developers>
+  <dependencies>
+    <dependency>
+      <groupId>com.idega.block.platform</groupId>
+      <artifactId>com.idega.core</artifactId>
+      <version>3.1.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.idega.block.platform</groupId>
+      <artifactId>com.idega.faces</artifactId>
+      <version>3.1.0</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+</project>
