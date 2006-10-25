@@ -30,7 +30,7 @@ import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
  * @author Sean Schofield
  * @author Chris Barlow
  * @author Hans Bergsten (Some code taken from an example in his O'Reilly JavaServer Faces book. Copied with permission)
- * @version $Revision: 1.1 $ $Date: 2006/10/25 07:31:18 $
+ * @version $Revision: 1.2 $ $Date: 2006/10/25 10:45:23 $
  */
 public class IWTreeRenderer extends HtmlTreeRenderer {
 	
