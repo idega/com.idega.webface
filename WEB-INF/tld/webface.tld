@@ -12,7 +12,123 @@
     <display-name>WebFace Tag Library</display-name>
     <description>JSF Idega Webface Tag Library</description>
 
+	<tag>
+		<name>iwtree</name>
+		<tag-class>com.idega.webface.IWTreeTag</tag-class>
+      <attribute>
+         <name>value</name>
+         <required>true</required>
+         <rtexprvalue>false</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>var</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>varNodeToggler</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>showNav</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <description>
+                Show the "plus" and "minus" navigation icons (default is true.) Value is ignored if
+                clientSideToggle is true.
+         </description>
+      </attribute>
+      <attribute>
+         <name>showLines</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <description>Show the connecting lines (default is true.)</description>
+      </attribute>
+      <attribute>
+         <name>clientSideToggle</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <description>Perform client-side toggling of expand/collapse state via javascript (default is true.)</description>
+      </attribute>
+      <attribute>
+         <name>showRootNode</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <description>Include the root node when rendering the tree (default is true.)</description>
+      </attribute>
+      <attribute>
+         <name>preserveToggle</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <description>Preserve changes in client-side toggle information between requests (default is true.)</description>
+      </attribute>
+      <attribute>
+         <name>javascriptLocation</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
+         <description>
+                An alternate location to find javascript resources.  If no values is specified, javascript will
+                be loaded from the resources directory using AddResource and ExtensionsFilter.
+            </description>
+      </attribute>
+      <attribute>
+         <name>imageLocation</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
+         <description>
+                An alternate location to find image resources.  If no values is specified, images will
+                be loaded from the resources directory using AddResource and ExtensionsFilter.
+            </description>
+      </attribute>
+      <attribute>
+         <name>styleLocation</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
+         <description>
+                An alternate location to find stylesheet resources.  If no values is specified, stylesheets will
+                be loaded from the resources directory using AddResource and ExtensionsFilter.
+            </description>
+      </attribute>
 
+      <!-- UIComponent attributes -->
+
+      <attribute>
+         <name>id</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
+         <description>
+	        The developer-assigned ID of this component.  The ID must be unique
+	        within the scope of the tag's enclosing naming container (e.g. 
+	        h:form or f:subview).  This value must be a static value.
+	   	 </description>
+      </attribute>
+      <attribute>
+         <name>binding</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
+         <description>
+        	Identifies a backing bean property (of type UIComponent or appropriate
+	        subclass) to bind to this component instance.  This value must be an
+	        EL expression.
+	     </description>
+      </attribute>
+      <attribute>
+         <name>rendered</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
+         <description>
+	        A boolean value that indicates whether this component should be rendered.
+	        Default value: true.
+	    </description>
+      </attribute>
+	</tag>
 	<tag>
 		<name>wfblock</name>
 		<tag-class>com.idega.webface.WFBlockTag</tag-class>
