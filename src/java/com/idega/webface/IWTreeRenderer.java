@@ -15,7 +15,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.apache.myfaces.custom.tree2.HtmlTree;
+//import org.apache.myfaces.custom.tree2.HtmlTree;
+import com.idega.webface.IWTree;
 import org.apache.myfaces.custom.tree2.HtmlTreeRenderer;
 import org.apache.myfaces.custom.tree2.TreeNode;
 import org.apache.myfaces.custom.tree2.TreeState;
@@ -30,7 +31,7 @@ import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
  * @author Sean Schofield
  * @author Chris Barlow
  * @author Hans Bergsten (Some code taken from an example in his O'Reilly JavaServer Faces book. Copied with permission)
- * @version $Revision: 1.2 $ $Date: 2006/10/25 10:45:23 $
+ * @version $Revision: 1.3 $ $Date: 2006/10/26 13:16:26 $
  */
 public class IWTreeRenderer extends HtmlTreeRenderer {
 	
@@ -61,7 +62,8 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
     
     public IWTreeRenderer(){    }
     
-    protected void beforeNodeEncode(FacesContext context, ResponseWriter out, HtmlTree tree)
+//    protected void beforeNodeEncode(FacesContext context, ResponseWriter out, HtmlTree tree)
+    protected void beforeNodeEncode(FacesContext context, ResponseWriter out, IWTree tree)
     	throws IOException {
     	out.startElement(HTML.LI_ELEM, tree);
     	out.writeAttribute(HTML.ID_ATTR,tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(),null);
@@ -77,7 +79,8 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
     	
 //    	component.restoreState(context, component);
     	
-    	HtmlTree tree = (HtmlTree)component;
+//    	HtmlTree tree = (HtmlTree)component;
+    	IWTree tree = (IWTree)component;
     	
     	tree.setShowLines(false);
    
@@ -100,8 +103,7 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
     		out.startElement("span", component);
 //    		out.writeAttribute("id", clientId, "id");
     		
-    		out.writeAttribute("id", component.getId(), "id");
-System.out.println("span Id = "+ component.getId());    		
+    		out.writeAttribute("id", component.getId(), "id");    		
 
 out.startElement("div", component);
 out.writeAttribute("id", "div_id_"+component.getId(), "id");
@@ -128,7 +130,7 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
     	if (showRootNode) {
         // encode the tree (starting with the root node)
 
-     		if (walker.next()) {  
+     		if (walker.next()) {
     			encodeRoot(context, out, tree, walker);
     		}        
     	}
@@ -159,7 +161,8 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
     	}
     }
 
-    protected void encodeTree(FacesContext context, ResponseWriter out, HtmlTree tree, TreeWalker walker, TreeNode node) throws IOException {
+//    protected void encodeTree(FacesContext context, ResponseWriter out, HtmlTree tree, TreeWalker walker, TreeNode node) throws IOException {
+    protected void encodeTree(FacesContext context, ResponseWriter out, IWTree tree, TreeWalker walker, TreeNode node) throws IOException {
 
     	boolean clientSideToggle = tree.isClientSideToggle();
     
@@ -213,7 +216,8 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
     	}
     }
 
-    protected void encodeRoot(FacesContext context, ResponseWriter out, HtmlTree tree, TreeWalker walker) throws IOException {
+//    protected void encodeRoot(FacesContext context, ResponseWriter out, HtmlTree tree, TreeWalker walker) throws IOException {
+    protected void encodeRoot(FacesContext context, ResponseWriter out, IWTree tree, TreeWalker walker) throws IOException {
 
     	boolean clientSideToggle = tree.isClientSideToggle();
     	boolean expanded = false;
@@ -222,10 +226,8 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
  
     	out.startElement(HTML.LI_ELEM, tree);  
     	out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
-    	out.writeAttribute("noDrag","true",null);
-  
+    	out.writeAttribute("noDrag","true",null);  
     	encodeRootNode(context, out, tree);
-
     	if (clientSideToggle){
 //    		String spanId = TOGGLE_SPAN + ":" + tree.getId() + ":" + tree.getNodeId();
     		String spanId = "spanId2" + tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier();
@@ -276,7 +278,8 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
  */
 
     private String getImageSrc(FacesContext context, UIComponent component, String imageName, boolean withContextPath) {
-    	String imageLocation = ((HtmlTree)component).getImageLocation();
+//    	String imageLocation = ((HtmlTree)component).getImageLocation();
+    	String imageLocation = ((IWTree)component).getImageLocation();
     	AddResource addResource = AddResourceFactory.getInstance(context);
     	
 //    	((HtmlTree)component).setImageLocation("/idegaweb/bundles/com.idega.content.bundle/resources/images/");
@@ -290,7 +293,8 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
     	}
     }
 
-    protected void encodeCurrentNode(FacesContext context, ResponseWriter out, HtmlTree tree, TreeNode node)
+//    protected void encodeCurrentNode(FacesContext context, ResponseWriter out, HtmlTree tree, TreeNode node)
+    protected void encodeCurrentNode(FacesContext context, ResponseWriter out, IWTree tree, TreeNode node)
     	throws IOException {
 //TreeNode node = tree.getNode();
 
@@ -307,7 +311,14 @@ if (clientSideToggle)
     showNav = true;
 }
 
-UIComponent nodeTypeFacet = tree.getFacet(node.getType());
+String nodeType;
+nodeType = node.getType();
+if (node.getType().equals("IWTreeNode")){
+	nodeType = "PageTreeNode";
+}
+
+//UIComponent nodeTypeFacet = tree.getFacet(node.getType());
+UIComponent nodeTypeFacet = tree.getFacet(nodeType);
 UIComponent nodeImgFacet = null;
 
 if (nodeTypeFacet == null)
@@ -349,11 +360,11 @@ RendererUtils.renderChild(context, nodeTypeFacet);
 //out.endElement(HTML.TD_ELEM);
 }
 
-    protected void encodeRootNode(FacesContext context, ResponseWriter out, HtmlTree tree)
+//    protected void encodeRootNode(FacesContext context, ResponseWriter out, HtmlTree tree)
+    protected void encodeRootNode(FacesContext context, ResponseWriter out, IWTree tree)
     	throws IOException {
 
     	TreeNode node = tree.getNode();
-
     	boolean showRootNode = tree.isShowRootNode();
     	boolean showNav = tree.isShowNav();
     	boolean showLines = tree.isShowLines();
@@ -364,7 +375,16 @@ RendererUtils.renderChild(context, nodeTypeFacet);
     		showNav = true;
     	}
 
-    	UIComponent nodeTypeFacet = tree.getFacet(node.getType());
+
+    	String nodeType = node.getType();
+    	if (node.getType().equals("IWTreeNode")){
+    		nodeType = "PageTreeNode";
+    	}
+    	
+//    	UIComponent nodeTypeFacet = tree.getFacet(node.getType());
+    	
+    	UIComponent nodeTypeFacet = tree.getFacet(nodeType);
+    	
     	UIComponent nodeImgFacet = null;
 
     	if (nodeTypeFacet == null){	
@@ -396,7 +416,8 @@ RendererUtils.renderChild(context, nodeTypeFacet);
     	RendererUtils.renderChild(context, nodeTypeFacet);
     }
 
-    private UIComponent encodeNavigation(FacesContext context, ResponseWriter out, HtmlTree tree)
+//    private UIComponent encodeNavigation(FacesContext context, ResponseWriter out, HtmlTree tree)
+    private UIComponent encodeNavigation(FacesContext context, ResponseWriter out, IWTree tree)
     	throws IOException {
     	
     	TreeNode node = tree.getNode();

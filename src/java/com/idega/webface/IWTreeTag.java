@@ -8,4 +8,8 @@ public class IWTreeTag extends TreeTag{
     {
         return "com.idega.webface.IWTree";
     }
+    public String getComponentType()
+    {
+    	return "iwtree";
+    }
 }
