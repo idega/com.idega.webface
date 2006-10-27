@@ -31,7 +31,7 @@ import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
  * @author Sean Schofield
  * @author Chris Barlow
  * @author Hans Bergsten (Some code taken from an example in his O'Reilly JavaServer Faces book. Copied with permission)
- * @version $Revision: 1.3 $ $Date: 2006/10/26 13:16:26 $
+ * @version $Revision: 1.4 $ $Date: 2006/10/27 11:39:46 $
  */
 public class IWTreeRenderer extends HtmlTreeRenderer {
 	
@@ -122,36 +122,60 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
 
     	walker.setCheckState(!clientSideToggle); // walk all nodes in client mode
 
-    	out.startElement(HTML.UL_ELEM, tree);    
-    
-    	out.writeAttribute(HTML.ID_ATTR,"page_tree_div",null);
-    	out.writeAttribute(HTML.CLASS_ATTR,"tree_drag_drop",null);
-    
+//    	if(!tree.getNode().isLeaf()){
+//    		out.startElement(HTML.UL_ELEM, tree);    
+//    		out.writeAttribute(HTML.ID_ATTR,"page_tree_div",null);
+//    		out.writeAttribute(HTML.CLASS_ATTR,"tree_drag_drop",null);
+//    	}
     	if (showRootNode) {
         // encode the tree (starting with the root node)
 
      		if (walker.next()) {
+     	    	if(!tree.getNode().isLeaf()){
+     	    		out.startElement(HTML.UL_ELEM, tree);    
+     	    		out.writeAttribute(HTML.ID_ATTR,"page_tree_div",null);
+     	    		out.writeAttribute(HTML.CLASS_ATTR,"tree_drag_drop",null);
+     	    	}     			
     			encodeRoot(context, out, tree, walker);
     		}        
     	}
     	else {
-    		
+
+		if (walker.next()) {
+	    	if(!tree.getNode().isLeaf()){
+	    		out.startElement(HTML.UL_ELEM, tree);    
+	    		out.writeAttribute(HTML.ID_ATTR,"page_tree_div",null);
+	    		out.writeAttribute(HTML.CLASS_ATTR,"tree_drag_drop",null);
+	    	}			
     		TreeNode rootNode = tree.getNode();
     		String rootNodeId = tree.getNodeId();
     		if(!state.isNodeExpanded(rootNodeId)){
     			state.toggleExpanded(rootNodeId);
     		}
-
-        // now encode each of the nodes in the level immediately below the root
     		for (int i=0; i < rootNode.getChildCount(); i++) {
     			if (walker.next()){  
     				encodeRoot(context, out, tree, walker);
     			}
     		}
+		}
+    		
+    		
+//    		TreeNode rootNode = tree.getNode();
+//    		String rootNodeId = tree.getNodeId();
+//    		if(!state.isNodeExpanded(rootNodeId)){
+//    			state.toggleExpanded(rootNodeId);
+//    		}
+//
+//        // now encode each of the nodes in the level immediately below the root
+//    		for (int i=0; i < rootNode.getChildCount(); i++) {
+//    			if (walker.next()){  
+//    				encodeRoot(context, out, tree, walker);
+//    			}
+//    		}
     	}
-    
-    	out.endElement(HTML.UL_ELEM);
-
+    	if(!tree.getNode().isLeaf()){
+    		out.endElement(HTML.UL_ELEM);
+    	}
     	// reset the current node id once we're done encoding everything
     	tree.setNodeId(null);
 
@@ -226,7 +250,8 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
  
     	out.startElement(HTML.LI_ELEM, tree);  
     	out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
-    	out.writeAttribute("noDrag","true",null);  
+    	if(!tree.getNode().isLeaf())
+    		out.writeAttribute("noDrag","true",null);  
     	encodeRootNode(context, out, tree);
     	if (clientSideToggle){
 //    		String spanId = TOGGLE_SPAN + ":" + tree.getId() + ":" + tree.getNodeId();
@@ -245,9 +270,15 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
     	}
 
     	TreeNode node = tree.getNode(); 
-
-    	out.startElement(HTML.UL_ELEM, tree);
-    	expanded = true;
+    	
+    	System.out.println("**************************************");	    		
+    	System.out.println("!showRootNode children = "+ node.getChildCount());
+    	System.out.println("**************************************");
+    	
+    	if(!node.isLeaf()){
+    		out.startElement(HTML.UL_ELEM, tree);
+    		expanded = true;
+    	}
 
     	int child_count = node.getChildCount();
 
@@ -257,12 +288,16 @@ out.writeAttribute("id", "div_id_"+component.getId(), "id");
     		}
     	}
 
+    	if (expanded) {     
+    		out.endElement(HTML.UL_ELEM);  
+    	}    	
+    	
     	if (clientSideToggle) {
     		out.endElement(HTML.SPAN_ELEM);
     	}
-    	if (expanded) {     
-    		out.endElement(HTML.UL_ELEM);  
-    	}
+//    	if (expanded) {     
+//    		out.endElement(HTML.UL_ELEM);  
+//    	}
     	out.endElement(HTML.LI_ELEM);
 }
 
