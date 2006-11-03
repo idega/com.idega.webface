@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.4 2006/05/29 18:23:47 tryggvil Exp $
+ * $Id: WFTreeNode.java,v 1.5 2006/11/03 14:35:04 justinas Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -21,19 +21,26 @@ import com.idega.presentation.IWContext;
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2006/05/29 18:23:47 $ by $Author: tryggvil $
+ *  Last modified: $Date: 2006/11/03 14:35:04 $ by $Author: justinas $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFTreeNode implements TreeNode {
 	
 	private ICTreeNode icNode;
 	private List children = null;
     private String type = null;
-    /**
+
+	public WFTreeNode() {
+		super();
+//		children.
+	}
+
+	/**
 	 * 
 	 */
+    
 	public WFTreeNode(ICTreeNode node) {
 		this.icNode = node;
 		String className = node.getClass().getName();
@@ -48,7 +55,15 @@ public class WFTreeNode implements TreeNode {
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#isLeaf()
 	 */
 	public boolean isLeaf() {
-		return this.icNode.isLeaf();
+		if(this.icNode != null)
+			if(this.icNode.isLeaf())
+				return true;
+			else return false;
+		if((this.children == null) || (this.children.isEmpty()))
+			return true;
+		else 
+			return false;
+//		return this.icNode.isLeaf();
 	}
 
 	/* (non-Javadoc)
@@ -63,8 +78,10 @@ public class WFTreeNode implements TreeNode {
 	 */
 	public List getChildren() {
 		if(this.children == null){
+			System.out.println("LIST IS EMPTY");
 			this.children = new ArrayList();
 			for (Iterator iter = this.icNode.getChildrenIterator(); iter.hasNext();) {
+				System.out.println("ITERATOR");
 				this.children.add(new WFTreeNode((ICTreeNode) iter.next()));
 			}
 		}
@@ -114,15 +131,43 @@ public class WFTreeNode implements TreeNode {
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getIdentifier()
 	 */
 	public String getIdentifier() {
-		System.out.println("[getIdentifier]:"+this.icNode.getId());
-		return this.icNode.getId();
+//		System.out.println("[getIdentifier]:"+this.icNode.getId());
+//		return this.icNode.getId();
+		if(this.icNode.getId() == null)
+			return "0";
+		else return this.icNode.getId();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getChildCount()
 	 */
 	public int getChildCount() {
-		System.out.println("[getChildCount]:"+this.icNode.getChildCount());
-		return this.icNode.getChildCount();
+		if(this.icNode != null)
+			if(this.icNode.getChildCount() != 0)
+				return this.icNode.getChildCount();
+		if((this.children == null) || (this.children.isEmpty())){
+			if(this.children == null)
+				System.out.println("(this.children == null)");
+			else if(this.children.isEmpty())
+				System.out.println("(this.children.isEmpty())");	
+
+			return 0;
+		}
+		else return this.children.size();
+//		System.out.println("[getChildCount]:"+this.icNode.getChildCount());
+//		return this.icNode.getChildCount();
+	}
+	
+	public void addChild(ICTreeNode node){
+		if(this.children == null){
+			this.children = new ArrayList();
+			if(icNode != null)
+				for (Iterator iter = this.icNode.getChildrenIterator(); iter.hasNext();) {
+					this.children.add(new WFTreeNode((ICTreeNode) iter.next()));
+				}
+		}		
+//		this.children.add(node);
+		this.children.add(new WFTreeNode(node));
+		
 	}
 }
