@@ -52,21 +52,8 @@
           	<renderer-type>com.idega.webface.IWTree</renderer-type>
           	<renderer-class> com.idega.webface.IWTreeRenderer</renderer-class> 
       	 </renderer>
-	     <renderer>
-         	<component-family>org.apache.myfaces.HtmlTree2</component-family>
-          	<renderer-type>com.idega.webface.Accordion</renderer-type>
-          	<renderer-class> com.idega.webface.AccordionRenderer</renderer-class> 
-      	 </renderer>
 	</render-kit>
 
- 	<component> 
-  		<component-type>siteTemplatesViewer</component-type> 
-  		<component-class>com.idega.webface.SiteTemplatesViewer</component-class> 
- 	</component> 
-	<component>
-		<component-type>accordion</component-type>
-		<component-class>com.idega.webface.Accordion</component-class>
-	</component>
 	<component>
 		<component-type>iwtree</component-type>
 		<component-class>com.idega.webface.IWTree</component-class>
