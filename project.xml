@@ -4,7 +4,7 @@
   <extend>${base.project.dir}/base-dependencies.xml</extend>
   <name>idegaWeb WebFace</name>
   <artifactId>com.idega.webface</artifactId>
-  <currentVersion>3.1.0</currentVersion>
+  <currentVersion>3.1.1</currentVersion>
   <inceptionYear>2003</inceptionYear>
   <shortDescription>JSF Components</shortDescription>
   <description>idegaWeb WebFace is a component API Built on JavaServer Faces</description>
