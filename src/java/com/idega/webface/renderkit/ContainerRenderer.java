@@ -25,16 +25,11 @@ public class ContainerRenderer extends BaseRenderer {
 	
 	protected static String HTML_TABLE_TAG="table";
 	protected static String HTML_DIV_TAG = "div";
-	protected static String HTML_SPAN_TAG = "span";
-	protected static String HTML_TAG_IN_USE = HTML_DIV_TAG;
 
 	public void encodeBegin(FacesContext ctx, UIComponent comp) throws IOException {
 		WFContainer container = (WFContainer) comp;
 		if (!container.isRendered()) {
 			return;
-		}
-		if (container.isSpan()) {
-			HTML_TAG_IN_USE = HTML_SPAN_TAG;
 		}
 		
 		ResponseWriter out = ctx.getResponseWriter();
@@ -108,7 +103,7 @@ public class ContainerRenderer extends BaseRenderer {
 	}
 
 	protected String getMarkupElementType() {
-		return HTML_TAG_IN_USE;
+		return HTML_DIV_TAG;
 	}
 	
 	/**
