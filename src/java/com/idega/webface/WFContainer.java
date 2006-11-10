@@ -1,5 +1,5 @@
 /*
- * $Id: WFContainer.java,v 1.14.2.1 2006/11/10 00:17:50 gimmi Exp $
+ * $Id: WFContainer.java,v 1.14.2.2 2006/11/10 01:06:49 gimmi Exp $
  *
  * Copyright (C) 2004-2005 Idega. All Rights Reserved.
  *
@@ -18,10 +18,10 @@ import com.idega.util.RenderUtils;
  *  with a "div" tag surrounded in HTML.
  *  </p>
  * 
- *  Last modified: $Date: 2006/11/10 00:17:50 $ by $Author: gimmi $
+ *  Last modified: $Date: 2006/11/10 01:06:49 $ by $Author: gimmi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.14.2.1 $
+ * @version $Revision: 1.14.2.2 $
  */
 public class WFContainer extends IWBaseComponent
 {
@@ -50,7 +50,6 @@ public class WFContainer extends IWBaseComponent
 	private String height;
 	private String styleClass=RENDERER_TYPE;
 	private String title;
-	private boolean isSpan = false;
 
 	
 	public WFContainer()
@@ -180,12 +179,11 @@ public class WFContainer extends IWBaseComponent
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
 	public Object saveState(FacesContext ctx) {
-		Object values[] = new Object[5];
+		Object values[] = new Object[4];
 		values[0] = super.saveState(ctx);
 		values[1] = getStyleAttribute();
 		values[2] = getStyleClass();
 		values[3] = this.title;
-		values[4] = new Boolean(isSpan);
 		return values;
 	}
 	
@@ -198,7 +196,6 @@ public class WFContainer extends IWBaseComponent
 		setStyleAttribute((String) values[1]);
 		setStyleClass((String) values[2]);
 		this.title=(String)values[3];
-		this.isSpan= ((Boolean) values[4]).booleanValue();
 	}
 	
 	/**
@@ -228,14 +225,6 @@ public class WFContainer extends IWBaseComponent
 	 */
 	public String getTitle(){
 		return this.title;
-	}
-
-	public boolean isSpan() {
-		return isSpan;
-	}
-
-	public void setSpan(boolean isSpan) {
-		this.isSpan = isSpan;
 	}
 
 }
