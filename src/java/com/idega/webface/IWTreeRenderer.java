@@ -8,12 +8,18 @@ import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIGraphic;
 import javax.faces.component.UIViewRoot;
+import javax.faces.component.html.HtmlOutputLink;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.swing.tree.TreeModel;
 
+//import com.idega.content.tree.TreeModelBase;
 import com.idega.webface.IWTree;
+
+//import org.apache.myfaces.custom.tree.model.TreeModel;
 import org.apache.myfaces.custom.tree2.HtmlTreeRenderer;
+//import org.apache.myfaces.custom.tree2.TreeModel;
 import org.apache.myfaces.custom.tree2.TreeNode;
 import org.apache.myfaces.custom.tree2.TreeState;
 import org.apache.myfaces.custom.tree2.TreeWalker;
@@ -27,7 +33,10 @@ import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
  * @author Sean Schofield
  * @author Chris Barlow
  * @author Hans Bergsten (Some code taken from an example in his O'Reilly JavaServer Faces book. Copied with permission)
- * @version $Revision: 1.5 $ $Date: 2006/11/03 14:35:04 $
+ * @version $Revision: 1.6 $ $Date: 2006/11/21 11:57:18 $
+ * 
+ * TO DO 
+ * adding of facet shouldn't be hardcoded
  */
 public class IWTreeRenderer extends HtmlTreeRenderer {
 	
@@ -45,6 +54,8 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
     
     private String currentNodeId;
     
+    private boolean sourceTree = false; 
+    
     public String getNode(){
     	node++;
     	return "node"+node;
@@ -54,9 +65,21 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
     
     protected void beforeNodeEncode(FacesContext context, ResponseWriter out, IWTree tree)
     	throws IOException {
+    	
     	out.startElement(HTML.LI_ELEM, tree);
     	out.writeAttribute(HTML.ID_ATTR,tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(),null);
     	currentNodeId = tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier();
+    	if(sourceTree){
+    		out.writeAttribute("sourceTree", "true", null);
+    		out.writeAttribute("noChildren", "true", null);
+
+    	}
+    	if(((WFTreeNode)(tree.getNode())).getIconURI() != null){
+    		out.writeAttribute("iconfile", ((WFTreeNode)(tree.getNode())).getIconURI(), null);
+    	}
+    	if(((WFTreeNode)(tree.getNode())).getPageType() != null){
+    		out.writeAttribute("pageType", ((WFTreeNode)(tree.getNode())).getPageType(), null);
+    	}    	
     }
 
     protected void afterNodeEncode(FacesContext context, ResponseWriter out)
@@ -65,23 +88,26 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
     }
 
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException{
-System.out.println("encodeChildren");
-    	IWTree tree = (IWTree)component;
-    	
+    	IWTree tree = (IWTree)component;    
+    	sourceTree = false;
+
+    	if(tree.getAttributes().get("sourceTree") != null)
+			if(tree.getAttributes().get("sourceTree").equals("true")){
+				sourceTree = true;
+			}
+		
     	tree.setShowLines(false);
    
     	if (!component.isRendered())
     		return;
     	if (tree.getValue() == null) 
     		return;
-System.out.println("first break");
     	ResponseWriter out = context.getResponseWriter();
     	String clientId = null;
 
     	if (component.getId() != null && !component.getId().startsWith(UIViewRoot.UNIQUE_ID_PREFIX)){
     		clientId = component.getClientId(context);
     	}
-System.out.println("second break");
     	boolean isOuterSpanUsed = false;
 
     	if (clientId != null){
@@ -95,58 +121,63 @@ System.out.println("second break");
 
     	boolean clientSideToggle = tree.isClientSideToggle();
     	boolean showRootNode = tree.isShowRootNode();
-System.out.println("before get state");
-//	TreeModel model = tree.getDataModel();
-//System.out.println("have tree model");
     	TreeState state = tree.getDataModel().getTreeState();
-System.out.println("after get state");
     	TreeWalker walker = tree.getDataModel().getTreeWalker();
     
     	walker.reset();
     	walker.setTree(tree);
 
     	walker.setCheckState(!clientSideToggle); // walk all nodes in client mode
-System.out.println("after set walker");
+
     	if (showRootNode) {
     		if (walker.next()) {    		
-     	    	if(!tree.getNode().isLeaf()){
+    			if(!tree.getNode().isLeaf()){
      	    		out.startElement(HTML.UL_ELEM, tree);    
      	    		out.writeAttribute(HTML.ID_ATTR,"page_tree_div",null);
      	    		out.writeAttribute(HTML.CLASS_ATTR,"tree_drag_drop",null);
      	    	}     			
-System.out.println("after checking leaf");     	    	
+     	    	
     			encodeRoot(context, out, tree, walker);
     		}        
     	}
     	else {
-System.out.println("not showRootNode");    		
-			if (walker.next()) {			
-		    	if(!tree.getNode().isLeaf()){
+//    testing		
+    		
+//    		
+//            Object value = tree.getValue();
+//            org.apache.myfaces.custom.tree2.TreeModel model = null;
+//            model = tree.getDataModel();
+//            if (value != null)
+//            {
+//            	if (value instanceof TreeNode) {
+//            		System.out.println("value instanceof TreeNode");
+////                    model = new TreeModelBase((TreeNode) value);
+//                } else
+//                {
+//                    throw new IllegalArgumentException("Value must be a TreeModel or TreeNode");
+//                }
+//            }    		
+//    		testing end    		 
+			if (walker.next()) {	
+				if(!tree.getNode().isLeaf()){
 		    		out.startElement(HTML.UL_ELEM, tree);    
 		    		out.writeAttribute(HTML.ID_ATTR,"page_tree_div",null);
 		    		out.writeAttribute(HTML.CLASS_ATTR,"tree_drag_drop",null);
 		    	}			
-	    		TreeNode rootNode = tree.getNode();
-System.out.println("after rootNode");	    		
+	    		TreeNode rootNode = tree.getNode();	    		
 	    		String rootNodeId = tree.getNodeId();
 	    		if(!state.isNodeExpanded(rootNodeId)){
 	    			state.toggleExpanded(rootNodeId);
 	    		}
-System.out.println("after state "+rootNode.getChildCount());
 	    		for (int i=0; i < rootNode.getChildCount(); i++) {
-try {
-	
-	    			if (walker.next()){  
-System.out.println("before encodeRoot "+rootNode.getChildCount());
-System.out.println("arTuscias: "+((TreeNode)(rootNode.getChildren().get(0))).getChildCount());
-if(((TreeNode)(rootNode.getChildren().get(0))).getChildCount() !=0)
-	System.out.println("netuscias");
+//try {	
+	    			if (walker.next()){
 	    				encodeRoot(context, out, tree, walker);
 	    			}
-} catch (Exception e) {
-	// TODO: handle exception
-	e.printStackTrace();
-}	    			
+//} catch (Exception e) {
+//	// TODO: handle exception
+//	e.printStackTrace();
+//}	    			
 
 	    		}
 	    		
@@ -161,11 +192,9 @@ if(((TreeNode)(rootNode.getChildren().get(0))).getChildCount() !=0)
     		out.endElement("div");
     		out.endElement("span");
     	}
-    	System.out.println("end of encodeChildren");
     }
 
     protected void encodeTree(FacesContext context, ResponseWriter out, IWTree tree, TreeWalker walker, TreeNode node) throws IOException {
-System.out.println("begin of encodeTree");
     	boolean clientSideToggle = tree.isClientSideToggle();
     
     	HtmlRendererUtils.writePrettyLineSeparator(context);
@@ -213,14 +242,9 @@ System.out.println("begin of encodeTree");
     		}       			
     		out.endElement(HTML.LI_ELEM); 	
     	}
-    	System.out.println("end of encodeTree");
     }
 
-    protected void encodeRoot(FacesContext context, ResponseWriter out, IWTree tree, TreeWalker walker) throws IOException {
-System.out.println("begin of encode root : "+tree.getNode().getChildCount());
-
-	
-
+    protected void encodeRoot(FacesContext context, ResponseWriter out, IWTree tree, TreeWalker walker) throws IOException {    	
     	boolean clientSideToggle = tree.isClientSideToggle();
     	boolean expanded = false;
     	HtmlRendererUtils.writePrettyLineSeparator(context);
@@ -229,7 +253,22 @@ System.out.println("begin of encode root : "+tree.getNode().getChildCount());
     	out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
     	if(!tree.getNode().isLeaf())
     		out.writeAttribute("noDrag","true",null);  
+    	if(sourceTree){
+    		out.writeAttribute("sourceTree", "true", null);
+    		out.writeAttribute("noChildren", "true", null);
+    	}
+    	if(((WFTreeNode)(tree.getNode())).getIconURI() != null){
+    		out.writeAttribute("iconfile", ((WFTreeNode)(tree.getNode())).getIconURI(), null);
+    	}
+
+//    	tree.getNode().getType();
+    	
+//    	if(((IWTreeNodeWithTypes)(tree.getNode())).getIconFile() != null)
+//    		out.writeAttribute("type", ((IWTreeNodeWithTypes)(tree.getNode())).getIconFile(), null);
+//    	if(((IWTreeNodeWithTypes)(tree.getNode())).getIconFile() != null)
+//    		out.writeAttribute("iconfile", ((IWTreeNodeWithTypes)(tree.getNode())).getIconFile(), null);
     	encodeRootNode(context, out, tree);
+    	
     	if (clientSideToggle){
     		String spanId = "spanId2" + tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier();
 
@@ -244,18 +283,13 @@ System.out.println("begin of encode root : "+tree.getNode().getChildCount());
     	}
 
     	TreeNode node = tree.getNode(); 
-   	
-    	System.out.println("**************************************");	    		
-    	System.out.println("!showRootNode children = "+ node.getChildCount());
-    	System.out.println("**************************************");
-    	
+   	    	
     	if(!node.isLeaf()){
     		out.startElement(HTML.UL_ELEM, tree);
     		expanded = true;
     	}
 
     	int child_count = node.getChildCount();
-
     	for (int i=0; i < child_count; i++){
     		if (walker.next()) {    	
     			encodeTree(context, out, tree, walker, node);
@@ -272,8 +306,7 @@ System.out.println("begin of encode root : "+tree.getNode().getChildCount());
 //    	if (expanded) {     
 //    		out.endElement(HTML.UL_ELEM);  
 //    	}
-    	out.endElement(HTML.LI_ELEM);
-    	System.out.println("end of encode root");    	   	
+    	out.endElement(HTML.LI_ELEM);   	
 }
 
 
@@ -314,18 +347,18 @@ System.out.println("begin of encode root : "+tree.getNode().getChildCount());
     	}
 
 		String nodeType;
+		
 		nodeType = node.getType();
-		if (node.getType().equals("IWTreeNode")){
-			nodeType = "PageTreeNode";
+//		if (node.getType().equals("IWTreeNode")){
+//			nodeType = "PageTreeNode";
 //			nodeType = "TreeNode";
-		}
+//		}
 		
 		//UIComponent nodeTypeFacet = tree.getFacet(node.getType());
 		UIComponent nodeTypeFacet = tree.getFacet(nodeType);
 		UIComponent nodeImgFacet = null;
 		
 		if (nodeTypeFacet == null) {
-		    System.out.println("(not root)Unable to locate facet with the name: " + node.getType());
 		    throw new IllegalArgumentException("(not root)Unable to locate facet with the name: " + node.getType());
 		}
 
@@ -367,31 +400,48 @@ RendererUtils.renderChild(context, nodeTypeFacet);
 
 
     	String nodeType = node.getType();
-    	System.out.println("nodeType = "+ nodeType);
-    	if (node.getType().equals("IWTreeNode")){
-    		System.out.println("changing to pageTreeNode");
-    		nodeType = "PageTreeNode";
-//    		nodeType = "IWTree";
-    	}
+//    	if (node.getType().equals("IWTreeNode")){
+//    		nodeType = "PageTreeNode";
+////    		nodeType = "IWTree";
+//    	}
     	
 //    	UIComponent nodeTypeFacet = tree.getFacet(node.getType());
     	
-    	UIComponent nodeTypeFacet = tree.getFacet(nodeType);
+//    	UIComponent nodeTypeFacet = tree.getFacet(nodeType);
+    	
+    	
+//    	if(nodeType.equals("IWTreeNode")){    		
+//    	    HtmlOutputText texti = new HtmlOutputText();
+//    	    texti.setValueBinding("value",WFUtil.createValueBinding("#{node.description}"));
+//    	    tree.getFacets().put("IWTreeNode",texti);    		
+//    	}
+//    	
+///////////////////////////////    	
+//	    HtmlOutputLink linki = new HtmlOutputLink();
+//	    linki.setValue("#");
+//	    HtmlOutputText texti = new HtmlOutputText();		    
+//	    texti.setValueBinding("value",WFUtil.createValueBinding("#{node.description}"));
+//	    linki.getChildren().add(texti);		    
+//	    tree.getFacets().put("IWTreeNode",linki);
+///////////////////////////////    	
+    	
+    	UIComponent nodeTypeFacet = tree.getFacet(nodeType);    	
     	
     	UIComponent nodeImgFacet = null;
 
-    	if (nodeTypeFacet == null){
-        	if (node.getType().equals("IWTreeNode")){
-        		nodeType = "Accordion";
-        		nodeTypeFacet = tree.getFacet(nodeType);
-        		Map nodeFacetMap = tree.getFacets();
-//        		nodeType = "IWTree";
-        	}
-    	}
+    	
+//    	if (nodeTypeFacet == null){
+//        	if (node.getType().equals("IWTreeNode")){
+//        		nodeType = "Accordion";
+//        		nodeTypeFacet = tree.getFacet(nodeType);
+//        		Map nodeFacetMap = tree.getFacets();
+////        		nodeType = "IWTree";
+//        	}
+//    	}
     	
     	if (nodeTypeFacet == null){	
     		System.out.println("Unable to locate facet with the name: " + nodeType);
-    		throw new IllegalArgumentException("(root)Unable to locate facet with the name: " + node.getType());
+    		throw new IllegalArgumentException("Unable to locate facet with the name: " + node.getType());
     	}
 
     	String[] pathInfo = tree.getPathInformation(tree.getNodeId());
@@ -416,9 +466,8 @@ RendererUtils.renderChild(context, nodeTypeFacet);
     	if (nodeImgFacet != null){
     		RendererUtils.renderChild(context, nodeImgFacet);
     	}
-    	System.out.println("Before render");
+    	
     	RendererUtils.renderChild(context, nodeTypeFacet);
-    	System.out.println("Render complete");
     }
 
 //    private UIComponent encodeNavigation(FacesContext context, ResponseWriter out, HtmlTree tree)
