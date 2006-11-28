@@ -4,7 +4,6 @@ import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.apache.myfaces.custom.tree2.TreeTag;
 

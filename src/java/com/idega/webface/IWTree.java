@@ -2,13 +2,12 @@ package com.idega.webface;
 
 import org.apache.myfaces.custom.tree2.HtmlTree;
 import org.apache.myfaces.custom.tree2.TreeModel;
-import org.apache.myfaces.custom.tree2.TreeModelBase;
 import org.apache.myfaces.custom.tree2.TreeNode;
 import org.apache.myfaces.custom.tree2.TreeState;
 
 public class IWTree extends HtmlTree{
 	public static final String COMPONENT_TYPE = "com.idega.content.webface.IWTree";
-	private static final String DEFAULT_RENDERER_TYPE = "com.idega.webface.IWTreeRenderer";
+	//private static final String DEFAULT_RENDERER_TYPE = "com.idega.webface.IWTreeRenderer";
 
 	public TreeModel _model;
 	public TreeState _restoredState = null;
