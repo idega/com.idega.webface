@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.6 2006/11/21 11:58:05 justinas Exp $
+ * $Id: WFTreeNode.java,v 1.7 2006/12/04 09:40:23 justinas Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.myfaces.custom.tree2.TreeNode;
+
+import com.idega.core.builder.business.BuilderService;
+import com.idega.core.builder.business.BuilderServiceFactory;
+import com.idega.core.builder.data.ICDomain;
+import com.idega.core.builder.data.ICPage;
 import com.idega.core.data.ICTreeNode;
 import com.idega.presentation.IWContext;
 
@@ -21,10 +26,10 @@ import com.idega.presentation.IWContext;
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2006/11/21 11:58:05 $ by $Author: justinas $
+ *  Last modified: $Date: 2006/12/04 09:40:23 $ by $Author: justinas $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WFTreeNode implements TreeNode {
 	
@@ -34,6 +39,7 @@ public class WFTreeNode implements TreeNode {
     private String iconURI = null;
     private String pageType = null;
     private ICTreeNode parent = null;
+    private String templateURI = null;
 
 	public WFTreeNode() {
 		super();
@@ -218,6 +224,20 @@ public class WFTreeNode implements TreeNode {
 		}		
 //		this.children.add(node);
 		WFTreeNode newChild = new WFTreeNode(node);
+		
+		IWContext iwc = IWContext.getInstance();
+		BuilderService bservice = null;
+		try {
+			bservice = BuilderServiceFactory.getBuilderService(iwc);
+			ICDomain domain = BuilderServiceFactory.getBuilderService(iwc)
+					.getCurrentDomain();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}		
+		String startPageId = node.getId();
+		ICPage page = bservice.getICPage(startPageId);		
+		setPageType(page.getSubType());
+		newChild = settingSubTypes(node, newChild);
 		newChild.setParent(this.icNode);
 		this.children.add(newChild);
 //		this.children.add(new WFTreeNode(node));
@@ -226,6 +246,29 @@ public class WFTreeNode implements TreeNode {
 //		node.setParent(this);
 	}
 
+	public WFTreeNode settingSubTypes(ICTreeNode icnode, WFTreeNode wfnode){
+		IWContext iwc = IWContext.getInstance();
+		BuilderService bservice = null;
+		try {
+			bservice = BuilderServiceFactory.getBuilderService(iwc);
+//			ICDomain domain = BuilderServiceFactory.getBuilderService(iwc)
+//					.getCurrentDomain();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		if(wfnode.getPageType() == null)
+		wfnode.setPageType(bservice.getICPage(icnode.getId()).getSubType());
+		if(icnode.getChildCount() == 0)
+			return wfnode;		
+		Iterator it = icnode.getChildrenIterator();
+		int i = 0;
+		while (it.hasNext()) {
+			wfnode.getChildren().set(i, settingSubTypes((ICTreeNode)it.next(), (WFTreeNode)wfnode.getChildren().get(i)));
+			i++;
+		}		
+		return wfnode;
+	}
+	
 	public void addChild(WFTreeNode wfnode){		
 		if(this.children == null){
 			this.children = new ArrayList();
@@ -265,5 +308,15 @@ public class WFTreeNode implements TreeNode {
 
 	public void setParent(ICTreeNode parent) {
 		this.parent = parent;
+	}
+
+
+	public String getTemplateURI() {
+		return templateURI;
+	}
+
+
+	public void setTemplateURI(String templateURI) {
+		this.templateURI = templateURI;
 	}
 }
