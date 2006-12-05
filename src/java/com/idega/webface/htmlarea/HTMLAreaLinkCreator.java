@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.12 2006/05/08 13:53:59 laddi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.13 2006/12/05 15:27:29 gimmi Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -18,6 +18,9 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
+
+import org.apache.myfaces.custom.stylesheet.Stylesheet;
+
 import com.idega.idegaweb.IWBundle;
 import com.idega.presentation.IWBaseComponent;
 import com.idega.presentation.IWContext;
@@ -49,7 +52,12 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	
 	public void initializeComponent(FacesContext context) {
 		IWContext iwc = IWContext.getInstance();
+		this.bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
 		init(iwc);
+		
+		Stylesheet sheet = new Stylesheet();
+		sheet.setPath(bundle.getResourcesVirtualPath()+"/style/webfacewindow.css");
+		add(sheet);
 		
 		WFContainer con = new WFContainer();
 		UIComponent creation = getCreationComponent();
@@ -71,17 +79,18 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	 * @return
 	 */
 	protected UIComponent getCreationComponent() {
+		
 		return this.currentLinkType.getLinkCreation();
 	}
 	
 	protected void init(IWContext iwc) {
-		this.bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
 		if (this.tabs == null) {
 			this.tabs = new Vector();
 		}
 		this.tabs.add(new HTMLAreaExternalLinkType());
 		this.tabs.add(new HTMLAreaEmailLinkType());
 		this.tabs.add(new HTMLAreaPageLinkType());
+		
 		
 		this.selectedType = iwc.getParameter(PARAMETER_LINK_TYPE);
 		String pc = iwc.getParameter(PARAMETER_CREATOR);
@@ -111,6 +120,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	private HtmlOutputText getLocalizedText(String key) {
@@ -138,15 +148,23 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		header.addTitleText(this.bundle.getLocalizedText("link_creator"));
 		block.setTitlebar(header);
 
+		String surl = IWContext.getInstance().getParameter(PARAMETER_HREF);
+		String star = IWContext.getInstance().getParameter(PARAMETER_TARGET);
+		String stoo = IWContext.getInstance().getParameter(PARAMETER_TOOLTIP);
+		
 		HtmlInputText url = new HtmlInputText();
 		url.setId(PARAMETER_HREF);
 		url.setSize(40);
-		if (this.currentLinkType.getStartingURL() != null) {
+		if (surl != null) {
+			url.setValue(surl);
+		} else if (this.currentLinkType.getStartingURL() != null) {
 			url.setValue(this.currentLinkType.getStartingURL());
-		}
+		} 
 		HtmlInputText title = new HtmlInputText();
 		title.setId(PARAMETER_TOOLTIP);
-		if (this.currentLinkType.getStartingTitle() != null) {
+		if (stoo != null) {
+			title.setValue(stoo);
+		} else if (this.currentLinkType.getStartingTitle() != null) {
 			title.setValue(this.currentLinkType.getStartingTitle());
 		}
 				
@@ -157,7 +175,9 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		menu.addMenuElement(Link.TARGET_PARENT_WINDOW);
 		menu.addMenuElement(Link.TARGET_NEW_WINDOW);
 		menu.addMenuElement(Link.TARGET_BLANK_WINDOW);
-		if (this.currentLinkType.getStartingURL() != null) {
+		if (star != null) {
+			menu.setSelectedElement(star);
+		} else if (this.currentLinkType.getStartingTarget() != null) {
 			menu.setSelectedElement(this.currentLinkType.getStartingTarget());
 		}
 

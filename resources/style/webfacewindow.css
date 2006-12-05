@@ -1,0 +1,17 @@
+.ws_mainbar {
+	ddisplay : none;
+}
+div .ws_head {
+	mmargin-top : -55px !important;
+}
+.ws_body .ws_mainnavigation ul.wf_tabbar{
+	mmargin-top: 5px;
+}
+
+.wf_titlebar {
+display : none;
+}
+
+.ws_smallloginbox {
+display : none;
+}

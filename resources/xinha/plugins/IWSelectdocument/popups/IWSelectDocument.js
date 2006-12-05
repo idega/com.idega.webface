@@ -7,6 +7,8 @@ function Set( string )                // return character
 function SelectDocument( link )
 {
 	href = link.href;
+	href = href.substring(href.indexOf("//")+2);
+	href = href.substring(href.indexOf("/"));
 	link.style.fontWeight='bold';
 	link.parentNode.parentNode.className='selected';
 	//link.className='selected';

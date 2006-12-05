@@ -9,16 +9,24 @@
 					if ( typeof param["f_href"] != "undefined" ) {
 						if (param["f_href"] != "") {
 							if (param["f_href"].indexOf("mailto") == 0) {
-								 window.location="../../../../../../workspace/linkchooser/edit?f_lt=email";
+								 window.location="../../../../../../workspace/linkchooser/edit?f_lt=email"+
+								 "&f_href="+param["f_href"]+"&f_target="+param["f_target"]+
+								 "&f_title="+param["f_title"];
 							}
 							else if (param["f_href"].indexOf("/content/files") > -1) {
-								window.location="../../../../../../workspace/linkchooser/edit?f_lt=document";
+								window.location="../../../../../../workspace/linkchooser/edit?f_lt=document"+
+								 "&f_href="+param["f_href"]+"&f_target="+param["f_target"]+
+								 "&f_title="+param["f_title"];
 							}
 							else if (param["f_href"].indexOf("/pages/") > -1) {
-								window.location="../../../../../../workspace/linkchooser/edit?f_lt=page";
+								window.location="../../../../../../workspace/linkchooser/edit?f_lt=page"+
+								 "&f_href="+param["f_href"]+"&f_target="+param["f_target"]+
+								 "&f_title="+param["f_title"];
 							}
 							else if (param["f_href"].indexOf("http://") == 0) {
-								 window.location="../../../../../../workspace/linkchooser/edit?f_lt=external";
+								 window.location="../../../../../../workspace/linkchooser/edit?f_lt=external"+
+								 "&f_href="+param["f_href"]+"&f_target="+param["f_target"]+
+								 "&f_title="+param["f_title"];
 							}
 				      	} else {
 				      	  window.location="../../../../../../workspace/linkchooser/edit?f_lt=external";

@@ -771,12 +771,73 @@ head:first-child+body div[class].scrollContainer table tbody td + td + td {
 }
 
 /*ImageChooser:*/
-
+.wf_imagechooser{
+	position : relative;
+	height : 150px;
+}
 .wf_imagechooser_left_box{
-	display:none;
+	margin-top : 5px;
+	width : 200px;
+	position:absolute;
+	border : 1px solid #ABABAB;
 }
 
 .wf_imagechooser_right_box{
-	display:none;
+	margin-top : 5px;
+	width : 150px;
+	position:absolute;
+	left : 230px;
+	border : 1px solid #ABABAB;
 }
+
+
+.wf_imagechooser_line_long {
+	padding-left: 10px;
+}
+.wf_imagechooser_line_long input{
+	width : 330px;
+}
+.wf_imagechooser_line_short {
+overflow:hidden;
+}
+.wf_imagechooser_line_short label{
+	float: left;
+	margin-top : 6px;
+	width : 70px;
+}
+.wf_imagechooser_line_long label{
+	float: left;
+	margin-top : 6px;
+	width : 70px;
+}
+
+.wf_imagechooser_line_short select{
+float: left;
+}
+
+.wf_imagechooser_line_short input{
+	width : 30px;
+}
+
+.wf_imagechooser_preview_button {
+	width : 70px !important;
+}
+
+.wf_imagechooser_line{
+	position: absolute;
+	top : 130px;
+	right : -5px;
+}
+.wf_imagechooser_preview {
+	position : absolute;
+	left : 500px;
+	top : 0px;
+	width : 200px;
+}
+#ipreview {
+	margin-left : 0;
+	width : 180px;
+	height : 135px;
+}
+
 /**END WFBlock default Form styles**/
