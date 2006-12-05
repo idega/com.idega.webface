@@ -15,6 +15,8 @@ function SelectDocument( link )
 	previousSelected=link;
 	previousSelectedClassName=link.parentNode.parentNode.className;
 	href = link.href;
+	href = href.substring(href.indexOf("//")+2);
+	href = href.substring(href.indexOf("/"));
 	link.parentNode.parentNode.className='selected';
 	//link.className='selected';
 	document.getElementById("uploadForm:f_href").value=href;

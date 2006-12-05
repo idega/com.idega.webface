@@ -15,6 +15,8 @@ function SelectDocument( link )
 	previousSelected=link;
 	previousSelectedClassName=link.parentNode.parentNode.className;
 	href = link.href;
+	href = href.substring(href.indexOf("//")+2);
+	href = href.substring(href.indexOf("/"));
 	link.parentNode.parentNode.className='selected';
 	//link.className='selected';
 	document.getElementById("uploadForm:f_url").value=href;
@@ -28,7 +30,7 @@ function Init() {
       document.getElementById("uploadForm:f_url").value = param["f_url"];
       document.getElementById("uploadForm:f_alt").value = param["f_alt"];
       document.getElementById("uploadForm:f_border").value = param["f_border"];
-      document.getElementById("f_align").value = param["f_align"];
+      document.getElementById("uploadForm:f_align").value = param["f_align"];
       document.getElementById("uploadForm:f_vert").value = param["f_vert"];
       document.getElementById("uploadForm:f_horiz").value = param["f_horiz"];
       window.ipreview.location.replace(param.f_url);

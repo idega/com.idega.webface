@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.8 2006/04/09 11:59:21 laddi Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.8.2.1 2006/12/05 15:09:42 gimmi Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -52,7 +52,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 			this.tabs = new Vector();
 		}
 		this.tabs.add(new HTMLAreaExternalImageType());
-		
+
 		String selectedType = iwc.getParameter(PARAMETER_LINK_TYPE);
 		String pc = iwc.getParameter(PARAMETER_CHOOSER);
 		if (pc == null) {
@@ -115,20 +115,46 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 	}
 
 	protected UIComponent getCreationComponent() {
-		return this.currentImageType.getCreationComponent();
+		String surl = IWContext.getInstance().getParameter(PARAMETER_URL);
+		if (surl != null && surl.lastIndexOf("/") > -1) {
+			surl = surl.substring(0, surl.lastIndexOf("/"));
+		}
+		if (surl != null && surl.indexOf("//") > -1) {
+			surl = surl.substring(surl.indexOf("//")+2);
+			surl = surl.substring(surl.indexOf("/"));
+		}
+		return this.currentImageType.getCreationComponent(surl);
 	}
 	
 	protected WFBlock getSubmitTable() {
-		WFBlock block = new WFBlock();
+		WFBlock mainblock = new WFBlock();
 		WFTitlebar header = new WFTitlebar();
 		header.addTitleText(this.bundle.getLocalizedText("image_chooser"));
-		block.setTitlebar(header);
+		mainblock.setTitlebar(header);
 
+		WFContainer block = new WFContainer();
+		block.setStyleClass("wf_imagechooser");
+		mainblock.add(block);
+		
+		String surl = IWContext.getInstance().getParameter(PARAMETER_URL);
+		String salt = IWContext.getInstance().getParameter(PARAMETER_ALT);
+		String sali = IWContext.getInstance().getParameter(PARAMETER_ALIGNMENT);
+		String sbor = IWContext.getInstance().getParameter(PARAMETER_BORDER);
+		String shor = IWContext.getInstance().getParameter(PARAMETER_HORIZONTAL_SPACING);
+		String sver = IWContext.getInstance().getParameter(PARAMETER_VERTICAL_SPACING);
+		
+		
 		HtmlInputText url = new HtmlInputText();
 		url.setId(PARAMETER_URL);
-		
+		if (surl != null) {
+			url.setValue(surl);
+		}
+
 		HtmlInputText alt = new HtmlInputText();
 		alt.setId(PARAMETER_ALT);
+		if (salt != null) {
+			alt.setValue(salt);
+		}
 		
 		DropdownMenu alignment = new DropdownMenu(PARAMETER_ALIGNMENT);
 		alignment.setId(PARAMETER_ALIGNMENT);
@@ -143,21 +169,38 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		alignment.addMenuElement("bottom", "Bottom");
 		alignment.addMenuElement("middle", "Middle");
 		alignment.addMenuElement("top", "Top");
-		alignment.setSelectedElement("baseline");
+		if (sali != null) {
+			alignment.setSelectedElement(sali);
+		} else {
+			alignment.setSelectedElement("baseline");
+		}
 				
 		HtmlInputText border = new HtmlInputText();
 		border.setId(PARAMETER_BORDER);
+		if (sbor != null) {
+			border.setValue(sbor);
+		}
 		
 		HtmlInputText horiz = new HtmlInputText();
 		horiz.setId(PARAMETER_HORIZONTAL_SPACING);
+		if (shor != null && !"-1".equals(shor)) {
+			horiz.setValue(shor);
+		}
 		
 		HtmlInputText vert = new HtmlInputText();
 		vert.setId(PARAMETER_VERTICAL_SPACING);
+		if (sver != null && !"-1".equals(sver)) {
+			vert.setValue(sver);
+		}
 		
 		IFrame iframe = new IFrame();
 		iframe.setId(PARAMETER_PREVIEW);
 		iframe.setName(PARAMETER_PREVIEW);
-		iframe.setSrc("");
+		if (surl == null) {
+			iframe.setSrc("");
+		} else {
+			iframe.setSrc(surl);
+		}
 		iframe.addLanguageParameter(false);
 		
 		HtmlCommandButton saveButton = new HtmlCommandButton();
@@ -171,6 +214,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		previewButton.setType("button");
 		previewButton.setOnclick("onPreview()");
 		previewButton.setId("HTMLAIC_PB");
+		previewButton.setStyleClass("wf_imagechooser_preview_button");
 		
 		WFContainer urlLine = new WFContainer();
 		urlLine.setStyleClass("wf_imagechooser_line_long");
@@ -195,8 +239,8 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 
 		FieldSet layoutBox = new FieldSet(this.bundle.getLocalizedString("layout"));
 		layoutBox.setStyleClass("wf_imagechooser_left_box");
-		layoutBox.add(alignmentLine);
-		layoutBox.add(borderLine);
+//		layoutBox.add(alignmentLine);
+//		layoutBox.add(borderLine);
 		
 		WFContainer horizLine = new WFContainer();
 		horizLine.setStyleClass("wf_imagechooser_line_short");
@@ -210,8 +254,8 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		
 		FieldSet spacingBox = new FieldSet(this.bundle.getLocalizedString("spacing"));
 		spacingBox.setStyleClass("wf_imagechooser_right_box");
-		spacingBox.add(horizLine);
-		spacingBox.add(vertiLine);
+//		spacingBox.add(horizLine);
+//		spacingBox.add(vertiLine);
 
 		WFContainer previewLine = new WFContainer();
 		previewLine.setStyleClass("wf_imagechooser_preview");
@@ -237,17 +281,21 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		
 //		block.add(mainFieldSet);
 		
+//		block.add(urlLine);
+//		block.add(altLine);
+		layoutBox.add(alignmentLine);
+		layoutBox.add(borderLine);
+		spacingBox.add(horizLine);
+		spacingBox.add(vertiLine);
+
+		
 		block.add(urlLine);
 		block.add(altLine);
 		block.add(layoutBox);
 		block.add(spacingBox);
-//		block.add(alignmentLine);
-//		block.add(borderLine);
-//		block.add(horizLine);
-//		block.add(vertiLine);
-		//block.add(previewLine);
+		block.add(previewLine);
 		block.add(saveLine);
-		return block;
+		return mainblock;
 	}
 	
 	public HtmlOutputLabel getLabel(String localizeKey, String forName) {

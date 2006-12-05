@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageType.java,v 1.1 2005/03/09 09:45:43 gimmi Exp $
+ * $Id: HTMLAreaImageType.java,v 1.1.2.1 2006/12/05 15:09:42 gimmi Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -27,7 +27,7 @@ public interface HTMLAreaImageType {
 	 * Returns a table 
 	 * @return
 	 */
-	public UIComponent getCreationComponent();
+	public UIComponent getCreationComponent(String url);
 	
 	/**
 	 * Returns a string with the type of the link... e.g. "email"

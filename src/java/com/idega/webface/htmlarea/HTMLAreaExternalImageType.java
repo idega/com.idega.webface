@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaExternalImageType.java,v 1.1 2005/03/09 09:45:43 gimmi Exp $
+ * $Id: HTMLAreaExternalImageType.java,v 1.1.2.1 2006/12/05 15:09:42 gimmi Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -27,5 +27,9 @@ public class HTMLAreaExternalImageType implements HTMLAreaImageType {
 
 	public String getLinkType() {
 		return "external";
+	}
+
+	public UIComponent getCreationComponent(String url) {
+		return null;
 	}
 }
