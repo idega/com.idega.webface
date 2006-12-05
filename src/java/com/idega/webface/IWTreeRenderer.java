@@ -23,7 +23,7 @@ import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
  * @author Chris Barlow
  * @author Hans Bergsten (Some code taken from an example in his O'Reilly
  *         JavaServer Faces book. Copied with permission)
- * @version $Revision: 1.7 $ $Date: 2006/11/28 18:50:19 $
+ * @version $Revision: 1.8 $ $Date: 2006/12/05 12:08:04 $
  * 
  * TO DO adding of facet shouldn't be hardcoded
  */
@@ -61,13 +61,15 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 		if (sourceTree) {
 			out.writeAttribute("sourceTree", "true", null);
 			out.writeAttribute("noChildren", "true", null);
-
 		}
 		if (((WFTreeNode) (tree.getNode())).getIconURI() != null) {
 			out.writeAttribute("iconfile", ((WFTreeNode) (tree.getNode())).getIconURI(), null);
 		}
 		if (((WFTreeNode) (tree.getNode())).getPageType() != null) {
 			out.writeAttribute("pageType", ((WFTreeNode) (tree.getNode())).getPageType(), null);
+		}
+		if (((WFTreeNode) (tree.getNode())).getTemplateURI() != null) {
+			out.writeAttribute("templateFile", ((WFTreeNode) (tree.getNode())).getTemplateURI(), null);
 		}
 	}
 
@@ -250,6 +252,12 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 		if (((WFTreeNode) (tree.getNode())).getIconURI() != null) {
 			out.writeAttribute("iconfile", ((WFTreeNode) (tree.getNode())).getIconURI(), null);
 		}
+		if (((WFTreeNode) (tree.getNode())).getPageType() != null) {
+			out.writeAttribute("pageType", ((WFTreeNode) (tree.getNode())).getPageType(), null);
+		}
+		if (((WFTreeNode) (tree.getNode())).getTemplateURI() != null) {
+			out.writeAttribute("templateFile", ((WFTreeNode) (tree.getNode())).getTemplateURI(), null);
+		}		
 
 		// tree.getNode().getType();
 
