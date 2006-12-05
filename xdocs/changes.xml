@@ -5,8 +5,17 @@
   </properties>
   <body>
 
+	<release version="3.1.2" date="2006-11-10">
+      <action dev="gimmi" type="update">
+      	Major overhaul to image handling in the image window in Xinha.
+      	Images can now be edited ant spacing, alignment and border set.
+      </action>          
+      <action dev="gimmi" type="update">
+	      Servername not saved in URL when using images or links in Xinha
+      </action>          
+    </release>
 
-	<release version="3.1.1" date="2006-11-10">
+	<release version="3.1.2" date="2006-11-10">
       <action dev="gimmi" type="update">
       	WFContainer can now be used as a SPAN
       </action>            
