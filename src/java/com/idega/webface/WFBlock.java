@@ -29,7 +29,7 @@ public class WFBlock extends WFContainer {
 	
 	private boolean toolbarEmbeddedInTitlebar = false;
 	private String mainAreaStyleClass = WFConstants.STYLE_CLASS_MAINAREA;
-	private boolean maximizedVertically=false;
+	private boolean maximizedVertically = false;
 	
 	public static String getWFRendererType() {
 		return RENDERER_TYPE;
