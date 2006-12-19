@@ -23,7 +23,7 @@ import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
  * @author Chris Barlow
  * @author Hans Bergsten (Some code taken from an example in his O'Reilly
  *         JavaServer Faces book. Copied with permission)
- * @version $Revision: 1.8 $ $Date: 2006/12/05 12:08:04 $
+ * @version $Revision: 1.9 $ $Date: 2006/12/19 08:47:43 $
  * 
  * TO DO adding of facet shouldn't be hardcoded
  */
@@ -243,8 +243,8 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 
 		out.startElement(HTML.LI_ELEM, tree);
 		out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
-		if (!tree.getNode().isLeaf())
-			out.writeAttribute("noDrag", "true", null);
+//		if (!tree.getNode().isLeaf())
+//			out.writeAttribute("noDrag", "true", null);
 		if (sourceTree) {
 			out.writeAttribute("sourceTree", "true", null);
 			out.writeAttribute("noChildren", "true", null);
