@@ -52,6 +52,11 @@
           	<renderer-type>com.idega.webface.IWTree</renderer-type>
           	<renderer-class> com.idega.webface.IWTreeRenderer</renderer-class> 
       	 </renderer>
+	     <renderer>
+	          <component-family>webface</component-family>
+	          <renderer-type>wf_block</renderer-type>
+	          <renderer-class>com.idega.webface.renderkit.BlockRenderer</renderer-class>
+	     </renderer>           	 
 	</render-kit>
 
 	<component>
