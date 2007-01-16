@@ -1,17 +1,5 @@
 // I18N constants
-
 // LANG: "fr", ENCODING: UTF-8
-// Author: Cédric Guillemette, http://www.ebdata.com
-
-// FOR TRANSLATORS:
-//
-//   1. PLEASE PUT YOUR CONTACT INFO IN THE ABOVE LINE
-//      (at least a valid email address)
-//
-//   2. PLEASE TRY TO USE UTF-8 FOR ENCODING;
-//      (if this is not possible, please include a comment
-//       that states what encoding is necessary.)
-
 {
   "Align": "Aligner",
   "All four sides": "Quatre cotés",
@@ -40,16 +28,16 @@
   "Left": "Gauche",
   "Margin": "Marge",
   "Middle": "Milieu",
-  "No rules": "Aucun règlement",
-  "No sides": "Aucun côtés",
+  "No rules": "Aucune règle",
+  "No sides": "Aucun côté",
   "None": "Aucun",
   "Padding": "Remplissage",
   "Please click into some cell": "Cliquer sur une cellule",
   "Right": "Droit",
   "Row Properties": "Propriétés de rangée",
-  "Rules will appear between all rows and columns": "Les règles vont apparaître entre les rangées et les cellules",
-  "Rules will appear between columns only": "Les règles vont apparaître entre les colonnes seulement",
-  "Rules will appear between rows only": "Les règles vont apparaître entre les rangées seulement",
+  "Rules will appear between all rows and columns": "Règles entre les rangées et les cellules",
+  "Rules will appear between columns only": "Règles entre les colonnes seulement",
+  "Rules will appear between rows only": "Règles entre les rangées seulement",
   "Rules": "Les règles",
   "Spacing and padding": "Espacement et remplissage",
   "Spacing": "Espacement",
@@ -71,7 +59,7 @@
   "Split row": "Diviser la rangée",
   "Table properties": "Propriétés de table",
   "Table Properties": "Propriétés de table",
-  "Text align": "Aligner le texte",
+  "Text align": "Alignement",
   "The bottom side only": "Côté du bas seulement",
   "The left-hand side only": "Côté gauche seulement",
   "The right and left sides only": "Côté gauche et droit seulement",
@@ -80,11 +68,11 @@
   "The top side only": "Côté haut seulement",
   "Top": "Haut",
   "Unset color": "Enlever la couleur",
-  "Vertical align": "Alignement vertical",
+  "Vertical align": "Vertical",
   "Width": "Longeur",
-  "HTMLArea cowardly refuses to delete the last cell in row.": "HTMLArea refuse de supprimer la dernière cellule de la rangée.",
-  "HTMLArea cowardly refuses to delete the last column in table.": "HTMLArea refuse de supprimer la dernière colonne de la table.",
-  "HTMLArea cowardly refuses to delete the last row in table.": "HTMLArea refuse de supprimer la dernière rangée de la table",
-  "percent": "pourcentage",
+  "HTMLArea cowardly refuses to delete the last cell in row.": "Il est impossible de supprimer la dernière cellule de la rangée.",
+  "HTMLArea cowardly refuses to delete the last column in table.": "Il est impossible de supprimer la dernière colonne de la table.",
+  "HTMLArea cowardly refuses to delete the last row in table.": "Il est impossible de supprimer la dernière rangée de la table",
+  "percent": "%",
   "pixels": "pixels"
-}
+};

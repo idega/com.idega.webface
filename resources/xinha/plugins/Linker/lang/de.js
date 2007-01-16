@@ -1,11 +1,10 @@
 // I18N constants
-
 // LANG: "de", ENCODING: UTF-8
-// translated: Udo Schmal
+// translated: Udo Schmal (gocher), http://www.schaffrath-neuemedien.de/, udo.schmal@t-online.de
 {
   "You must select some text before making a new link.": "Sie müssen einen Text markieren um einen Link zu erstellen",
   "Are you sure you wish to remove this link?": "Wollen Sie diesen Link wirklich entfernen?",
-	"REMOVE LINK": "LINK ENTFERNEN",
+  "REMOVE LINK": "LINK ENTFERNEN",
   "CANCEL": "ABBRECHEN",
   "URL Link": "URL Adresse",
   "Ordinary Link": "Standard Link",
@@ -18,4 +17,4 @@
   "Message Template:": "Nachrichten Vorlage:",
   "Size:": "Größe:",
   "Name:": "Name:"
-}
+};

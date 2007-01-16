@@ -25,7 +25,7 @@
 // | Authors: Peter Bowyer <peter@mapledesign.co.uk>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: IM.php,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+// $Id: IM.php,v 1.1.2.1 2007/01/16 19:14:02 gediminas Exp $
 //
 // Image Transformation interface using command line ImageMagick
 //
@@ -182,9 +182,9 @@ Class Image_Transform_Driver_IM extends Image_Transform
     /**
      * Save the image file
      *
-     * @param $filename string  the name of the file to write to
-     * @param $quality  quality image dpi, default=75
-     * @param $type     string  (JPG,PNG...)
+     * @param string  $filename the name of the file to write to
+     * @param quality $quality  image dpi, default=75
+     * @param string  $type     (JPG,PNG...)
      *
      * @return none
      */

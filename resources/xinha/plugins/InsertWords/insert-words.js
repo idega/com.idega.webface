@@ -45,7 +45,7 @@ function InsertWords(editor, params) {
 
     cfg.addToolbarElement(toolbar, "linebreak", 1);
 
-};
+}
 
 InsertWords._pluginInfo = {
 	name          : "InsertWords",
@@ -67,5 +67,4 @@ InsertWords.prototype.onSelect = function(editor, obj, context) {
 
 	// Reset the dropdown to it's label
 	elem.selectedIndex = 0;
-}
-
+};

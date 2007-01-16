@@ -10,7 +10,7 @@
 // Version 3.0 developed by Mihai Bazon for InteractiveTools.
 //   http://dynarch.com/mishoo
 //
-// $Id: full-page.js,v 1.1 2005/09/12 12:54:49 tryggvil Exp $
+// $Id: full-page.js,v 1.1.2.1 2007/01/16 19:14:04 gediminas Exp $
 
 function FullPage(editor) {
 	this.editor = editor;
@@ -26,7 +26,7 @@ function FullPage(editor) {
 
 	// add a new line in the toolbar
 	cfg.addToolbarElement(["separator","FP-docprop"],"separator",-1);
-};
+}
 
 FullPage._pluginInfo = {
 	name          : "FullPage",
@@ -41,7 +41,7 @@ FullPage._pluginInfo = {
 
 FullPage.prototype._lc = function(string) {
     return HTMLArea._lc(string, 'FullPage');
-}
+};
 
 FullPage.prototype.buttonPress = function(editor, id) {
 	var self = this;
@@ -69,9 +69,9 @@ FullPage.prototype.buttonPress = function(editor, id) {
 			if (/content-type/i.test(meta.httpEquiv)) {
 				r = /^text\/html; *charset=(.*)$/i.exec(meta.content);
 				charset = r[1];
-			}	else if (/keywords/i.test(meta.name)) {
+			} else if ((/keywords/i.test(meta.name)) || (/keywords/i.test(meta.id))) {
 				keywords = meta.content;
-			}	else if (/description/i.test(meta.name)) {
+			}	else if ((/description/i.test(meta.name)) || (/description/i.test(meta.id))) {
 				description = meta.content;
 			}
 		}
@@ -123,9 +123,9 @@ FullPage.prototype.setDocProp = function(params) {
 			r = /^text\/html; *charset=(.*)$/i.exec(meta.content);
 			charset = r[1];
 			charset_meta = meta;
-		} else if (/keywords/i.test(meta.name)) {
+		} else if ((/keywords/i.test(meta.name)) || (/keywords/i.test(meta.id))) {
 			keywords = meta;
-		}	else if (/description/i.test(meta.name)) {
+		}	else if ((/description/i.test(meta.name)) || (/description/i.test(meta.id))) {
 			description = meta;
 		}
 	}
@@ -134,15 +134,16 @@ FullPage.prototype.setDocProp = function(params) {
 		link.rel = alt ? "alternate stylesheet" : "stylesheet";
 		head.appendChild(link);
 		return link;
-	};
+	}
 	function createMeta(httpEquiv, name, content) {
 		var meta = doc.createElement("meta");
 		if (httpEquiv!="") meta.httpEquiv = httpEquiv;
 		if (name!="") meta.name = name;
+		if (name!="") meta.id = name;
 		meta.content = content;
 		head.appendChild(meta);
 		return meta;
-	};
+	}
 
 	if (!style1 && params.f_base_style)
 		style1 = createLink(false);

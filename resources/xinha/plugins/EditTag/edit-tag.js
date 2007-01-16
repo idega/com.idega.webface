@@ -20,11 +20,11 @@ function EditTag(editor) {
                 action   : function(editor) {
                              self.buttonPress(editor);
                            }
-            })
+            });
 
 	cfg.addToolbarElement("edittag", "htmlmode",1);
 
-};
+}
 
 EditTag._pluginInfo = {
 	name          : "EditTag",
@@ -39,7 +39,7 @@ EditTag._pluginInfo = {
 
 EditTag.prototype._lc = function(string) {
     return HTMLArea._lc(string, 'EditTag');
-}
+};
 
 EditTag.prototype.buttonPress = function(editor) {
 	// Costruzione dell'oggetto parametri da passare alla dialog.
@@ -53,4 +53,4 @@ EditTag.prototype.buttonPress = function(editor) {
 		}
 		editor.insertHTML( html );
 	}, outparam);
-}
+};

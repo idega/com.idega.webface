@@ -1,8 +1,8 @@
 <?php
 /**
  * ImageManager, list images, directories, and thumbnails.
- * @author $Author: tryggvil $
- * @version $Id: ImageManager.php,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+ * @author $Author: gediminas $
+ * @version $Id: ImageManager.php,v 1.1.2.1 2007/01/16 19:14:01 gediminas Exp $
  * @package ImageManager
  */
 
@@ -14,8 +14,8 @@ require_once('Files.php');
 
 /**
  * ImageManager Class.
- * @author $Author: tryggvil $
- * @version $Id: ImageManager.php,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+ * @author $Author: gediminas $
+ * @version $Id: ImageManager.php,v 1.1.2.1 2007/01/16 19:14:01 gediminas Exp $
  */
 class ImageManager 
 {
@@ -63,7 +63,7 @@ class ImageManager
 
 	/**
 	 * Get the tmp file prefix.
-     * @return string tmp file prefix.
+	 * @return string tmp file prefix.
 	 */
 	function getTmpPrefix() 
 	{
@@ -335,13 +335,13 @@ class ImageManager
 	}
 
 
- 	/**
+	/**
 	 * For a given image file, get the respective resized filename
 	 * no file existence check is done.
 	 * @param string $fullpathfile the full path to the image file
-   * @param integer $width the intended width
-   * @param integer $height the intended height
-   * @param boolean $mkDir whether to attempt to make the resized_dir if it doesn't exist
+	 * @param integer $width the intended width
+	 * @param integer $height the intended height
+	 * @param boolean $mkDir whether to attempt to make the resized_dir if it doesn't exist
 	 * @return string of the resized filename
 	 */
 	function getResizedName($fullpathfile, $width, $height, $mkDir = TRUE)
@@ -356,10 +356,10 @@ class ImageManager
 		}
 		else
 		{
-      $path = Files::makePath($path_parts['dirname'],$this->config['resized_dir']);
-      if($mkDir && !is_dir($path))
-        Files::createFolder($path);
-      Return Files::makeFile($path,$thumbnail);
+			$path = Files::makePath($path_parts['dirname'],$this->config['resized_dir']);
+			if($mkDir && !is_dir($path))
+				Files::createFolder($path);
+			Return Files::makeFile($path,$thumbnail);
 		}
 	}
 

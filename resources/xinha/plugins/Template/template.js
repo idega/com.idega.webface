@@ -20,9 +20,9 @@ function Template(editor) {
 	action   : function(editor) {
 			self.buttonPress(editor);
 		}
-	})
+	});
 	cfg.addToolbarElement("template", "inserthorizontalrule", 1);
-};
+}
 
 Template._pluginInfo = {
 	name          : "Template",
@@ -43,7 +43,7 @@ Template.prototype.onGenerate = function() {
     style.href = _editor_url + 'plugins/Template/template.css';
     this.editor._doc.getElementsByTagName("HEAD")[0].appendChild(style);
   }
-}
+};
 
 Template.prototype.buttonPress = function(editor) {
   editor._popupDialog( "plugin://Template/template", function( obj ) {
@@ -112,4 +112,4 @@ Template.prototype.buttonPress = function(editor) {
                 break
     }
   }, null);
-}
+};

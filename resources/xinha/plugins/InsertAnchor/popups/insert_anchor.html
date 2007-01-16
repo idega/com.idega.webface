@@ -4,18 +4,17 @@
   <link rel="stylesheet" type="text/css" href="../../../popups/popup.css" />
   <script type="text/javascript" src="../../../popups/popup.js"></script>
   <script type="text/javascript">
-    window.resizeTo(300, 150);
 
 function Init() {
   __dlg_translate("InsertAnchor");
   __dlg_init();
-  window.resizeTo(400, 180);
+  window.resizeTo(400, 150);
   var param = window.dialogArguments;
   if (param) {
     document.getElementById("name").value = param["name"];
   }
   document.getElementById("name").focus();
-};
+}
 
 function onOK() {
   // pass data back to the calling window
@@ -23,7 +22,7 @@ function onOK() {
   param["name"] = document.getElementById("name").value;
   __dlg_close(param);
   return false;
-};
+}
 
 function onDelete() {
   // pass data back to the calling window
@@ -31,12 +30,12 @@ function onDelete() {
   param["name"] = "";
   __dlg_close(param);
   return false;
-};
+}
 
 function onCancel() {
   __dlg_close(null);
   return false;
-};
+}
 </script>
 </head>
 

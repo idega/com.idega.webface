@@ -1,8 +1,7 @@
-// I18N for the Equation plugin
-
-// LANG: "de", ENCODING: UTF-8
-// Author: Joe Hobson, jhobson@bcoe.org
-
+// I18N constants
+//
+//LANG: "base", ENCODING: UTF-8
+//Author: Translator-Name, <email@example.com>
 // FOR TRANSLATORS:
 //
 //   1. PLEASE PUT YOUR CONTACT INFO IN THE ABOVE LINE
@@ -13,8 +12,11 @@
 //       that states what encoding is necessary.)
 
 {
-  "Equation Editor": "Gleichungs-Editor"
-  "Select operation": "Auswahl",
-  "Insert": "Einfügen",
-  "Cancel": "Abbrechen"
-};
+  "AsciiMath Formula Input": "AsciiMath Formeleditor",
+  "Formula Editor": "Formeleditor",
+  "Input":"Eingabe",
+  "Preview":"Vorschau",
+  "Based on ASCIIMathML by ": "Basiert auf ASCIIMathML von ",
+  "For more information on AsciiMathML visit this page: ":"Für weitere Informationen besuchen Sie bitte diese Seite: ",
+  "Attention: Editing the formula in the editor is not possible, please use this dialog!" : "Achtung, ändern der Formel im Editor ist nicht möglich. Bitte benutzen Sie diesen Dialog!"
+}

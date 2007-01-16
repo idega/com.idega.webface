@@ -19,7 +19,7 @@ function QuickTag(editor) {
              }
   });
   cfg.addToolbarElement("quickeditor", "htmlmode", 1);  
-};
+}
 
 QuickTag.prototype.buttonPress = function(editor) { 
 var self = this;
@@ -50,4 +50,4 @@ license       : "htmlArea"
 
 QuickTag.prototype._lc = function(string) {
     return HTMLArea._lc(string, 'QuickTag');
-}
+};

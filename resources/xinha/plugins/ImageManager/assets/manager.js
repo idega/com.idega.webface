@@ -1,14 +1,14 @@
 /**
  * Functions for the ImageManager, used by manager.php only	
- * @author $Author: tryggvil $
- * @version $Id: manager.js,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+ * @author $Author: gediminas $
+ * @version $Id: manager.js,v 1.1.2.1 2007/01/16 19:14:04 gediminas Exp $
  * @package ImageManager
  */
 	
 	//Translation
 	function i18n(str) {
         return HTMLArea._lc(str, 'ImageManager');
-	};
+	}
 
 
 	//set the alignment options
@@ -28,7 +28,7 @@
 	//initialise the form
 	init = function () 
 	{
-		__dlg_init();
+		__dlg_init(null, {width:600,height:460});
 
 		__dlg_translate('ImageManager');
         
@@ -55,10 +55,23 @@
 		var param = window.dialogArguments;
 		if (param) 
 		{
-      var image_src = param.f_url;
       var image_regex = new RegExp( '(https?://[^/]*)?' + base_url.replace(/\/$/, '') );
       param.f_url = param.f_url.replace( image_regex, "" );
 
+      // The image URL may reference one of the automatically resized images 
+      // (when the user alters the dimensions in the picker), clean that up
+      // so it looks right and we get back to a normal f_url
+      var rd = _resized_dir.replace(HTMLArea.RE_Specials, '\\$1');
+      var rp = _resized_prefix.replace(HTMLArea.RE_Specials, '\\$1');
+      var dreg = new RegExp('^(.*/)' + rd + '/' + rp + '_([0-9]+)x([0-9]+)_([^/]+)$');
+  
+      if(dreg.test(param.f_url))
+      {
+        param.f_url    = RegExp.$1 + RegExp.$4;
+        param.f_width  = RegExp.$2;
+        param.f_height = RegExp.$3;
+      }
+      
       for (var id in param)
       {
         if(id == 'f_align') continue;
@@ -75,10 +88,7 @@
 			setAlign(param["f_align"]);
 
       // Locate to the correct directory
-      var rd = _resized_dir.replace(HTMLArea.RE_Specials, '\\$1');
-      var rp = _resized_prefix.replace(HTMLArea.RE_Specials, '\\$1');
-      var dreg = new RegExp('^(.*/)(?:'+rd+')?(?:'+rp+'_[0-9]+x[0-9]+_)?([^/]+)$');
-
+      var dreg = new RegExp('^(.*/)([^/]+)$');
       if(dreg.test(param['f_url']))
       {
         changeDir(RegExp.$1);
@@ -92,20 +102,21 @@
           }
         }
       }
+      document.getElementById('f_preview').src = _backend_url + '__function=thumbs&img=' + param.f_url;      
 		}
 
 		document.getElementById("f_alt").focus();
 
     // For some reason dialog is not shrinkwrapping correctly in IE so we have to explicitly size it for now.
-    if(HTMLArea.is_ie) window.resizeTo(600, 460);
-	}
+    // if(HTMLArea.is_ie) window.resizeTo(600, 460);
+	};
 
 
 	function onCancel() 
 	{
 		__dlg_close(null);
 		return false;
-	};
+	}
 
 	function onOK() 
 	{
@@ -156,7 +167,7 @@
 
 		__dlg_close(param);
 		return false;
-	};
+	}
 
 	//similar to the Files::makeFile() in Files.php
 	function makeURL(pathA, pathB) 
@@ -294,16 +305,10 @@
 
 	function newFolder() 
 	{
+     var folder = prompt(i18n('Please enter name for new folder...'), i18n('Untitled'));
 		var selection = document.getElementById('dirPath');
 		var dir = selection.options[selection.selectedIndex].value;
 
-		Dialog("newFolder.html", function(param) 
-		{
-			if (!param) // user must have pressed Cancel
-				return false;
-			else
-			{
-				var folder = param['f_foldername'];
 				if(folder == thumbdir)
 				{
 					alert(i18n('Invalid folder name, please choose another folder name.'));
@@ -312,8 +317,5 @@
 
 				if (folder && folder != '' && typeof imgManager != 'undefined') 
 					imgManager.newFolder(dir, encodeURI(folder)); 
-			}
-		}, null);
-	}
-
-	addEvent(window, 'load', init);
+   }
+	 addEvent(window, 'load', init);

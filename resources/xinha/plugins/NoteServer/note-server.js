@@ -26,9 +26,9 @@ function NoteServer(editor) {
                 action   : function(editor) {
                                 self.buttonPress(editor);
                            }
-            })
+            });
 	cfg.addToolbarElement("insertscore", "insertimage", 1);
-};
+}
 
 NoteServer._pluginInfo = {
   name          : "NoteServer",
@@ -43,7 +43,7 @@ NoteServer._pluginInfo = {
 
 NoteServer.prototype._lc = function(string) {
   return HTMLArea._lc(string, 'NoteServer');
-}
+};
 
 NoteServer.prototype.buttonPress = function(editor) {
   editor._popupDialog( "plugin://NoteServer/codenote", function(param) {
@@ -51,7 +51,7 @@ NoteServer.prototype.buttonPress = function(editor) {
       return false;
     } else IncludeGuido(editor,param);
   }, null);
-}
+};
 
 // this variable is the address of the noteserver
 // can be set to another address (local address if availalble) 
@@ -185,7 +185,7 @@ if (param["f_midi"]) string2 = string2 + "<a href=" + stringmidi + ">" + HTMLAre
 
     //var html = linktext.link(stringmidi);
     //editor.insertHTML(html);
-};
+}
 
 // this routine includes the applet-definition 
 function IncludeGuidoStringAsApplet(editor, gmnstring, zoom) {
@@ -205,4 +205,4 @@ function IncludeGuidoStringAsApplet(editor, gmnstring, zoom) {
   alert(string);
   editor.focusEditor();
   editor.insertHTML(string);
-};
+}
