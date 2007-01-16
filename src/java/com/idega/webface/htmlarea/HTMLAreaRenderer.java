@@ -3,6 +3,7 @@ package com.idega.webface.htmlarea;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputTextarea;
@@ -12,7 +13,6 @@ import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 import javax.faces.render.Renderer;
 import com.idega.idegaweb.IWBundle;
-import com.idega.idegaweb.IWMainApplication;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
 
@@ -107,73 +107,25 @@ public class HTMLAreaRenderer extends Renderer {
 		
 		StringBuffer variables = getVariablesScript(); // Initializing variables 
 		StringBuffer initEditorScript = getInitEditorScript(context, component); // Initializing editor starts
-		StringBuffer loadPlugins = getRegisterPluginsScript(component, initEditorScript); // Registering plugins
-		finalizeInitEditorScript(initEditorScript); //Finishing initialize editor script, all plugins must be registered at this point
-		
 		
 		if (pageParent) {
 			// This must be added in this order
 			((Page) parent).addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
-			((Page) parent).addJavascriptURL(this.rootFolder + "htmlarea.js");
-			((Page) parent).addJavaScriptAfterJavaScriptURLs("htmlAreaLoadPlugins", loadPlugins.toString());
+			((Page) parent).addJavascriptURL(this.rootFolder + "XinhaCore.js");
 			((Page) parent).addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
-			((Page) parent).addStyleSheetURL(this.rootFolder+"htmlarea.css");
-			((Page) parent).setOnLoad("HTMLArea.init()");
+			((Page) parent).addStyleSheetURL(this.rootFolder+"Xinha.css");
+			((Page) parent).setOnLoad("xinha_init()");
 		} else {
 			// Adding necessary scripts to html file (note: currently added to <body> should be moved to <head>)
 			// This must be added in this order
 			ResponseWriter writer = context.getResponseWriter();
 			addJavascript(writer, variables.toString());
-			addJavascriptUrl(writer, "htmlarea.js");
-			addJavascript(writer, loadPlugins.toString());
+			addJavascriptUrl(writer, "XinhaCore.js");
 			addJavascript(writer, initEditorScript.toString());
-			addStyleSheet(writer, "htmlarea.css");
-		
-			// Adding HTMLArea.init() to html file (note: currently added to <body> should be moved to <body onload>)
-			writer.write("\n");
-			writer.startElement("SCRIPT", null);
-			writer.writeAttribute("type", "text/javascript", null);
-			writer.writeText("HTMLArea.init();", "value");
-			writer.endElement("SCRIPT");
+			addStyleSheet(writer, "Xinha.css");
 		}
 	}
 	
-	private void finalizeInitEditorScript(StringBuffer initEditorScript) {
-		initEditorScript.append("\t\teditor.generate();\n").append("\t}\n");
-		initEditorScript.append("\n\tHTMLArea.onload = initEditor;");
-		initEditorScript.append("\n\tfunction insertHTML() {\n");
-		initEditorScript.append("\t\tvar html = prompt(\"Enter some HTML code here\");\n");
-		initEditorScript.append("\t\tif (html) {\n");
-		initEditorScript.append("\t\t\teditor.insertHTML(html);\n");
-		initEditorScript.append("\t\t}\n");
-		initEditorScript.append("\t}\n");
-		
-		initEditorScript.append("\n\tfunction highlight() {\n");
-		initEditorScript.append("\t\teditor.surroundHTML('<span style=\"background-color: yellow\">', '</span>');\n");
-		initEditorScript.append("\t}\n");
-	}
-
-	private StringBuffer getRegisterPluginsScript(UIComponent component, StringBuffer initEditorScript) {
-		StringBuffer loadPlugins = new StringBuffer("\n");
-		String[] plugins = getPlugins(component);
-		String location;
-		for (int i = 0; i < plugins.length; i++) {
-			location = (String) this.pluginLocation.get(plugins[i]);
-			if (location == null) {
-				location = "2";
-			}
-			if ("Stylist".equals(plugins[i])) {
-				addPlugin(plugins[i], plugins[i], loadPlugins, initEditorScript, location);
-				//add the stylesheet for the website, customizable as an application property
-				String cssPath = IWMainApplication.getDefaultIWApplicationContext().getApplicationSettings().getProperty("SITE_EDITOR_STYLESHEET_URI", "/content/files/public/style/editorstyles.css");
-				initEditorScript.append("\teditor.config.stylistLoadStylesheet('"+cssPath+"');\n");
-			} else {
-				addPlugin(plugins[i], plugins[i], loadPlugins, initEditorScript, location);
-			}
-		}
-		return loadPlugins;
-	}
-
 	private StringBuffer getInitEditorScript(FacesContext context, UIComponent component) {
 		HTMLArea htmlArea = null;
 		try {
@@ -185,19 +137,36 @@ public class HTMLAreaRenderer extends Renderer {
 		String inputName = component.getClientId(context);
 		
 		StringBuffer initEditorScript = new StringBuffer("\n");
-		initEditorScript.append("\tvar editor = null;\n").append("\tfunction initEditor() {\n").append(
-				"\t\t// create an editor for the \"" + inputName + "\" textbox\n").append(
-						"\t\teditor = new HTMLArea('" + inputName + "');\n");
+		initEditorScript.append("\tvar xinha_editors = xinha_editors ? xinha_editors : [ ];\n");
+		initEditorScript.append("\txinha_editors.push('" + inputName + "');\n\n");
+		initEditorScript.append("\tvar xinha_init = xinha_init ? xinha_init : function() {\n");
+	
+		initEditorScript.append("\t\tvar xinha_plugins = [ ");
+		boolean containsStylist = false;
+		String[] plugins = getPlugins(component);
+		for (int i = 0; i < plugins.length; i++) {
+			String plugin = plugins[i];
+			if (i != 0) {
+				initEditorScript.append(", ");
+			}
+			initEditorScript.append("'" + plugin + "'");
+			if (plugin.equals("Stylist")) {
+				containsStylist = true;
+			}
+		}
+		initEditorScript.append(" ];\n");
+		initEditorScript.append("\t\tif (!Xinha.loadPlugins(xinha_plugins, xinha_init)) return;\n\n");
 		
+		initEditorScript.append("\t\txinha_config = new Xinha.Config();\n");
+
 		boolean allowFontSelection = (htmlArea != null && htmlArea.getAllowFontSelection());
 		String space = "\"space\"";
 		String separator = "\"separator\"";
 		String justify = "\"justifyleft\",\"justifycenter\",\"justifyright\",\"justifyfull\"";
 		String lists = "\"lefttoright\",\"righttoleft\"," +	separator+",\"orderedlist\",\"unorderedlist\"";
-		
 
 		// This must happen before the plugins are loaded, otherwize this overrides the plugins
-		initEditorScript.append("\t\teditor.config.toolbar = [ " +
+		initEditorScript.append("\t\txinha_config.toolbar = [ " +
 				"[");
 					if (allowFontSelection) { 
 						initEditorScript.append("\"fontname\","+space+",\"fontsize\","+space+",\"formatblock\","+space+"," +
@@ -227,6 +196,19 @@ public class HTMLAreaRenderer extends Renderer {
 					separator+", \"showhelp\", \"about\"" +
 				"]" +
 			"];\n");
+					
+		if (containsStylist) {
+			String cssPath = IWContext.getIWContext(context).getApplicationSettings().getProperty("SITE_EDITOR_STYLESHEET_URI", "/content/files/public/style/editorstyles.css");
+			initEditorScript.append("\t\txinha_config.stylistLoadStylesheet('"+cssPath+"');\n");
+		}
+		
+		initEditorScript.append("\n");
+		initEditorScript.append("\t\txinha_editors = Xinha.makeEditors(xinha_editors, xinha_config, xinha_plugins);\n");
+		initEditorScript.append("\t\tXinha.startEditors(xinha_editors);\n");
+
+		initEditorScript.append("\t}\n");
+		initEditorScript.append("\n\twindow.onload = xinha_init;\n");
+
 		return initEditorScript;
 	}
 
@@ -302,7 +284,7 @@ public class HTMLAreaRenderer extends Renderer {
 				}
 				
 				list.add(plugin.trim());
-				return (String[]) list.toArray(new String[]{});
+				return (String[]) list.toArray(new String[list.size()]);
 			}
 		} catch (ClassCastException c) {
 			c.printStackTrace();
@@ -314,11 +296,6 @@ public class HTMLAreaRenderer extends Renderer {
 		//Returning no plugins by default:
 		return new String[0];
 		
-	}
-	
-	private void addPlugin(String pluginName, String registerString, StringBuffer loadPlugins, StringBuffer initEditorScript, String toolbarNumber) {
-		loadPlugins.append("\tHTMLArea.loadPlugin(\""+pluginName+"\");\n");
-		initEditorScript.append("\t\teditor.registerPlugin("+registerString+", "+toolbarNumber+");\n");
 	}
 	
 	private void addJavascript(ResponseWriter writer, String script) throws IOException {
