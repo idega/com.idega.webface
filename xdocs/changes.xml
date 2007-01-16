@@ -5,6 +5,13 @@
   </properties>
   <body>
 
+	<release version="3.1.3" date="2007-01-16">
+      <action dev="gediminas" type="update">
+      	Update Xinha to version 0.91b, rewrite renderer to init it the new
+      	way and make it work when there are multiple components on a page.      	
+      </action>          
+    </release>
+
 	<release version="3.1.2" date="2006-11-10">
       <action dev="gimmi" type="update">
       	Major overhaul to image handling in the image window in Xinha.
