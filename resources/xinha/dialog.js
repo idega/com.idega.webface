@@ -9,7 +9,7 @@
 // Version 3.0 developed by Mihai Bazon.
 //   http://dynarch.com/mishoo
 //
-// $Id: dialog.js,v 1.3.2.1 2007/01/16 19:14:07 gediminas Exp $
+// $Id: dialog.js,v 1.3.2.2 2007/01/17 12:30:21 gediminas Exp $
 
 // Though "Dialog" looks like an object, it isn't really an object.  Instead
 // it's just namespace for protecting global symbols.
@@ -44,8 +44,8 @@ Dialog._arguments = null;
 
 Dialog._geckoOpenModal = function(url, action, init) {
 	var dlg = window.open(url, "hadialog",
-			      "toolbar=no,menubar=no,personalbar=no,width=10,height=10," +
-			      "scrollbars=no,resizable=yes,modal=yes,dependable=yes");
+			      "toolbar=no,menubar=no,personalbar=no,width=750,height=650," +
+			      "scrollbars=yes,resizable=yes,modal=yes,dependable=yes");
 	Dialog._modal = dlg;
 	Dialog._arguments = init;
 
