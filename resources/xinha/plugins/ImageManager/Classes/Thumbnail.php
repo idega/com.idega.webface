@@ -1,8 +1,8 @@
 <?php
 /**
  * Create thumbnails.
- * @author $Author: tryggvil $
- * @version $Id: Thumbnail.php,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+ * @author $Author: gediminas $
+ * @version $Id: Thumbnail.php,v 1.2 2007/01/17 13:25:19 gediminas Exp $
  * @package ImageManager
  */
 
@@ -11,8 +11,8 @@ require_once('Transform.php');
 
 /**
  * Thumbnail creation
- * @author $Author: tryggvil $
- * @version $Id: Thumbnail.php,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+ * @author $Author: gediminas $
+ * @version $Id: Thumbnail.php,v 1.2 2007/01/17 13:25:19 gediminas Exp $
  * @package ImageManager
  * @subpackage Images
  */

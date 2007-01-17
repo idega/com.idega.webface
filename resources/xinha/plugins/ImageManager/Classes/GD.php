@@ -37,7 +37,7 @@
 //    }
 //
 //
-// $Id: GD.php,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+// $Id: GD.php,v 1.2 2007/01/17 13:25:19 gediminas Exp $
 //
 // Image Transformation interface using the GD library
 //
@@ -332,8 +332,8 @@ Class Image_Transform_Driver_GD extends Image_Transform
     * It uses a bicubic interpolation algorithm to get far
     * better result.
     *
-    * @param $new_x int  new width
-    * @param $new_y int  new height
+    * @param int  $new_x new width
+    * @param int  $new_y new height
     *
     * @return true on success or pear error
     * @see PEAR::isError()
@@ -437,9 +437,9 @@ Class Image_Transform_Driver_GD extends Image_Transform
     /**
      * Save the image file
      *
-     * @param $filename string  the name of the file to write to
-     * @param $quality  int     output DPI, default is 85
-     * @param $types    string  define the output format, default
+     * @param string  $filename the name of the file to write to
+     * @param int     $quality  output DPI, default is 85
+     * @param string  $types    define the output format, default
      *                          is the current used format
      *
      * @return none

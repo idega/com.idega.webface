@@ -16,7 +16,7 @@ function SelectDocument( link )
 }
 
 // Taken from link.html
-I18N = window.opener.HTMLArea.I18N.dialogs;
+I18N = window.opener.Xinha.I18N.dialogs;
 
 function i18n(str) {
   return (I18N[str] || str);

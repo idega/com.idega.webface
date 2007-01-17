@@ -24,7 +24,7 @@
 // | Authors: Peter Bowyer <peter@mapledesign.co.uk>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: NetPBM.php,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+// $Id: NetPBM.php,v 1.2 2007/01/17 13:25:19 gediminas Exp $
 //
 // Image Transformation interface using command line NetPBM
 
@@ -205,7 +205,7 @@ Class Image_Transform_Driver_NetPBM extends Image_Transform
     /**
      * Save the image file
      *
-     * @param $filename string the name of the file to write to
+     * @param string $filename the name of the file to write to
      * @param string $type (jpeg,png...);
      * @param int $quality 75
      * @return none

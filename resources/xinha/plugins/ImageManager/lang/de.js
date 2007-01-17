@@ -1,8 +1,8 @@
 // I18N constants
 // LANG: "de", ENCODING: UTF-8
-// translated: Udo Schmal
+// translated: Udo Schmal (gocher), http://www.schaffrath-neuemedien.de/, udo.schmal@t-online.de
 {
-	"Image Manager": "Bildmanager",
+  "Image Manager": "Bildmanager",
   "Insert Image": "Bild einfügen",
   "Directory": "Ordner",
   "Directory Up": "übergeordneter Ordner",
@@ -13,8 +13,6 @@
   "Upload": "Hochladen",
   "Width": "Breite",
   "Height": "Höhe",
-  "Width:": "Breite:",
-  "Height:": "Höhe:",
   "Constrain Proportions": "Proportional",
   "Border": "Rand",
   "V Space": "vertikaler Freiraum",
@@ -22,7 +20,7 @@
   "Refresh": "Aktualisieren",
   "Uploading...": "Hochladen...",
   "Crop": "Beschneiden",
-	"Resize": "Größe ändern",
+  "Resize": "Größe ändern",
   "Rotate": "Drehen",
   "Measure": "Abmessungen",
   "Marker": "Marker",
@@ -61,10 +59,7 @@
   "No Image selected.": "Kein Bild ausgewählt.",
   "Description:": "Beschreibung:",
   "Align:": "Ausrichtung:",
-  "Description:": "Beschreibung:",
   "Margin:": "Außenabstand:",
   "Padding:": "Innenabstand:",
-  "Border:": "Rand:",
-  "Color:": "Farbe:",
-  "Upload:": "Hochladen:"
-}
+  "Color:": "Farbe:"
+};

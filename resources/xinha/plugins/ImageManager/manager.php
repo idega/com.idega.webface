@@ -1,8 +1,8 @@
 <?php
 /**
  * The main GUI for the ImageManager.
- * @author $Author: tryggvil $
- * @version $Id: manager.php,v 1.1 2005/09/12 12:54:47 tryggvil Exp $
+ * @author $Author: gediminas $
+ * @version $Id: manager.php,v 1.2 2007/01/17 13:25:12 gediminas Exp $
  * @package ImageManager
  */
 
@@ -43,7 +43,7 @@
 <script type="text/javascript" src="<?php print $IMConfig['base_url'];?>assets/manager.js"></script>
 </head>
 <body>
-<div class="title">Insert Image</div>
+
 <form action="<?php print $IMConfig['backend_url'] ?>" id="uploadForm" method="post" enctype="multipart/form-data">
 
 <input type="hidden" name="__plugin" value="ImageManager">
@@ -105,11 +105,14 @@
 
 <!-- image properties -->
 
-<table  border="0" cellspacing="0" cellpadding="0">
+<table  border="0" cellspacing="0" cellpadding="0" width="100%">
   <tr>
     <th align="left">Description:</th>
     <td colspan="6">
-      <input type="text" id="f_alt" style="width:100%"/>
+      <input type="text" id="f_alt" style="width:95%"/>
+    </td>
+    <td rowspan="4" width="100" height="100" valign="middle" style="padding:4px;background-color:#CCC;border:1px inset;">
+      <img src="" id="f_preview" />
     </td>
   </tr>
 
@@ -147,7 +150,7 @@
 
 
   <tr>
-    <th align="left">Align:</th>
+    <th align="left">Alignment:</th>
     <td colspan="2">
       <select size="1" id="f_align"  title="Positioning of this image">
         <option value=""                             >Not set</option>

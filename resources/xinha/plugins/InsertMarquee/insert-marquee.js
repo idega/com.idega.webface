@@ -23,7 +23,7 @@ function InsertMarquee(editor) {
 		}
 	})
 	cfg.addToolbarElement("insertmarquee", "inserthorizontalrule", -1);
-};
+}
 
 InsertMarquee._pluginInfo = {
 	name          : "InsertMarquee",
@@ -36,7 +36,7 @@ InsertMarquee._pluginInfo = {
 
 InsertMarquee.prototype._lc = function(string) {
     return HTMLArea._lc(string, "InsertMarquee");
-}
+};
 
 InsertMarquee.prototype.buttonPress = function(editor, node) {
   function setAttr(el, attr, value) {
@@ -104,4 +104,4 @@ InsertMarquee.prototype.buttonPress = function(editor, node) {
 			editor.insertHTML( text );
 		}
 	}, outparam);
-}
+};

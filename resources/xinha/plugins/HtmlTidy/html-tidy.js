@@ -44,7 +44,7 @@ function HtmlTidy(editor) {
 	for (var i in toolbar) {
 		cfg.toolbar[0].push(toolbar[i]);
 	}
-};
+}
 
 HtmlTidy._pluginInfo = {
 	name          : "HtmlTidy",
@@ -58,7 +58,7 @@ HtmlTidy._pluginInfo = {
 
 HtmlTidy.prototype._lc = function(string) {
     return HTMLArea._lc(string, 'HtmlTidy');
-}
+};
 
 HtmlTidy.prototype.__onSelect = function(editor, obj) {
 	// Get the toolbar element object

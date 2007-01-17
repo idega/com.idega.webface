@@ -1,13 +1,13 @@
 /**
  * Functions for the image listing, used by images.php only	
- * @author $Author: tryggvil $
- * @version $Id: images.js,v 1.1 2005/09/12 12:54:48 tryggvil Exp $
+ * @author $Author: gediminas $
+ * @version $Id: images.js,v 1.2 2007/01/17 13:25:22 gediminas Exp $
  * @package ImageManager
  */
 
 	function i18n(str) {
         return HTMLArea._lc(str, 'ImageManager');
-	};
+	}
 
 	function changeDir(newDir) 
 	{
@@ -55,6 +55,9 @@
 		var obj = topDoc.getElementById('f_alt'); obj.value = alt;
 		var obj = topDoc.getElementById('orginal_width'); obj.value = width;
 		var obj = topDoc.getElementById('orginal_height'); obj.value = height;		
+    // Set preview for the selected
+    topDoc.getElementById('f_preview').src = window.parent._backend_url + '__function=thumbs&img=' + filename;
+    
     update_selected();
 	}
 

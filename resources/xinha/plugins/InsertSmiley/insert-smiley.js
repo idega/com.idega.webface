@@ -20,9 +20,9 @@ function InsertSmiley(editor) {
 	action   : function(editor) {
 			self.buttonPress(editor);
 		}
-	})
+	});
 	cfg.addToolbarElement("insertsmiley", "inserthorizontalrule", 1);
-};
+}
 
 InsertSmiley._pluginInfo = {
   name          : "InsertSmiley",
@@ -37,7 +37,7 @@ InsertSmiley._pluginInfo = {
 
 InsertSmiley.prototype._lc = function(string) {
     return HTMLArea._lc(string, 'InsertSmiley');
-}
+};
 
 InsertSmiley.prototype.buttonPress = function(editor) {
 	var self = this;
