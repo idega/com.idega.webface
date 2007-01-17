@@ -8,8 +8,11 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.ValueBinding;
+
 import com.idega.util.RenderUtils;
 import com.idega.webface.WFContainer;
+import com.idega.webface.WFUtil;
 
 /**
  * @author tryggvil
@@ -51,9 +54,13 @@ public class ContainerRenderer extends BaseRenderer {
 		}
 		String title = container.getTitle();
 		if(title!=null){
+			if(WFUtil.isValueBinding(title)){
+				ValueBinding vb = WFUtil.createValueBinding(title);
+				title = (String)(vb.getValue(FacesContext.getCurrentInstance()));
+			}
 			out.writeAttribute("title", title, null);
 			//TODO: investigate if alt should be printed out in a valid HTML document
-			out.writeAttribute("alt", title, null);
+//			out.writeAttribute("alt", title, null);
 		}
 		
 		//out.endElement(getMarkupElementType());
