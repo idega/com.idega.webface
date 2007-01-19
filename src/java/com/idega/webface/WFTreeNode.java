@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.8 2006/12/28 15:49:58 valdas Exp $
+ * $Id: WFTreeNode.java,v 1.9 2007/01/19 08:15:08 laddi Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -25,10 +25,10 @@ import com.idega.presentation.IWContext;
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2006/12/28 15:49:58 $ by $Author: valdas $
+ *  Last modified: $Date: 2007/01/19 08:15:08 $ by $Author: laddi $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class WFTreeNode implements TreeNode {
 	
@@ -213,7 +213,7 @@ public class WFTreeNode implements TreeNode {
 		Iterator it = icnode.getChildrenIterator();
 		int i = 0;
 		while (it.hasNext()) {
-			wfnode.getChildren().set(i, settingSubTypes((ICTreeNode)it.next(), (WFTreeNode) wfnode.getChildren().get(i)));
+			wfnode.getChildren().set(i, settingSubTypes((ICTreeNode)it.next(), wfnode.getChildren().get(i)));
 			i++;
 		}		
 		return wfnode;
