@@ -5,6 +5,12 @@
   </properties>
   <body>
 
+	<release version="3.1.4" date="2007-01-24">
+      <action dev="gediminas" type="update">
+      	Misc small fixes.   	
+      </action>          
+    </release>
+
 	<release version="3.1.3" date="2007-01-16">
       <action dev="gediminas" type="update">
       	Update Xinha to version 0.91b, rewrite renderer to init it the new
