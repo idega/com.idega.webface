@@ -7,6 +7,7 @@ import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.render.Renderer;
+import com.idega.webface.WFConstants;
 
 
 /**
@@ -107,4 +108,9 @@ public class HTMLArea extends HtmlInputTextarea {
 	public String getRendererType() {
 		return RENDERER_TYPE;
 	}
+	
+	public String getFamily() {
+		return WFConstants.FAMILY_WEBFACE;
+	}
+	
 }
