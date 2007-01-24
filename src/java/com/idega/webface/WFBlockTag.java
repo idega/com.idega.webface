@@ -1,5 +1,5 @@
 /*
- * $Id: WFBlockTag.java,v 1.7 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFBlockTag.java,v 1.7.2.1 2007/01/24 08:22:45 gediminas Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -15,15 +15,16 @@ import javax.faces.webapp.UIComponentTag;
 /**
  * JSP tag for WFBlock
  * <p>
- * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ * Last modified: $Date: 2007/01/24 08:22:45 $ by $Author: gediminas $
  *
  * @author tryggvil
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.7.2.1 $
  */
 public class WFBlockTag extends UIComponentTag {
 	
 	private String title;
 	private String maximizedVertically;
+	private String styleClass;
 	
 	/**
 	 * @see javax.faces.webapp.UIComponentTag#getRendererType()
@@ -61,12 +62,14 @@ public class WFBlockTag extends UIComponentTag {
 	
 	public void release() {      
 		super.release();      
-		this.title = null ;
+		this.title = null;
+		this.styleClass = null;
 	}
 
 	protected void setProperties(UIComponent component) {      
 		super.setProperties(component);
-		if (component != null) {
+		if (component instanceof WFBlock) {
+			WFBlock block = (WFBlock) component;
 			if(this.title!=null){
 				/*if(isValueReference(title)){
 					ValueBinding vb = getFacesContext().getApplication().createValueBinding(title);
@@ -74,15 +77,20 @@ public class WFBlockTag extends UIComponentTag {
 				} else {
 					component.getAttributes().put("title", title);
 				}*/
-				WFBlock block = (WFBlock)component;
 				block.setTitle(this.title);
 			}
 			if(getMaximizedVertically()!=null){
-				WFBlock block = (WFBlock)component;
 				boolean maximized = Boolean.valueOf(getMaximizedVertically()).booleanValue();
 				block.setMaximizedVertically(maximized);
 			}
+			if (this.styleClass != null) {
+				block.setStyleClass(this.styleClass);
+			}
 		}
+	}
+
+	public void setStyleClass(String styleClass) {
+		this.styleClass = styleClass;
 	}
 
 }
