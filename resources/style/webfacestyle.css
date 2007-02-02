@@ -498,7 +498,21 @@ head:first-child+body div[class].scrollContainer table tbody td + td + td {
 	width: 150px;
 }
 
+/*IE7 ScrollTable quickfix*/
 
+html* .scrollTable tr.oddrow{
+	height: 1.5em !important;
+}
+
+html* .scrollTable tr.evenrow{
+	height: 1.5em !important;
+}
+
+html* .scrollTable{
+	overflow: auto !important;
+}
+
+/*IE7 ScrollTable quickfix ends*/
 
 /*ScrollTable end:*/
 
