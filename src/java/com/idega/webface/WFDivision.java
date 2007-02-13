@@ -2,6 +2,7 @@ package com.idega.webface;
 
 import java.io.IOException;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -72,6 +73,15 @@ public class WFDivision extends Div {
 
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
+	}
+	
+	public void add(UIComponent component) {
+		try	{
+			super.getChildren().add(component);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
