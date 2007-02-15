@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.9 2007/01/19 08:15:08 laddi Exp $
+ * $Id: WFTreeNode.java,v 1.10 2007/02/15 12:08:45 justinas Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -10,6 +10,7 @@
 package com.idega.webface;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.myfaces.custom.tree2.TreeNode;
@@ -25,10 +26,10 @@ import com.idega.presentation.IWContext;
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2007/01/19 08:15:08 $ by $Author: laddi $
+ *  Last modified: $Date: 2007/02/15 12:08:45 $ by $Author: justinas $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class WFTreeNode implements TreeNode {
 	
@@ -182,7 +183,7 @@ public class WFTreeNode implements TreeNode {
 			bservice = BuilderServiceFactory.getBuilderService(iwc);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}	
 		String startPageId = node.getId();
 		ICPage page = null;
 		try {
@@ -198,7 +199,7 @@ public class WFTreeNode implements TreeNode {
 		}
 	}
 
-	public WFTreeNode settingSubTypes(ICTreeNode icnode, WFTreeNode wfnode){
+	public WFTreeNode settingSubTypes(ICTreeNode icnode, WFTreeNode wfnode){		
 		IWContext iwc = IWContext.getInstance();
 		BuilderService bservice = null;
 		try {
@@ -216,6 +217,36 @@ public class WFTreeNode implements TreeNode {
 			wfnode.getChildren().set(i, settingSubTypes((ICTreeNode)it.next(), wfnode.getChildren().get(i)));
 			i++;
 		}		
+		
+		List <WFTreeNode> children = new ArrayList<WFTreeNode>();
+//		Collection coll = DomainTree.getDomainTree(iwc).getPagesNode().getChildren();
+//		ArrayList <PageTreeNode> list = new ArrayList <PageTreeNode> ();
+		for(int j = 0; j < wfnode.getChildCount(); j++){
+			children.add(null);
+		}
+		for (Iterator iter = wfnode.getChildren().iterator(); iter.hasNext();) {
+			WFTreeNode element = (WFTreeNode)iter.next();
+//			Integer.valueOf(element.getIdentifier()).intValue()
+//			String temp = element.getIdentifier();
+			int order = bservice.getTreeOrder(Integer.valueOf(element.getIdentifier()).intValue());
+			try {
+				children.set(order - 1, element);
+			} catch (Exception e) {
+				// TODO: handle exception
+//				System.out.println("incorrect order found");
+				return wfnode;
+			}			
+//System.out.println("id "+element.getIdentifier()+" order "+order);
+		}
+		
+		for (Iterator iter = children.iterator(); iter.hasNext();) {
+			if (iter.next() == null){
+				return wfnode;
+			}				
+		}
+		
+		wfnode.children = children;
+		
 		return wfnode;
 	}
 	
