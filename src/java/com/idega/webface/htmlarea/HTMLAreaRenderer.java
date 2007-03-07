@@ -13,6 +13,7 @@ import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 import javax.faces.render.Renderer;
 import com.idega.idegaweb.IWBundle;
+import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
 
@@ -30,8 +31,14 @@ public class HTMLAreaRenderer extends Renderer {
 	private HashMap pluginLocation = new HashMap();
 	
 	public HTMLAreaRenderer() {
-		IWContext iwc = IWContext.getInstance();
-		init(iwc);
+		try {
+			IWContext iwc = IWContext.getInstance();
+			init(iwc);
+		} catch (UnavailableIWContext e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			init(null);
+		}
 	}
 	
 	private void init(IWContext iwc) {
