@@ -35,8 +35,8 @@ public class HTMLAreaRenderer extends Renderer {
 			IWContext iwc = IWContext.getInstance();
 			init(iwc);
 		} catch (UnavailableIWContext e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//Annoying output
+			//e.printStackTrace();
 			init(null);
 		}
 	}
