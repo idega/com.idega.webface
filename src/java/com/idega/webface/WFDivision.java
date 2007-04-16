@@ -1,31 +1,34 @@
 package com.idega.webface;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.apache.myfaces.custom.div.Div;
+import com.idega.presentation.IWBaseComponent;
 
-public class WFDivision extends Div {
+public class WFDivision extends IWBaseComponent {
 	
 	public static final String COMPONENT_TYPE = "Division";
 	
 	public String id;
 	public String styleClass;
 	public String onclick;
+	public String style;
 	
 	public boolean getRendersChildren() {
 		return true;
 	}
 	
 	public Object saveState(FacesContext context) {
-		Object values[] = new Object[4];
+		Object values[] = new Object[5];
 		values[0] = super.saveState(context);
 		values[1] = id;
 		values[2] = styleClass;
 		values[3] = onclick;
+		values[4] = style;
 		return values;
 	}
 	
@@ -35,19 +38,40 @@ public class WFDivision extends Div {
 		id = (String) values[1];
 		styleClass = (String) values[2];
 		onclick = (String) values[3];
+		style = (String) values[4];
 	}
 	
 	public void encodeBegin(FacesContext context) throws IOException {
-		super.encodeBegin(context);
 		ResponseWriter writer = context.getResponseWriter();
+		writer.startElement("DIV", this);
 		if(id != null && !id.equals("")) {
 			writer.writeAttribute("id", id, null);
 		}
 		if(styleClass != null && !styleClass.equals("")) {
-			writer.writeAttribute("styleClass", styleClass, null);
+			writer.writeAttribute("class", styleClass, null);
 		}
 		if(onclick != null && !onclick.equals("")) {
 			writer.writeAttribute("onClick", onclick, null);
+		}
+		if(style != null && !style.equals("")) {
+			writer.writeAttribute("style", style, null);
+		}
+	}
+	
+	public void encodeEnd(FacesContext context) throws IOException {
+		ResponseWriter writer = context.getResponseWriter();
+		writer.endElement("DIV");
+	}
+	
+	public void encodeChildren(FacesContext context) throws IOException {
+		Iterator children = getChildren().iterator();
+		while(children.hasNext()) {
+			UIComponent component = (UIComponent) children.next();
+			if(component != null) {
+				component.encodeBegin(context);
+				component.encodeChildren(context);
+				component.encodeEnd(context);
+			}
 		}
 	}
 
@@ -82,6 +106,14 @@ public class WFDivision extends Div {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
 	}
 
 }
