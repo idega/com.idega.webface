@@ -5,6 +5,12 @@
   </properties>
   <body>
 
+	<release version="3.1.5" date="2007-05-21">
+      <action dev="laddi" type="update">
+      	Added possibility to set date pattern to timestamps.  	
+      </action>          
+    </release>
+
 	<release version="3.1.4" date="2007-01-24">
       <action dev="gediminas" type="update">
       	Misc small fixes.   	
