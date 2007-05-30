@@ -1,5 +1,5 @@
 /*
- * $Id: WFFrame.java,v 1.13 2006/05/08 13:53:59 laddi Exp $
+ * $Id: WFFrame.java,v 1.14 2007/05/30 15:09:18 gediminas Exp $
  * Created on 20.10.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -9,50 +9,44 @@
  */
 package com.idega.webface;
 
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import com.idega.presentation.ui.IFrame;
 
 
 /**
  * 
- *  Last modified: $Date: 2006/05/08 13:53:59 $ by $Author: laddi $
+ *  Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
  * 
  * @author <a href="mailto:tryggvil@idega.com">tryggvil</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class WFFrame extends WFBlock {
 
 	private static final String DEFAULT_STYLE_CLASS = "wf_frame";
 	private String frameURL;
 	
-	/**
-	 * 
-	 */
 	public WFFrame() {
-		super();
 		setStyleClass(super.getStyleClass()+" "+DEFAULT_STYLE_CLASS);
-		this.setNoMarginsOnMainArea();
-		// TODO Auto-generated constructor stub
+		setNoMarginsOnMainArea();
 	}
 
-	/**
-	 * @param titleBarText
-	 */
 	public WFFrame(String titleBarText) {
 		super(titleBarText);
-		//setStyleClass(DEFAULT_STYLE_CLASS);
 		setStyleClass(super.getStyleClass()+" "+DEFAULT_STYLE_CLASS);
 		this.setNoMarginsOnMainArea();
-		// TODO Auto-generated constructor stub
 	}
 	
-	public WFFrame(String titleBarText,String frameURL){
+	public WFFrame(HtmlOutputText titleBarText) {
+		super(titleBarText);
+		setStyleClass(super.getStyleClass()+" "+DEFAULT_STYLE_CLASS);
+		this.setNoMarginsOnMainArea();
+	}
+	
+	public WFFrame(String titleBarText, String frameURL){
 		this(titleBarText);
 		this.setFrameURL(frameURL);
-		//setStyleClass(DEFAULT_STYLE_CLASS);
-		setStyleClass(super.getStyleClass()+" "+DEFAULT_STYLE_CLASS);
 	}
-	
 	
 	/* (non-Javadoc)
 	 * @see com.idega.webface.WFBlock#initializeContent()

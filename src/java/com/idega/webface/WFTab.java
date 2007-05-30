@@ -1,5 +1,5 @@
 /*
- * $Id: WFTab.java,v 1.4 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFTab.java,v 1.5 2007/05/30 15:09:18 gediminas Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -15,15 +15,16 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.ValueBinding;
 
 /**
  * <p>
  * Component for each "Tab" and is used by the "WFTabbedPane" component.
  * <p>
- * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
  *
  * @author Anders Lindman
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WFTab extends HtmlCommandLink {
 
@@ -39,12 +40,30 @@ public class WFTab extends HtmlCommandLink {
 	/**
 	 * Constructs a taskbar button with the specified label text. 
 	 */
+	public WFTab(String buttonLabel) {
+		this();
+		setLabel(buttonLabel);
+	}
+
+	public void setLabel(String buttonLabel) {
+		if (WFUtil.isValueBinding(buttonLabel)) {
+			ValueBinding vb = WFUtil.createValueBinding(buttonLabel);
+			setValueBinding(WFUtil.VALUE_STRING, vb);
+		}
+		else {
+			setValue(buttonLabel);
+		}
+	}
+	
+	/**
+	 * Constructs a taskbar button with the specified label text.
+	 */
 	public WFTab(String buttonLabel, boolean isValueRef) {
 		this();
 		if (isValueRef) {
 			getChildren().add(WFUtil.getTextVB(buttonLabel));
 		} else {
-			getChildren().add(WFUtil.getText(buttonLabel));			
+			setLabel(buttonLabel);			
 		}
 	}
 	

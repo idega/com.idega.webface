@@ -56,7 +56,11 @@ public class WFTitlebar extends WFContainer implements Serializable
 	public WFTitlebar(String text, boolean isVB){
 		this();
 		addTitleText(text, isVB);
-		//getFacets().put("titlebar", this);
+	}
+	
+	public WFTitlebar(HtmlOutputText text) {
+		this();
+		addTitleText(text);
 	}
 	
 	protected void initializeDefaultToolbar(){
@@ -110,11 +114,10 @@ public class WFTitlebar extends WFContainer implements Serializable
 //	}
 
 	public void addTitleText(String string) {
-		addTitleText(string, false);
+		HtmlOutputText title = WFUtil.getText(string);
+		addTitleText(title);
 	}
-	/**
-	 * @param string
-	 */
+	
 	public void addTitleText(String string, boolean valueRefTitle) {
 		HtmlOutputText title = null;
 		if (valueRefTitle) {
@@ -123,7 +126,6 @@ public class WFTitlebar extends WFContainer implements Serializable
 			title = WFUtil.getText(string);
 		}
 		addTitleText(title);
-//		titleText = string;
 	}
 	
 	public void addTitleText(HtmlOutputText text) {

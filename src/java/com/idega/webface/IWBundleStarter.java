@@ -24,6 +24,8 @@ import com.idega.webface.theme.ThemeManager;
  */
 public class IWBundleStarter implements IWBundleStartable {
 
+	public static final String BUNDLE_IDENTIFIER = "com.idega.webface";
+
 	/* (non-Javadoc)
 	 * @see com.idega.idegaweb.IWBundleStartable#start(com.idega.idegaweb.IWBundle)
 	 */

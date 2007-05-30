@@ -5,6 +5,7 @@ package com.idega.webface;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import com.idega.util.StringHandler;
 
@@ -36,13 +37,28 @@ public class WFBlock extends WFContainer {
 	}
 	
 	public WFBlock() {
-		this("untitled");
-	}
-
-	public WFBlock(String titleBarText) {
-		this(titleBarText, false);
+		setStyleClass(DEFAULT_STYLE_CLASS);
+		setMainAreaStyleClass(WFConstants.STYLE_CLASS_MAINAREA);
 	}
 	
+	public WFBlock(String titleBarText) {
+		this();
+		WFTitlebar titlebar = new WFTitlebar(titleBarText);
+		setTitlebar(titlebar);
+	}
+
+	public WFBlock(String titleBarText, boolean titleIsVB) {
+		this();
+		WFTitlebar titlebar = new WFTitlebar(titleBarText, titleIsVB);
+		setTitlebar(titlebar);
+	}
+
+	public WFBlock(HtmlOutputText titleBarText) {
+		this();
+		WFTitlebar titlebar = new WFTitlebar(titleBarText);
+		setTitlebar(titlebar);
+	}
+
 	/* (non-Javadoc)
 	 * @see com.idega.webface.WFContainer#getStyleClass()
 	 */
@@ -54,16 +70,6 @@ public class WFBlock extends WFContainer {
 		}
 		
 		return sClass.toString();
-	}
-
-	public WFBlock(String titleBarText, boolean titleIsVB) {
-		setStyleClass(DEFAULT_STYLE_CLASS);
-		setMainAreaStyleClass(WFConstants.STYLE_CLASS_MAINAREA);
-		WFTitlebar titlebar = new WFTitlebar(titleBarText, titleIsVB);
-		setTitlebar(titlebar);
-		//setDefaultToolbar();
-		//WFContainer mainArea = new WFContainer();
-		//super.add(mainArea);
 	}
 
 	/**

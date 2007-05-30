@@ -1,5 +1,5 @@
 /*
- * $Id: WFList.java,v 1.11 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFList.java,v 1.12 2007/05/30 15:09:18 gediminas Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -30,10 +30,10 @@ import com.idega.webface.event.WFListNavigationListener;
  * Renders child components in a list. Supports automatic list navigation and 
  * fires events for optional listeners to dynamically update list values.   
  * <p>
- * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
  *
  * @author Anders Lindman
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class WFList extends HtmlDataTable implements ActionListener {
 	
@@ -393,19 +393,14 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * Sets the list navigation links.
 	 */
 	private void setListNavigationLinks() {
-		String bref = WFPage.WF_BUNDLE + ".";
 		HtmlCommandLink previous = new HtmlCommandLink();
-		HtmlOutputText t = new HtmlOutputText();
-		t.setValueBinding("value", WFUtil.createValueBinding("#{" + bref + "navigation_previous}"));
-		previous.getChildren().add(t);
+		WFUtil.setLocalizedValue(previous, WFUtil.BUNDLE_IDENTIFIER, "navigation_previous");
 		previous.setId(ACTION_PREVIOUS);
 		previous.addActionListener(this);
 		getFacets().put("navigationlink_previous", previous);
 
 		HtmlCommandLink next = new HtmlCommandLink();
-		t = new HtmlOutputText();
-		t.setValueBinding("value", WFUtil.createValueBinding("#{" + bref + "navigation_next}"));
-		next.getChildren().add(t);
+		WFUtil.setLocalizedValue(previous, WFUtil.BUNDLE_IDENTIFIER, "navigation_next");
 		next.setId(ACTION_NEXT);
 		next.addActionListener(this);
 		getFacets().put("navigationlink_next", next);
@@ -420,7 +415,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		}
 		for (int i = 1; i <= MAX_NAVIGATION_LINKS; i++) {
 			HtmlCommandLink gotoLink = new HtmlCommandLink();
-			t = new HtmlOutputText();
+			HtmlOutputText t = new HtmlOutputText();
 			t.setValue(String.valueOf(i + pageOffset));
 			gotoLink.getChildren().add(t);
 			gotoLink.setId(ACTION_GOTO + i);

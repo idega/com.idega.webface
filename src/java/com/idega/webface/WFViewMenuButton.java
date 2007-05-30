@@ -1,5 +1,5 @@
 /*
- * $Id: WFViewMenuButton.java,v 1.5 2004/10/19 11:09:29 tryggvil Exp $
+ * $Id: WFViewMenuButton.java,v 1.6 2007/05/30 15:09:18 gediminas Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -12,10 +12,10 @@ package com.idega.webface;
 /**
  * Button for WFViewMenu components.  
  * <p>
- * Last modified: $Date: 2004/10/19 11:09:29 $ by $Author: tryggvil $
+ * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFViewMenuButton extends WFTab {
 
@@ -29,8 +29,16 @@ public class WFViewMenuButton extends WFTab {
 	/**
 	 * Constructs a view menu button with the specified label text. 
 	 */
-	public WFViewMenuButton(String buttonLabel, boolean isLocalized) {
-		super(buttonLabel, isLocalized);
+	public WFViewMenuButton(String buttonLabel) {
+		super(buttonLabel);
+		setImmediate(true);
+	}
+	
+	/**
+	 * Constructs a view menu button with the specified label text.
+	 */
+	public WFViewMenuButton(String buttonLabel, boolean isVB) {
+		super(buttonLabel, isVB);
 		setImmediate(true);
 	}
 	

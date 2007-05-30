@@ -1,5 +1,5 @@
 /*
- * $Id: WFTabbedPane.java,v 1.7 2006/05/08 13:53:59 laddi Exp $
+ * $Id: WFTabbedPane.java,v 1.8 2007/05/30 15:09:18 gediminas Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -26,10 +26,10 @@ import com.idega.webface.event.WFTabListener;
  * A perspective can be any component that is rendered when
  * its tab bar button is pressed.   
  * <p>
- * Last modified: $Date: 2006/05/08 13:53:59 $ by $Author: laddi $
+ * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
  *
  * @author Anders Lindman,Tryggvi Larusson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class WFTabbedPane extends WFMenu implements ActionListener {
 	
@@ -70,8 +70,22 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	 */
 	public WFTab addTab(String menuItemId, String buttonLabel, UIComponent tabview, boolean isValueRef) {
 		WFTab tab = new WFTab(buttonLabel, isValueRef);
+		return setupTab(tab, menuItemId, tabview);
+	}
+
+	/**
+	 * Adds a tab button with its corresponding tabview component.
+	 * @param menuItemId
+	 * @param buttonLabel simple string, or #{localizedString['...']}
+	 * @param tabview
+	 */
+	public WFTab addTab(String menuItemId, String buttonLabel, UIComponent tabview) {
+		WFTab tab = new WFTab(buttonLabel);
+		return setupTab(tab, menuItemId, tabview);
+	}
+	
+	private WFTab setupTab(WFTab tab, String menuItemId, UIComponent tabview) {
 		tab.setId(menuItemId);
-//		tab.setValue(buttonLabel);
 		tab.addActionListener(this);
 		tab.setImmediate(true);
 		
@@ -81,20 +95,6 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 		//getFacets().put("perspective_" + menuItemId, c);
 		setTabView(menuItemId,tabview);
 		return tab;
-	}
-	
-	/**
-	 * Adds a tastbar button with its corresponding perspective component.
-	 */
-	public WFTab addTab(String menuItemId, String buttonLabel, UIComponent perspective) {
-		return addTab(menuItemId, menuItemId, perspective, false);
-	}
-	
-	/**
-	 * Adds a tastbar button with value bin ding label and its corresponding perspective component.
-	 */
-	public WFTab addTabVB(String menuItemId, String buttonLabelRef, UIComponent perspective) {
-		return addTab(menuItemId, buttonLabelRef, perspective, true);
 	}
 	
 	public WFTab getTab(String menuItemId){
@@ -227,7 +227,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	}
 
 	/**
-	 * Remove the specified j‡listener for taskbar events.
+	 * Remove the specified jï¿½listener for taskbar events.
 	 */
 	public void removeTabListener(WFTabListener listener) {
 		removeFacesListener(listener);

@@ -1,5 +1,5 @@
 /*
- * $Id: WFDateInput.java,v 1.5 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFDateInput.java,v 1.6 2007/05/30 15:09:18 gediminas Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -19,15 +19,16 @@ import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.ValueBinding;
 import com.idega.util.RenderUtils;
 
 /**
  * Input component for date/time using dropdown menus for selection.
  * <p>
- * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFDateInput extends UIInput {
 
@@ -147,9 +148,8 @@ public class WFDateInput extends UIInput {
 	 * Returns year item map.
 	 */
 	private Map getYears() {
-		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put(WFUtil.getValue(bref + "year"), "");
+		m.put(translate("year"), "");
 		for (int i = this._fromYear; i <= this._toYear; i++) {
 			String year = String.valueOf(i);		
 			m.put(year, year);
@@ -161,21 +161,20 @@ public class WFDateInput extends UIInput {
 	 * Returns month item map.
 	 */
 	private Map getMonths() {
-		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put(WFUtil.getValue(bref + "month"), "");
-		m.put(WFUtil.getValue(bref + "january"), "01");
-		m.put(WFUtil.getValue(bref + "february"), "02");
-		m.put(WFUtil.getValue(bref + "march"), "03");
-		m.put(WFUtil.getValue(bref + "april"), "04");
-		m.put(WFUtil.getValue(bref + "may"), "05");
-		m.put(WFUtil.getValue(bref + "june"), "06");
-		m.put(WFUtil.getValue(bref + "july"), "07");
-		m.put(WFUtil.getValue(bref + "august"), "08");
-		m.put(WFUtil.getValue(bref + "september"), "09");
-		m.put(WFUtil.getValue(bref + "october"), "10");
-		m.put(WFUtil.getValue(bref + "november"), "11");
-		m.put(WFUtil.getValue(bref + "december"), "12");
+		m.put(translate("month"), "");
+		m.put(translate("january"), "01");
+		m.put(translate("february"), "02");
+		m.put(translate("march"), "03");
+		m.put(translate("april"), "04");
+		m.put(translate("may"), "05");
+		m.put(translate("june"), "06");
+		m.put(translate("july"), "07");
+		m.put(translate("august"), "08");
+		m.put(translate("september"), "09");
+		m.put(translate("october"), "10");
+		m.put(translate("november"), "11");
+		m.put(translate("december"), "12");
 		return m;
 	}
 	
@@ -183,9 +182,8 @@ public class WFDateInput extends UIInput {
 	 * Returns day item map.
 	 */
 	private Map getDays() {
-		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put(WFUtil.getValue(bref + "day"), "");
+		m.put(translate("day"), "");
 		for (int i = 1; i <= 31; i++) {
 			m.put(String.valueOf(i), (i < 10 ? "0" : "") + i);
 		}
@@ -196,9 +194,8 @@ public class WFDateInput extends UIInput {
 	 * Returns hour item map.
 	 */
 	private Map getHours() {
-		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put(WFUtil.getValue(bref + "hours_short"), "");
+		m.put(translate("hours_short"), "");
 		for (int i = 0; i <= 23; i++) {
 			String s = (i < 10 ? "0" : "") + i;
 			m.put(s, s);
@@ -210,9 +207,8 @@ public class WFDateInput extends UIInput {
 	 * Returns minute item map.
 	 */
 	private Map getMinutes() {
-		String bref = WFPage.WF_BUNDLE + ".";
 		Map m = new LinkedHashMap();
-		m.put(WFUtil.getValue(bref + "minutes_short"), "");
+		m.put(translate("minutes_short"), "");
 		for (int i = 0; i <= 59; i++) {
 			String s = (i < 10 ? "0" : "") + i;
 			m.put(s, s);
@@ -272,7 +268,7 @@ public class WFDateInput extends UIInput {
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
 	public void encodeEnd(FacesContext context) throws IOException {
-		String bref = WFPage.WF_BUNDLE + ".";
+		String bid = "com.idega.webface";
 		ResponseWriter out = context.getResponseWriter();
 		Date date = (Date) getValue();
 		String year = null;
@@ -318,7 +314,7 @@ public class WFDateInput extends UIInput {
 		}
 		
 		if (this._showTime) {
-			out.write(" " + (String) WFUtil.getValue(bref + "at_time") + " ");
+			out.write(" " + translate("at_time") + " ");
 			
 			String hour = null;
 			String minute = null;
@@ -403,4 +399,11 @@ public class WFDateInput extends UIInput {
 		} catch (Exception e) {}
 		this.setValue(t);
 	}
+	
+	private static String translate(String localizationKey) {
+		String expr = WFUtil.getLocalizedStringExpr(IWBundleStarter.BUNDLE_IDENTIFIER, localizationKey);
+		ValueBinding vb = WFUtil.createValueBinding(expr);
+		return (String) vb.getValue(FacesContext.getCurrentInstance()); 
+	}
+
 }

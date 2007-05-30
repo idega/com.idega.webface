@@ -33,14 +33,14 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.31 $
+ * @version $Revision: 1.32 $
  */
 public class WFUtil {
 	
-	private static String bundle_identifier="com.idega.webface";
+	public static String BUNDLE_IDENTIFIER="com.idega.webface";
 
 	public static final String EXPRESSION_BEGIN="#{";
 	public static final String EXPRESSION_END="}";
@@ -50,18 +50,8 @@ public class WFUtil {
 		return getBundle(FacesContext.getCurrentInstance());
 	}
 	
-	/**
-	 * This is only temporary. Will be moved to content bundle
-	 * @return
-	 */
-	public static IWBundle getContentBundle(){
-		//TODO: Move this to com.idega.content
-		FacesContext context = FacesContext.getCurrentInstance();
-		return IWContext.getIWContext(context).getIWMainApplication().getBundle("com.idega.content");
-	}
-
 	public static IWBundle getBundle(FacesContext context){
-		return IWContext.getIWContext(context).getIWMainApplication().getBundle(bundle_identifier);
+		return IWContext.getIWContext(context).getIWMainApplication().getBundle(BUNDLE_IDENTIFIER);
 	}
 	
 	public static IWResourceBundle getResourceBundle(FacesContext context){
@@ -81,7 +71,7 @@ public class WFUtil {
 	public static HtmlOutputText getText(String s) {
 		HtmlOutputText t = new HtmlOutputText();
 		if(isValueBinding(s)){
-			t.setValueBinding(VALUE_STRING, createValueBinding( s ));
+			t.setValueBinding(VALUE_STRING, createValueBinding(s));
 		}
 		else{
 			t.setValue(s);
@@ -116,13 +106,7 @@ public class WFUtil {
 	 */
 	public static HtmlOutputText getTextVB(String bundleIdentifier,String localizationKey) {
 		HtmlOutputText t = new HtmlOutputText();
-		IWContext iwContext = IWContext.getInstance();
-		if(iwContext!=null){
-			IWBundle bundle = iwContext.getIWMainApplication().getBundle(bundleIdentifier);
-			if(bundle!=null){
-				t.setValueBinding(VALUE_STRING,bundle.getValueBinding(localizationKey));
-			}
-		}
+		setLocalizedValue(t, bundleIdentifier, localizationKey);
 		return t;
 	}
 	
@@ -130,8 +114,7 @@ public class WFUtil {
 	 * Returns an html header text component.
 	 */
 	public static HtmlOutputText getHeaderText(String s) {
-		HtmlOutputText t = new HtmlOutputText();
-		t.setValue(s);
+		HtmlOutputText t = getText(s);
 		t.setStyleClass("wf_headertext");
 		return t;
 	}
@@ -140,8 +123,7 @@ public class WFUtil {
 	 * Returns an html header text component with value binding.
 	 */
 	public static HtmlOutputText getHeaderTextVB(String ref) {
-		HtmlOutputText t = new HtmlOutputText();
-		t.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
+		HtmlOutputText t = getTextVB(ref);
 		t.setStyleClass("wf_headertext");
 		return t;
 	}
@@ -185,7 +167,12 @@ public class WFUtil {
 	public static HtmlCommandLink getLink(String id, String value) {
 		HtmlCommandLink l = new HtmlCommandLink();
 		l.setId(id);
-		l.getChildren().add(getText(value));
+		if (isValueBinding(value)) {
+			l.setValueBinding(VALUE_STRING, createValueBinding(value));
+		}
+		else {
+			l.setValue(value);
+		}
 		return l;
 	}
 	
@@ -385,8 +372,7 @@ public class WFUtil {
 	public static HtmlCommandButton getButtonVB(String id, String bundleIdentifier, String localizationKey) {
 		HtmlCommandButton b = new HtmlCommandButton();
 		b.setId(id);
-		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
-		b.setValueBinding(VALUE_STRING,createValueBinding(valueBinding));
+		setLocalizedValue(b, bundleIdentifier, localizationKey);
 		setInputStyle(b);
 		return b;
 	}
@@ -497,8 +483,7 @@ public class WFUtil {
 	public static void addParameterVB(UIComponent component, String name, String bundleIdentifier, String localizationKey) {
 		UIParameter p = new UIParameter();
 		p.setName(name);
-		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
-		p.setValueBinding(VALUE_STRING,createValueBinding(valueBinding));
+		setLocalizedValue(component, bundleIdentifier, localizationKey);
 		component.getChildren().add(p);		
 	}
 	
@@ -546,7 +531,25 @@ public class WFUtil {
 	public static ValueBinding createValueBinding(String ref) {
 		return getApplication().createValueBinding(ref);
 	}
-	
+
+	/**
+	 * Creates value binding expression for given key
+	 * @param bundleIdentifier
+	 * @param localizationKey
+	 * @return a String #{localizedStrings['bundle']['key']}
+	 */
+	public static String getLocalizedStringExpr(String bundleIdentifier, String localizationKey) {
+		return "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
+	}
+
+	/**
+	 * Creates value binding for localized string, and sets it on component's "value"
+	 */
+	public static void setLocalizedValue(UIComponent comp, String bundleIdentifier, String localizationKey) {
+		String expr = getLocalizedStringExpr(bundleIdentifier, localizationKey);
+		comp.setValueBinding(VALUE_STRING, createValueBinding(expr));
+	}
+
 	/**
 	 * Returns a method binding instance.
 	 * @param ref Method binding expression
@@ -622,7 +625,7 @@ public class WFUtil {
 	 * Adds a message with value binding for the specified component. 
 	 */
 	public static void addMessageVB(UIComponent component, String bundleIdentifier,String localizationKey) {
-		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		String valueBinding = getLocalizedStringExpr(bundleIdentifier, localizationKey);
 		ValueBinding vb = WFUtil.createValueBinding(valueBinding);
 		addMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
 	}
@@ -631,7 +634,7 @@ public class WFUtil {
 	 * Adds a message with value binding for the specified component. 
 	 */
 	public static void addErrorMessageVB(UIComponent component, String bundleIdentifier,String localizationKey) {
-		String valueBinding = "#{localizedStrings['"+bundleIdentifier+"']['"+localizationKey+"']}";
+		String valueBinding = getLocalizedStringExpr(bundleIdentifier, localizationKey);
 		ValueBinding vb = WFUtil.createValueBinding(valueBinding);
 		addErrorMessage(component, (String) vb.getValue(FacesContext.getCurrentInstance()));
 	}
@@ -754,14 +757,18 @@ public class WFUtil {
     }
 
     /**
-     * <p>
-     * Creates the expression syntax, i.e. wraps the beanReference String around with #{ and }
-     * </p>
+     * Creates the expression syntax, i.e. wraps the beanReference String around with #{ and },
+     * if it does not have them already
+	 *
      * @param beanReference
      * @return
      */
     public static String getExpression(String beanReference){
-    		return EXPRESSION_BEGIN+beanReference+EXPRESSION_END;
+    	String exp = beanReference;
+    	if (!isValueBinding(beanReference)) {
+    		exp = EXPRESSION_BEGIN+beanReference+EXPRESSION_END;
+    	}
+    	return exp;
     }
     
     /**
