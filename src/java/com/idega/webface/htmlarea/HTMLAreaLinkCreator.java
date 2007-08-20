@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaLinkCreator.java,v 1.13 2006/12/05 15:27:29 gimmi Exp $
+ * $Id: HTMLAreaLinkCreator.java,v 1.14 2007/08/20 14:43:02 valdas Exp $
  * Created on 1.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -27,6 +27,7 @@ import com.idega.presentation.IWContext;
 import com.idega.presentation.text.Link;
 import com.idega.presentation.ui.DropdownMenu;
 import com.idega.repository.data.RefactorClassRegistry;
+import com.idega.util.StringHandler;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFTabBar;
@@ -51,7 +52,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	private HTMLAreaLinkType currentLinkType = null;
 	
 	public void initializeComponent(FacesContext context) {
-		IWContext iwc = IWContext.getInstance();
+		IWContext iwc = IWContext.getIWContext(context);
 		this.bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
 		init(iwc);
 		
@@ -65,7 +66,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		if (creation != null) {
 			con.add(creation);
 		}
-		con.add(getSubmitTable());
+		con.add(getSubmitTable(iwc));
 
 		add(con);
 		
@@ -142,7 +143,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		return bar;
 	}
 	
-	protected WFBlock getSubmitTable() {
+	protected WFBlock getSubmitTable(IWContext iwc) {
 		WFBlock block = new WFBlock();
 		WFTitlebar header = new WFTitlebar();
 		header.addTitleText(this.bundle.getLocalizedText("link_creator"));
@@ -156,7 +157,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		url.setId(PARAMETER_HREF);
 		url.setSize(40);
 		if (surl != null) {
-			url.setValue(surl);
+			url.setValue(StringHandler.removeAbsoluteReference(iwc.getServerName(), surl));
 		} else if (this.currentLinkType.getStartingURL() != null) {
 			url.setValue(this.currentLinkType.getStartingURL());
 		} 

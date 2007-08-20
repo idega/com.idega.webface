@@ -1,5 +1,5 @@
 /*
- * $Id: HTMLAreaImageChooser.java,v 1.9 2006/12/05 15:27:29 gimmi Exp $
+ * $Id: HTMLAreaImageChooser.java,v 1.10 2007/08/20 14:43:02 valdas Exp $
  * Created on 8.3.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -11,17 +11,20 @@ package com.idega.webface.htmlarea;
 
 import java.util.Iterator;
 import java.util.Vector;
+
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
+
 import com.idega.presentation.IWContext;
 import com.idega.presentation.ui.DropdownMenu;
 import com.idega.presentation.ui.FieldSet;
 import com.idega.presentation.ui.IFrame;
 import com.idega.repository.data.RefactorClassRegistry;
+import com.idega.util.StringHandler;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFContainer;
 import com.idega.webface.WFTabBar;
@@ -126,7 +129,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		return this.currentImageType.getCreationComponent(surl);
 	}
 	
-	protected WFBlock getSubmitTable() {
+	protected WFBlock getSubmitTable(IWContext iwc) {
 		WFBlock mainblock = new WFBlock();
 		WFTitlebar header = new WFTitlebar();
 		header.addTitleText(this.bundle.getLocalizedText("image_chooser"));
@@ -147,7 +150,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		HtmlInputText url = new HtmlInputText();
 		url.setId(PARAMETER_URL);
 		if (surl != null) {
-			url.setValue(surl);
+			url.setValue(StringHandler.removeAbsoluteReference(iwc.getServerName(), surl));
 		}
 
 		HtmlInputText alt = new HtmlInputText();
