@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.10 2007/02/15 12:08:45 justinas Exp $
+ * $Id: WFTreeNode.java,v 1.11 2007/09/30 12:14:29 valdas Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -10,9 +10,9 @@
 package com.idega.webface;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.myfaces.custom.tree2.TreeNode;
 
 import com.idega.core.builder.business.BuilderService;
@@ -20,16 +20,17 @@ import com.idega.core.builder.business.BuilderServiceFactory;
 import com.idega.core.builder.data.ICPage;
 import com.idega.core.data.ICTreeNode;
 import com.idega.presentation.IWContext;
+import com.idega.util.CoreUtil;
 
 
 /**
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2007/02/15 12:08:45 $ by $Author: justinas $
+ *  Last modified: $Date: 2007/09/30 12:14:29 $ by $Author: valdas $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class WFTreeNode implements TreeNode {
 	
@@ -127,7 +128,7 @@ public class WFTreeNode implements TreeNode {
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getDescription()
 	 */
 	public String getDescription() {
-		IWContext iwc = IWContext.getInstance();
+		IWContext iwc = CoreUtil.getIWContext();
 		return this.icNode.getNodeName(iwc.getCurrentLocale(),iwc);
 	}
 
@@ -177,7 +178,7 @@ public class WFTreeNode implements TreeNode {
 		addChildren();
 		WFTreeNode newChild = new WFTreeNode(node);
 		
-		IWContext iwc = IWContext.getInstance();
+		IWContext iwc = CoreUtil.getIWContext();
 		BuilderService bservice = null;
 		try {
 			bservice = BuilderServiceFactory.getBuilderService(iwc);
@@ -200,7 +201,7 @@ public class WFTreeNode implements TreeNode {
 	}
 
 	public WFTreeNode settingSubTypes(ICTreeNode icnode, WFTreeNode wfnode){		
-		IWContext iwc = IWContext.getInstance();
+		IWContext iwc = CoreUtil.getIWContext();
 		BuilderService bservice = null;
 		try {
 			bservice = BuilderServiceFactory.getBuilderService(iwc);
@@ -219,24 +220,18 @@ public class WFTreeNode implements TreeNode {
 		}		
 		
 		List <WFTreeNode> children = new ArrayList<WFTreeNode>();
-//		Collection coll = DomainTree.getDomainTree(iwc).getPagesNode().getChildren();
-//		ArrayList <PageTreeNode> list = new ArrayList <PageTreeNode> ();
 		for(int j = 0; j < wfnode.getChildCount(); j++){
 			children.add(null);
 		}
 		for (Iterator iter = wfnode.getChildren().iterator(); iter.hasNext();) {
 			WFTreeNode element = (WFTreeNode)iter.next();
-//			Integer.valueOf(element.getIdentifier()).intValue()
-//			String temp = element.getIdentifier();
 			int order = bservice.getTreeOrder(Integer.valueOf(element.getIdentifier()).intValue());
 			try {
 				children.set(order - 1, element);
 			} catch (Exception e) {
-				// TODO: handle exception
-//				System.out.println("incorrect order found");
+				e.printStackTrace();
 				return wfnode;
-			}			
-//System.out.println("id "+element.getIdentifier()+" order "+order);
+			}
 		}
 		
 		for (Iterator iter = children.iterator(); iter.hasNext();) {
