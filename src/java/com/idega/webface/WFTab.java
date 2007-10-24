@@ -1,5 +1,5 @@
 /*
- * $Id: WFTab.java,v 1.5 2007/05/30 15:09:18 gediminas Exp $
+ * $Id: WFTab.java,v 1.6 2007/10/24 19:12:21 alexis Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -21,10 +21,10 @@ import javax.faces.el.ValueBinding;
  * <p>
  * Component for each "Tab" and is used by the "WFTabbedPane" component.
  * <p>
- * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
+ * Last modified: $Date: 2007/10/24 19:12:21 $ by $Author: alexis $
  *
  * @author Anders Lindman
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WFTab extends HtmlCommandLink {
 
@@ -85,25 +85,25 @@ public class WFTab extends HtmlCommandLink {
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
 	public void encodeBegin(FacesContext context) throws IOException {
-		if (!this._selected) {
+//		if (!this._selected) {
 			super.encodeBegin(context);
-		} else {
-			if (getChildren().size() > 0) {
-				UIComponent c = (UIComponent) getChildren().get(0);
-				if (c != null) {
-					ResponseWriter out = context.getResponseWriter();
-					out.startElement("span",null);
-					String styleClass = getStyleClass();
-					if (styleClass != null) {
-						out.writeAttribute("class", styleClass, null);
-					}
-					c.encodeBegin(context);
-					c.encodeChildren(context);
-					c.encodeEnd(context);
-					out.endElement("span");
-				}
-			}
-		}
+//		} else {
+//			if (getChildren().size() > 0) {
+//				UIComponent c = (UIComponent) getChildren().get(0);
+//				if (c != null) {
+//					ResponseWriter out = context.getResponseWriter();
+//					out.startElement("span",null);
+//					String styleClass = getStyleClass();
+//					if (styleClass != null) {
+//						out.writeAttribute("class", styleClass, null);
+//					}
+//					c.encodeBegin(context);
+//					c.encodeChildren(context);
+//					c.encodeEnd(context);
+//					out.endElement("span");
+//				}
+//			}
+//		}
 	}
 	
 	/**
