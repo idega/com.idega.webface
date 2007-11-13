@@ -1,5 +1,5 @@
 /*
- * $Id: WFTab.java,v 1.6 2007/10/24 19:12:21 alexis Exp $
+ * $Id: WFTab.java,v 1.7 2007/11/13 09:31:10 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -11,20 +11,18 @@ package com.idega.webface;
 
 import java.io.IOException;
 
-import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
 
 /**
  * <p>
  * Component for each "Tab" and is used by the "WFTabbedPane" component.
  * <p>
- * Last modified: $Date: 2007/10/24 19:12:21 $ by $Author: alexis $
+ * Last modified: $Date: 2007/11/13 09:31:10 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WFTab extends HtmlCommandLink {
 
@@ -84,6 +82,7 @@ public class WFTab extends HtmlCommandLink {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeBegin(FacesContext context) throws IOException {
 //		if (!this._selected) {
 			super.encodeBegin(context);
@@ -109,6 +108,7 @@ public class WFTab extends HtmlCommandLink {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeChildren(FacesContext context) throws IOException {
 		if (!this._selected) {
 			super.encodeChildren(context);
@@ -118,6 +118,7 @@ public class WFTab extends HtmlCommandLink {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeEnd(FacesContext context) throws IOException {
 		if (!this._selected) {
 			super.encodeEnd(context);
@@ -127,6 +128,7 @@ public class WFTab extends HtmlCommandLink {
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[2];
 		values[0] = super.saveState(ctx);
@@ -137,6 +139,7 @@ public class WFTab extends HtmlCommandLink {
 	/**
 	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
 	 */
+	@Override
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
