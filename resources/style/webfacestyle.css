@@ -35,7 +35,6 @@
 	right: 0;
 	left: 0;
 	bottom: 0;
-	height: auto !important;
 }
 
 div.wf_tabbarmainarea{
@@ -152,7 +151,6 @@ div.wf_titlebar div.wf_titlebar_icon img{
 	margin: 0px 0px 0px 0px;
 	padding:0px;
 	width:100%;
-	height:600px;
 }
 
 .wf_viewmenublockarea {
