@@ -1,5 +1,5 @@
 /*
- * $Id: WFLinkMenu.java,v 1.9 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFLinkMenu.java,v 1.10 2007/11/23 15:03:56 laddi Exp $
  * Created on 2.11.2004
  *
  * Copyright (C) 2004 Idega Software hf. All Rights Reserved.
@@ -14,20 +14,22 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
+
 import com.idega.util.FacesUtil;
 
 
 /**
  * A menu whose menu items are plain html links.
  * 
- *  Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ *  Last modified: $Date: 2007/11/23 15:03:56 $ by $Author: laddi $
  * 
  * @author <a href="mailto:tryggvil@idega.com">Tryggvi Larusson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class WFLinkMenu extends WFMenu {
 
@@ -45,7 +47,9 @@ public class WFLinkMenu extends WFMenu {
 	public HtmlOutputLink setMenuHeader(String text,String url){
 		HtmlOutputLink link = new HtmlOutputLink();
 		link.setValue(url);
-		link.getChildren().add(WFUtil.getText(text));
+		HtmlOutputText outputText = WFUtil.getText(text);
+		outputText.setStyleClass("menuItemSpan");
+		link.getChildren().add(outputText);
 		setMenuHeader(link);
 		return link;
 	}
@@ -76,6 +80,7 @@ public class WFLinkMenu extends WFMenu {
 		HtmlOutputLink link = new HtmlOutputLink();
 		link.setValue(url);
 		//link.setId(menuItemId);
+		text.setStyleClass("menuItemSpan");
 		link.getChildren().add(text);
 		addToLinkMap(menuItemId,url);
 		this.setMenuItem(menuItemId,link);
@@ -97,6 +102,7 @@ public class WFLinkMenu extends WFMenu {
 		getLinks().put(menuItemId,url);
 	}
 	
+	@Override
 	public Set getMenuItemIds(){
 		//return getLinks().keySet();
 		return super.getMenuItemIds();
@@ -105,6 +111,7 @@ public class WFLinkMenu extends WFMenu {
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[2];
 		values[0] = super.saveState(ctx);
@@ -115,12 +122,14 @@ public class WFLinkMenu extends WFMenu {
 	/**
 	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
 	 */
+	@Override
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
 		this.links = ((Map) values[1]);
 	}
 	
+	@Override
 	public void encodeBegin(FacesContext context) throws IOException{
 		detectSelectedMenuItem(context);
 		super.encodeBegin(context);
