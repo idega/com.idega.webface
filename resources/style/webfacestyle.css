@@ -43,13 +43,25 @@ div.wf_tabbarmainarea{
 }
 
 div.wf_titlebar{
-	background: #FAFAFA;
+	background: #fff;
 	border: 1px solid #D7D7D7;
 	border-width: 0 0 1px;
+	height: 22px !important;
 }
+
 div.wf_titlebar img{
 	float: right;
+	display: none;
 }
+
+div.wf_titlebar div.wf_titlebar_text {
+	line-height: 22px;
+	padding: 0 8px;
+	font-size: 12px;
+	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
 div.wf_titlebar div.wf_titlebar_icon img{
 	float: left;
 }
