@@ -16,6 +16,7 @@ import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
+import com.idega.util.CoreConstants;
 
 public class HTMLAreaRenderer extends Renderer {
 	
@@ -327,7 +328,7 @@ public class HTMLAreaRenderer extends Renderer {
 		writer.startElement("link", null);
 		writer.writeAttribute("REL", "StyleSheet", null);
 		writer.writeAttribute("HREF", this.rootFolder+stylesheetName, null);
-		writer.writeAttribute("TYPE", "text/css", null);
+		writer.writeAttribute("TYPE", CoreConstants.CONTENT_TYPE_TEXT_CSS, null);
 	}
 	
 }
