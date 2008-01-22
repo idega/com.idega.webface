@@ -17,6 +17,7 @@ import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
 import com.idega.util.CoreConstants;
+import com.idega.webface.business.WebfaceConstants;
 
 public class HTMLAreaRenderer extends Renderer {
 	
@@ -119,7 +120,7 @@ public class HTMLAreaRenderer extends Renderer {
 		if (pageParent) {
 			// This must be added in this order
 			((Page) parent).addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
-			((Page) parent).addJavascriptURL(this.rootFolder + "XinhaCore.js");
+			((Page) parent).addJavascriptURL(this.rootFolder + WebfaceConstants.XINHA_CORE);
 			((Page) parent).addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
 			((Page) parent).addStyleSheetURL(this.rootFolder+"Xinha.css");
 			((Page) parent).setOnLoad("xinha_init()");
@@ -128,7 +129,7 @@ public class HTMLAreaRenderer extends Renderer {
 			// This must be added in this order
 			ResponseWriter writer = context.getResponseWriter();
 			addJavascript(writer, variables.toString());
-			addJavascriptUrl(writer, "XinhaCore.js");
+			addJavascriptUrl(writer, WebfaceConstants.XINHA_CORE);
 			addJavascript(writer, initEditorScript.toString());
 			addStyleSheet(writer, "Xinha.css");
 		}
