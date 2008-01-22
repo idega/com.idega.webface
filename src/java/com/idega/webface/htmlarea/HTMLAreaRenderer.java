@@ -3,6 +3,8 @@ package com.idega.webface.htmlarea;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
@@ -12,11 +14,11 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 import javax.faces.render.Renderer;
+
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
-import com.idega.util.CoreConstants;
 import com.idega.webface.business.WebfaceConstants;
 
 public class HTMLAreaRenderer extends Renderer {
@@ -30,7 +32,7 @@ public class HTMLAreaRenderer extends Renderer {
 	
 	
 	private Renderer textareaRenderer = null;
-	private HashMap pluginLocation = new HashMap();
+	private Map<String, String> pluginLocation = new HashMap<String, String>();
 	
 	public HTMLAreaRenderer() {
 		try {
@@ -122,7 +124,6 @@ public class HTMLAreaRenderer extends Renderer {
 			((Page) parent).addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
 			((Page) parent).addJavascriptURL(this.rootFolder + WebfaceConstants.XINHA_CORE);
 			((Page) parent).addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
-			((Page) parent).addStyleSheetURL(this.rootFolder+"Xinha.css");
 			((Page) parent).setOnLoad("xinha_init()");
 		} else {
 			// Adding necessary scripts to html file (note: currently added to <body> should be moved to <head>)
@@ -131,7 +132,6 @@ public class HTMLAreaRenderer extends Renderer {
 			addJavascript(writer, variables.toString());
 			addJavascriptUrl(writer, WebfaceConstants.XINHA_CORE);
 			addJavascript(writer, initEditorScript.toString());
-			addStyleSheet(writer, "Xinha.css");
 		}
 	}
 	
@@ -262,7 +262,7 @@ public class HTMLAreaRenderer extends Renderer {
 		try {
 			String plugins = ((HTMLArea) component).getPlugins();
 			if (plugins != null) {
-				ArrayList list = new ArrayList();
+				List<String> list = new ArrayList<String>();
 				String plugin;
 				int index = plugins.indexOf(",");
 				while (index >= 0) {
@@ -324,12 +324,12 @@ public class HTMLAreaRenderer extends Renderer {
 		writer.endElement("script");
 	}
 	
-	private void addStyleSheet(ResponseWriter writer, String stylesheetName) throws IOException {
+	/*private void addStyleSheet(ResponseWriter writer, String stylesheetName) throws IOException {
 		writer.write("\n");
 		writer.startElement("link", null);
-		writer.writeAttribute("REL", "StyleSheet", null);
-		writer.writeAttribute("HREF", this.rootFolder+stylesheetName, null);
-		writer.writeAttribute("TYPE", CoreConstants.CONTENT_TYPE_TEXT_CSS, null);
-	}
+		writer.writeAttribute("rel", "stylesheet", null);
+		writer.writeAttribute("href", this.rootFolder+stylesheetName, null);
+		writer.writeAttribute("type", CoreConstants.CONTENT_TYPE_TEXT_CSS, null);
+	}*/
 	
 }
