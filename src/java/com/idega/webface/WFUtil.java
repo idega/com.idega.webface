@@ -33,10 +33,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
+ * Last modified: $Date: 2008/01/23 12:09:18 $ by $Author: valdas $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.32 $
+ * @version $Revision: 1.33 $
  */
 public class WFUtil {
 	
@@ -283,7 +283,14 @@ public class WFUtil {
 	 * Returns an html text area component with value binding reference, and height and width
 	 */
 	public static HTMLArea getHtmlAreaTextArea(String id, String ref, String width, String height) {
-		HTMLArea a = new HTMLArea();
+		return getHtmlAreaTextArea(id, ref, width, height, false);
+	}
+	
+	/**
+	 * Returns an html text area component with value binding reference, and height and width
+	 */
+	public static HTMLArea getHtmlAreaTextArea(String id, String ref, String width, String height, boolean addWebfaceCss) {
+		HTMLArea a = new HTMLArea(addWebfaceCss);
 		a.setId(id);
 		a.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
 		String styleString = null;
@@ -302,7 +309,6 @@ public class WFUtil {
 		if(styleString!=null){
 			a.setStyle(styleString);
 		}
-		//a.setStyle("width:" + width + ";height:" + height + ";");
 		setInputStyle(a);
 		return a;
 	}

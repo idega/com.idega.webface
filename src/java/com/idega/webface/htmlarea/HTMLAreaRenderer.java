@@ -19,6 +19,7 @@ import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
+import com.idega.util.CoreConstants;
 import com.idega.webface.business.WebfaceConstants;
 
 public class HTMLAreaRenderer extends Renderer {
@@ -30,9 +31,10 @@ public class HTMLAreaRenderer extends Renderer {
 	
 	private String htmlareaFolder = XINHA_FOLDER;
 	
-	
 	private Renderer textareaRenderer = null;
 	private Map<String, String> pluginLocation = new HashMap<String, String>();
+	
+	private boolean addWebfaceStyle = false;
 	
 	public HTMLAreaRenderer() {
 		try {
@@ -43,6 +45,11 @@ public class HTMLAreaRenderer extends Renderer {
 			//e.printStackTrace();
 			init(null);
 		}
+	}
+	
+	public HTMLAreaRenderer(boolean addWebfaceStyle) {
+		this();
+		this.addWebfaceStyle = addWebfaceStyle;
 	}
 	
 	private void init(IWContext iwc) {
@@ -119,12 +126,19 @@ public class HTMLAreaRenderer extends Renderer {
 		StringBuffer variables = getVariablesScript(); // Initializing variables 
 		StringBuffer initEditorScript = getInitEditorScript(context, component); // Initializing editor starts
 		
+		IWContext iwc = IWContext.getIWContext(context);
+		IWBundle iwb = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
+		String webfacecss = iwb.getVirtualPathWithFileNameString("style/webfacestyle.css");
 		if (pageParent) {
-			// This must be added in this order
-			((Page) parent).addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
-			((Page) parent).addJavascriptURL(this.rootFolder + WebfaceConstants.XINHA_CORE);
-			((Page) parent).addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
-			((Page) parent).setOnLoad("xinha_init()");
+			//	This must be added in this order
+			Page parentPage = (Page) parent;
+			parentPage.addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
+			parentPage.addJavascriptURL(this.rootFolder + WebfaceConstants.XINHA_CORE);
+			parentPage.addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
+			parentPage.setOnLoad("xinha_init()");
+			if (addWebfaceStyle) {
+				parentPage.addStyleSheetURL(webfacecss);
+			}
 		} else {
 			// Adding necessary scripts to html file (note: currently added to <body> should be moved to <head>)
 			// This must be added in this order
@@ -132,6 +146,9 @@ public class HTMLAreaRenderer extends Renderer {
 			addJavascript(writer, variables.toString());
 			addJavascriptUrl(writer, WebfaceConstants.XINHA_CORE);
 			addJavascript(writer, initEditorScript.toString());
+			if (addWebfaceStyle) {
+				addStyleSheet(writer, webfacecss);
+			}
 		}
 	}
 	
@@ -324,12 +341,12 @@ public class HTMLAreaRenderer extends Renderer {
 		writer.endElement("script");
 	}
 	
-	/*private void addStyleSheet(ResponseWriter writer, String stylesheetName) throws IOException {
+	private void addStyleSheet(ResponseWriter writer, String stylesheetName) throws IOException {
 		writer.write("\n");
 		writer.startElement("link", null);
 		writer.writeAttribute("rel", "stylesheet", null);
-		writer.writeAttribute("href", this.rootFolder+stylesheetName, null);
+		writer.writeAttribute("href", stylesheetName, null);
 		writer.writeAttribute("type", CoreConstants.CONTENT_TYPE_TEXT_CSS, null);
-	}*/
+	}
 	
 }

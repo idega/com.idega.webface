@@ -34,8 +34,15 @@ public class HTMLArea extends HtmlInputTextarea {
 	private String plugins;
 	private Boolean allowFontSelection = null;
 	
+	private boolean addWebfaceStyle = false;
+	
 	public HTMLArea() {
 		super();
+	}
+	
+	public HTMLArea(boolean addWebfaceStyle) {
+		this();
+		this.addWebfaceStyle = addWebfaceStyle;
 	}
 	
 	/**
@@ -102,7 +109,7 @@ public class HTMLArea extends HtmlInputTextarea {
 	}
 	
 	protected Renderer getRenderer(FacesContext context) {
-		return new HTMLAreaRenderer();
+		return new HTMLAreaRenderer(addWebfaceStyle);
 	}
 	
 	public String getRendererType() {
@@ -111,6 +118,14 @@ public class HTMLArea extends HtmlInputTextarea {
 	
 	public String getFamily() {
 		return WFConstants.FAMILY_WEBFACE;
+	}
+
+	public boolean isAddWebfaceStyle() {
+		return addWebfaceStyle;
+	}
+
+	public void setAddWebfaceStyle(boolean addWebfaceStyle) {
+		this.addWebfaceStyle = addWebfaceStyle;
 	}
 	
 }
