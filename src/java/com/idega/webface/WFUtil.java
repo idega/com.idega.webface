@@ -33,10 +33,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2008/01/23 12:09:18 $ by $Author: valdas $
+ * Last modified: $Date: 2008/01/24 11:42:48 $ by $Author: valdas $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.33 $
+ * @version $Revision: 1.34 $
  */
 public class WFUtil {
 	
@@ -615,8 +615,13 @@ public class WFUtil {
 		if(severity!=null){
 			m.setSeverity(severity);
 		}
+		
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		ctx.addMessage(component.getClientId(ctx), m);
+		String idFor = component.getClientId(ctx);
+		if (idFor.endsWith(WFMessages.MESSAGE_COMPONENT_ID_ENDING)) {
+			idFor = idFor.substring(0, idFor.lastIndexOf(WFMessages.MESSAGE_COMPONENT_ID_ENDING));
+		}
+		ctx.addMessage(idFor, m);
 	}
 	
 	/**

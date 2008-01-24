@@ -1,5 +1,5 @@
 /*
- * $Id: WFMessages.java,v 1.2 2006/04/09 11:59:21 laddi Exp $
+ * $Id: WFMessages.java,v 1.3 2008/01/24 11:42:48 valdas Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -20,10 +20,10 @@ import javax.faces.context.FacesContext;
  * <p>
  * Container for JSF Messages.
  * </p>
- * Last modified: $Date: 2006/04/09 11:59:21 $ by $Author: laddi $
+ * Last modified: $Date: 2008/01/24 11:42:48 $ by $Author: valdas $
  *
  * @author Anders Lindman, Tryggvi Larusson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFMessages extends WFContainer {
 	
@@ -33,6 +33,8 @@ public class WFMessages extends WFContainer {
 	public static final String INFO_DEFAULT_STYLE_CLASS="info";
 	public static final String WARN_DEFAULT_STYLE_CLASS="warn";
 	public static final String FATAL_DEFAULT_STYLE_CLASS="fatal";
+	
+	public static final String MESSAGE_COMPONENT_ID_ENDING = "_message";
 	
 	private String errorStyleClass=ERROR_DEFAULT_STYLE_CLASS;
 	private String infoStyleClass=INFO_DEFAULT_STYLE_CLASS;
@@ -60,6 +62,7 @@ public class WFMessages extends WFContainer {
 	 */
 	public void addMessageToDisplay(String forId,boolean showSummary,boolean showDetail) {
 		HtmlMessage message = new HtmlMessage();
+		message.setId(forId + MESSAGE_COMPONENT_ID_ENDING);
 		message.setFor(forId);
 		message.setShowSummary(showSummary);
 		message.setShowDetail(showDetail);
