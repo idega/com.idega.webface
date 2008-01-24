@@ -34,7 +34,7 @@ public class HTMLAreaRenderer extends Renderer {
 	private Renderer textareaRenderer = null;
 	private Map<String, String> pluginLocation = new HashMap<String, String>();
 	
-	private boolean addWebfaceStyle = false;
+	private boolean addExtraStyle = false;
 	
 	public HTMLAreaRenderer() {
 		try {
@@ -47,9 +47,9 @@ public class HTMLAreaRenderer extends Renderer {
 		}
 	}
 	
-	public HTMLAreaRenderer(boolean addWebfaceStyle) {
+	public HTMLAreaRenderer(boolean addExtraStyle) {
 		this();
-		this.addWebfaceStyle = addWebfaceStyle;
+		this.addExtraStyle = addExtraStyle;
 	}
 	
 	private void init(IWContext iwc) {
@@ -127,8 +127,10 @@ public class HTMLAreaRenderer extends Renderer {
 		StringBuffer initEditorScript = getInitEditorScript(context, component); // Initializing editor starts
 		
 		IWContext iwc = IWContext.getIWContext(context);
-		IWBundle iwb = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
-		String webfacecss = iwb.getVirtualPathWithFileNameString("style/webfacestyle.css");
+		IWBundle webfaceBundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
+		IWBundle workspaceBundle = iwc.getIWMainApplication().getBundle(CoreConstants.WORKSPACE_BUNDLE_IDENTIFIER);
+		String workspacecss = workspaceBundle.getVirtualPathWithFileNameString("style/workspace.css");
+		String webfacecss = webfaceBundle.getVirtualPathWithFileNameString("style/webfacestyle.css");
 		if (pageParent) {
 			//	This must be added in this order
 			Page parentPage = (Page) parent;
@@ -136,7 +138,8 @@ public class HTMLAreaRenderer extends Renderer {
 			parentPage.addJavascriptURL(this.rootFolder + WebfaceConstants.XINHA_CORE);
 			parentPage.addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
 			parentPage.setOnLoad("xinha_init()");
-			if (addWebfaceStyle) {
+			if (addExtraStyle) {
+				parentPage.addStyleSheetURL(workspacecss);
 				parentPage.addStyleSheetURL(webfacecss);
 			}
 		} else {
@@ -146,7 +149,8 @@ public class HTMLAreaRenderer extends Renderer {
 			addJavascript(writer, variables.toString());
 			addJavascriptUrl(writer, WebfaceConstants.XINHA_CORE);
 			addJavascript(writer, initEditorScript.toString());
-			if (addWebfaceStyle) {
+			if (addExtraStyle) {
+				addStyleSheet(writer, workspacecss);
 				addStyleSheet(writer, webfacecss);
 			}
 		}
@@ -346,6 +350,7 @@ public class HTMLAreaRenderer extends Renderer {
 		writer.startElement("link", null);
 		writer.writeAttribute("rel", "stylesheet", null);
 		writer.writeAttribute("href", stylesheetName, null);
+		writer.writeAttribute("media", "screen", null);
 		writer.writeAttribute("type", CoreConstants.CONTENT_TYPE_TEXT_CSS, null);
 	}
 	

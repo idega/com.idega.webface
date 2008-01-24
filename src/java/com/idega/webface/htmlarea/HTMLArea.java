@@ -33,16 +33,15 @@ public class HTMLArea extends HtmlInputTextarea {
 	
 	private String plugins;
 	private Boolean allowFontSelection = null;
-	
-	private boolean addWebfaceStyle = false;
+	private Boolean addExtraStyle = false;
 	
 	public HTMLArea() {
 		super();
 	}
 	
-	public HTMLArea(boolean addWebfaceStyle) {
+	public HTMLArea(boolean addExtraStyle) {
 		this();
-		this.addWebfaceStyle = addWebfaceStyle;
+		this.addExtraStyle = addExtraStyle;
 	}
 	
 	/**
@@ -97,19 +96,21 @@ public class HTMLArea extends HtmlInputTextarea {
 		super.restoreState(context, values[0]);
 		this.plugins = (String)values[1];
 		this.allowFontSelection = (Boolean) values[2];
+		this.addExtraStyle = (Boolean) values[3];
 	}
 	
 	public Object saveState(FacesContext context)  {
-		Object values[] = new Object[3];
+		Object values[] = new Object[4];
 		values[0] = super.saveState(context);
 		values[1] = this.plugins;
 		values[2] = this.allowFontSelection;
+		values[3] = this.addExtraStyle;
 		
 		return values;
 	}
 	
 	protected Renderer getRenderer(FacesContext context) {
-		return new HTMLAreaRenderer(addWebfaceStyle);
+		return new HTMLAreaRenderer(addExtraStyle);
 	}
 	
 	public String getRendererType() {
@@ -120,12 +121,12 @@ public class HTMLArea extends HtmlInputTextarea {
 		return WFConstants.FAMILY_WEBFACE;
 	}
 
-	public boolean isAddWebfaceStyle() {
-		return addWebfaceStyle;
+	public Boolean getAddExtraStyle() {
+		return addExtraStyle;
 	}
 
-	public void setAddWebfaceStyle(boolean addWebfaceStyle) {
-		this.addWebfaceStyle = addWebfaceStyle;
+	public void setAddExtraStyle(Boolean addExtraStyle) {
+		this.addExtraStyle = addExtraStyle;
 	}
 	
 }
