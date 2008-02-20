@@ -1,5 +1,5 @@
 /*
- * $Id: WFTimestampConverter.java,v 1.2 2008/02/20 14:10:10 laddi Exp $
+ * $Id: WFTimestampConverter.java,v 1.3 2008/02/20 15:48:00 laddi Exp $
  * Created on 17.1.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -22,21 +22,33 @@ import com.idega.util.IWTimestamp;
 
 /**
  * 
- *  Last modified: $Date: 2008/02/20 14:10:10 $ by $Author: laddi $
+ *  Last modified: $Date: 2008/02/20 15:48:00 $ by $Author: laddi $
  * 
  * @author <a href="mailto:gimmi@idega.com">gimmi</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WFTimestampConverter implements Converter {
 
 	private String datePattern;
+	boolean showDate = true;
+	boolean showTime = true;
 
 	public WFTimestampConverter() {
 		this(null);
 	}
 
 	public WFTimestampConverter(String datePattern) {
+		this(datePattern, true, true);
+	}
+
+	public WFTimestampConverter(boolean showDate, boolean showTime) {
+		this(null, showDate, showTime);
+	}
+
+	public WFTimestampConverter(String datePattern, boolean showDate, boolean showTime) {
 		this.datePattern = datePattern;
+		this.showDate = showDate;
+		this.showTime = showTime;
 	}
 
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
@@ -45,6 +57,12 @@ public class WFTimestampConverter implements Converter {
 			Locale locale = context.getViewRoot().getLocale();
 			if (datePattern != null) {
 				return stamp.getDateString(datePattern, locale);
+			}
+			else if (!showDate) {
+				return stamp.getLocaleTime(locale, IWTimestamp.SHORT);
+			}
+			else if (!showTime) {
+				return stamp.getLocaleDate(locale, IWTimestamp.SHORT);
 			}
 			return stamp.getLocaleDateAndTime(locale,IWTimestamp.SHORT, IWTimestamp.SHORT);
 		} catch (Exception e) {
@@ -68,6 +86,15 @@ public class WFTimestampConverter implements Converter {
 		}
 		IWTimestamp stamp = new IWTimestamp((Date)value);
 		Locale locale = context.getViewRoot().getLocale();
-		return stamp.getLocaleDateAndTime(locale,IWTimestamp.MEDIUM, IWTimestamp.MEDIUM);
+		if (datePattern != null) {
+			return stamp.getDateString(datePattern, locale);
+		}
+		else if (!showDate) {
+			return stamp.getLocaleTime(locale, IWTimestamp.SHORT);
+		}
+		else if (!showTime) {
+			return stamp.getLocaleDate(locale, IWTimestamp.SHORT);
+		}
+		return stamp.getLocaleDateAndTime(locale,IWTimestamp.SHORT, IWTimestamp.SHORT);
 	}
 }
