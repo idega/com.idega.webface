@@ -1,5 +1,5 @@
 /*
- * $Id: WFTimestampConverter.java,v 1.1 2005/01/18 10:05:26 gimmi Exp $
+ * $Id: WFTimestampConverter.java,v 1.2 2008/02/20 14:10:10 laddi Exp $
  * Created on 17.1.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -11,27 +11,42 @@ package com.idega.webface.convert;
 
 import java.util.Date;
 import java.util.Locale;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+
 import com.idega.util.IWTimestamp;
 
 
 /**
  * 
- *  Last modified: $Date: 2005/01/18 10:05:26 $ by $Author: gimmi $
+ *  Last modified: $Date: 2008/02/20 14:10:10 $ by $Author: laddi $
  * 
  * @author <a href="mailto:gimmi@idega.com">gimmi</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WFTimestampConverter implements Converter {
+
+	private String datePattern;
+
+	public WFTimestampConverter() {
+		this(null);
+	}
+
+	public WFTimestampConverter(String datePattern) {
+		this.datePattern = datePattern;
+	}
 
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
 		try {
 			IWTimestamp stamp = new IWTimestamp(value);
 			Locale locale = context.getViewRoot().getLocale();
-			return stamp.getLocaleDateAndTime(locale,IWTimestamp.MEDIUM, IWTimestamp.MEDIUM);
+			if (datePattern != null) {
+				return stamp.getDateString(datePattern, locale);
+			}
+			return stamp.getLocaleDateAndTime(locale,IWTimestamp.SHORT, IWTimestamp.SHORT);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return value;
