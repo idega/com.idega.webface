@@ -1,5 +1,5 @@
 /*
- * $Id: WFTreeNode.java,v 1.11 2007/09/30 12:14:29 valdas Exp $
+ * $Id: WFTreeNode.java,v 1.12 2008/02/26 14:06:39 valdas Exp $
  * Created on 2.5.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -12,6 +12,7 @@ package com.idega.webface;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.myfaces.custom.tree2.TreeNode;
 
@@ -27,10 +28,10 @@ import com.idega.util.CoreUtil;
  * 
  * Wrapper object for com.idega.core.data.ICTreeNode
  * 
- *  Last modified: $Date: 2007/09/30 12:14:29 $ by $Author: valdas $
+ *  Last modified: $Date: 2008/02/26 14:06:39 $ by $Author: valdas $
  * 
  * @author <a href="mailto:gummi@idega.com">Gudmundur Agust Saemundsson</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class WFTreeNode implements TreeNode {
 	
@@ -44,6 +45,8 @@ public class WFTreeNode implements TreeNode {
     private String pageType = null;
     private ICTreeNode parent = null;
     private String templateURI = null;
+    
+    private Locale currentLocale = null;
 
 	public WFTreeNode() {
 		super();
@@ -128,8 +131,11 @@ public class WFTreeNode implements TreeNode {
 	 * @see org.apache.myfaces.custom.tree2.TreeNode#getDescription()
 	 */
 	public String getDescription() {
-		IWContext iwc = CoreUtil.getIWContext();
-		return this.icNode.getNodeName(iwc.getCurrentLocale(),iwc);
+		if (currentLocale == null) {
+			currentLocale = CoreUtil.getIWContext().getCurrentLocale();
+		}
+
+		return this.icNode.getNodeName(currentLocale);
 	}
 
 	/* (non-Javadoc)
