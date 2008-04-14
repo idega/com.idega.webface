@@ -33,10 +33,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2008/01/24 11:42:48 $ by $Author: valdas $
+ * Last modified: $Date: 2008/04/14 23:03:26 $ by $Author: civilis $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.34 $
+ * @version $Revision: 1.35 $
  */
 public class WFUtil {
 	
@@ -791,14 +791,15 @@ public class WFUtil {
      * @param beanId
      * @return
      */
-    public static Object getBeanInstance(String beanId) {
-	    	FacesContext context = FacesContext.getCurrentInstance();
-	    	Object bean = context.getExternalContext().getRequestMap().get(beanId);
+    public static Object getBeanInstance(FacesContext context, String beanId) {
+    	Object bean = context.getExternalContext().getRequestMap().get(beanId);
 		String expr= getExpression(beanId);
 		ValueBinding vb = context.getApplication().createValueBinding(expr);
 		bean = vb.getValue(context);
-	    	return bean;
+    	return bean;
     }
     
-    
+    public static Object getBeanInstance(String beanId) {
+    	return getBeanInstance(FacesContext.getCurrentInstance(), beanId);
+    }
 }
