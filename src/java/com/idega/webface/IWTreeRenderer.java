@@ -20,8 +20,7 @@ import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
 
 public class IWTreeRenderer extends HtmlTreeRenderer {
 	
-	private static int node = 0;
-
+	private int node = 0;
 	private boolean sourceTree = false;
 
 	public String getNode() {
@@ -33,9 +32,10 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 	}
 
 	protected void beforeNodeEncode(FacesContext context, ResponseWriter out, IWTree tree) throws IOException {
-
 		out.startElement(HTML.LI_ELEM, tree);
 		out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
+		out.writeAttribute(HTML.CLASS_ATTR, "idegaTreeListElementContainerStyleClass", null);
+		
 		if (sourceTree) {
 			out.writeAttribute("sourceTree", "true", null);
 			out.writeAttribute("noChildren", "true", null);
@@ -60,17 +60,19 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 		IWTree tree = (IWTree) component;
 		sourceTree = false;
 
-		if (tree.getAttributes().get("sourceTree") != null)
-			if (tree.getAttributes().get("sourceTree").equals("true")) {
-				sourceTree = true;
-			}
-
+		Object sourceTreeAtt = tree.getAttributes().get("sourceTree");
+		if (sourceTreeAtt != null && sourceTreeAtt.equals("true")) {
+			sourceTree = true;
+		}
 		tree.setShowLines(false);
 
-		if (!component.isRendered())
+		if (!component.isRendered()) {
 			return;
-		if (tree.getValue() == null)
+		}
+		if (tree.getValue() == null) {
 			return;
+		}
+		
 		ResponseWriter out = context.getResponseWriter();
 		String clientId = null;
 
