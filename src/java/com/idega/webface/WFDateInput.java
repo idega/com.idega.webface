@@ -1,5 +1,5 @@
 /*
- * $Id: WFDateInput.java,v 1.6 2007/05/30 15:09:18 gediminas Exp $
+ * $Id: WFDateInput.java,v 1.7 2008/04/24 23:55:29 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -25,10 +25,10 @@ import com.idega.util.RenderUtils;
 /**
  * Input component for date/time using dropdown menus for selection.
  * <p>
- * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
+ * Last modified: $Date: 2008/04/24 23:55:29 $ by $Author: laddi $
  *
  * @author Anders Lindman
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WFDateInput extends UIInput {
 
@@ -219,6 +219,7 @@ public class WFDateInput extends UIInput {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeBegin(FacesContext context) {
 		if (getFacet("year_input") == null) {
 			HtmlSelectOneMenu yearInput = new HtmlSelectOneMenu();
@@ -261,14 +262,16 @@ public class WFDateInput extends UIInput {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeChildren(FacesContext context) {
 	}
 	
 	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeEnd(FacesContext context) throws IOException {
-		String bid = "com.idega.webface";
+		//String bid = "com.idega.webface";
 		ResponseWriter out = context.getResponseWriter();
 		Date date = (Date) getValue();
 		String year = null;
@@ -343,6 +346,7 @@ public class WFDateInput extends UIInput {
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[7];
 		values[0] = super.saveState(ctx);
@@ -358,6 +362,7 @@ public class WFDateInput extends UIInput {
 	/**
 	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
 	 */
+	@Override
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
@@ -376,6 +381,7 @@ public class WFDateInput extends UIInput {
 		return null;
 	}
 	
+	@Override
 	public String getRendererType(){
 		return null;
 	}
@@ -383,6 +389,7 @@ public class WFDateInput extends UIInput {
 	/**
 	 * @see javax.faces.component.UIComponent#decode(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void decode(FacesContext context) {
 		String year = (String) context.getExternalContext().getRequestParameterMap().get(getClientId(context) + "_year");
 		year = year == null ? "" + this._fromYear : year;
