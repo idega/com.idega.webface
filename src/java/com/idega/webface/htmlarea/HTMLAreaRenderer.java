@@ -68,10 +68,12 @@ public class HTMLAreaRenderer extends Renderer {
 		return this.textareaRenderer;
 	}
 	
+	@Override
 	public void decode(FacesContext context, UIComponent component) {
 		// Rendering useing default HtmlInputTextarea renderer
 		getTextareaRenderer(context).decode(context, component);
 	}
+	@Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
 		HtmlInputTextarea textarea = (HtmlInputTextarea) component;
 		// Setting default values
@@ -94,11 +96,13 @@ public class HTMLAreaRenderer extends Renderer {
 		getTextareaRenderer(context).encodeBegin(context, component);
 	}
 	
+	@Override
 	public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
 		// Rendering useing default HtmlInputTextarea renderer
 		getTextareaRenderer(context).encodeChildren(context, component);
 	}
 	
+	@Override
 	public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
 		// Rendering useing default HtmlInputTextarea renderer
 		getTextareaRenderer(context).encodeEnd(context, component);
@@ -134,13 +138,15 @@ public class HTMLAreaRenderer extends Renderer {
 		if (pageParent) {
 			//	This must be added in this order
 			Page parentPage = (Page) parent;
-			parentPage.addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
-			parentPage.addJavascriptURL(this.rootFolder + WebfaceConstants.XINHA_CORE);
-			parentPage.addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
-			parentPage.setOnLoad("xinha_init()");
-			if (addExtraStyle) {
-				parentPage.addStyleSheetURL(workspacecss);
-				parentPage.addStyleSheetURL(webfacecss);
+			if (parentPage != null) {
+				parentPage.addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
+				parentPage.addJavascriptURL(this.rootFolder + WebfaceConstants.XINHA_CORE);
+				parentPage.addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
+				parentPage.setOnLoad("xinha_init()");
+				if (addExtraStyle) {
+					parentPage.addStyleSheetURL(workspacecss);
+					parentPage.addStyleSheetURL(webfacecss);
+				}
 			}
 		} else {
 			// Adding necessary scripts to html file (note: currently added to <body> should be moved to <head>)
@@ -314,7 +320,7 @@ public class HTMLAreaRenderer extends Renderer {
 				}
 				
 				list.add(plugin.trim());
-				return (String[]) list.toArray(new String[list.size()]);
+				return list.toArray(new String[list.size()]);
 			}
 		} catch (ClassCastException c) {
 			c.printStackTrace();
