@@ -21,9 +21,16 @@ import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectManyListbox;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
+import javax.faces.context.FacesContextFactory;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionListener;
+import javax.faces.lifecycle.Lifecycle;
+import javax.faces.lifecycle.LifecycleFactory;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
@@ -33,10 +40,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2008/06/02 19:08:48 $ by $Author: civilis $
+ * Last modified: $Date: 2008/06/20 09:50:46 $ by $Author: civilis $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.36 $
+ * @version $Revision: 1.37 $
  */
 public class WFUtil {
 	
@@ -803,5 +810,41 @@ public class WFUtil {
     
     public static Object getBeanInstance(String beanId) {
     	return getBeanInstance(FacesContext.getCurrentInstance(), beanId);
+    }
+    
+    /**
+     * creates faces context. might be used in the filter for example.
+     * reference used: http://www.thoughtsabout.net/blog/archives/000033.html
+     * @param request
+     * @param response
+     * @return FacesContext without viewroot. Doesn't place faces context to current thread.
+     */
+    public static FacesContext createFacesContext(ServletContext servletContext, ServletRequest request, ServletResponse response) {
+    	
+    	FacesContext facesContext = FacesContext.getCurrentInstance();
+    	
+		if (facesContext == null) {
+			
+			FacesContextFactory contextFactory = (FacesContextFactory)FactoryFinder.getFactory(FactoryFinder.FACES_CONTEXT_FACTORY);
+			LifecycleFactory lifecycleFactory = (LifecycleFactory)FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
+			Lifecycle lifecycle = lifecycleFactory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
+
+			  // Either set a private member servletContext = filterConfig.getServletContext();
+			  // in you filter init() method or set it here like this:
+			  // ServletContext servletContext = ((HttpServletRequest)request).getSession().getServletContext();
+			  // Note that the above line would fail if you are using any other protocol than http
+
+			  // Doesn't set this instance as the current instance of FacesContext.getCurrentInstance
+			  facesContext = contextFactory.getFacesContext(servletContext, request, response, lifecycle);
+
+			  // Set using our inner class
+			  //InnerFacesContext.setFacesContextAsCurrentInstance(facesContext);
+
+			  // set a new viewRoot, otherwise context.getViewRoot returns null
+			  //UIViewRoot view = facesContext.getApplication().getViewHandler().createView(facesContext, "yourOwnID");
+			  //facesContext.setViewRoot(view);
+		}
+
+		return facesContext;
     }
 }
