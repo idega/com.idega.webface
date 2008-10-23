@@ -20,6 +20,7 @@ import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.Page;
 import com.idega.util.CoreConstants;
+import com.idega.util.PresentationUtil;
 import com.idega.webface.business.WebfaceConstants;
 
 public class HTMLAreaRenderer extends Renderer {
@@ -144,8 +145,10 @@ public class HTMLAreaRenderer extends Renderer {
 				parentPage.addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
 				parentPage.setOnLoad("xinha_init()");
 				if (addExtraStyle) {
-					parentPage.addStyleSheetURL(workspacecss);
-					parentPage.addStyleSheetURL(webfacecss);
+					PresentationUtil.addStyleSheetToHeader(iwc, workspacecss);
+					PresentationUtil.addStyleSheetToHeader(iwc, webfacecss);
+					/*parentPage.addStyleSheetURL(workspacecss);
+					parentPage.addStyleSheetURL(webfacecss);*/
 				}
 			}
 		} else {

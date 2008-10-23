@@ -12,7 +12,7 @@ import javax.faces.FactoryFinder;
 import javax.faces.context.FacesContext;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
-import com.idega.idegaweb.include.GlobalIncludeManager;
+
 import com.idega.webface.renderkit.WFRenderKit;
 
 
@@ -31,14 +31,14 @@ import com.idega.webface.renderkit.WFRenderKit;
  */
 public class WFDefaultTheme {
 	
-	private String STYLE_SHEET_URL = "/style/webfacestyle.css";
-	private String BUNDLE_IDENTIFIER="com.idega.webface";
+	/*private String STYLE_SHEET_URL = "/style/webfacestyle.css";
+	private String BUNDLE_IDENTIFIER="com.idega.webface";*/
 	private RenderKit renderKit;
 
 	public WFDefaultTheme(){
 		installRenderKit();
 		//Add the stylesheet:
-		GlobalIncludeManager.getInstance().addBundleStyleSheet(this.BUNDLE_IDENTIFIER,this.STYLE_SHEET_URL);
+		//GlobalIncludeManager.getInstance().addBundleStyleSheet(this.BUNDLE_IDENTIFIER,this.STYLE_SHEET_URL);
 	}
 	
 	public void installRenderKit(){
