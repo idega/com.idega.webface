@@ -1,5 +1,5 @@
 /*
- * $Id: WFTabbedPane.java,v 1.8 2007/05/30 15:09:18 gediminas Exp $
+ * $Id: WFTabbedPane.java,v 1.9 2008/12/03 03:51:31 laddi Exp $
  *
  * Copyright (C) 2004 Idega. All Rights Reserved.
  *
@@ -26,10 +26,10 @@ import com.idega.webface.event.WFTabListener;
  * A perspective can be any component that is rendered when
  * its tab bar button is pressed.   
  * <p>
- * Last modified: $Date: 2007/05/30 15:09:18 $ by $Author: gediminas $
+ * Last modified: $Date: 2008/12/03 03:51:31 $ by $Author: laddi $
  *
  * @author Anders Lindman,Tryggvi Larusson
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class WFTabbedPane extends WFMenu implements ActionListener {
 	
@@ -117,7 +117,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	
 	
 	public UIComponent getTabView(String menuItemId){
-		return (UIComponent) getFacets().get("tabview_" + menuItemId);
+		return getFacets().get("tabview_" + menuItemId);
 	}
 	
 	public UIComponent getSelectedTabView(){
@@ -162,6 +162,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeChildren(FacesContext context) throws IOException {
 		super.encodeChildren(context);
 	}
@@ -190,10 +191,12 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeEnd(FacesContext context) throws IOException {
 		super.encodeEnd(context);
 	}
 	
+	@Override
 	public String getRendererType(){
 		return getWFRendererType();
 	}
@@ -201,6 +204,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[3];
 		values[0] = super.saveState(ctx);
@@ -212,6 +216,7 @@ public class WFTabbedPane extends WFMenu implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
 	 */
+	@Override
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
