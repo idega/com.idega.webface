@@ -42,11 +42,16 @@ public class IWTreeTag extends TreeTag{
     public void setString(UIComponent component, 
     	String attributeName, String attributeValue) { 
     	if (attributeValue == null)
-    		return; 
+    		return;
+    	
+//    	TODO: isValueReference disappeared from TreeTag, fix this
+    	
+    	/*
     	if (isValueReference(attributeValue)) 
     		setValueBinding(component, attributeName, attributeValue); 
     		else 
-    			component.getAttributes().put(attributeName, attributeValue); 
+    			component.getAttributes().put(attributeName, attributeValue);
+     */
     } 
     public void setValueBinding(UIComponent component, String attributeName, String attributeValue) { 
     	FacesContext context = FacesContext.getCurrentInstance(); 
