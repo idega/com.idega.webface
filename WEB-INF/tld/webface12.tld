@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" 
+        version="2.1">
+  <tlib-version>1.1.7</tlib-version>
+  
+   <short-name>iw12</short-name>
+   <uri>http://xmlns.idega.com/com.idega.webface12</uri>
+   <display-name>WebFace Tag Library</display-name>
+   <description>Idega Webface Tag Library</description>
+
+    <!-- copied from tomahawk.tld -->
+    <tag>
+      <name>iwtree</name>
+      <tag-class>com.idega.webface.IWTreeTag</tag-class>
+      <body-content>JSP</body-content>
+      <description><![CDATA[Represents "tree data" in an HTML format. Also provides a mechanism for maintaining expand/collapse
+state of the nodes in the tree.
+
+A component that provides an HTML-based tree from data supplied by a
+backing bean. The tree is highly customizable and allows for
+fine-grained control over the appearance of each of the nodes
+depending on their type.
+
+Almost any type of JSF component (text, image, checkbox, etc.) can
+be rendered inside the nodes and there is an option for client-side
+or server-side toggling of the expand/collapse state.
+
+Unless otherwise specified, all attributes accept static values or EL expressions.]]></description>
+      
+      <attribute>
+         <name>clientSideToggle</name>
+         <deferred-value>
+             <type>boolean</type>
+         </deferred-value>
+         <description><![CDATA[Perform client-side toggling of expand/collapse state via javascript (default is true.)]]></description>
+      </attribute>
+      <attribute>
+         <name>varNodeToggler</name>
+         <deferred-value></deferred-value>
+         <description><![CDATA[Gets]]></description>
+      </attribute>
+      <attribute>
+         <name>showNav</name>
+         <deferred-value>
+             <type>boolean</type>
+         </deferred-value>
+         <description><![CDATA[Show the "plus" and "minus" navigation icons (default is true.)
+Value is ignored if clientSideToggle is true.]]></description>
+      </attribute>
+      <attribute>
+         <name>showLines</name>
+         <deferred-value>
+             <type>boolean</type>
+         </deferred-value>
+         <description><![CDATA[Show the connecting lines (default is true.)]]></description>
+      </attribute>
+      <attribute>
+         <name>showRootNode</name>
+         <deferred-value>
+             <type>boolean</type>
+         </deferred-value>
+         <description><![CDATA[Include the root node when rendering the tree (default is true.)]]></description>
+      </attribute>
+      <attribute>
+         <name>preserveToggle</name>
+         <deferred-value>
+             <type>boolean</type>
+         </deferred-value>
+         <description><![CDATA[Preserve changes in client-side toggle information between
+requests (default is true.)]]></description>
+      </attribute>
+      <attribute>
+         <name>javascriptLocation</name>
+         <deferred-value></deferred-value>
+         <description><![CDATA[An alternate location to find javascript resources.
+If no values is specified, javascript will be loaded
+from the resources directory using AddResource and
+ExtensionsFilter.]]></description>
+      </attribute>
+      <attribute>
+         <name>imageLocation</name>
+         <deferred-value></deferred-value>
+         <description><![CDATA[An alternate location to find image resources. If no
+values is specified, images will be loaded from the
+resources directory using AddResource and ExtensionsFilter.]]></description>
+      </attribute>
+      <attribute>
+         <name>styleLocation</name>
+         <deferred-value></deferred-value>
+         <description><![CDATA[An alternate location to find stylesheet resources. If no
+values is specified, stylesheets will be loaded from the
+resources directory using AddResource and ExtensionsFilter.]]></description>
+      </attribute>
+      <attribute>
+         <name>value</name>
+         <required>true</required>
+         <deferred-value>
+             <type>java.lang.Object</type>
+         </deferred-value>
+         <description><![CDATA[Gets the value of the TreeData.]]></description>
+      </attribute>
+      <attribute>
+         <name>var</name>
+         <deferred-value></deferred-value>
+         <description><![CDATA[Return the request-scope attribute under which the data object for the current node will be exposed
+when iterating. This property is not enabled for value binding expressions.]]></description>
+      </attribute>
+      <attribute>
+         <name>id</name>
+         <rtexprvalue>false</rtexprvalue>
+         <description><![CDATA[Get a string which uniquely identifies this UIComponent within the scope of the nearest ancestor NamingContainer
+component. The id is not necessarily unique across all components in the current view.]]></description>
+      </attribute>
+      <attribute>
+         <name>rendered</name>
+         <deferred-value>
+             <type>boolean</type>
+         </deferred-value>
+         <description><![CDATA[A boolean value that indicates whether this component should be rendered.
+Default value: true.]]></description>
+      </attribute>
+      <attribute>
+         <name>binding</name>
+         <deferred-value>
+             <type>javax.faces.component.UIComponent</type>
+         </deferred-value>
+         <description><![CDATA[Identifies a backing bean property (of type UIComponent or appropriate subclass) to bind to this component instance. This value must be an EL expression.]]></description>
+      </attribute>
+   </tag>
+</taglib>
