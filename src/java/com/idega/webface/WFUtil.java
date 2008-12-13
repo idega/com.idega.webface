@@ -4,6 +4,9 @@
 package com.idega.webface;
 
 import java.util.List;
+
+import javax.el.ELContext;
+import javax.el.ValueExpression;
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
@@ -40,10 +43,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2008/06/20 09:50:46 $ by $Author: civilis $
+ * Last modified: $Date: 2008/12/13 15:34:43 $ by $Author: civilis $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.37 $
+ * @version $Revision: 1.38 $
  */
 public class WFUtil {
 	
@@ -104,7 +107,7 @@ public class WFUtil {
 	 */
 	public static HtmlOutputText getTextVB(String ref) {
 		HtmlOutputText t = new HtmlOutputText();
-		t.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
+		t.setValueExpression(VALUE_STRING, createValueExpression(FacesContext.getCurrentInstance().getELContext(), ref, String.class));
 		return t;
 	}
 	
@@ -543,6 +546,10 @@ public class WFUtil {
 	 */
 	public static ValueBinding createValueBinding(String ref) {
 		return getApplication().createValueBinding(ref);
+	}
+	
+	public static ValueExpression createValueExpression(ELContext elContext, String ref, Class<?> expectedReturnType) {
+		return getApplication().getExpressionFactory().createValueExpression(elContext, ref, expectedReturnType);
 	}
 
 	/**
