@@ -40,22 +40,26 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 			out.writeAttribute("sourceTree", "true", null);
 			out.writeAttribute("noChildren", "true", null);
 		}
-		if (((WFTreeNode) (tree.getNode())).getPageType() != null) {
-			out.writeAttribute("pageType", ((WFTreeNode) (tree.getNode())).getPageType(), null);
+		
+		WFTreeNode treeNode = (WFTreeNode) tree.getNode();
+		if (treeNode.getPageType() != null) {
+			out.writeAttribute("pageType", treeNode.getPageType(), null);
 		}
-		if (((WFTreeNode) (tree.getNode())).getIconURI() != null) {
-			out.writeAttribute("iconfile", ((WFTreeNode) (tree.getNode())).getIconURI(), null);
+		if (treeNode.getIconURI() != null) {
+			out.writeAttribute("iconfile", treeNode.getIconURI(), null);
 		}
 
-		if (((WFTreeNode) (tree.getNode())).getTemplateURI() != null) {
-			out.writeAttribute("templateFile", ((WFTreeNode) (tree.getNode())).getTemplateURI(), null);
+		if (treeNode.getTemplateURI() != null) {
+			out.writeAttribute("templateFile", treeNode.getTemplateURI(), null);
 		}
 	}
 
+	@Override
 	protected void afterNodeEncode(FacesContext context, ResponseWriter out) throws IOException {
 		out.endElement(HTML.LI_ELEM);
 	}
 
+	@Override
 	public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
 		IWTree tree = (IWTree) component;
 		sourceTree = false;
@@ -202,14 +206,16 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 			out.writeAttribute("sourceTree", "true", null);
 			out.writeAttribute("noChildren", "true", null);
 		}
-		if (((WFTreeNode) (tree.getNode())).getIconURI() != null) {
-			out.writeAttribute("iconfile", ((WFTreeNode) (tree.getNode())).getIconURI(), null);
+		
+		WFTreeNode treeNode = (WFTreeNode) tree.getNode();
+		if (treeNode.getIconURI() != null) {
+			out.writeAttribute("iconfile", treeNode.getIconURI(), null);
 		}
-		if (((WFTreeNode) (tree.getNode())).getPageType() != null) {
-			out.writeAttribute("pageType", ((WFTreeNode) (tree.getNode())).getPageType(), null);
+		if (treeNode.getPageType() != null) {
+			out.writeAttribute("pageType", treeNode.getPageType(), null);
 		}
-		if (((WFTreeNode) (tree.getNode())).getTemplateURI() != null) {
-			out.writeAttribute("templateFile", ((WFTreeNode) (tree.getNode())).getTemplateURI(), null);
+		if (treeNode.getTemplateURI() != null) {
+			out.writeAttribute("templateFile", treeNode.getTemplateURI(), null);
 		}
 		encodeRootNode(context, out, tree);
 

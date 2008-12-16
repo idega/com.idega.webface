@@ -16,19 +16,17 @@
       <name>iwtree</name>
       <tag-class>com.idega.webface.IWTreeTag</tag-class>
       <body-content>JSP</body-content>
-      <description><![CDATA[Represents "tree data" in an HTML format. Also provides a mechanism for maintaining expand/collapse
-state of the nodes in the tree.
-
-A component that provides an HTML-based tree from data supplied by a
-backing bean. The tree is highly customizable and allows for
-fine-grained control over the appearance of each of the nodes
-depending on their type.
-
-Almost any type of JSF component (text, image, checkbox, etc.) can
-be rendered inside the nodes and there is an option for client-side
-or server-side toggling of the expand/collapse state.
-
-Unless otherwise specified, all attributes accept static values or EL expressions.]]></description>
+      
+      <attribute>
+         <name>noChildren</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+      </attribute>
+	  <attribute>
+         <name>sourceTree</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+      </attribute>
       
       <attribute>
          <name>clientSideToggle</name>
@@ -47,8 +45,7 @@ Unless otherwise specified, all attributes accept static values or EL expression
          <deferred-value>
              <type>boolean</type>
          </deferred-value>
-         <description><![CDATA[Show the "plus" and "minus" navigation icons (default is true.)
-Value is ignored if clientSideToggle is true.]]></description>
+         <description><![CDATA[Show the "plus" and "minus" navigation icons (default is true.) Value is ignored if clientSideToggle is true.]]></description>
       </attribute>
       <attribute>
          <name>showLines</name>
@@ -69,30 +66,22 @@ Value is ignored if clientSideToggle is true.]]></description>
          <deferred-value>
              <type>boolean</type>
          </deferred-value>
-         <description><![CDATA[Preserve changes in client-side toggle information between
-requests (default is true.)]]></description>
+         <description><![CDATA[Preserve changes in client-side toggle information between requests (default is true.)]]></description>
       </attribute>
       <attribute>
          <name>javascriptLocation</name>
          <deferred-value></deferred-value>
-         <description><![CDATA[An alternate location to find javascript resources.
-If no values is specified, javascript will be loaded
-from the resources directory using AddResource and
-ExtensionsFilter.]]></description>
+         <description><![CDATA[An alternate location to find javascript resources. If no values is specified, javascript will be loaded from the resources directory using AddResource and ExtensionsFilter.]]></description>
       </attribute>
       <attribute>
          <name>imageLocation</name>
          <deferred-value></deferred-value>
-         <description><![CDATA[An alternate location to find image resources. If no
-values is specified, images will be loaded from the
-resources directory using AddResource and ExtensionsFilter.]]></description>
+         <description><![CDATA[An alternate location to find image resources. If no values is specified, images will be loaded from the resources directory using AddResource and ExtensionsFilter.]]></description>
       </attribute>
       <attribute>
          <name>styleLocation</name>
          <deferred-value></deferred-value>
-         <description><![CDATA[An alternate location to find stylesheet resources. If no
-values is specified, stylesheets will be loaded from the
-resources directory using AddResource and ExtensionsFilter.]]></description>
+         <description><![CDATA[An alternate location to find stylesheet resources. If no values is specified, stylesheets will be loaded from the resources directory using AddResource and ExtensionsFilter.]]></description>
       </attribute>
       <attribute>
          <name>value</name>
@@ -105,22 +94,19 @@ resources directory using AddResource and ExtensionsFilter.]]></description>
       <attribute>
          <name>var</name>
          <deferred-value></deferred-value>
-         <description><![CDATA[Return the request-scope attribute under which the data object for the current node will be exposed
-when iterating. This property is not enabled for value binding expressions.]]></description>
+         <description><![CDATA[Return the request-scope attribute under which the data object for the current node will be exposed when iterating. This property is not enabled for value binding expressions.]]></description>
       </attribute>
       <attribute>
          <name>id</name>
          <rtexprvalue>false</rtexprvalue>
-         <description><![CDATA[Get a string which uniquely identifies this UIComponent within the scope of the nearest ancestor NamingContainer
-component. The id is not necessarily unique across all components in the current view.]]></description>
+         <description><![CDATA[Get a string which uniquely identifies this UIComponent within the scope of the nearest ancestor NamingContainer component. The id is not necessarily unique across all components in the current view.]]></description>
       </attribute>
       <attribute>
          <name>rendered</name>
          <deferred-value>
              <type>boolean</type>
          </deferred-value>
-         <description><![CDATA[A boolean value that indicates whether this component should be rendered.
-Default value: true.]]></description>
+         <description><![CDATA[A boolean value that indicates whether this component should be rendered. Default value: true.]]></description>
       </attribute>
       <attribute>
          <name>binding</name>

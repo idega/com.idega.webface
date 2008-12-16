@@ -8,51 +8,49 @@ import javax.faces.el.ValueBinding;
 import org.apache.myfaces.custom.tree2.TreeTag;
 
 
-public class IWTreeTag extends TreeTag{
+@SuppressWarnings("deprecation")
+public class IWTreeTag extends TreeTag {
 	String sourceTree = null;
-//public class IWTreeTag{
-    public String getRendererType()
-    {
+	
+    @Override
+	public String getRendererType() {
         return "com.idega.webface.IWTree";
     }
-    public String getComponentType()
-    {
+    
+    @Override
+	public String getComponentType() {
     	return "iwtree";
     }
     
-    public void setsourceTree(String sourceTree) {
+    public void setSourceTree(String sourceTree) {
     	this.sourceTree = sourceTree;
     }
     
-    public String getsourceTree(){
+    public String getSourceTree(){
     	return sourceTree;
     }
     
-    public void release(){
+    @Override
+	public void release(){
     	super.release();
     	sourceTree = null;
     }
     
-    protected void setProperties(UIComponent component){
+    @Override
+	protected void setProperties(UIComponent component){
     	super.setProperties(component);
         if (sourceTree != null) { 
         	setString(component, "sourceTree", sourceTree);
         }
-    } 
-    public void setString(UIComponent component, 
-    	String attributeName, String attributeValue) { 
-    	if (attributeValue == null)
+    }
+    
+    public void setString(UIComponent component, String attributeName, String attributeValue) {
+    	if (attributeName == null || attributeValue == null)
     		return;
-    	
-//    	TODO: isValueReference disappeared from TreeTag, fix this
-    	
-    	/*
-    	if (isValueReference(attributeValue)) 
-    		setValueBinding(component, attributeName, attributeValue); 
-    		else 
-    			component.getAttributes().put(attributeName, attributeValue);
-     */
-    } 
+
+    	component.getAttributes().put(attributeName, attributeValue);
+    }
+
     public void setValueBinding(UIComponent component, String attributeName, String attributeValue) { 
     	FacesContext context = FacesContext.getCurrentInstance(); 
     	Application app = context.getApplication(); 
