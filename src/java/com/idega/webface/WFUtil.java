@@ -43,10 +43,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2008/12/13 15:34:43 $ by $Author: civilis $
+ * Last modified: $Date: 2009/01/06 07:11:18 $ by $Author: valdas $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.38 $
+ * @version $Revision: 1.39 $
  */
 public class WFUtil {
 	
@@ -107,7 +107,7 @@ public class WFUtil {
 	 */
 	public static HtmlOutputText getTextVB(String ref) {
 		HtmlOutputText t = new HtmlOutputText();
-		t.setValueExpression(VALUE_STRING, createValueExpression(FacesContext.getCurrentInstance().getELContext(), ref, String.class));
+		t.setValueExpression(VALUE_STRING, createValueExpression(FacesContext.getCurrentInstance().getELContext(), getExpression(ref), String.class));
 		return t;
 	}
 	
@@ -679,7 +679,7 @@ public class WFUtil {
 	 * Returns the value from the specified value binding reference. 
 	 */
 	public static Object getValue(String ref) {
-		ValueBinding vb = WFUtil.createValueBinding("#{" + ref + "}");
+		ValueBinding vb = WFUtil.createValueBinding(getExpression(ref));
 		return vb.getValue(FacesContext.getCurrentInstance());		
 	}
 	
@@ -791,7 +791,7 @@ public class WFUtil {
     public static String getExpression(String beanReference){
     	String exp = beanReference;
     	if (!isValueBinding(beanReference)) {
-    		exp = EXPRESSION_BEGIN+beanReference+EXPRESSION_END;
+    		exp = new StringBuilder(EXPRESSION_BEGIN).append(beanReference).append(EXPRESSION_END).toString();
     	}
     	return exp;
     }
