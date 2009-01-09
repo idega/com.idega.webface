@@ -1,5 +1,5 @@
 /*
- * $Id: WFTimestampConverter.java,v 1.3 2008/02/20 15:48:00 laddi Exp $
+ * $Id: WFTimestampConverter.java,v 1.4 2009/01/09 10:50:20 valdas Exp $
  * Created on 17.1.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -22,10 +22,10 @@ import com.idega.util.IWTimestamp;
 
 /**
  * 
- *  Last modified: $Date: 2008/02/20 15:48:00 $ by $Author: laddi $
+ *  Last modified: $Date: 2009/01/09 10:50:20 $ by $Author: valdas $
  * 
  * @author <a href="mailto:gimmi@idega.com">gimmi</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WFTimestampConverter implements Converter {
 
@@ -74,6 +74,13 @@ public class WFTimestampConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
 		if (value == null) {
 			return null;
+		}
+		if (value instanceof String) {
+			try {
+				value = Long.valueOf(value.toString());
+			} catch(NumberFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		if (value instanceof Long){
 			if ( ((Long) value).longValue() == 0 ) {
