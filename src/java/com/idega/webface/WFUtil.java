@@ -6,6 +6,7 @@ package com.idega.webface;
 import java.util.List;
 
 import javax.el.ELContext;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
@@ -27,7 +28,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.FacesContextFactory;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import javax.faces.event.MethodExpressionActionListener;
 import javax.faces.lifecycle.Lifecycle;
 import javax.faces.lifecycle.LifecycleFactory;
 import javax.servlet.ServletContext;
@@ -43,10 +46,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2009/01/06 07:11:18 $ by $Author: valdas $
+ * Last modified: $Date: 2009/01/12 14:42:10 $ by $Author: valdas $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.39 $
+ * @version $Revision: 1.40 $
  */
 public class WFUtil {
 	
@@ -351,13 +354,26 @@ public class WFUtil {
 		return m;
 	}
 	
+	public static ActionListener getActionListener(ELContext elContext, String expression) {
+		return new MethodExpressionActionListener(getMethodExpression(elContext, expression, null, new Class[] {ActionEvent.class}));
+	}
+	
+	public static MethodExpression getMethodExpression(ELContext elContext, String expression, Class<?> resultType, Class<?>[] parameters) {
+		return getApplication().getExpressionFactory().createMethodExpression(elContext, getExpression(expression), resultType, parameters);
+	}
+	
 	/**
 	 * Returns an html command button.
 	 */
 	public static HtmlCommandButton getButton(String id, String value) {
-		HtmlCommandButton b = new HtmlCommandButton();
-		b.setId(id);
-		b.setValue(value);
+		HtmlCommandButton b = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
+		
+		if (id != null) {
+			b.setId(id);
+		}
+		if (value != null) {
+			b.setValue(value);
+		}
 		setInputStyle(b);
 		return b;
 	}
@@ -375,10 +391,10 @@ public class WFUtil {
 	 * Returns an html command button with value binding text label.
 	 */
 	public static HtmlCommandButton getButtonVB(String id, String ref) {
-		HtmlCommandButton b = new HtmlCommandButton();
-		b.setId(id);
+		HtmlCommandButton b = getButton(id, null);
+		
 		b.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
-		setInputStyle(b);
+		
 		return b;
 	}
 	
@@ -386,10 +402,8 @@ public class WFUtil {
 	 * Returns an html command button with value binding text label.
 	 */
 	public static HtmlCommandButton getButtonVB(String id, String bundleIdentifier, String localizationKey) {
-		HtmlCommandButton b = new HtmlCommandButton();
-		b.setId(id);
+		HtmlCommandButton b = getButton(id, null);
 		setLocalizedValue(b, bundleIdentifier, localizationKey);
-		setInputStyle(b);
 		return b;
 	}
 	
