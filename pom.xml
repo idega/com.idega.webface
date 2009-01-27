@@ -5,12 +5,12 @@
   <parent>
   	<groupId>com.idega.block.platform</groupId>
   	<artifactId>com.idega.block.platform</artifactId>
-  	<version>4.1.1-SNAPSHOT</version>
+  	<version>4.1.0</version>
   </parent>
   <packaging>jar</packaging>
   <groupId>com.idega.block.platform</groupId>
   <artifactId>com.idega.webface</artifactId>
-  <version>4.1.1-SNAPSHOT</version>
+  <version>4.1.0</version>
   <name>idegaWeb WebFace</name>
   <inceptionYear>2003</inceptionYear>
   <description>idegaWeb WebFace is a component API Built on JavaServer Faces</description>
@@ -23,6 +23,7 @@
     <connection>scm:cvs:ext:idegaweb@code.idega.com:/idega/cvs:com.idega.block.platform/com.idega.webface/</connection>
     <developerConnection>scm:cvs:ext:idegaweb@code.idega.com:/idega/cvs:com.idega.block.platform/com.idega.webface/</developerConnection>
     -->
+    <tag>com_idega_block_platform-4_1_0</tag>
   </scm>
 
   <developers>
