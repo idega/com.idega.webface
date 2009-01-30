@@ -46,10 +46,10 @@ import com.idega.webface.htmlarea.HTMLArea;
  * <p>
  * This is a class with various utility methods when working with JSF.
  * </p>
- * Last modified: $Date: 2009/01/12 14:42:10 $ by $Author: valdas $
+ * Last modified: $Date: 2009/01/30 07:35:06 $ by $Author: valdas $
  *
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
- * @version $Revision: 1.40 $
+ * @version $Revision: 1.41 $
  */
 public class WFUtil {
 	
@@ -725,6 +725,21 @@ public class WFUtil {
 		MethodBinding mb = WFUtil.createMethodBinding("#{" + beanId + "." + methodName + "}", 
 				new Class[] { parameterClass });
 		return mb.invoke(FacesContext.getCurrentInstance(), new Object[] { value });
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T>T invoke(FacesContext fc, String beanId, String completeMethodName, Object value, Class<T> resultType) {
+		MethodExpression me = WFUtil.getMethodExpression(fc.getELContext(), "#{"+beanId+"."+completeMethodName+"}", resultType, new Class[] {value.getClass()});
+		Object o = me.invoke(fc.getELContext(), new Object[] {value});
+		if (o != null && o.getClass().getName().equals(resultType.getName())) {
+			return (T) o;
+		}
+		
+		return null;
+	}
+	
+	public static void invoke(FacesContext fc, String beanId, String completeMethodName, Object value) {
+		invoke(fc, beanId, completeMethodName, value, Void.class);
 	}
 	
 	/**
