@@ -15,6 +15,7 @@ import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 import javax.faces.render.Renderer;
 
+import com.idega.core.file.util.MimeTypeUtil;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
@@ -360,7 +361,7 @@ public class HTMLAreaRenderer extends Renderer {
 		writer.writeAttribute("rel", "stylesheet", null);
 		writer.writeAttribute("href", stylesheetName, null);
 		writer.writeAttribute("media", "screen", null);
-		writer.writeAttribute("type", CoreConstants.CONTENT_TYPE_TEXT_CSS, null);
+		writer.writeAttribute("type", MimeTypeUtil.MIME_TYPE_CSS, null);
 	}
 	
 }
