@@ -835,7 +835,6 @@ public class WFUtil {
      * @return
      */
     public static <T>T getBeanInstance(FacesContext context, String beanId) {
-    	
 		String expr = getExpression(beanId);
 		ValueBinding vb = context.getApplication().createValueBinding(expr);
 		
@@ -844,10 +843,17 @@ public class WFUtil {
     	return bean;
     }
     
-    public static Object getBeanInstance(String beanId) {
+    public static <T> T getBeanInstance(String beanId) {
     	return getBeanInstance(FacesContext.getCurrentInstance(), beanId);
     }
     
+    public static <T> T getBeanInstance(String beanId, Class<T> beanType) {
+    	String expr = getExpression(beanId);
+    	FacesContext context = FacesContext.getCurrentInstance();
+    	ELContext elContext = context.getELContext();
+    	return (T) createValueExpression(elContext, expr, beanType).getValue(elContext);
+    }
+	
     /**
      * creates faces context. might be used in the filter for example.
      * reference used: http://www.thoughtsabout.net/blog/archives/000033.html
