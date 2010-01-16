@@ -844,7 +844,7 @@ public class WFUtil {
     }
     
     public static <T> T getBeanInstance(String beanId) {
-    	return getBeanInstance(FacesContext.getCurrentInstance(), beanId);
+    	return (T) getBeanInstance(FacesContext.getCurrentInstance(), beanId);
     }
     
     public static <T> T getBeanInstance(String beanId, Class<T> beanType) {
