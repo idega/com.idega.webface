@@ -355,6 +355,10 @@ public class WFUtil {
 	}
 	
 	public static ActionListener getActionListener(ELContext elContext, String expression) {
+		return getMethodExpressionForActionListener(elContext, expression);
+	}
+	
+	public static MethodExpressionActionListener getMethodExpressionForActionListener(ELContext elContext, String expression) {
 		return new MethodExpressionActionListener(getMethodExpression(elContext, expression, null, new Class[] {ActionEvent.class}));
 	}
 	
