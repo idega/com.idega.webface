@@ -11,6 +11,7 @@ package com.idega.webface;
 
 import java.io.IOException;
 
+import javax.el.ELContext;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
@@ -96,6 +97,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	/* (non-Javadoc)
 	 * @see javax.faces.component.UIComponent#getRendererType()
 	 */
+	@Override
 	public String getRendererType() {
 		//return null;
 		//return super.getRendererType();
@@ -125,6 +127,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	/**
 	 * Sets the current start display row for this list.
 	 */
+	@Override
 	public void setFirst(int first) {
 		super.setFirst(first);
 		if (getRows() > 0) {
@@ -139,6 +142,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * Sets the maximum number of rows to display for this list.
 	 * If this value is set to 0 then all rows from first row in the list will be displayed.
 	 */
+	@Override
 	public void setRows(int rows) {
 		super.setRows(rows);
 		setListNavigationLinks();
@@ -177,11 +181,11 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * @param header the column header text
 	 * @param propertyName the name of the bean property for the row text 
 	 */
-	public void addTextColumn(String header, String propertyName) {
+	public void addTextColumn(String header, String propertyName, ELContext elContext) {
 		UIColumn c = new UIColumn();
 		c.setHeader(WFUtil.getText(header));
 		HtmlOutputText t = new HtmlOutputText();
-		t.setValueBinding("value", WFUtil.createValueBinding("#{" + getVar() + "." + propertyName + "}"));
+		t.setValueExpression("value", WFUtil.createValueExpression(elContext, "#{" + getVar() + "." + propertyName + "}", String.class));
 		c.getChildren().add(t);
 		getChildren().add(c);
 	}
@@ -191,13 +195,13 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	 * @param header the column header text
 	 * @param propertyName the name of the bean property for the row link text 
 	 */
-	public void addLinkColumn(String header, String propertyName) {
+	public void addLinkColumn(String header, String propertyName, ELContext elContext) {
 		UIColumn c = new UIColumn();
 		c.setHeader(WFUtil.getText(header));
 		HtmlCommandLink l = new HtmlCommandLink();
 		l.setStyleClass("wf_listlink");
 		HtmlOutputText t = new HtmlOutputText();
-		t.setValueBinding("value", WFUtil.createValueBinding("#{" + getVar() + "." + propertyName + "}"));
+		t.setValueExpression("value", WFUtil.createValueExpression(elContext, "#{" + getVar() + "." + propertyName + "}", String.class));
 		l.getChildren().add(t);
 		c.getChildren().add(l);
 		getChildren().add(c);
@@ -206,6 +210,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeBegin(FacesContext context) throws IOException {
 		ResponseWriter out = context.getResponseWriter();
 		// Main container
@@ -223,6 +228,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeChildren(FacesContext context) throws IOException {
 		// Render table
 		//super.encodeBegin(context);
@@ -233,6 +239,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeEnd(FacesContext context) throws IOException {
 		
 		super.encodeEnd(context);
@@ -249,6 +256,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[6];
 		values[0] = super.saveState(ctx);
@@ -263,6 +271,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 	/**
 	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext, java.lang.Object)
 	 */
+	@Override
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[])state;
 		super.restoreState(ctx, values[0]);
@@ -425,6 +434,7 @@ public class WFList extends HtmlDataTable implements ActionListener {
 		}
 	}
 	
+	@Override
 	public boolean getRendersChildren(){
 		//this component renders its children
 		return true;
