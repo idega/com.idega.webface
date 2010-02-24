@@ -848,14 +848,21 @@ public class WFUtil {
     }
     
     public static <T> T getBeanInstance(String beanId) {
-    	return (T) getBeanInstance(FacesContext.getCurrentInstance(), beanId);
+    	FacesContext context = FacesContext.getCurrentInstance();
+    	if (context != null) {
+    		return (T) getBeanInstance(context, beanId);
+    	}
+    	return null;
     }
     
     public static <T> T getBeanInstance(String beanId, Class<T> beanType) {
-    	String expr = getExpression(beanId);
     	FacesContext context = FacesContext.getCurrentInstance();
-    	ELContext elContext = context.getELContext();
-    	return (T) createValueExpression(elContext, expr, beanType).getValue(elContext);
+    	if (context != null) {
+	    	String expr = getExpression(beanId);
+	    	ELContext elContext = context.getELContext();
+	    	return (T) createValueExpression(elContext, expr, beanType).getValue(elContext);
+    	}
+    	return null;
     }
 	
     /**
