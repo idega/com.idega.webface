@@ -235,7 +235,7 @@ public class WFTreeNode implements TreeNode {
 			try {
 				children.set(order - 1, element);
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.err.println(e.getMessage());
 				return wfnode;
 			}
 		}
