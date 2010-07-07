@@ -19,9 +19,7 @@ import com.idega.core.file.util.MimeTypeUtil;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
-import com.idega.presentation.Page;
 import com.idega.util.CoreConstants;
-import com.idega.util.PresentationUtil;
 import com.idega.webface.business.WebfaceConstants;
 
 public class HTMLAreaRenderer extends Renderer {
@@ -109,26 +107,6 @@ public class HTMLAreaRenderer extends Renderer {
 		// Rendering useing default HtmlInputTextarea renderer
 		getTextareaRenderer(context).encodeEnd(context, component);
 				
-
-		
-		// Checking if component has a parent Page
-		boolean pageParent = false;
-		UIComponent parent = null;
-		
-		//Disabled parentPage detection
-		/*
-		parent = component.getParent();
-		if (parent instanceof Page) {
-			pageParent = true;
-		}
-		while (parent != null && !pageParent) {
-			parent = parent.getParent();
-			if (parent instanceof Page) {
-				pageParent = true;
-			}
-		}
-		*/
-		
 		StringBuffer variables = getVariablesScript(); // Initializing variables 
 		StringBuffer initEditorScript = getInitEditorScript(context, component); // Initializing editor starts
 		
@@ -137,32 +115,16 @@ public class HTMLAreaRenderer extends Renderer {
 		IWBundle workspaceBundle = iwc.getIWMainApplication().getBundle(CoreConstants.WORKSPACE_BUNDLE_IDENTIFIER);
 		String workspacecss = workspaceBundle.getVirtualPathWithFileNameString("style/workspace.css");
 		String webfacecss = webfaceBundle.getVirtualPathWithFileNameString("style/webfacestyle.css");
-		if (pageParent) {
-			//	This must be added in this order
-			Page parentPage = (Page) parent;
-			if (parentPage != null) {
-				parentPage.addJavaScriptBeforeJavaScriptURLs("htmlAreaInitialVariables", variables.toString());
-				parentPage.addJavascriptURL(this.rootFolder + WebfaceConstants.XINHA_CORE);
-				parentPage.addJavaScriptAfterJavaScriptURLs("htmlAreainitEditorMethod", initEditorScript.toString());
-				parentPage.setOnLoad("xinha_init()");
-				if (addExtraStyle) {
-					PresentationUtil.addStyleSheetToHeader(iwc, workspacecss);
-					PresentationUtil.addStyleSheetToHeader(iwc, webfacecss);
-					/*parentPage.addStyleSheetURL(workspacecss);
-					parentPage.addStyleSheetURL(webfacecss);*/
-				}
-			}
-		} else {
-			// Adding necessary scripts to html file (note: currently added to <body> should be moved to <head>)
-			// This must be added in this order
-			ResponseWriter writer = context.getResponseWriter();
-			addJavascript(writer, variables.toString());
-			addJavascriptUrl(writer, WebfaceConstants.XINHA_CORE);
-			addJavascript(writer, initEditorScript.toString());
-			if (addExtraStyle) {
-				addStyleSheet(writer, workspacecss);
-				addStyleSheet(writer, webfacecss);
-			}
+
+		// Adding necessary scripts to html file (note: currently added to <body> should be moved to <head>)
+		// This must be added in this order
+		ResponseWriter writer = context.getResponseWriter();
+		addJavascript(writer, variables.toString());
+		addJavascriptUrl(writer, WebfaceConstants.XINHA_CORE);
+		addJavascript(writer, initEditorScript.toString());
+		if (addExtraStyle) {
+			addStyleSheet(writer, workspacecss);
+			addStyleSheet(writer, webfacecss);
 		}
 	}
 	

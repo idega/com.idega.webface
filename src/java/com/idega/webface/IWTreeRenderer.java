@@ -283,22 +283,15 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 	protected void encodeCurrentNode(FacesContext context, ResponseWriter out, IWTree tree, TreeNode node) throws IOException {
 		String nodeType = node.getType();
 		UIComponent nodeTypeFacet = tree.getFacet(nodeType);
-		UIComponent nodeImgFacet = null;
 
 		if (nodeTypeFacet == null) {
 			throw new IllegalArgumentException("(not root)Unable to locate facet with the name: " + node.getType());
-		}
-
-		// render node
-		if (nodeImgFacet != null) {
-			RendererUtils.renderChild(context, nodeImgFacet);
 		}
 
 		RendererUtils.renderChild(context, nodeTypeFacet);
 	}
 
 	protected void encodeRootNode(FacesContext context, ResponseWriter out, IWTree tree) throws IOException {
-
 		TreeNode node = tree.getNode();
 		boolean showRootNode = tree.isShowRootNode();
 		boolean showLines = tree.isShowLines();
@@ -306,7 +299,6 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 		String nodeType = node.getType();
 
 		UIComponent nodeTypeFacet = tree.getFacet(nodeType);
-		UIComponent nodeImgFacet = null;
 
 		if (nodeTypeFacet == null) {
 			System.out.println("Unable to locate facet with the name: " + nodeType);
@@ -326,11 +318,6 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 			out.endElement(HTML.IMG_ELEM);
 		}
 
-		if (nodeImgFacet != null) {
-			RendererUtils.renderChild(context, nodeImgFacet);
-		}
-
 		RendererUtils.renderChild(context, nodeTypeFacet);
 	}
-
 }
