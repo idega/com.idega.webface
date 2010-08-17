@@ -9,8 +9,10 @@
  */
 package com.idega.webface;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.webapp.UIComponentTag;
+
+import com.idega.presentation.ComponentTag;
 
 /**
  * JSP tag for WFBlock
@@ -20,71 +22,70 @@ import javax.faces.webapp.UIComponentTag;
  * @author tryggvil
  * @version $Revision: 1.8 $
  */
-public class WFBlockTag extends UIComponentTag {
-	
-	private String title;
-	private String maximizedVertically;
+public class WFBlockTag extends ComponentTag {
+
+	private Object title;
+	private Object maximizedVertically;
+
 	private String styleClass;
-	
-	/**
-	 * @see javax.faces.webapp.UIComponentTag#getRendererType()
-	 */
+
+	@Override
 	public String getRendererType() {
 		return null;
 	}
-		
-	/**
-	 * @see javax.faces.webapp.UIComponentTag#getComponentType()
-	 */
+
+	@Override
 	public String getComponentType() {
 		return "WFBlock";
 	}
-	
+
+	public void setTitle(Object title) {
+		this.title = title;
+	}
+	public void setTitle(ValueExpression title) {
+		this.title = title;
+	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	/**
-	 * @return Returns the maximizedVertically.
-	 */
-	public String getMaximizedVertically() {
-		return this.maximizedVertically;
-	}
 
-	
-	/**
-	 * @param maximizedVertically The maximizedVertically to set.
-	 */
 	public void setMaximizedVertically(String maximizedVertically) {
 		this.maximizedVertically = maximizedVertically;
 	}
+	public void setMaximizedVertically(ValueExpression maximizedVertically) {
+		this.maximizedVertically = maximizedVertically;
+	}
+	public void setMaximizedVertically(Object maximizedVertically) {
+		this.maximizedVertically = maximizedVertically;
+	}
 
-	
-	public void release() {      
-		super.release();      
+	@Override
+	public void release() {
+		super.release();
+
 		this.title = null;
+		this.maximizedVertically = null;
 		this.styleClass = null;
 	}
 
-	protected void setProperties(UIComponent component) {      
+	@Override
+	protected void setProperties(UIComponent component) {
 		super.setProperties(component);
+
 		if (component instanceof WFBlock) {
 			WFBlock block = (WFBlock) component;
-			if(this.title!=null){
-				/*if(isValueReference(title)){
-					ValueBinding vb = getFacesContext().getApplication().createValueBinding(title);
-					component.setValueBinding("title", vb);
-				} else {
-					component.getAttributes().put("title", title);
-				}*/
-				block.setTitle(this.title);
+
+			String title = getValue(this.title);
+			if (title != null) {
+				block.setTitle(title);
 			}
-			if(getMaximizedVertically()!=null){
-				boolean maximized = Boolean.valueOf(getMaximizedVertically()).booleanValue();
-				block.setMaximizedVertically(maximized);
+
+			String maxVertically = getValue(this.maximizedVertically);
+			if (maxVertically != null) {
+				block.setMaximizedVertically(Boolean.valueOf(maxVertically));
 			}
-			if (this.styleClass != null) {
-				block.setStyleClass(this.styleClass);
+			if (styleClass != null) {
+				block.setStyleClass(styleClass);
 			}
 		}
 	}
@@ -92,5 +93,4 @@ public class WFBlockTag extends UIComponentTag {
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
-
 }

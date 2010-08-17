@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <taglib xmlns="http://java.sun.com/xml/ns/javaee" 
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" 
         version="2.1">
-  <tlib-version>1.1.7</tlib-version>
   
-   <short-name>iw12</short-name>
+  <tlib-version>2.1</tlib-version>
+   <short-name>Webface 12</short-name>
    <uri>http://xmlns.idega.com/com.idega.webface12</uri>
    <display-name>WebFace Tag Library</display-name>
    <description>Idega Webface Tag Library</description>
