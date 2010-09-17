@@ -507,7 +507,7 @@ public class WFUtil {
 	public static void addParameterVB(UIComponent component, String name, String ref) {
 		UIParameter p = new UIParameter();
 		p.setName(name);
-		p.setValueBinding(VALUE_STRING, createValueBinding(getExpression(ref)));
+		p.setValueExpression(VALUE_STRING, createValueExpression(FacesContext.getCurrentInstance().getELContext(), getExpression(ref), String.class));
 		component.getChildren().add(p);		
 	}
 	
