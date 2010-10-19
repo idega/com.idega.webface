@@ -179,13 +179,13 @@
 			<name>id</name>
 			<required>false</required>
 			<deferred-value></deferred-value>
-			<rtexprvalue>false</rtexprvalue>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
 			<name>externalTabClass</name>
 			<required>false</required>
 			<deferred-value></deferred-value>
-			<rtexprvalue>false</rtexprvalue>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 	<tag>
@@ -195,13 +195,13 @@
 			<name>id</name>
 			<required>false</required>
 			<deferred-value></deferred-value>
-			<rtexprvalue>false</rtexprvalue>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
 			<name>externalTabClass</name>
 			<required>false</required>
 			<deferred-value></deferred-value>
-			<rtexprvalue>false</rtexprvalue>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 	<tag>

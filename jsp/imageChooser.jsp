@@ -13,15 +13,7 @@
 		javascripturls="/idegaweb/bundles/com.idega.webface.bundle/resources/xinha/popups/popup.js,
 						/idegaweb/bundles/com.idega.webface.bundle/resources/xinha/plugins/IWSelectdocument/popups/HTMLAreaImageChooser.js">
 			<h:form id="uploadForm" enctype="multipart/form-data">
-				<wf:htmlareaimagechooser id="lc1" externalTabClass="com.idega.content.presentation.HTMLAreaDocumentImageChooser"/>
-				<!--
-				<wf:htmlarealinkcreator id="lc1" externalTabClass="com.idega.content.presentation.HTMLAreaDocumentLinkCreator"/>
-				<ws:page id="listdocuments1" javascripturls="../idegaweb/bundles/com.idega.webface.bundle/resources/htmlarea/popups/popup.js">
-					<h:form id="uploadForm" enctype="multipart/form-data">
-						<co:ContentViewer showPermissionTab="false" onFileClickEvent="__dlg_close(NAME)" showUploadComponent="false" rootPath="/files" startPath="/files" id="gt"/>
-					</h:form>
-				</ws:page>
-				-->
+				<wf:htmlareaimagechooser externalTabClass="com.idega.content.presentation.HTMLAreaDocumentImageChooser"/>
 			</h:form>
 		</ws:page>
 	</f:view>

@@ -10,35 +10,46 @@
 package com.idega.webface.htmlarea;
 
 import javax.faces.component.UIComponent;
-import javax.faces.webapp.UIComponentTag;
+
+import com.idega.presentation.ComponentTag;
 
 
-public class HTMLAreaLinkCreatorTag extends UIComponentTag {
+public class HTMLAreaLinkCreatorTag extends ComponentTag {
 
-	private String externalTab = null;
-	
+	private Object externalTab = null;
+
+	@Override
 	public String getComponentType() {
 		return "HTMLAreaLinkCreator";
 	}
 
+	@Override
 	public String getRendererType() {
 		return null;
 	}
-	
+
+	@Override
+	@SuppressWarnings("deprecation")
 	public void release() {
 		super.release();
 		this.externalTab = null;
 	}
-	
+
+	@Override
+	@SuppressWarnings("deprecation")
 	protected void setProperties(UIComponent component) {
 		super.setProperties(component);
-		if (component != null) {
+		if (component instanceof HTMLAreaLinkCreator) {
+
 			HTMLAreaLinkCreator o = (HTMLAreaLinkCreator) component;
-			o.setExternalTabClass(this.externalTab);
+			String tabClass = getTypedValue(externalTab);
+			if (tabClass != null) {
+				o.setExternalTabClass(tabClass);
+			}
 		}
 	}
-	
-	public void setExternalTabClass(String externalTab) {
+
+	public void setExternalTabClass(Object externalTab) {
 		this.externalTab = externalTab;
 	}
 }
