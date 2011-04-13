@@ -9,8 +9,9 @@
  */
 package com.idega.webface.htmlarea;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.el.ValueBinding;
+
 import com.idega.idegaweb.IWBundle;
 
 
@@ -28,8 +29,8 @@ public class HTMLAreaEmailLinkType implements HTMLAreaLinkType {
 		return null;
 	}
 
-	public ValueBinding getLinkTypeName(IWBundle iwb) {
-		return iwb.getValueBinding("link_type_email");
+	public ValueExpression getLinkTypeName(IWBundle iwb) {
+		return iwb.getValueExpression("link_type_email");
 	}
 
 	public UIComponent getLinkCreation() {

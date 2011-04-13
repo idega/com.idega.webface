@@ -9,16 +9,16 @@
  */
 package com.idega.webface.htmlarea;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.el.ValueBinding;
+
 import com.idega.idegaweb.IWBundle;
 
 
 public class HTMLAreaExternalImageType implements HTMLAreaImageType {
 
-	
-	public ValueBinding getLinkTypeName(IWBundle iwb) {
-		return iwb.getValueBinding("image_type_external");
+	public ValueExpression getLinkTypeName(IWBundle iwb) {
+		return iwb.getValueExpression("image_type_external");
 	}
 
 	public UIComponent getCreationComponent() {
