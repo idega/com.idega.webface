@@ -38,6 +38,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import com.idega.idegaweb.IWBundle;
+import com.idega.idegaweb.IWMainApplication;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
 import com.idega.webface.htmlarea.HTMLArea;
@@ -567,7 +568,7 @@ public class WFUtil {
 	}
 	
 	public static ValueExpression createValueExpression(ELContext elContext, String ref, Class<?> expectedReturnType) {
-		return getApplication().getExpressionFactory().createValueExpression(elContext, ref, expectedReturnType);
+		return IWMainApplication.getDefaultIWMainApplication().createValueExpression(elContext, ref, expectedReturnType);
 	}
 
 	/**
