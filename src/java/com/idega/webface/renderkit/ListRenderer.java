@@ -106,9 +106,9 @@ public class ListRenderer extends HtmlTableRenderer{
 	/* (non-Javadoc)
 	 * @see org.apache.myfaces.renderkit.html.ext.HtmlTableRenderer#renderHtmlColumnAttributes(javax.faces.context.ResponseWriter, javax.faces.component.UIComponent, java.lang.String)
 	 */
-	protected void renderHtmlColumnAttributes(ResponseWriter writer, UIComponent uiComponent, String prefix) throws IOException {
+	protected void renderHtmlColumnAttributes(FacesContext facesContext, ResponseWriter writer, UIComponent uiComponent, String prefix) throws IOException {
 		// TODO Auto-generated method stub
-		super.renderHtmlColumnAttributes(writer, uiComponent, prefix);
+		super.renderHtmlColumnAttributes(facesContext,writer, uiComponent, prefix);
 	}
 
 	/* (non-Javadoc)

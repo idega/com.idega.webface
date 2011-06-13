@@ -49,15 +49,15 @@ public class IWBundleStarter implements IWBundleStartable {
 		
 		DefaultViewNode img = new DefaultViewNode("imagechooser", node);
 		img.setVisibleInMenus(false);
-		img.setJspUri(bundle.getJSPURI("imageChooser.jsp"));
+		img.setFaceletUri(bundle.getFaceletURI("imageChooser.xhtml"));
 
 		DefaultViewNode temp = new DefaultViewNode("linkchooser", node);
 		temp.setVisibleInMenus(false);
-		temp.setJspUri(bundle.getJSPURI("linkChooser.jsp"));
+		temp.setFaceletUri(bundle.getFaceletURI("linkChooser.xhtml"));
 		
 		DefaultViewNode t2 = new DefaultViewNode("edit", temp);
 		t2.setVisibleInMenus(false);
-		t2.setJspUri(bundle.getJSPURI("linkChooserEdit.jsp"));
+		t2.setFaceletUri(bundle.getFaceletURI("linkChooserEdit.xhtml"));
 
 	}
 	
