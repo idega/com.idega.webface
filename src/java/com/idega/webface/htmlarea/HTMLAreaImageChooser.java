@@ -49,6 +49,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 	private static final String PARAMETER_VERTICAL_SPACING = "f_vert";
 	private static final String PARAMETER_PREVIEW = "ipreview";
 	
+	@Override
 	protected void init(IWContext iwc) {
 		this.bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
 		if (this.tabs == null) {
@@ -101,6 +102,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		}
 	}
 
+	@Override
 	protected WFTabBar getLinkTabBar() {
 		WFTabBar bar = new WFTabBar();
 		//This should reference WorkspaceBar.MAIN_NAVIGATION_STYLE_CLASS, but this is not typesafe (dependency on workspace is missing)
@@ -110,13 +112,14 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		while (iter.hasNext()) {
 			HTMLAreaImageType t = (HTMLAreaImageType) iter.next();
 			HtmlOutputText text = new HtmlOutputText();
-			text.setValueBinding("value", t.getLinkTypeName(this.bundle));
+			text.setValueExpression("value", t.getLinkTypeName(this.bundle));
 			HtmlOutputLink link = bar.addLink(text, null, "HTMLAIC_"+col++, this.currentImageType.getLinkType().equals(t.getLinkType()));
 			WFUtil.addParameter(link, PARAMETER_CHOOSER, t.getClass().getName());
 		}
 		return bar;
 	}
 
+	@Override
 	protected UIComponent getCreationComponent() {
 		String surl = IWContext.getInstance().getParameter(PARAMETER_URL);
 		if (surl != null && surl.lastIndexOf("/") > -1) {
@@ -129,6 +132,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		return this.currentImageType.getCreationComponent(surl);
 	}
 	
+	@Override
 	protected WFBlock getSubmitTable(IWContext iwc) {
 		WFBlock mainblock = new WFBlock();
 		WFTitlebar header = new WFTitlebar();
@@ -308,6 +312,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		return label;
 	}
 
+	@Override
 	public void setExternalTabClass(String tab) {
 		if (tab != null) {
 			Vector v = new Vector();

@@ -9,15 +9,15 @@
  */
 package com.idega.webface.htmlarea;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.el.ValueBinding;
-import com.idega.idegaweb.IWBundle;
 
+import com.idega.idegaweb.IWBundle;
 
 public class HTMLAreaExternalLinkType implements HTMLAreaLinkType {
 		
-	public ValueBinding getLinkTypeName(IWBundle bundle) {
-		return bundle.getValueBinding("link_type_external_link");
+	public ValueExpression getLinkTypeName(IWBundle bundle) {
+		return bundle.getValueExpression("link_type_external_link");
 	}
 
 	public UIComponent getLinkCreation() {

@@ -26,4 +26,18 @@
         </component>
 	</tag>
 	
+	<tag>
+		<tag-name>personalIdValidator</tag-name>
+		<validator>
+			<validator-id>WFPersonalIdValidator</validator-id>
+		</validator>
+	</tag>
+	
+	<tag>
+		<tag-name>loginValidator</tag-name>
+		<validator>
+			<validator-id>WFLoginValidator</validator-id>
+		</validator>
+	</tag>
+	
 </facelet-taglib>

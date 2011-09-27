@@ -9,8 +9,9 @@
  */
 package com.idega.webface.htmlarea;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.el.ValueBinding;
+
 import com.idega.idegaweb.IWBundle;
 
 
@@ -32,12 +33,12 @@ public interface HTMLAreaLinkType {
 	public String getStartingTarget();
 	
 	/**
-	 * Returns a valuebinding to be used on the HtmlOutputLink that link to
+	 * Returns a value expression to be used on the HtmlOutputLink that link to
 	 * the corresponding LinkTypeCreator.
 	 * @param iwb
 	 * @return
 	 */
-	public ValueBinding getLinkTypeName(IWBundle iwb);
+	public ValueExpression getLinkTypeName(IWBundle iwb);
 	
 	/**
 	 * Returns a table 

@@ -10,8 +10,10 @@
 package com.idega.webface.htmlarea;
 
 import java.lang.reflect.InvocationTargetException;
+
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.el.ValueBinding;
+
 import com.idega.idegaweb.IWBundle;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.ui.TreeViewer;
@@ -34,8 +36,8 @@ public class HTMLAreaPageLinkType implements HTMLAreaLinkType {
 		return null;
 	}
 
-	public ValueBinding getLinkTypeName(IWBundle iwb) {
-		return iwb.getValueBinding("link_type_pages");
+	public ValueExpression getLinkTypeName(IWBundle iwb) {
+		return iwb.getValueExpression("link_type_pages");
 	}
 
 	public UIComponent getLinkCreation() {

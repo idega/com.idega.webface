@@ -12,6 +12,7 @@ package com.idega.webface.htmlarea;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
+
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
@@ -51,6 +52,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 	private String selectedType;
 	private HTMLAreaLinkType currentLinkType = null;
 	
+	@Override
 	public void initializeComponent(FacesContext context) {
 		IWContext iwc = IWContext.getIWContext(context);
 		this.bundle = iwc.getIWMainApplication().getBundle(IW_BUNDLE_IDENTIFIER);
@@ -136,7 +138,7 @@ public class HTMLAreaLinkCreator extends IWBaseComponent{
 		while (iter.hasNext()) {
 			HTMLAreaLinkType t = (HTMLAreaLinkType) iter.next();
 			HtmlOutputText text = new HtmlOutputText();
-			text.setValueBinding("value", t.getLinkTypeName(this.bundle));
+			text.setValueExpression("value", t.getLinkTypeName(this.bundle));
 			HtmlOutputLink link = bar.addLink(text, null, "HTMLALCL_"+col++, this.currentLinkType.getLinkType().equals(t.getLinkType()));
 			WFUtil.addParameter(link, PARAMETER_CREATOR, t.getClass().getName());
 		}

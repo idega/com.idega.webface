@@ -9,8 +9,9 @@
  */
 package com.idega.webface.htmlarea;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.el.ValueBinding;
+
 import com.idega.idegaweb.IWBundle;
 
 
@@ -21,7 +22,7 @@ public interface HTMLAreaImageType {
 	 * @param iwb
 	 * @return
 	 */
-	public ValueBinding getLinkTypeName(IWBundle iwb);
+	public ValueExpression getLinkTypeName(IWBundle iwb);
 	
 	/**
 	 * Returns a table 

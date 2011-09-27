@@ -1,0 +1,10 @@
+com.idega.webface.validate.login.TAKEN=Frátekið notendanafn
+com.idega.webface.validate.login.TAKEN_detail=Notendanafnið {0} er frátekið
+com.idega.webface.validate.PersonalId.INVALID=Kennitalan virðist ekki gild
+com.idega.webface.validate.PersonalId.INVALID_detail=Kennitalan {0} virðist ekki gild.  Athugið hvort hún er örugglega rétt slegin inn
+com.idega.webface.validate.PersonalId.EMPTY_STRING=Engin kennitala virðist hafa verið slegin inn
+com.idega.webface.validate.PersonalId.EMPTY_STRING_detail=Engin kennitala virðist hafa verið slegin inn
+com.idega.webface.validate.PersonalId.INCORRECT_LENGTH=Kennitalan er ekki af réttri lengd
+com.idega.webface.validate.PersonalId.INCORRECT_LENGTH_detail={0} er ekki af réttri lengd.  Kennitala á að vera 10 tölustafir, án allra bila og bandstriks.
+com.idega.webface.validate.PersonalId.NOT_DIGITS=Innslegin kennitala á eingönu að innihlada tölustafi
+com.idega.webface.validate.PersonalId.NOT_DIGITS_detail={0} er ógild.  Hún ætti eingönu að innihlada tölustafi.
