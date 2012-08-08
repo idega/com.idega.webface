@@ -16,8 +16,6 @@ import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.model.DataModel;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.idega.repository.RepositoryService;
 import com.idega.util.expression.ELUtil;
 import com.idega.webface.WFUtil;
@@ -35,9 +33,6 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 
 	private WFDataModel dataModel = new WFDataModel();
 	private boolean dataModelInitialized = false;
-
-	@Autowired
-	private RepositoryService repository;
 
 	/**
 	 *
@@ -202,8 +197,6 @@ public abstract class AbstractWFEditableListManagedBean implements WFListBean {
 	}
 
 	public RepositoryService getRepository() {
-		if (repository == null)
-			ELUtil.getInstance().autowire(this);
-		return repository;
+		return ELUtil.getInstance().getBean(RepositoryService.class);
 	}
 }
