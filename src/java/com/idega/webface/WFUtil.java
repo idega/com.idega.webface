@@ -4,6 +4,7 @@
 package com.idega.webface;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.el.ELContext;
 import javax.el.MethodExpression;
@@ -39,11 +40,14 @@ import javax.servlet.ServletResponse;
 
 import org.apache.myfaces.el.unified.resolver.FacesCompositeELResolver;
 import org.apache.myfaces.el.unified.resolver.FacesCompositeELResolver.Scope;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.stereotype.Service;
 
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWMainApplication;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
+import com.idega.util.presentation.JSFUtil;
 import com.idega.webface.htmlarea.HTMLArea;
 
 /**
@@ -55,13 +59,27 @@ import com.idega.webface.htmlarea.HTMLArea;
  * @author Anders Lindman,<a href="mailto:tryggvi@idega.is">Tryggvi Larusson</a>
  * @version $Revision: 1.41 $
  */
-public class WFUtil {
+
+@Service
+@org.springframework.context.annotation.Scope(BeanDefinition.SCOPE_SINGLETON)
+public class WFUtil implements JSFUtil {
 
 	public static String BUNDLE_IDENTIFIER="com.idega.webface";
 
 	public static final String EXPRESSION_BEGIN="#{";
 	public static final String EXPRESSION_END="}";
 	public static final String VALUE_STRING="value";
+
+	private static WFUtil instance;
+	static  {
+		instance = new WFUtil();
+	}
+
+	private WFUtil() {}
+
+	public static final WFUtil getInstance() {
+		return instance;
+	}
 
 	public static IWBundle getBundle(){
 		return getBundle(FacesContext.getCurrentInstance());
@@ -854,8 +872,19 @@ public class WFUtil {
     }
 
     private static final void doEnsureScopeIsSet(FacesContext context) {
+    	instance.setFacesScope(context);
+    }
+
+    @Override
+	public Boolean setFacesScope(FacesContext context) {
+    	if (context == null) {
+    		Logger.getLogger(getClass().getName()).warning("FacesContext is not initialized!");
+    		return Boolean.FALSE;
+    	}
+
     	if (context.getExternalContext().getRequestMap().get(FacesCompositeELResolver.SCOPE) == null)
     		context.getExternalContext().getRequestMap().put(FacesCompositeELResolver.SCOPE, Scope.Faces);
+    	return Boolean.TRUE;
     }
 
     public static <T> T getBeanInstance(String beanId, Class<T> beanType) {
