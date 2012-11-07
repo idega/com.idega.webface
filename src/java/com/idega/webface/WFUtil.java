@@ -4,6 +4,7 @@
 package com.idega.webface;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.el.ELContext;
@@ -882,8 +883,9 @@ public class WFUtil implements JSFUtil {
     		return Boolean.FALSE;
     	}
 
-    	if (context.getExternalContext().getRequestMap().get(FacesCompositeELResolver.SCOPE) == null)
-    		context.getExternalContext().getRequestMap().put(FacesCompositeELResolver.SCOPE, Scope.Faces);
+    	Map<String, Object> map = context.getExternalContext().getRequestMap();
+    	if (map.get(FacesCompositeELResolver.SCOPE) == null)
+    		map.put(FacesCompositeELResolver.SCOPE, Scope.Faces);
     	return Boolean.TRUE;
     }
 
