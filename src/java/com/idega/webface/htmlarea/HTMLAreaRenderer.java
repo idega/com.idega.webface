@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
@@ -17,6 +18,7 @@ import javax.faces.render.Renderer;
 
 import com.idega.core.file.util.MimeTypeUtil;
 import com.idega.idegaweb.IWBundle;
+import com.idega.idegaweb.IWMainApplicationSettings;
 import com.idega.idegaweb.UnavailableIWContext;
 import com.idega.presentation.IWContext;
 import com.idega.util.CoreConstants;
@@ -133,7 +135,7 @@ public class HTMLAreaRenderer extends Renderer {
 		try {
 			htmlArea = (HTMLArea) component;
 		} catch (ClassCastException e) {
-			System.out.println("[HTMLAreaRenderer] component not instance of HTMLArea");
+			Logger.getLogger(getClass().getName()).warning("[HTMLAreaRenderer] component not instance of HTMLArea");
 		}
 
 		String inputName = component.getClientId(context);
@@ -200,8 +202,10 @@ public class HTMLAreaRenderer extends Renderer {
 			"];\n");
 					
 		if (containsStylist) {
-			String cssPath = IWContext.getIWContext(context).getApplicationSettings().getProperty("SITE_EDITOR_STYLESHEET_URI", "/content/files/public/style/editorstyles.css");
-			initEditorScript.append("\t\txinha_config.stylistLoadStylesheet('"+cssPath+"');\n");
+			IWMainApplicationSettings settings = IWContext.getIWContext(context).getApplicationSettings();
+			String cssPath = settings.getProperty("SITE_EDITOR_STYLESHEET_URI", "/content/files/public/style/editorstyles.css");
+			if (settings.getBoolean("add_article_editor_css", Boolean.FALSE))
+				initEditorScript.append("\t\txinha_config.stylistLoadStylesheet('"+cssPath+"');\n");
 		}
 		
 		initEditorScript.append("\n");
@@ -272,7 +276,7 @@ public class HTMLAreaRenderer extends Renderer {
 					plugins = plugins.substring(index+1);
 					index = plugins.indexOf(",");
 					if (index > -1) {
-						System.out.print(", ");
+						Logger.getLogger(getClass().getName()).info(", ");
 					}
 				}
 				
