@@ -26,6 +26,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectManyListbox;
 import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.FacesContextFactory;
 import javax.faces.el.MethodBinding;
@@ -883,7 +884,13 @@ public class WFUtil implements JSFUtil {
     		return Boolean.FALSE;
     	}
 
-    	Map<String, Object> map = context.getExternalContext().getRequestMap();
+    	ExternalContext externalContext = context.getExternalContext();
+    	if (externalContext == null) {
+    		Logger.getLogger(getClass().getName()).warning("ExternalContext is not available");
+    		return Boolean.FALSE;
+    	}
+
+    	Map<String, Object> map = externalContext.getRequestMap();
     	if (map.get(FacesCompositeELResolver.SCOPE) == null)
     		map.put(FacesCompositeELResolver.SCOPE, Scope.Faces);
     	return Boolean.TRUE;
