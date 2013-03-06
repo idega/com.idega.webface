@@ -68,7 +68,7 @@ public class WFViewSelector extends UICommand implements ActionListener {
 				ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 				HttpServletRequest request = (HttpServletRequest)extContext.getRequest();
 				String requestURI = request.getRequestURI();
-				//We don´t want to send a dispatch to the same page again:
+				//We donÂ´t want to send a dispatch to the same page again:
 				if(!requestURI.endsWith(selectedViewId)){
 					
 					extContext.dispatch(selectedViewId);

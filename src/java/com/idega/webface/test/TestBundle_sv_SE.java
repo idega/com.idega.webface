@@ -9,11 +9,11 @@ public class TestBundle_sv_SE extends ListResourceBundle {
 
 	static final Object[][] contents = {
 		{"name", "Namn"},
-		{"author", "Författare"},
-		{"company", "Företag"},
+		{"author", "FÃ¶rfattare"},
+		{"company", "FÃ¶retag"},
 		{"edit_article", "Redigera artikel"},
-		{"article_headline_empty", "Rubrik måste anges."},
-		{"article_body_empty", "Artikeltext måste anges."}
+		{"article_headline_empty", "Rubrik mÃ¥ste anges."},
+		{"article_body_empty", "Artikeltext mÃ¥ste anges."}
 	};
 
 	public Object[][] getContents() {
