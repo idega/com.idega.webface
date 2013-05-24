@@ -14,12 +14,13 @@ import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 
 import com.idega.idegaweb.IWBundle;
+import com.idega.util.CoreConstants;
 import com.idega.webface.event.WFToolbarButtonPressedListener;
 
 /**
- * Button component used in WFToolbar. 
+ * Button component used in WFToolbar.
  * software 2003
- * 
+ *
  * @author <a href="mailto:tryggvi@idega.is">Tryggvi Larusson </a>
  * @version 1.0
  */
@@ -31,7 +32,7 @@ public class WFToolbarButton extends UICommand {
 	private String inactiveImageURI;
 	private String pressedImageURI;
 	private String styleClass;
-	
+
 	public WFToolbarButton() {
 		// Default contstructor, for JSF
 	}
@@ -40,19 +41,19 @@ public class WFToolbarButton extends UICommand {
 		String uri = bundle.getResourcesVirtualPath()+"/"+defaultImageURI;
 		this.setDefaultImageURI(uri);
 	}
-	
+
 	public WFToolbarButton(String defaultImageURI) {
 		String uriWithBundle = WFUtil.getBundle().getResourcesVirtualPath()+"/"+defaultImageURI;
 		this.setDefaultImageURI(uriWithBundle);
 	}
-	
+
 	public void setListener(WFToolbarButtonPressedListener listener) {
 		this.addFacesListener(listener);
 	}
-	
+
 	/**
 	 * @return Returns the defaultImageURI.
-	 * 
+	 *
 	 * @uml.property name="defaultImageURI"
 	 */
 	public String getDefaultImageURI() {
@@ -62,7 +63,7 @@ public class WFToolbarButton extends UICommand {
 	/**
 	 * @param defaultImageURI
 	 *            The defaultImageURI to set.
-	 * 
+	 *
 	 * @uml.property name="defaultImageURI"
 	 */
 	public void setDefaultImageURI(String defaultImageURI) {
@@ -71,7 +72,7 @@ public class WFToolbarButton extends UICommand {
 
 	/**
 	 * @return Returns the hoverImageURI.
-	 * 
+	 *
 	 * @uml.property name="hoverImageURI"
 	 */
 	public String getHoverImageURI() {
@@ -81,7 +82,7 @@ public class WFToolbarButton extends UICommand {
 	/**
 	 * @param hoverImageURI
 	 *            The hoverImageURI to set.
-	 * 
+	 *
 	 * @uml.property name="hoverImageURI"
 	 */
 	public void setHoverImageURI(String hoverImageURI) {
@@ -90,7 +91,7 @@ public class WFToolbarButton extends UICommand {
 
 	/**
 	 * @return Returns the inactiveImageURI.
-	 * 
+	 *
 	 * @uml.property name="inactiveImageURI"
 	 */
 	public String getInactiveImageURI() {
@@ -100,7 +101,7 @@ public class WFToolbarButton extends UICommand {
 	/**
 	 * @param inactiveImageURI
 	 *            The inactiveImageURI to set.
-	 * 
+	 *
 	 * @uml.property name="inactiveImageURI"
 	 */
 	public void setInactiveImageURI(String inactiveImageURI) {
@@ -109,7 +110,7 @@ public class WFToolbarButton extends UICommand {
 
 	/**
 	 * @return Returns the pressedImageURI.
-	 * 
+	 *
 	 * @uml.property name="pressedImageURI"
 	 */
 	public String getPressedImageURI() {
@@ -119,7 +120,7 @@ public class WFToolbarButton extends UICommand {
 	/**
 	 * @param pressedImageURI
 	 *            The pressedImageURI to set.
-	 * 
+	 *
 	 * @uml.property name="pressedImageURI"
 	 */
 	public void setPressedImageURI(String pressedImageURI) {
@@ -128,7 +129,7 @@ public class WFToolbarButton extends UICommand {
 
 	/**
 	 * @return Returns the toolTip.
-	 * 
+	 *
 	 * @uml.property name="toolTip"
 	 */
 	public String getToolTip() {
@@ -138,13 +139,13 @@ public class WFToolbarButton extends UICommand {
 	/**
 	 * @param toolTip
 	 *            The toolTip to set.
-	 * 
+	 *
 	 * @uml.property name="toolTip"
 	 */
 	public void setToolTip(String toolTip) {
 		this.toolTip = toolTip;
 	}
-	
+
 	public String getDisplayText() {
 		if(this.displayText != null) {
 			return this.displayText;
@@ -156,38 +157,41 @@ public class WFToolbarButton extends UICommand {
 	public void setDisplayText(String text) {
 		this.displayText = text;
 	}
-	
+
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
-	
+
 	public String getStyleClass() {
 		return this.styleClass;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.faces.component.UIComponent#encodeBegin(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeBegin(FacesContext context) {
 	}
-	
+
 	/**
 	 * @see javax.faces.component.UIComponent#encodeChildren(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeChildren(FacesContext context) {
 	}
-	
+
 	/**
 	 * @see javax.faces.component.UIComponent#encodeEnd(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void encodeEnd(FacesContext context) throws IOException {
 		ResponseWriter out = context.getResponseWriter();
 
 		String buttonId = getClientId(context);
 		String imageId = buttonId + "_img";
-		
+
 		out.startElement("input", null);
 		out.writeAttribute("id", buttonId, null);
 		out.writeAttribute("type", "hidden", null);
@@ -212,19 +216,19 @@ public class WFToolbarButton extends UICommand {
 				String onmousedown = "this.src='" + getPressedImageURI() +"'";
 				out.writeAttribute("onmousedown", onmousedown, null);
 			}
-			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
+			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId +
 			"'].value='true';document.forms['" + formName + "'].submit();";
 			out.writeAttribute("onmouseup", onmouseup, null);
-			String onmouseout = "document.forms['" + formName + "'].elements['" + buttonId + "'].value='';this.src='" + 
+			String onmouseout = "document.forms['" + formName + "'].elements['" + buttonId + "'].value='';this.src='" +
 					getDefaultImageURI() + "'";
 			out.writeAttribute("onmouseout", onmouseout, null);
 			out.endElement("img");
 		} else {
 			out.startElement("a", null);
-			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId + 
+			String onmouseup = "document.forms['" + formName + "'].elements['" + buttonId +
 			"'].value='true';document.forms['" + formName + "'].submit();";
 			out.writeAttribute("onmouseup", onmouseup, null);
-			
+
 			if (this.styleClass != null) {
 				out.writeAttribute("class", this.styleClass, null);
 			}
@@ -232,24 +236,24 @@ public class WFToolbarButton extends UICommand {
 				out.writeAttribute("alt", this.toolTip, null);
 				out.writeAttribute("title", this.toolTip, null);
 			}
-			
-			out.writeAttribute("href","#",null);
-			
+
+			out.writeAttribute("href",CoreConstants.HASH,null);
+
 			String text = getDisplayText();
 			if(text != null){
 				out.write(text);
 			}
-			
+
 			out.endElement("a");
 		}
 	}
-		
+
 	/**
 	 * Renders a child component for the current component. This operation is
 	 * handy when implementing renderes that perform child rendering themselves
 	 * (eg. a layout renderer/grid renderer/ etc..). Passes on any IOExceptions
 	 * thrown by the child/child renderer.
-	 * 
+	 *
 	 * @param context
 	 *            the current FacesContext
 	 * @param child
@@ -260,23 +264,24 @@ public class WFToolbarButton extends UICommand {
 		child.encodeChildren(context);
 		child.encodeEnd(context);
 	}
-	
+
 	/**
 	 * @see javax.faces.component.UIComponent#decode(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public void decode(FacesContext context) {
 		String buttonId = getClientId(context);
-		String inputValue =	(String) context.getExternalContext().getRequestParameterMap().get(buttonId);
+		String inputValue =	context.getExternalContext().getRequestParameterMap().get(buttonId);
 		if (inputValue != null && inputValue.equals("true")) {
 			ActionEvent event = new ActionEvent(this);
 			queueEvent(event);
 		}
 	}
-	
+
 	/**
 	 * Determines the client id of the form in which a component is enclosed.
 	 * Useful for generating submitForm('xyz') javascripts...
-	 * 
+	 *
 	 * @return
 	 */
 	public static String determineFormName(UIComponent component) {
@@ -284,7 +289,7 @@ public class WFToolbarButton extends UICommand {
 		UIComponent current = component.getParent();
 		UIComponent form = null;
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		
+
 		while(current != null) {
 			if(current instanceof UIForm) {
 				form = current;
@@ -296,15 +301,15 @@ public class WFToolbarButton extends UICommand {
 			UIComponent root = ctx.getViewRoot();
 			form = findFormDown(root);
 		}
-		
+
 		if(form != null) {
 			ret = form.getClientId(ctx);
 		}
-		
+
 		return ret;
 	}
-	
-	
+
+
 	public static UIForm findFormDown(UIComponent component){
 		for (Iterator iterator = component.getFacetsAndChildren(); iterator.hasNext();) {
 			UIComponent child = (UIComponent) iterator.next();
@@ -317,11 +322,12 @@ public class WFToolbarButton extends UICommand {
 		}
 		return null;
 	}
-	
+
 
 	/**
 	 * @see javax.faces.component.UIPanel#saveState(javax.faces.context.FacesContext)
 	 */
+	@Override
 	public Object saveState(FacesContext ctx) {
 		Object values[] = new Object[8];
 		values[0] = super.saveState(ctx);
@@ -339,6 +345,7 @@ public class WFToolbarButton extends UICommand {
 	 * @see javax.faces.component.UIPanel#restoreState(javax.faces.context.FacesContext,
 	 *      java.lang.Object)
 	 */
+	@Override
 	public void restoreState(FacesContext ctx, Object state) {
 		Object values[] = (Object[]) state;
 		super.restoreState(ctx, values[0]);
