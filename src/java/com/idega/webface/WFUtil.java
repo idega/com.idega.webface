@@ -594,6 +594,15 @@ public class WFUtil implements JSFUtil {
 		return IWMainApplication.getDefaultIWMainApplication().createValueExpression(elContext, ref, expectedReturnType);
 	}
 
+	public static <T> void setValueForValueExpression(ELContext elContext, String expression, T value) {
+		ValueExpression targetExpression = IWMainApplication.getDefaultIWMainApplication().getExpressionFactory().createValueExpression(
+				elContext,
+				expression,
+				value.getClass()
+		);
+		targetExpression.setValue(elContext, value);
+	}
+
 	/**
 	 * Creates value binding expression for given key
 	 * @param bundleIdentifier
