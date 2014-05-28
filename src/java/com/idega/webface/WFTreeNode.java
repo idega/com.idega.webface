@@ -35,15 +35,14 @@ import com.idega.util.CoreUtil;
  */
 public class WFTreeNode implements TreeNode {
 	
-
 	private static final long serialVersionUID = 2723941084348902419L;
 	
-	private ICTreeNode icNode;
+	private ICTreeNode<?> icNode;
 	private List <WFTreeNode> children = null;
     private String type = null;
     private String iconURI = null;
     private String pageType = null;
-    private ICTreeNode parent = null;
+    private ICTreeNode<?> parent = null;
     private String templateURI = null;
     
     private Locale currentLocale = null;
@@ -56,7 +55,7 @@ public class WFTreeNode implements TreeNode {
 	/**
 	 * 
 	 */
-	public WFTreeNode(ICTreeNode node) {
+	public WFTreeNode(ICTreeNode<?> node) {
 		this.icNode = node;
 		String className = node.getClass().getName();
 		if(className.indexOf('.')>-1){
@@ -66,7 +65,7 @@ public class WFTreeNode implements TreeNode {
 		}
 	}
 
-	public WFTreeNode(ICTreeNode node, String iconURI, String pageType) {
+	public WFTreeNode(ICTreeNode<?> node, String iconURI, String pageType) {
 		this.icNode = node;
 		this.iconURI = iconURI;
 		this.pageType = pageType;
@@ -175,12 +174,12 @@ public class WFTreeNode implements TreeNode {
 		else return this.children.size();
 	}
 	
-	public void addChild(ICTreeNode node, String iconUrl, String pageType){
+	public void addChild(ICTreeNode<?> node, String iconUrl, String pageType){
 		addChildren();
 		this.children.add(new WFTreeNode(node, iconUrl, pageType));		
 	}
 
-	public void addChild(ICTreeNode node){		
+	public void addChild(ICTreeNode<?> node) {
 		addChildren();
 		WFTreeNode newChild = new WFTreeNode(node);
 		
@@ -206,7 +205,7 @@ public class WFTreeNode implements TreeNode {
 		}
 	}
 
-	public WFTreeNode settingSubTypes(ICTreeNode icnode, WFTreeNode wfnode){		
+	public WFTreeNode settingSubTypes(ICTreeNode<?> icnode, WFTreeNode wfnode){		
 		IWContext iwc = CoreUtil.getIWContext();
 		BuilderService bservice = null;
 		try {
@@ -218,18 +217,23 @@ public class WFTreeNode implements TreeNode {
 		wfnode.setPageType(bservice.getICPage(icnode.getId()).getSubType());
 		if(icnode.getChildCount() == 0)
 			return wfnode;		
-		Iterator it = icnode.getChildrenIterator();
-		int i = 0;
-		while (it.hasNext()) {
-			wfnode.getChildren().set(i, settingSubTypes((ICTreeNode)it.next(), wfnode.getChildren().get(i)));
-			i++;
-		}		
+		Iterator<?> it = icnode.getChildrenIterator();
+		if (it != null) {
+			int i = 0;
+			while (it.hasNext()) {
+				Object o = it.next();
+				if (o instanceof ICTreeNode) {
+					wfnode.getChildren().set(i, settingSubTypes((ICTreeNode<?>) o, wfnode.getChildren().get(i)));
+					i++;
+				}
+			}
+		}
 		
 		List <WFTreeNode> children = new ArrayList<WFTreeNode>();
 		for(int j = 0; j < wfnode.getChildCount(); j++){
 			children.add(null);
 		}
-		for (Iterator iter = wfnode.getChildren().iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = wfnode.getChildren().iterator(); iter.hasNext();) {
 			WFTreeNode element = (WFTreeNode)iter.next();
 			int order = bservice.getTreeOrder(Integer.valueOf(element.getIdentifier()).intValue());
 			try {
@@ -240,7 +244,7 @@ public class WFTreeNode implements TreeNode {
 			}
 		}
 		
-		for (Iterator iter = children.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = children.iterator(); iter.hasNext();) {
 			if (iter.next() == null){
 				return wfnode;
 			}				
@@ -274,11 +278,11 @@ public class WFTreeNode implements TreeNode {
 		this.pageType = pageType;
 	}
 
-	public ICTreeNode getParent() {
+	public ICTreeNode<?> getParent() {
 		return parent;
 	}
 
-	public void setParent(ICTreeNode parent) {
+	public void setParent(ICTreeNode<?> parent) {
 		this.parent = parent;
 	}
 
@@ -296,8 +300,11 @@ public class WFTreeNode implements TreeNode {
 		if(this.children == null) {
 			this.children = new ArrayList<WFTreeNode>();
 			if(icNode != null) {
-				for (Iterator iter = this.icNode.getChildrenIterator(); iter.hasNext();) {
-					this.children.add(new WFTreeNode((ICTreeNode) iter.next()));
+				for (Iterator<?> iter = this.icNode.getChildrenIterator(); iter.hasNext();) {
+					Object o = iter.next();
+					if (o instanceof ICTreeNode) {
+						this.children.add(new WFTreeNode((ICTreeNode<?>) o));
+					}
 				}
 			}
 		}
