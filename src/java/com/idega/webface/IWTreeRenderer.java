@@ -2,6 +2,7 @@ package com.idega.webface;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
@@ -181,9 +182,13 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 			if (child_count > 0) {
 				children = tree.getDataModel().getNodeById(tree.getNodeId()).getChildren();
 				for (int i = 0; i < child_count; i++) {
-					node = children.get(i);
-					walker.next();
-					encodeTree(context, out, tree, walker, node);
+					if (i < children.size()) {
+						node = children.get(i);
+						walker.next();
+						encodeTree(context, out, tree, walker, node);
+					} else {
+						Logger.getLogger(getClass().getName()).warning("Child with index " + i + " does not exist in collection " + children);
+					}
 				}
 			}
 			out.endElement(HTML.UL_ELEM);
