@@ -2,6 +2,7 @@ package com.idega.webface;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
@@ -20,7 +21,9 @@ import org.apache.myfaces.shared_tomahawk.renderkit.html.HTML;
 import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlRendererUtils;
 
 public class IWTreeRenderer extends HtmlTreeRenderer {
-	
+
+	private static final Logger LOGGER = Logger.getLogger(IWTreeRenderer.class.getName());
+
 	private int node = 0;
 	private boolean sourceTree = false;
 
@@ -32,16 +35,33 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 	public IWTreeRenderer() {
 	}
 
+	private TreeNode getNode(IWTree tree) {
+		String id = null;
+		TreeNode node = null;
+		try {
+			id = tree.getNodeId();
+			node = tree.getDataModel().getNodeById(id);
+		} catch (Exception e) {
+			LOGGER.log(Level.WARNING, "Error getting node from tree by ID: " + id, e);
+		}
+		return node;
+	}
+
 	protected void beforeNodeEncode(FacesContext context, ResponseWriter out, IWTree tree) throws IOException {
+		TreeNode node = getNode(tree);
+		if (node == null) {
+			return;
+		}
+
 		out.startElement(HTML.LI_ELEM, tree);
-		out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
+		out.writeAttribute(HTML.ID_ATTR, node.getIdentifier(), null);
 		out.writeAttribute(HTML.CLASS_ATTR, "idegaTreeListElementContainerStyleClass", null);
-		
+
 		if (sourceTree) {
 			out.writeAttribute("sourceTree", "true", null);
 			out.writeAttribute("noChildren", "true", null);
 		}
-		
+
 		WFTreeNode treeNode = (WFTreeNode) tree.getNode();
 		if (treeNode.getPageType() != null) {
 			out.writeAttribute("pageType", treeNode.getPageType(), null);
@@ -77,7 +97,7 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 		if (tree.getValue() == null) {
 			return;
 		}
-		
+
 		ResponseWriter out = context.getResponseWriter();
 		String clientId = null;
 
@@ -154,10 +174,15 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 		beforeNodeEncode(context, out, tree);
 		encodeCurrentNode(context, out, tree, node);
 
+		TreeNode currentNode = getNode(tree);
+		if (currentNode == null) {
+			return;
+		}
+
 		if (clientSideToggle) {
 			out.startElement(HTML.SPAN_ELEM, tree);
-			out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
-			if (!tree.getDataModel().getNodeById(tree.getNodeId()).isLeaf()) {
+			out.writeAttribute(HTML.ID_ATTR, currentNode.getIdentifier(), null);
+			if (!currentNode.isLeaf()) {
 				out.writeAttribute(HTML.STYLE_ATTR, "display:block", null);
 			}
 			else {
@@ -165,11 +190,11 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 			}
 		}
 
-		if (tree.getDataModel().getNodeById(tree.getNodeId()).getChildCount() > 0) {
+		if (currentNode.getChildCount() > 0) {
 			out.startElement(HTML.UL_ELEM, tree);
 		}
 
-		if (tree.getDataModel().getNodeById(tree.getNodeId()).isLeaf()) {
+		if (currentNode.isLeaf()) {
 			if (clientSideToggle) {
 				out.endElement(HTML.SPAN_ELEM);
 			}
@@ -177,17 +202,17 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 			return;
 		}
 		else {
-			int child_count = tree.getDataModel().getNodeById(tree.getNodeId()).getChildCount();
+			int child_count = currentNode.getChildCount();
 			List<TreeNode> children = null;
 			if (child_count > 0) {
-				children = tree.getDataModel().getNodeById(tree.getNodeId()).getChildren();
+				children = currentNode.getChildren();
 				for (int i = 0; i < child_count; i++) {
 					if (i < children.size()) {
 						node = children.get(i);
 						walker.next();
 						encodeTree(context, out, tree, walker, node);
 					} else {
-						Logger.getLogger(getClass().getName()).warning("Child with index " + i + " does not exist in collection " + children);
+						LOGGER.warning("Child with index " + i + " does not exist in collection " + children);
 					}
 				}
 			}
@@ -204,14 +229,19 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 		boolean expanded = false;
 		HtmlRendererUtils.writePrettyLineSeparator(context);
 
+		TreeNode currentNode = getNode(tree);
+		if (currentNode == null) {
+			return;
+		}
+
 		out.startElement(HTML.LI_ELEM, tree);
-		out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
+		out.writeAttribute(HTML.ID_ATTR, currentNode.getIdentifier(), null);
 
 		if (sourceTree) {
 			out.writeAttribute("sourceTree", "true", null);
 			out.writeAttribute("noChildren", "true", null);
 		}
-		
+
 		WFTreeNode treeNode = (WFTreeNode) tree.getNode();
 		if (treeNode.getIconURI() != null) {
 			out.writeAttribute("iconfile", treeNode.getIconURI(), null);
@@ -226,8 +256,8 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 
 		if (clientSideToggle) {
 			out.startElement(HTML.SPAN_ELEM, tree);
-			out.writeAttribute(HTML.ID_ATTR, tree.getDataModel().getNodeById(tree.getNodeId()).getIdentifier(), null);
-			if (!tree.getDataModel().getNodeById(tree.getNodeId()).isLeaf()) {
+			out.writeAttribute(HTML.ID_ATTR, currentNode.getIdentifier(), null);
+			if (!currentNode.isLeaf()) {
 				out.writeAttribute(HTML.STYLE_ATTR, "display:block", null);
 			}
 			else {
@@ -261,7 +291,7 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 
 	/**
 	 * Handles the encoding related to the navigation functionality.
-	 * 
+	 *
 	 * @param context
 	 *          FacesContext
 	 * @param out
@@ -306,7 +336,7 @@ public class IWTreeRenderer extends HtmlTreeRenderer {
 		UIComponent nodeTypeFacet = tree.getFacet(nodeType);
 
 		if (nodeTypeFacet == null) {
-			System.out.println("Unable to locate facet with the name: " + nodeType);
+			LOGGER.warning("Unable to locate facet with the name: " + nodeType);
 			throw new IllegalArgumentException("Unable to locate facet with the name: " + node.getType());
 		}
 
