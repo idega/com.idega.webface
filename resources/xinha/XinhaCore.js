@@ -4515,7 +4515,7 @@ Xinha.checkSupportedBrowser = function()
     }
     if ( navigator.productSub < 20030210 )
     {
-      alert("Mozilla < 1.3 Beta is not supported!\nI'll try, though, but it might not work.");
+      
     }
   }
   return Xinha.is_gecko || Xinha.is_ie;
