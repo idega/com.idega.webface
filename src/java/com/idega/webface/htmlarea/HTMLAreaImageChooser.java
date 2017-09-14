@@ -24,6 +24,7 @@ import com.idega.presentation.ui.DropdownMenu;
 import com.idega.presentation.ui.FieldSet;
 import com.idega.presentation.ui.IFrame;
 import com.idega.repository.data.RefactorClassRegistry;
+import com.idega.util.CoreConstants;
 import com.idega.util.StringHandler;
 import com.idega.webface.WFBlock;
 import com.idega.webface.WFContainer;
@@ -48,6 +49,7 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 	private static final String PARAMETER_HORIZONTAL_SPACING = "f_horiz";
 	private static final String PARAMETER_VERTICAL_SPACING = "f_vert";
 	private static final String PARAMETER_PREVIEW = "ipreview";
+	private static final String LINK_TYPE_DOCUMENT = "document";
 	
 	@Override
 	protected void init(IWContext iwc) {
@@ -216,18 +218,28 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 		saveButton.setOnclick("onOK()");
 		saveButton.setId("HTMLAIC_SB");
 
+		String linkType = CoreConstants.EMPTY;
+		if (currentImageType != null) {
+			linkType = currentImageType.getLinkType();
+		}
+		
 		HtmlCommandButton previewButton = new HtmlCommandButton();
-		this.bundle.getLocalizedUIComponent("preview", previewButton);
-		previewButton.setType("button");
-		previewButton.setOnclick("onPreview()");
-		previewButton.setId("HTMLAIC_PB");
-		previewButton.setStyleClass("wf_imagechooser_preview_button");
+		if (!linkType.equals(LINK_TYPE_DOCUMENT)) {
+			this.bundle.getLocalizedUIComponent("preview", previewButton);
+			previewButton.setType("button");
+			previewButton.setOnclick("onPreview()");
+			previewButton.setId("HTMLAIC_PB");
+			previewButton.setStyleClass("wf_imagechooser_preview_button");
+		}
 		
 		WFContainer urlLine = new WFContainer();
 		urlLine.setStyleClass("wf_imagechooser_line_long");
 		urlLine.getChildren().add(getLabel("url", PARAMETER_URL));
 		urlLine.getChildren().add(url);
-		urlLine.getChildren().add(previewButton);
+		
+		if (!linkType.equals(LINK_TYPE_DOCUMENT)) {
+			urlLine.getChildren().add(previewButton);
+		}
 		
 		WFContainer altLine = new WFContainer();
 		altLine.setStyleClass("wf_imagechooser_line_long");
