@@ -22,6 +22,7 @@ import javax.faces.component.html.HtmlOutputText;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.ui.DropdownMenu;
 import com.idega.presentation.ui.FieldSet;
+import com.idega.presentation.ui.GenericButton;
 import com.idega.presentation.ui.IFrame;
 import com.idega.repository.data.RefactorClassRegistry;
 import com.idega.util.CoreConstants;
@@ -223,11 +224,11 @@ public class HTMLAreaImageChooser extends HTMLAreaLinkCreator {
 			linkType = currentImageType.getLinkType();
 		}
 		
-		HtmlCommandButton previewButton = new HtmlCommandButton();
+		GenericButton previewButton = new GenericButton();
 		if (!linkType.equals(LINK_TYPE_DOCUMENT)) {
 			this.bundle.getLocalizedUIComponent("preview", previewButton);
-			previewButton.setType("button");
-			previewButton.setOnclick("onPreview()");
+			previewButton.setName("preview");
+			previewButton.setOnClick("onPreview()");
 			previewButton.setId("HTMLAIC_PB");
 			previewButton.setStyleClass("wf_imagechooser_preview_button");
 		}
